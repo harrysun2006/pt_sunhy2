@@ -1,0 +1,108 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		<div style='width: 100%; text-align:left; background-color:#D3DCE3;'>
+			[<a href='/admin/text' class='left'>所有最新</a>] 
+			[<a href='/admin/article?type=normal' class='left'>吼吼</a>] 
+			[<a href='/admin/article?type=tips' class='left'>贴士</a>] 
+			[<a href='/admin/dmessage' class='left'  style="color:#FF0000;font-weight:bold;">用户私信</a>]
+		</div>
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/dmessage" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>搜索</th></tr>
+			<tr>
+				<td width='10%'>关键字:</td>
+				<td width='25%'><input type='text' name='keyword' id='keyword' value='<?php echo $this->params['keyword'];?>' /></td>
+				<td width='10%'>用户名:</td>
+				<td width='25%'><input type='text' name='user_keyword' id='user_keyword' value='<?php echo $this->params['user_keyword'];?>' /></td>
+				<td width='10%'>Bedo号精确查找:</td>
+				<td >
+					<input type='text' name='bedo_no' id='bedo_no' value='<?php echo $this->params['bedo_no'];?>' />
+				</td>
+			</tr>			
+			<tr>
+				<td>时间范围:</td>
+				<td colspan='3'>
+				从 <input type='text' name='from' id='from' value='<?php echo $this->params['from'];?>' readonly='readonly' />
+				到 <input type='text' name='to' id='to' value='<?php echo $this->params['to'];?>' readonly='readonly' />
+				</td>
+
+				<td>每页结果数:</td>
+				<td>
+				<select name='page_size' id='page_size'>
+					<option value='<?php echo BETTER_PAGE_SIZE;?>' <?php echo $this->params['page_size']==BETTER_PAGE_SIZE ? ' selected="selected"' : '';?>>默认(<?php echo BETTER_PAGE_SIZE;?>)</option>
+					<option value='50' <?php echo $this->params['page_size']==50 ? ' selected="selected"' : '';?>>50</option>
+					<option value='100' <?php echo $this->params['page_size']==100 ? ' selected="selected"' : '';?>>100</option>
+					<option value='99999999' <?php echo $this->params['page_size']==99999999 ? ' selected="selected"' : '';?>>全部</option>
+				</select>
+				</td>
+			</tr>			
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='submit' value='搜索(s)' accesskey='s' />
+					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />
+					<input type='hidden' name='page' id='page' value='<?php echo $this->params['page'];?>' />
+					<input type='hidden' name='reload' id='reload' value='0' />
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div>
+
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+				<tr>
+					<th></th>
+					<th>内容</th>
+					<th>发件人</th>
+					<th>收件人</th>
+					<th>时间</th>
+
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td width='40'>
+					<input type='checkbox' name='ids[]'  value='<?php echo $row['uid'].'.'.$row['msg_id'];?>'  fromid='<?php echo $row['from_uid'].'.'.$row['msg_id'];?>'>
+					</td>
+					<td class='messages'><?php echo $this->highlight($row['content'], $this->params['keyword']);?></td>
+					<td width='120' class='center'><a href='/<?php echo $row['sender_username'];?>' target='_blank'><?php echo $row['sender_nickname'];?></a></td>
+					<td width='80' class='center'><a href='/<?php echo $row['username'];?>' target='_blank'><?php echo $this->highlight($row['nickname'], $this->params['user_keyword']);?></a></td>	
+					<td width='80' class='center'><a><?php echo date('Y-m-d H:i:s', $row['dateline']+BETTER_8HOURS);?></a></td>
+				</tr>
+				<?php } ?>
+					<tr>
+					<td colspan='10' class='center'>
+					<input type='button' id='chooseAll' name='chooseAll'  value='全选(a)' accesskey='a' />
+					<input type='button' id='chooseNone' name='chooseNone' value='全不选(n)' accesskey='n' />
+					<input type='button' id='chooseReverse' name='chooseReverse' value='反选(v)' accesskey='v' />
+				</td></tr>
+				<tr>
+					<td colspan='10'>
+						<input type='button' id='btnTodo' value='删除' />
+					</td>
+				</tr>							
+				<?php } else {  ?>
+				<tr>
+					<td colspan='10' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

@@ -1,0 +1,628 @@
+<?php 
+if ($_SERVER['HTTP_HOST']==$this->config->api->host) {
+	die('Forbidden');
+}
+
+$cssUrl = $this->cssUrl ? $this->cssUrl : BETTER_BASE_URL.($this->config->css->path);
+$jsUrl = $this->jsUrl ? $this->jsUrl : BETTER_BASE_URL.($this->config->javascript->path);
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?php echo $this->lang->global->meta->title;?></title>
+<meta name="keywords" content="开开, 位置, 社交网络, 游戏, 签到, 掌门, 寻宝, Kai, location, SNS, check-in, Mayor, Geocaching"  />
+<meta name="description" content="开开K.ai是新一代的位置网络，也是真实的白领社交网络。在开开签到，你能够找到朋友、分享贴士，并用全新的方法探索身边的城市。同时还可以争掌门、赢勋章" /> 
+<meta http-equiv='X-UA-Compatible' content='IE=EmulateIE7' />
+
+
+<?php echo $this->headMeta();?>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssUrl;?>/<?php echo $this->css;?>.css?ver=<?php echo BETTER_VER_CODE;?>" />
+<link rel="shortcut icon" href="http://<?php echo $_SERVER['HTTP_HOST'];?>/favicon.ico?v=1" />
+<link rel="stylesheet" type="text/css" href="<?php echo $cssUrl;?>/better.css?ver=<?php echo BETTER_VER_CODE;?>" />
+<!--[if lt IE 7]>
+<script src="<?php echo $jsUrl;?>/DD_belatedPNG.js?ver=<?php echo BETTER_VER_CODE;?>" type='text/javascript'></script>
+<script type='text/javascript'>
+DD_belatedPNG.fix('.avatar,  .logo, .stat, .pngfix, tr td img ');
+</script>
+<script src="<?php echo $jsUrl;?>/iepngfix_tilebg.js" type='text/javascript'></script>
+<style type="text/css">
+ .zoompng{ behavior: url("<?php echo $jsUrl;?>/iepngfix.htc") }
+</style>
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssUrl;?>/ie7fix.css?ver=<?php echo BETTER_VER_CODE;?>" />
+<![endif]-->
+<?php 
+
+switch (Better_Registry::get('language')) {
+	case 'en':
+?>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssUrl;?>/en.<?php echo $this->css;?>.css?ver=<?php echo BETTER_VER_CODE;?>" />
+<!--[if IE 6]>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssUrl;?>/en.ie6fix.css?ver=<?php echo BETTER_VER_CODE;?>" />
+<![endif]-->
+<?php 
+		break;
+	default:
+		?>
+<!--[if IE 6]>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssUrl;?>/ie6fix.css?ver=<?php echo BETTER_VER_CODE;?>" />
+<![endif]-->
+<?php 
+		break;
+}
+?>
+<meta name="google-site-verification" content="-_a2sVng3hRM6xXjmBXBW7GngGbYMpgeNmiwy0JEo7k" />
+
+<?php header('P3P: CP=CAO PSA OUR');?>
+
+<link rel="stylesheet" type="text/css" href="<?php echo $cssUrl;?>/ipad.css?ver=20110506000007" />
+<link rel="shortcut icon" href="http://k.ai/favicon.ico?v=1" />
+
+</head>
+<body>
+
+<div id="header">
+  <div class="mid" style="background-color:#fff">
+  	<div id="home_link">
+  	   <a href="/"><img src="/images/logo.png" alt="logo" class="logo"/></a>
+  	</div>
+  	<div id='header_right'>
+	  	<?php include_once(dirname(__FILE__).'/../include/headeruserlan.phtml');?>	
+		<div id="nav">	
+		  <form method="get" action="/search" id='top_search'>
+		  	<ul>	  	
+		  		<li class="first"><a href="/home"><?php echo $this->lang->global->nav->homepage;?></a></li>
+		  		<li class="second"><a href="/<?php echo $this->UserLink();?>"><?php echo $this->lang->global->nav->user;?></a></li>
+		  		<li class="third"><a href="/pois"><?php echo $this->lang->global->nav->around;?></a></li>
+		  		<li class="fourth"><a href="/invitation/find"><?php echo $this->lang->global->nav->find_people;?></a></li>
+		  		<li class="fivth"><a href="/tools"><?php echo $this->lang->global->nav->tools;?></a></li>
+		  		<?php include_once(dirname(__FILE__).'/../include/headersearch.phtml');?>
+		  	</ul>
+		  	</form>
+		</div> <!--#nav-->	
+	 
+		<div id='search_choose'>
+			<div id='top_search_jiao'><img src='/images/login_third_topjiao.gif'></div>
+			<div id='top_search_list'>
+				<li>请选择搜索范围</li>
+				<li id='search_type_poi' class='search_mouse_on'>
+					带有<span id="m_keyword_poi"></span>的地点
+				</li>
+				<li id='search_type_people' class=''>
+					名为<span id="m_keyword_people"></span>的人
+				</li>
+		 	</div>
+		</div>			
+  </div>
+  </div>
+</div> <!--#header-->
+	
+<map name="Map" id="Map"><area shape="rect" coords="101,250,396,327" href="#account" />
+</map>
+<div class='content mid'>
+	<div><img src="/images/promotion/ipad/top.jpg" border="0" usemap="#Map"></div>	
+	<div id='majors'>
+		<div class="left">
+   			<div style="text-align: center;" class="left">
+   				<img class="zoompng" src="/images/crown.png"><br>
+   				<span style="font-size: 14px; font-weight: bold;">附近掌门</span>
+   			</div>
+   			   	<div class="left majoruser">
+   					<img height="48" width="48" src="/images/promotion/ipad/face/1.jpg"><br>
+   					碟意兰心<br>
+   					东环时代广场
+   				</div>
+   			   	<div class="left majoruser">
+   					<img height="48" width="48" src="/images/promotion/ipad/face/2.jpg"><br>
+   					锦绣Cele<br>
+   					iLost Cafounge
+   				</div>
+   			   	<div class="left majoruser">
+   					<img height="48" width="48" src="/images/promotion/ipad/face/3.jpg"><br>
+   					莫[北北]<br>
+   					<a href="http://k.ai/poi/19074351">冰雪皇后</a>
+   				</div>
+   			   	<div class="left majoruser">
+   					<img height="48" width="48" src="/images/promotion/ipad/face/4.jpg"><br>
+   					晴天娃娃<br>
+   					星巴克(美罗店) 
+   				</div>
+   			   	<div class="left majoruser">
+   					<img height="48" width="48" src="/images/promotion/ipad/face/5.jpg"><br>
+   					海底的右手<br>
+   					<a href="http://k.ai/poi/126178">麦当劳</a>
+   				</div>
+   			   	<div class="left majoruser">
+   					<img height="48" width="48" src="/images/promotion/ipad/face/6.jpg"><br>
+   					新叶一香<br>
+   					猫的天空之城概念书店(平江路店)
+   				</div>
+				<div class="left majoruser">
+   					<img height="48" width="48" src="/images/promotion/ipad/face/7.jpg"><br>
+   					鲸鱼的呼吸<br>
+   					印象城
+   				</div>
+   			   	<div class="left majoruser">
+   					<img height="48" width="48" src="/images/promotion/ipad/face/8.jpg"><br>
+   					牙牙晒太阳<br>
+   					时代广场
+   				</div>
+   			   	<div class="left majoruser">
+   					<img height="48" width="48" src="/images/promotion/ipad/face/9.jpg"><br>
+   					明媚的毯子<br>
+   					泰华商城
+   				</div>
+   			   		</div>
+	</div>
+	<div class='box_bottom'>
+		<div id='kai_account'>
+			<div id='reg_kaikai'><img src='/images/promotion/ipad/tab1.png' class='zoompng' /></div>
+			<div id='third_kaikai'><img src='/images/promotion/ipad/tab2.png' class='zoompng' /></div>
+		</div>
+	</div>
+	<div id='account'>
+		<div id='reg_to_kaikai'>
+			<div id='regform'>
+			<a name="account"></a>			
+			 <form action="/signup/do" method="post" id="signup_form">  	   
+		<div class="ipadrow">
+		  <label for="email"><?php echo $this->lang->signup->email;?></label>(<?php echo $this->lang->signup->email_example;?>)
+		  <div class="field">
+		  	 <input type="text" id="email" name="email" value="" <?php echo $this->inputemail;?>  /><span id='ok_email'></span>		  	 		  	 
+		     <span id='err_email' class='err'><?php echo $this->err['err_email'];?></span>
+		  </div>
+		</div>
+		<div class="ipadrow">
+		  <label for="nickname"><?php echo $this->lang->signup->nickname->title;?></label>(<?php echo $this->lang->signup->nickname_remark;?>)
+		  <div class="field">
+		  	 <input type="text" id="nickname" name="nickname" value="" /><span id='ok_nickname'></span>	
+		     <span id='err_nickname' class='err'><?php echo $this->err['err_nickname'];?></span>	    
+		    
+		  </div>
+		</div>  
+		<div class="ipadrow">
+		  <label for="password"><?php echo $this->lang->signup->password;?></label>(<?php echo $this->lang->signup->password_to_short;?>)
+		  <div class="field">
+		  	 <input type="password" id="password" name="password" value="<?php echo $this->post['password'];?>" />
+		  
+		  	<span id='ok_password'></span>
+    		<span id='err_password' class='err'><?php echo $this->err['err_password'];?></span>
+		  </div>
+		</div> 
+		
+		<div class="ipadrow">
+		  <label for="repassword"><?php echo $this->lang->signup->repassword;?></label>(<?php echo $this->lang->signup->password_to_short;?>)
+		  <div class="field">
+		  	<input type="password" id="repassword" name="repassword" value="<?php echo $this->post['repassword'];?>"/>
+		  
+		  	<span id='ok_repassword'></span>
+    		<span id='err_repassword' class='err'><?php echo $this->err['err_password'];?></span>
+    	  </div>
+		</div> 		
+		<div class="ipadrow">
+		  <label for='code'><?php echo $this->lang->signup->scode->title;?></label>
+		  <div class="field">
+		  	<input type='text' id='code' name='code' value='' class="left" style="width:60px;"/>
+		  	
+		  	<img id="img_code" src='/Scode?<?php echo rand(100000,999999);?>' class="left" style='margin-left:10px;'/>
+		    <div id="switch_scode" class="left"><?php echo $this->lang->signup->change_scode;?></div>
+		    <span id='err_code' class='err'><?php echo $this->err['err_code'];?></span>
+		  </div>
+		</div> 
+		<br/>
+		<div class="ipadrow">	
+		  <label for='agree'></label>	 
+		  <div class="field">
+		  	<input type="checkbox" id="agree" value="1" name="agree" checked='checked'/>  <?php echo $this->lang->signup->have_readed;?><a href="/signup/terms" class='blank'><?php echo $this->lang->signup->agreement;?></a>
+		    				<span class='err' id='err_agree'><?php echo $this->err['err_agree'];?></span>
+		    	</div>
+		</div>	
+		<div class="ipadrows">	
+		  <label for='agree'></label>	 
+		  <div class="field">		
+		    				<input style="text-align: center;" type="button" id='signup_btn' class="btn" value="<?php echo $this->lang->signup->signup_now;?>"/>
+	    	 	   <input type='hidden' name='formIsValid' id='formIsValid' value='0' />
+	    	 	   <input type='hidden' name='language' value='<?php echo Better_Registry::get('language');?>' />
+	    	 	   <input type='hidden' name='login_type' value='local' />
+	    	 	   <input type='hidden' name='ref_uid' value='<?php echo Better_Registry::get('sess')->get('ref_uid');?>' />
+	    	 	   <input type='hidden' name='promotion' value='ipad'>
+	    	 	  
+		  </div>
+		</div> 
+		    	
+		    </form>
+			
+			
+			
+			</div>
+		</div>
+		<div id='third_to_kaikai'><div style="" id="login_third_guide_list">		
+				 	<a id="loginfromsina" href="/login?login_from=sina&promotion=ipad"><img src="/images/promotion/ipad/t-sina.png"></a>
+				 	<br><br>
+				 	<a id="loginfromqq" href="/login/thirdqq?promotion=ipad"><img src="/images/promotion/ipad/t-qq.png"></a>
+				 	<br><br>
+				 	<a id="loginfromsohu" href="/login?login_from=sohu&promotion=ipad"><img src="/images/promotion/ipad/t-sohu.png"></a>
+				 	<br><br>
+				 	<a id="loginfromkaixin001" href="/login?login_from=kaixin001&promotion=ipad"><img src="/images/promotion/ipad/t-kaixin001.png"></a>
+				 	<br><br>
+				 	<a id="loginfrom163" href="/login/third163?promotion=ipad"><img src="/images/promotion/ipad/t-163.png"></a>
+				 	<br><br>
+				 	<a id="loginfromrenren" href="/login/thirdrenren?promotion=ipad"><img src="/images/t-renren.png"></a>
+			 	</div>
+		
+		
+		
+		</div>
+	</div>
+	<div id='invitation_title'>
+		<img src='/images/promotion/ipad/tab3.png'  class='zoompng'/>
+	</div>
+	<div id='invitation_content'>
+		<div id='invitation_mess'>
+		截止5月30日下午15:00,邀请好友注册开开成功次数最多的人将获得iPad2大奖一部！
+		<br/>
+		<div id='invitation_img'>
+			<img src='/images/promotion/ipad/button.png' class='zoompng' id='got_invitation_link' />
+		</div>
+		<div id='invitation_link'>
+		<?php 
+		if($this->uid>0){
+			$linkurlvalue= "http://k.ai/signup?ref=".$this->uid;
+		} else {
+			$linkurlvalue="请登录";
+		}
+		
+		?>
+			<input type="text" class="button" name="better_name" id="linkurl" value="<?php echo $linkurlvalue;?>" size="32" style='height:30px;border:0'>
+		</div>
+		<br/>		
+		<br/>
+		
+	邀请好友注册开开，邀请成功次数最多的前20名各获得开开纪念T恤一件！
+		
+		</div>
+	</div>
+	<div id='paihang_title'>
+		<img src='/images/promotion/ipad/tab4.png'  class='zoompng'/>
+	</div>
+	<div id='paihang_content'>
+		<div id='paihang_list'>
+		</div>
+	</div>
+	<div id="footer">
+	</div>
+</div>
+
+
+
+</div> <!--#footer-->
+ 
+<div id='divFbMessage' class='hide' title=''></div>
+<div id='divFbSendMessage' class='hide'>
+<div class='place_post' id='dlgSendMessage'>
+
+	    	<form name="formSendMsg" id="formSendMsg">
+	    	<table cellspacing='0'>
+	    		<tbody>
+	    			<tr>
+	    				<td id="messgae_td">
+	    					
+	    				</td></tr>
+	    				<tr><td>
+	    				<div style='float:right;'><input class="button btn" type="button" name="btn_send_msg" id="btn_send_msg" value="<?php echo $this->lang->global->include->dmessage->btn_send_msg;?>" />
+	    				<input type="hidden" size="20" id="msg_receiver" name="msg_receiver" value='' /></div>
+	    				</td>
+	    			</tr>
+	    		</tbody>
+	    	</table>
+
+	    	</form>
+
+</div>
+
+<!-- 举报对话框 -->
+<div id='dlgDenounce'>
+	<form id="formDenounce">
+	<table>
+		<tr>
+			<td><?php echo $this->lang->global->include->dmessage->denounce_reason;?></td>
+			<td>
+				<select id='denounce_reason'>
+					<option><?php echo $this->lang->global->include->dmessage->denounce_option_reaction;?></option>
+					<option><?php echo $this->lang->global->include->dmessage->denounce_option_sex;?></option>
+					<option><?php echo $this->lang->global->include->dmessage->denounce_option_akperson;?></option>
+					<option><?php echo $this->lang->global->include->dmessage->denounce_option_unad;?></option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td><?php echo $this->lang->global->include->dmessage->denounce_content;?></td>
+			<td><textarea class='denounce_content' id='denounce_content'></textarea></td>
+		</tr>
+	</table>
+	<input type="hidden" id="denounce_receiver" name="denounce_receiver" value='' />
+	<input class="button btn right" type="button" id="btn_denounce" value="<?php echo $this->lang->global->include->dmessage->btn_denounce;?>" />
+	</form>
+</div>
+
+
+<!-- 吼吼 -->
+<div style="display: none;">
+<div id="status" style="width: 500px;" shoutbox='shoutbox'>
+	<form>
+	<input type='hidden' id='attach' name='attach' value='' />
+	<input type='hidden' id='upbid' name='upbid' value='0' />
+	<input type='hidden' id='real_upbid' name='real_upbid' value='0' />
+	
+	<div class="left" style="margin-left:10px; margin-top:4px;!margin-top:2px;">
+
+		<img src="/images/hou.gif" alt="" class="hide" id="shoutformicon" />
+		<img src="/images/tips.gif" alt="" class="hide" id="tipsformicon"/>
+	</div>
+	<div class='dialog_title' id='shout_title'><?php echo $this->shout_title;?></div>
+	<a href="javascript:void(0);" id="close_shout" style="float: right; display: block; margin-top: 8px;!margin-top:4px;"><img src="/images/close_button.png" /></a>
+	<div>
+		 <span class="right"  style="margin-right: 50px;">
+			<?php 
+			$thisinfo = $this->lang->post->noping->words_left_info;
+			$thisinfo = str_replace("{WORDNUM}","<label id='txtCount' class='green b f16'></label>&nbsp;",$thisinfo);		
+			echo $thisinfo;
+			?>	  		 
+ 		</span>
+	</div>
+	<div class='clearfix'></div>
+	
+	<textarea id="status_text" style="width: 400px; height: 70px; overflow-y:auto; float: left;" ></textarea>
+	<div class="right"><a href="javascript: void(0);"><img id='btnUpload' src="/images/photo.png"  width='80' /></a></div>
+	<div class='clearfix'></div>
+	
+	<!-- <div class='upload hide right' id='divFileDesc'>
+	   <span id='fileDesc' ></span>
+	</div>
+	<div class='clearfix'></div> 
+	-->
+<?php if(!$this->inTrace){?>					
+	<div class="location_bar" style="background-color:#fff8bd;" id='shout_poi_list'>
+		<a href='javascript:void(0);' id='disable_shout_poi' title='<?php echo $this->lang->global->shout_without_poi;?>'><img src="/images/close_button2.png" style="margin: 9px 7px;" class="left" /></a>
+
+		
+		<table cellpadding="0" cellspacing="0" border='0' height="40" style="line-height:20px; margin-top:2px;margin-top:1px;" class="left">
+			<tr>
+				<td>
+				<div style="width:450px;text-overflow: ellipsis; white-space:nowrap; overflow:hidden;">
+				<span style="font-size: 14px; font-weight: bold;" id=ready_to_shout_span'>
+				<span id='ready_to_shout_at' class='hide'>@</span> 
+				<span id='ready_to_shout_city' class='hide'><?php echo $this->user['city'];?></span> 
+				<span id='ready_to_shout_poi_name' class='hide'><?php echo $this->user['poi']['name'];?></span>
+
+				<span id='ready_to_shout_not_checkined'><?php echo $this->lang->global->not_checkin_yet;?></span>
+
+				</span>
+				</div>
+				</td>
+			</tr>
+			<tr>
+				<td><div style="width:450px;text-overflow: ellipsis; white-space:nowrap;overflow:hidden;"><span style="color: #a4afbf;" id='ready_to_shout_address'><?php echo $this->user['address'];?></span></div></td>
+			</tr>
+		</table>
+
+		<?php if (!$this->inPoi) { ?>
+		<div class="white_btn right" id='div_change_poi'>
+			<a id="change_place_shout" href="javascript: void(0);"><?php echo $this->lang->global->include->dmessage->change_place_shout;?></a>
+		</div>
+		<?php } ?>
+	</div>
+	<div class='clear_fix'></div>
+		
+	<div id='rt_tips'>
+		<table cellpadding="0" cellspacing="0" border='0' height="40" style="line-height:20px; margin-top:2px;!margin-top:1px;" class="left" id='tbl_rt'>
+			<tr>
+				<td><div style="width:490px; height: 20px; text-overflow: ellipsis; white-space:nowrap; overflow:hidden;"><div style="font-size: 14px; font-weight: bold;"><?php echo $this->lang->global->include->dmessage->forward.' ';?><span id='rt_content'></span></div></div></td>
+			</tr>
+			<tr>
+				<td><div style="width:490px;text-overflow: ellipsis; white-space:nowrap; overflow:hidden;"><span style="color: #a4afbf;" id='rt_location'></span></div></td>
+			</tr>
+		</table>
+		<div class='clear_fix'></div>
+	</div>	
+	
+	
+	<div class="poi_div hide">
+		<div class="search_div">
+			<input type="text" name="shout_keyword" id='shout_poi_keyword' value="<?php echo $this->lang->javascript->global->checkin->poi_search->tips;?>" class="left"/>
+				<select name='range' id='shout_poi_search_range' class="left" style="margin:2px 0 0 5px;">
+					<option value='5000'><?php echo $this->lang->global->checkin->range->name;?></option>
+					<option value='5000' selected='selected'>5Km</option>
+					<option value='10000'>10Km</option>
+					<option value='50000'>50Km</option>
+					<option value='100000'>100Km</option>
+					<option value='99999999'><?php echo $this->lang->global->checkin->range->all;?></option>
+				</select>			
+			<a id='shout_search_poi' class="right" href="javascript: void(0);"><?php echo $this->lang->people->search->button_tips;?></a>
+		</div>
+		
+		<div class='clearfix'></div>
+		
+		<div class="poi_list" id='shout_poi_list'></div>
+	</div>
+	
+	<div style="margin-top: 12px;">
+	<!-- <div class="left" style="margin-left: 32px;!margin-left:16px;"  id='shout_priv'>
+		<input type="radio" name="privacy" value="public" checked="checked" id='privacy_public'><?php echo $this->lang->global->include->dmessage->privacy_public;?>
+		<input type="radio" name="privacy" value="friend" id='privacy_protected'><?php echo $this->lang->global->include->dmessage->privacy_protected;?>
+		<input type="radio" name="privacy" value="private" id='privacy_private'><?php echo $this->lang->global->include->dmessage->privacy_private;?>
+	</div>
+	
+	<div class="left">
+		<input type="checkbox" name="need_sync" id="need_sync" checked="checked" />
+	</div>  -->
+
+	 <div class="select_priv left" id='shout_priv'>
+		<span id="priv_sel_shout" priv="public" class="priv_sel"><?php echo $this->lang->global->include->dmessage->privacy_public;?></span>
+		<div class="drop_priv hide" id="drop_priv_shout">
+			<span priv="public" id="shout_public"><?php echo $this->lang->global->include->dmessage->privacy_public;?></span>
+			<div class="xu_line"></div> 
+			<!-- <span priv="protected"><?php echo $this->lang->global->include->dmessage->privacy_protected;?></span>
+			<div class="xu_line"></div>
+			-->
+			<span priv="private"><?php echo $this->lang->global->include->dmessage->privacy_private;?></span>
+		</div>
+	</div>
+	
+	<div class="check_sync left" id="check_sync">
+	<?php if($this->site_count > 0){?>
+		
+		<span id="shout_checkbox">
+		<input type="checkbox" name="need_sync" id="need_sync" checked="checked" />
+		<?php echo $this->lang->global->include->dmessage->share; ?>
+		</span>
+		<span id="shout_nopublic" class="hide">
+			<?php echo $this->lang->global->include->dmessage->no_public; ?>
+		</span>
+		
+	<?php }else{?>
+		<a href="setting/sync"><?php echo $this->lang->global->include->dmessage->no_bound; ?></a>
+	<?php }?>	 
+	</div>
+	  
+	<div class="right hide" style="margin-right: 30px; font-size: 14px;!margin-right:15px;">
+		<a id='cancel_shout' href="javascript: void(0);" style="color:#0f7cc5;"><?php echo $this->lang->javascript->global->action->confirm->btn_cancel;?></a>
+	</div>
+
+	<div class="right">
+		<a href="javascript: void(0);" class="blue_btn" style="width: 130px; height: 39px;" id="post_btn" accesskey='s'><?php echo $this->shout_text;?></a>
+		<input type='hidden' id='ready_to_shout_poi' value='<?php echo $this->user['last_checkin_poi'];?>' />
+	</div>
+
+	</div>
+<?php }?>
+	</form>
+</div>
+</div>
+
+
+
+<!-- 签到 -->
+<div style="display: none;" id='global_checkin_div'>
+<div id="checkindlg" style="width: 500px;" checkinbox='checkinbox'>
+
+<input type='hidden' id='checkin_attach' name='checkin_attach' value='' />
+
+	<form>
+	<div class="left" style="margin-left:10px;">
+		<img src="/images/checkin.gif" alt=""  />
+	</div>
+	<div class='dialog_title'><?php echo $this->lang->global->include->dmessage->checkin;?></div>
+	<a href="javascript:void(0);" id="close_check" style="float: right; display: block; margin-top: 8px;"><img src="/images/close_button.png" /></a>
+
+	 <div>
+		 <span class="right"  style="margin-right: 50px;">
+			<?php 
+			$thisinfo = $this->lang->post->noping->words_left_info;
+			$thisinfo = str_replace("{WORDNUM}","<label id='checkin_txtCount' class='green b f16'></label>&nbsp;",$thisinfo);		
+			echo $thisinfo;
+			?>	  		 
+ 		</span>
+	</div>
+	
+	<div class='clearfix'></div>
+	
+	<textarea id="checkin_status_text" style="width: 400px; height: 70px; overflow-y:auto; float: left;" ></textarea>
+	<div class="right"><a href="javascript: void(0);"><img id='checkin_btnUpload' src="/images/photo.png"  width='80' /></a></div>
+	<div class='clearfix'></div>
+		   
+	<div style="height: 42px; background-color:#dee5ee; margin-top: 8px; padding-left: 20px;">
+		<table cellpadding="0" cellspacing="0" border='0' height="40" style="line-height:20px; margin-top:2px; display:none;" class="left" id='tbl_checkined'>
+			<tr>
+				<td><div style="width:340px;text-overflow: ellipsis; white-space:nowrap;overflow:hidden;"><span style="font-size: 14px; font-weight: bold;">@ <span id='ready_to_checkin_city'></span> <span id='ready_to_checkin_poi_name'></span></span></div></td>
+			</tr>
+			<tr>
+				<td><div style="width:340px;text-overflow: ellipsis; white-space:nowrap;overflow:hidden;"><span style="color: #a4afbf;" id='ready_to_checkin_address'></span></div></td>
+			</tr>
+		</table>
+		<table cellpadding="0" cellspacing="0" border='0' height="40" style="line-height:20px; margin-top:2px;" class="left" id='tbl_not_checkined'>
+			<tr>
+				<td><span style="font-size: 14px; font-weight: bold;"><?php echo $this->lang->global->include->dmessage->notcheckin;?></span></td>
+			</tr>
+			<tr>
+				<td><span style="color: #a4afbf;"></span></td>
+			</tr>
+		</table>	
+		
+
+		<div class="white_btn right">
+			<a id="change_place_checkin" href="/pois"><?php echo $this->lang->global->include->dmessage->change_place_checkin;?></a>
+		</div>
+
+		
+	</div>
+
+	
+	<div style="margin-top: 12px;">
+	<div class="select_priv left">
+		<span id="priv_sel" priv="public" class="priv_sel"><?php echo $this->lang->global->include->dmessage->privacy_public;?></span>
+		<div class="drop_priv hide" id="drop_priv">
+			<span priv="public" id="checkin_public"><?php echo $this->lang->global->include->dmessage->privacy_public;?></span>
+			<div class="xu_line"></div>
+			<span priv="private"><?php echo $this->lang->global->include->dmessage->privacy_private;?></span>
+		</div>
+	</div>
+	
+	<div class="check_sync left">
+	<?php if($this->site_count > 0){?>
+		
+		<span id="checkin_checkbox">
+		<input type="checkbox" name="checkin_need_sync" id="checkin_need_sync" checked="checked" />
+		<?php echo $this->lang->global->include->dmessage->share; ?>
+		</span>
+		<span id="checkin_nopublic" class="hide">
+			<?php echo $this->lang->global->include->dmessage->no_public; ?>
+		</span>
+		
+	<?php }else{?>
+		<a href="setting/sync"><?php echo $this->lang->global->include->dmessage->no_bound; ?></a>
+	<?php }?>
+	</div> 
+	
+	<div class="right hide" style="margin-right: 30px; font-size: 14px;!margin-right: 15px;">
+		<a id='cancel_checkin' href="javascript: void(0);" style="color:#0f7cc5;"><?php echo $this->lang->javascript->global->action->confirm->btn_cancel;?></a>
+	</div> 
+
+	<div class="right">
+		<a href="javascript: void(0);" class="blue_btn"  id="checkin_btn" accesskey='s'><?php echo $this->lang->global->include->dmessage->btn_checkin;?></a>
+		<input type='hidden' id='ready_to_checkin_poi' value='<?php echo $this->user['last_checkin_poi'];?>' />
+		<input type='hidden' id='ready_to_checkin_ab_poi' value='0' />
+	</div>
+	</div>
+	
+	
+	</form>
+</div>
+</div>
+
+<div style='display:none;'>
+<a href='#status' id='shouta'><?php echo $this->lang->global->include->dmessage->shouta;?></a>
+<a href='#checkindlg' id='hideCheckina'><?php echo $this->lang->global->include->dmessage->checkina;?></a>
+</div>
+		
+</div>
+<div id='betterMessageBox' class='hide' title='' style="overflow: visible; "></div>
+<div id='betterConfirmBox' class='hide' title='' style="overflow: visible; "></div>
+<div id='betterFormBox' class='hide' title='' style="overflow: visible; "></div>
+<?php include_once(dirname(__FILE__).'/../include/script.phtml');?>
+<?php if (APPLICATION_ENV!='production') { ?><!-- Exec Time: <?php echo $this->execTime();?> s --><?php } ?>
+
+
+<?php if($this->uid){?>
+<!-- Feedback button-->
+<a id='feedbackbutton' href='/feedback'><img src="/images/<?php echo $this->Images('feedback.gif');?>" alt="" /></a>
+<?php }?>
+
+<?php if(!$this->inIndex){?>
+<a id='backTop' class='hide' href='javascript: void(0);' onclick="window.scrollTo(0,0);"><img src='/images/backTop.gif' /></a>
+<?php }?>
+
+</body>
+</html>

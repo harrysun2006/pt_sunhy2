@@ -1,0 +1,41 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="signup">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid" style='background: #fff;'>
+ 	<div class='new_titile'>
+ 		 <div id="setting_header_title"><span class='text'>找回密码</span></div>
+	   <div id="setting_header_img"><h2><?php echo $this->lang->global->setting_header_text;?></h2></div> 
+	  		
+  	</div>
+  	<div class='small_mid'>
+	  	<div id="form">
+	  	<h3><?php echo $this->lang->resetpwd->title;?></h2>
+
+	    <form id="resetform" style='width:100%;' onsubmit='return false'>
+	      <table height='100'>
+	        <tr>
+	    	 <td class="label"><label for="email"><?php echo $this->lang->resetpwd->your_email;?></label></td>
+	    	 <td class="input"><input type="text" id="email" name="email" value="<?php echo $this->post['email'];?>"/>
+	    	 <span id='err_email' class='err'><?php echo $this->err['err_email'];?></span>
+	    	 </td>
+	    	</tr>
+	    	<tr>
+	    	 <td class="input"><input type="button" id='btnSubmit' class="btn" value="<?php echo $this->lang->resetpwd->button_tips;?>" /></td>
+	    	</tr>
+	    	<tr>
+	    	 <td class="input"><a href="/signup/resend"><?php echo $this->lang->index->login->resend;?></a></td>
+	    	</tr>
+	      </table>
+	    </form>
+		</div>
+	</div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

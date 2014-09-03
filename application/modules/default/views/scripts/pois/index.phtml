@@ -1,0 +1,307 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+
+<body id="poi">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid">
+     <div id="half_left">
+
+		<div class="map">
+			<form method='post'>
+				<div style='padding: 5px; border: 1px solid #DCE2EA; margin-bottom: 4px;'>
+				<div id="map_canvas" style="width: 662px; height: 185px;" class='map'></div>
+				</div>
+				<input type="hidden" value="" id="location_lat" />
+			   	 <input type="hidden" value="" id="location_lon" />
+			</form>
+		</div>
+
+	    <div id="data">
+			<div class="tabs">
+	            <ul class="tabNavigation" style="margin-bottom: 5px;">
+	            	<li>
+	            		<a href="#pois" class='first'><?php echo $this->lang->global->nearby_pois;?></a>
+	            	</li>	            
+	            	<li><a href="#tips"><?php echo $this->lang->global->nearby_tips;?></a></li>
+
+	               <!--  <li>
+	                	<a href="#users"><?php //echo $this->lang->global->nearby_users;?></a>
+	                </li>
+	               --> 
+	            </ul>
+	            
+	            <div id="search_poi_div" class="hide">
+		            <table>
+		            	<tr>
+		            		<td style='padding-left: 10px;'><input type="text" id="poi_keyword" value="<?php echo $this->lang->javascript->global->checkin->poi_search->tips;?>" size="40" style='color: #999; font-size: 13px;'/></td>
+		            		<td width='5'>
+		            			<input type="hidden" id="checkin_poi_search_range" value="50000" />
+		            		</td>
+		            		<td align="right"><a id="search_poi_btn" href="javascript: void(0);" ><?php echo $this->lang->people->search->button_tips;?></a></td>
+		            	</tr>
+		            </table>
+	            	
+	            </div>
+	            
+	            <div id="search_pois">
+	            <form>
+	            	<table class="blog_table">
+	            	<tbody id="tbl_search_pois">
+					 </tbody>
+					</table>
+				</form>
+				<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_search_pois'></div>
+						</td>
+						</tr>
+				</table>
+				<?php if($this->uid){?>
+				<table width="569">
+					<tr>
+						<td align="center"><?php echo $this->lang->javascript->global->checkin->poi_not_in_list;?>&nbsp;<a href="#createdlg" id="create_poi"><?php echo $this->lang->javascript->global->checkin->add_poi; ?></a></td>
+					</tr>
+				</table>
+				<?php }?>
+					
+	            </div>
+	            
+	            
+	            <div id="pois">
+	            <form>
+	            	<table class="blog_table">
+	            	<tbody id="tbl_pois">
+					 </tbody>
+					</table>
+				</form>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_pois'></div>
+						</td>
+						</tr>
+					</table>
+	            </div>
+	            
+	            <div id="users">
+	            <form>
+	            	<table class="blog_table">
+	            	<tbody id="tbl_users">
+					 </tbody>
+					</table>
+				</form>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_users'></div>
+						</td>
+						</tr>
+					</table>
+	            </div>	            
+	            	            
+	            <div id="tips">
+	            <form>
+	            	<table class="blog_table">
+	            		<tbody id="tbl_tips">
+					 	</tbody>
+					</table>
+					 </form>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_tips'></div>
+						</td>
+						</tr>
+					</table>
+	            </div> 
+
+	        </div><!--#tabs-->
+        
+	  	</div><!--#data-->	
+	 </div><!--#half_left-->
+
+<div id="half_right" class="small_box">
+
+	    <?php if ($this->uid) {?>
+	    <div class="user box">
+	      <div class="cbox">
+	      <div id="icon">
+	      	<img src="<?php echo $this->dispUserInfo['avatar_normal'];?>" width='96' height='96' alt=''  class='avatar user_avatar' />
+	      </div>
+	      <div class='user_info right'>
+	      	<div style="font-size:16px; font-weight: bold; color:#000; white-space: nowrap; overflow: hidden;" class='en_h3'><?php echo $this->dispUserInfo['nickname'];?></div>
+	      	<div id="user_karma">	     
+	    		 <!-- <img src="/images/karma.gif" class="pngfix" id="karma_icon"> -->Karma:<?php echo intval($this->dispUserInfo['rp']);?>
+	      	</div>
+	    
+	       	<div id="user_selfintro">
+	       		<?php echo $this->dispUserInfo['self_intro'];?>
+	       	</div>   	       
+	      	<span class='location' id='home_location_tips'>
+	      	<?php if ($this->dispUserInfo['lbs_report'] && $this->dispUserInfo['poi']['name']) {?>
+	      	<?php echo $this->lang->global->at;?> <?php echo $this->dispUserInfo['city']?> <a href='/poi/<?php echo $this->dispUserInfo['last_checkin_poi'];?>'><?php echo Better_Cutstring::mystrcut($this->dispUserInfo['poi']['name'], 23);?></a>
+	      	<?php } else { ?>
+		      	<?php if ($this->isyou) {?>
+		      	<?php echo $this->lang->global->you.$this->lang->global->you_have_no_checkins_yet;?>
+		      	<?php } else {?>
+		      	<?php echo $this->dispUserInfo['nickname'].$this->lang->global->no_checkins_yet;?>
+		      	<?php } ?>
+	      	<?php } ?>
+	      	</span>
+	      	<!-- <div class='last_status' id='home_last_status_tips'>
+	      		<?php //echo Better_Cutstring::mystrcut($this->dispUserInfo['status']['message'], 28);?>
+	      	</div>  
+	      
+			<div class="zj_banner">
+	      		<img src='/images/zj.png' class="pngfix"/>
+	      		<a href="/trace?uid=<?php echo $this->dispUserInfo['uid']; ?>" style="color: #595E7B;"><?php echo $this->lang->trace->track; ?></a>
+	      	</div> -->
+	      	
+	      </div>
+	      <div class="clearfix"></div>
+	     
+	     <div class="info">
+	      	  <div class="stat first"><a href="/<?php echo $this->dispUserInfo['username'];?>" id='checkins_link'><?php echo $this->dispUserInfo['checkins'];?></a><br/><?php echo $this->lang->sidebar->checkins;?></div>
+	      	   <div class="stat"><a href="/<?php echo $this->dispUserInfo['username'];?>" id='tips_link'><?php echo $this->dispUserInfo['now_tips'];?></a><br><?php echo $this->lang->sidebar->tips;?></div>
+        	  <div class="stat"><a href="/<?php echo $this->dispUserInfo['username'];?>" id='shouts_link'><?php echo $this->dispUserInfo['now_posts'];?></a><br><?php echo $this->lang->sidebar->shouts;?></div>
+        	  <div class="stat"><a href="/relation/friends/uid/<?php echo $this->dispUserInfo['uid'];?>" id='friends_link'><?php echo $this->dispUserInfo['friends'];?></a><br>好友</div>
+        	  <!-- <div class="stat"><a href="/relation/followings/uid/<?php echo $this->dispUserInfo['uid'];?>" id='followings_link'><?php echo $this->dispUserInfo['followings'];?></a><br>关注</div>
+        	  <div class="stat last"><a href="/<?php echo $this->dispUserInfo['username'];?>#followers" id='followers_link'><?php echo count(Better_User::getInstance($this->dispUserInfo['uid'])->followers);?></a><br><?php echo $this->lang->sidebar->followers;?></div>        	  
+        	   --> 
+        	  <div class="clearfix"></div>
+	      </div>
+	    </div>
+	    </div>
+	    
+	    <div class='tline'></div>
+	    <div class="clearfix"></div>
+	    
+	    <div class='box'>
+	      	<h3><?php echo $this->lang->global->i_checkined;?></h3>
+	      	<div>
+	      		<ul class='i_checkined'>
+	      			<?php foreach ($this->iCheckined as $k=>$row) { ?>
+	      			<li>
+	      				<div class='left'><?php echo ($k+1).'.';?></div>
+	      				<div class='left' style='width: 148px; height: 20px; overflow: hidden; margin-left: 2px;'><a href='/poi/<?php echo $row['poi_id'];?>'><?php echo $row['name'];?></a></div>
+	      				<div class='right'><?php echo date('Y-m-d', $row['checkin_time']+8*3600);?></div>
+	      				<div class='clearfix'></div>
+	      			</li>
+	      			<?php } ?>
+	      		</ul>
+	      	</div>
+	      </div>
+	      <div class='box'>
+	      	<h3>我想去的</h3>
+	      	<div>
+	      		<ul class='i_checkined'>
+	      			<?php foreach ($this->toDoPois as $k=>$row) { ?>
+	      			<li>
+	      				<div class='left'><?php echo ($k+1).'.';?></div>
+	      				<div class='left' style='width: 148px; height: 20px; overflow: hidden; margin-left: 2px;'><a href='/poi/<?php echo $row['poi_id'];?>'><?php echo $row['name'];?></a></div>
+	      				<div class='right'><?php echo date('Y-m-d', $row['todo_time']+8*3600);?></div>
+	      				<div class='clearfix'></div>
+	      			</li>
+	      			<?php } ?>
+	      		</ul>
+	      	</div>
+	      </div>
+	      <?php } ?>
+	     <div class='tline'></div>
+	     
+	     <div class='box'>
+	      	<h3><?php echo $this->lang->global->nearby_majors;?></h3>
+	  	  	<ul class="avatars" id='nearby_majors'>
+	  	  	<img src='images/ajax_loading.gif' />
+	  	  	</ul>
+	  	  	<div class="clearfix"></div>
+	  	  </div>
+	  
+</div><!--#half_right-->
+<div class="clearfix"></div>	
+<?php echo $tmpb;?>
+	  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<!-- //------------------------------------------------------------- -->
+<!-- 创建新地点 -->
+<?php if($this->uid){?>
+<div style="display: none;" id='global_create_div'>
+<div id="createdlg" style="width: 500px; height: 560px;" >
+	<form>
+	<div class="left" style="margin-left:10px;">
+		<img src="images/checkin.gif" alt=""  />
+	</div>
+	<div class='dialog_title'><?php echo $this->lang->global->include->dmessage->creatpoi; ?></div>
+	<a href="javascript:void(0);" id="close_create" style="float: right; display: block; margin-top: 8px;"><img src="images/close_button.png" /></a>
+	<div class='clearfix'></div>
+
+	<div class="map">
+	<div id="create_map" style="width: 500px; height: 150px;margin: 0;border:1px solid #ddd;" class='map'></div>
+	<input type="hidden" value="" id="create_location_lat" />
+	<input type="hidden" value="" id="create_location_lon" />
+	</div>
+		   
+	<div id="creatpoi_tip" style="background-color:#dee5ee; margin-top: 8px; font-size: 14px; font-weight: bold; text-align: center; padding: 7px 0; color: #555555;">
+		<span><?php echo $this->lang->global->include->dmessage->creatpoi_tip; ?></span>	
+	</div>
+	
+	<div class="create_div">
+		<table width="100%" height="100%">
+			<tr>
+				<td width="15%"><?php echo $this->lang->javascript->home->add_poi->name; ?></td>
+				<td><input type="text" name="add_poi_name" id="add_poi_name" maxlength="25" size="40"/></td>
+			</tr>
+			<tr>
+				<td><?php echo $this->lang->javascript->home->add_poi->address; ?></td>
+				<td><input type="text" name="add_poi_address" id="add_poi_address" maxlength="30" size="40"/></td>
+			</tr>
+			<tr>
+				<td><?php echo $this->lang->javascript->home->add_poi->phone; ?></td>
+				<td><input type="text" name="add_poi_phone" id="add_poi_phone" maxlength="30" size="40"/></td>
+			</tr>
+			<tr>
+				<td><?php echo $this->lang->javascript->home->add_poi->category; ?></td>
+				<td>
+					<select id="add_poi_category" name="add_poi_category">
+						<?php //foreach($this->categories as $row){?>
+							<!-- <option value="<?php echo $row['category_id']; ?>"><?php echo $row['category_name']; ?></option>  -->
+						<?php //}?>
+						<?php for($i=1; $i<=11; $i++){ ?>
+							<option value="<?php echo $i; ?>"><?php eval('echo $this->lang->javascript->home->add_poi->category'.$i.' ;'); ?></option>
+						<?php }?>
+					</select>
+					<input type="hidden" id="add_poi_category_hide" value="1" />
+				</td>
+			</tr>
+			<tr>
+				<td><?php echo $this->lang->javascript->home->add_poi->city; ?></td>
+				<td>
+					<input type="text" name="add_poi_city" id="add_poi_city" maxlength="10" />
+					<?php echo $this->lang->javascript->home->add_poi->province; ?>
+					<input type="text" name="add_poi_province" id="add_poi_province" maxlength="10"/>
+					<?php echo $this->lang->javascript->home->add_poi->country; ?>
+					<input type="text" name="add_poi_country" id="add_poi_country" maxlength="10"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="right">
+					<a href="javascript: void(0);" class="blue_btn" id="create_poi_btn"><?php echo $this->lang->javascript->home->add_poi->btn; ?></a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	
+	</form>
+</div>
+</div>
+<?php }?>
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>
+<?php $this->Gz();?>

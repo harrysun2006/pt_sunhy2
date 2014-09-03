@@ -1,0 +1,156 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		<!-- <div style='width: 100%; text-align:left; background-color:#D3DCE3;'>[<a href='/admin/user' class='left'>所有最新</a>] [<a href='/admin/username' class='left'>用户名</a>] [<a href='/admin/usernickname' class='left'>用户姓名</a>] [<a href='/admin/userselfintro' class='left'>用户自我介绍</a>]</div>  -->
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/user" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>搜索</th></tr>
+			<tr>
+				<td>用户关键字:</td>
+				<td><input type='text' name='keyword' id='keyword' value='<?php echo $this->params['keyword'];?>' /></td>
+				<td>Bedo号精确查询:</td>
+				<td><input type='text' name='bedo_no' id='bedo_no' value='<?php echo $this->params['bedo_no'];?>' /></td>
+				<td>每页结果数:</td>
+				<td>
+				<select name='page_size' id='page_size'>
+					<option value='<?php echo BETTER_PAGE_SIZE;?>' <?php echo $this->params['page_size']==BETTER_PAGE_SIZE ? ' selected="selected"' : '';?>><?php echo BETTER_PAGE_SIZE;?></option>
+					<option value='50' <?php echo $this->params['page_size']==50 ? ' selected="selected"' : '';?>>默认(50)</option>
+					<option value='100' <?php echo $this->params['page_size']==100 ? ' selected="selected"' : '';?>>100</option>
+					<option value='99999999' <?php echo $this->params['page_size']==99999999 ? ' selected="selected"' : '';?>>全部</option>
+				</select>
+				</td>
+			</tr>	
+			<tr>
+				<td>时间范围:</td>
+				<td colspan='6'>
+				从 <input type='text' name='from' id='from' value='<?php echo $this->params['from'];?>' readonly='readonly' />
+				到 <input type='text' name='to' id='to' value='<?php echo $this->params['to'];?>' readonly='readonly' />
+				</td>
+			</tr>					
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='submit' value='搜索(s)' accesskey='s' />
+					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />
+					<input type='hidden' name='page' id='page' value='<?php echo $this->params['page'];?>' />
+					<input type='hidden' name='reload' id='reload' value='0' />
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div>
+
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='16' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+				<tr>
+					<th width='20'></th>
+					<th class='nowrap'>用户ID</th>
+					<th class='nowrap' style="width:150px">用户Email</th>
+					<th class='nowrap'>用户名</th>
+						<th class='nowrap' style="padding: 3px 20px;">头像</th>
+						<th class='nowrap'>姓名</th>
+						<th class='nowrap'>性别</th>
+					<th class='nowrap' style="padding: 3px 30px;">自我介绍</th>
+						<th class='nowrap'>账号状态</th>
+						<th class='nowrap'>绑定手机号码</th>
+						<th class='nowrap'>同步设置</th>
+					<th class='nowrap'>更新时间</th>
+					<th class='nowrap'>Karma记录</th>
+					<th class='nowrap'>Rp记录</th>
+				
+						<th class='nowrap'>操作</th>
+				</tr>
+				
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td><input type='checkbox' name='uids[]'  value='<?php echo $row['uid'];?>' /></td>
+					<td class='center'><a href='<?php echo BETTER_BASE_URL;?>/admin/text?uid=<?php echo $row['uid'];?>' target='_blank'><?php echo $this->highlight($row['uid'], $this->params['keyword']);?></a></td>
+					<td class='center' style="width:150px;"><?php echo $this->highlight($row['email'], $this->params['keyword']);?></td>
+					<td class='center'><a href='javascript: void(0)' onClick="reset('username', <?php echo $row['uid'];?>);"><?php echo $this->highlight($row['username'], $this->params['keyword']);?></a></td>	
+					<td class='center'><a href='<?php echo BETTER_BASE_URL;?>/<?php echo $row['username'];?>' target='_blank'><img src='<?php echo $row['avatar_thumb'];?>' width='48'  class='avatar'/></a></td>
+					<td class='center'><a href='javascript: void(0)' onClick="reset('nickname', <?php echo $row['uid'];?>);"><?php echo $this->highlight($row['nickname'], $this->params['keyword']);?></a></td>
+					<td class='center'><?php echo $this->highlight($row['gender'], $this->params['keyword']);?></td>
+					<td class='center messages'><a href='javascript: void(0)' onClick="reset('selfintro', <?php echo $row['uid'];?>);"><?php echo htmlspecialchars($this->highlight($row['self_intro'], $this->params['keyword']));?></a></td>
+					<td class='center'><?php echo $this->highlight($row['state'], $this->params['state']);?></td>
+					<td class='center'><?php echo $this->highlight($row['cell_no'], $this->params['keyword']);?></td>
+					<td class='center'><?php echo str_replace('|','<br/>',$row['protocol']); ?></td>			
+					<td class='center'><?php echo $row['last_update'] ?  date('Y-m-d H:i:s', $row['last_update']+BETTER_8HOURS) : 0;?></td>
+					<td class='center'><a href='admin/user/rp?uid=<?php echo $row['uid'];?>'><?php echo $row['rp'];?></a></td>
+					<td class='center'><a href='admin/user/karma?uid=<?php echo $row['uid'];?>'><?php echo $row['karma'];?></a></td>					
+					<td class='center nowrap'>
+						<?php if($row['state']=='banned'){?>
+							<a href="#ban_account_<?php echo $row['uid']?>">解封</a><br>
+						<?php }else{?>
+							<a href="#ban_account_<?php echo $row['uid']?>">封号</a><br>
+						<?php }?>
+						<?php 
+						if($row['state']!='banned'){
+						//if($row['sys_priv_blog']){?>
+<!--							<a href="javascript: void(0);" onClick="unlockAccount(<?php echo $row['uid'];?>);">解锁</a><br>-->
+						<?php //}else{?>
+<!--							<a href="javascript: void(0);" onClick="lockAccount(<?php echo $row['uid'];?>);">加锁</a><br>-->
+						<?php //}?>
+						
+						<?php if($row['state']!='mute'){?>
+							<a href="javascript: void(0);" onClick="muteAccount(<?php echo $row['uid'];?>, 'mute');">禁言</a>
+						<?php }else{?>
+							<a href="javascript: void(0);" onClick="muteAccount(<?php echo $row['uid'];?>, 'unmute');">解禁</a>
+						<?php }
+						}?>
+						
+						
+						<div style="display: none;">
+						<div id='ban_account_<?php echo $row['uid'];?>' style="height: 300px; width: 300px; text-align: left;">
+						<h3>对<?php echo $row['nickname'];?>进行<?php echo $row['state']=='banned'? '解号' : '封号' ; ?></h3>
+						<h4>请输入<?php echo $row['state']=='banned'? '解号' : '封号' ; ?>原因：</h4>
+						<textarea cols='40' rows='10' id='textarea_<?php echo $row['uid']?>'></textarea><br><br>
+						<input type="button" id="banbtn_<?php echo $row['uid'];?>" name='banned' value='确定'>
+						<input type='hidden' id="state_<?php echo $row['uid'];?>" value="<?php echo $row['state']?>" />
+						
+						</div>
+						</div>
+						
+					</td>
+				</tr>
+				<?php } ?>
+				<tr>
+					<td colspan='16' class='center'>
+					<input type='button' id='chooseAll' name='chooseAll'  value='全选(a)' accesskey='a' />
+					<input type='button' id='chooseNone' name='chooseNone' value='全不选(n)' accesskey='n' />
+					<input type='button' id='chooseReverse' name='chooseReverse' value='反选(v)' accesskey='v' />
+				</td></tr>
+				<tr><td colspan='16' class='center'>
+					<select name='todo' id='todo'>
+						<option value=''>请选择操作</option>
+						<option value='reset_name'>重置用户名</option>
+						<option value='reset_nickname'>重置用户姓名</option>
+						<option value='reset_selfintro'>重置用户自我介绍</option>
+						<!-- <option value='send_msg'>发私信给用户</option>  -->
+					</select>
+					<input type='button' id='btnTodo' value='确定(d)' accesskey='d' />
+					</td>
+				</tr>					
+				<?php } else {  ?>
+				<tr>
+					<td colspan='16' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='16' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

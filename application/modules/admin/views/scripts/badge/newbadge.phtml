@@ -1,0 +1,160 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+	<form id="new_badge" enctype="multipart/form-data" action="/admin/badge/donewbadge" method="post">
+	<div id="list">
+		<table class="kai_table">
+			<tr>
+				<th colspan='4' style="text-align:center;">新增勋章</th>
+			</tr>
+			<tr>
+				<td>勋章名称</td>
+				<td colspan='3'>
+					<input type='text' name='badge_name' />
+				</td>
+			</tr>
+			<tr>
+				<td>勋章描述</td>
+				<td colspan='3'>				
+					<textarea id='got_tips' name='got_tips' cols='50' rows='4'></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>勋章同步语：</td>
+				<td colspan='3'>
+					<textarea id='sync_tips' name='sync_tips' cols='50' rows='4'></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>图片(300)：</td>
+				<td colspan='3'>
+				<input type='file' name='badge_big' />
+				</td>
+			</tr>
+			<tr>
+				<td>图片(96)：</td>
+				<td colspan='3'>
+		<input type='file' name='badge_96' />
+				</td>
+			</tr>
+			<tr>
+				<td>图片(48w)：</td>
+				<td colspan='3'>
+		<input type='file' name='badge_48w' />
+				</td>
+			</tr>
+			<tr>
+				<td>图片(48)：</td>
+				<td colspan='3'>
+				<input type='file' name='badge_100' />
+				</td>
+			</tr>
+			<tr>
+				<td>图片(36)：</td>
+				<td colspan='3'>
+		<input type='file' name='badge_36' />
+				</td>
+			</tr>
+			<tr>
+				<td>图片(24)：</td>
+				<td colspan='3'>
+		<input type='file' name='badge_24' />
+				</td>
+			</tr>
+		<tr>
+				<td>开始时间：</td>
+				<td colspan='3'>
+				<input id="btm" type="text" name="btm" >	为空表示时间不限制	(格式 2011-05-01 12:00)		
+				</td>
+			</tr>
+			<tr>
+				<td>结束时间：</td>
+				<td colspan='3'>
+					<input id="etm" type="text" name="etm" >为空表示时间不限制 (格式 2011-05-01 12:00)
+				</td>
+			</tr>
+			<tr>
+				<td>勋章类别：</td>
+				<td colspan='3'>
+					<select name='family' id='family'>		
+					<option value='normal'>荣誉勋章</option>
+					<option value='explore'>城市探索</option>
+					<option value='memorial'>纪念日</option>
+					<option value='event'>精彩活动</option>
+					<option value='partner'>品牌优惠</option>
+					</select>
+				</td>
+			</tr>	
+			<tr>
+				<td>勋章分类：</td>
+				<td colspan='3'>				
+					<select name='category' id='category'>		
+					<option value='blog'>动态</option>					
+					<option value='checkin'>签到</option>
+					<!-- 
+					<option value='sync'>SNS绑定</option>
+					<option value='invite'>好友邀请</option>
+					<option value='blog'>动态</option>					
+					<option value='checkin'>签到</option>
+					<option value='friend'>好友</option>					
+					<option value='treasure'>挖宝</option>
+					<option value='fiesta'>兑换宝物</option>
+					<option value='poi'>POI相关</option>
+					<option value='login'>登陆</option>
+					<option value='rp'>Karma</option>
+					 -->
+					</select>
+				</td>
+			</tr>	
+			<tr>
+				<td>勋章性别：</td>
+				<td colspan='3'>
+					<select name='gender' id='gender'>				
+					<option value='all'>都可以</option>
+					<option value='male'>男性</option>
+					<option value='female'>女性</option>						
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>勋章获得条件描述：</td>
+				<td colspan='3'>
+					<textarea id='info' name='info' cols='50' rows='4'></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>勋章条件：</td>
+				<td colspan='3'>
+					条件分类：<select name='what_con' id='what_con'>					
+					<option value='is_where'>地点</option>
+					<option value='had_specialsync'>特殊的SNS</option>
+					<option value='had_syncs'>SNS 数量</option>
+					<option value='had_text'>包含内容</option>
+					<option value='blog_type'>发布类型</option>
+					<option value='dis_range'>有效签到距离</option>
+					<option value='poi_name'>地点含有的关键字</option>
+					<option value='user_gender'>性别限制</option>
+					</select><br/>
+					<div id='badge_con_tips'></div>
+					<br/>
+					<textarea id='con_txt' name='con_txt' cols='50' rows='4' enable='false'></textarea>					
+					<input type='button' id='joincon' name='joincon' value="生成条件" />
+				</td>
+			</tr>	
+			<tr>
+				<td>勋章条件表达式：</td>
+				<td colspan='3'>
+				<textarea id='condition' name='condition' cols='50' rows='4'  readOnly="true"></textarea><br/>
+				<input type='button' id='clearcon' name='clearcon' value="清空" />					
+				</td>
+			</tr>		
+			<tr>
+				<td colspan='4' style="text-align:center;">
+					<input type='button' id='badge_new' name='badge_new' value="新增" />
+				</td>
+			</tr>
+		</table>
+		</div>
+		</form>
+		
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

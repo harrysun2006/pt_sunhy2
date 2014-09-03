@@ -1,0 +1,25 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="alert">
+
+<?php include_once(dirname(__FILE__).'/../include/newheadernonav.phtml');?>	
+
+
+
+<div id="content">
+  <div class="mid" style="background: #fff;">
+  	<div class='new_titile'>
+  	 <div id="setting_header_title"><span class='text'><?php echo $this->lang->signup->agreement;?></span></div>
+	   <div id="setting_header_img"><h2><?php echo $this->lang->global->setting_header_text;?></h2></div> 
+  		
+  	</div>
+  	<div class='small_mid'>
+		<?php echo $this->LangTpl($this->lang->signup->term->content);?>
+    </div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

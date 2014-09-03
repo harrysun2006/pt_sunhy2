@@ -1,0 +1,55 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+	<form id="update_banner" enctype="multipart/form-data" action="/admin/webbanner/doupdatebanner" method="post">
+	<div id="list">
+		<table class="kai_table">
+			<tr>
+				<th colspan='4' style="text-align:center;">修改Banner</th>
+			</tr>
+		
+			<tr>
+				<td>Link</td>
+				<td colspan='3'>
+					<input type='text' name='link' value='<?php echo $this->banner['link'];?>'/>
+					<input type='hidden' name='id' value='<?php echo $this->banner['id'];?>' />
+				</td>
+			</tr>
+			
+			<tr>
+				<td>图片（480）Banner：</td>
+				<td colspan='3'>
+				<input type='file' name='webbanner' />
+				</td>
+			</tr>
+			<tr>
+				<td>期待排序：</td>
+				<td colspan='3'>
+				<input id="rank" type="text" name="rank" value='<?php echo $this->banner['rank'];?>' />
+					
+				</td>
+			</tr>
+		<tr>
+				<td>开始时间：</td>
+				<td colspan='3'>
+				<input id="begintm" type="text" name="begintm" value="<?php echo $this->banner['begintm'] ?  date('Y-m-d H:i', $this->banner['begintm']+BETTER_8HOURS) : 0;?>" >
+					
+				</td>
+			</tr>
+			<tr>
+				<td>结束时间：</td>
+				<td colspan='3'>
+					<input id="endtm" type="text" name="endtm" value="<?php echo $this->banner['endtm'] ?  date('Y-m-d H:i', $this->banner['endtm']+BETTER_8HOURS) : 0;?>">
+				</td>
+			</tr>			
+					
+			<tr>
+				<td colspan='4' style="text-align:center;">
+					<input type='button' id='banner_update' name='banner_update' value="修改" />
+				</td>
+			</tr>
+		</table>
+		</div>
+		</form>
+		
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

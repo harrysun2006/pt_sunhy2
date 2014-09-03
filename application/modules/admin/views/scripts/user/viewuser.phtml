@@ -1,0 +1,62 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body>
+	<div class="center"><h3>用户&nbsp;&nbsp;<i><?php echo $this->user['nickname']?></i>&nbsp;&nbsp;的基本信息</h3></div>
+	<div id="list">
+		<table class='kai_table'>
+		  <tr>
+		    <td >昵称</td>
+		    <td ><?php echo $this->user['nickname']?></td>
+		    <td rowspan="4"><img id='<?php echo $this->user['uid'];?>' src='<?php echo $this->user['avatar_url'];?>' width='52'  class='avatar'/></td>
+		  </tr>
+		  <tr>
+		    <td>目前状态</td>
+		    <td><?php echo $this->user['state']?></td>
+		  </tr>
+		  <tr>
+		    <td>性别</td>
+		    <td><?php echo $this->user['gender']?></td>
+		  </tr>
+		  <tr>
+		    <td>karma值</td>
+		    <td><?php echo $this->user['karma']?></td>
+		  </tr>
+		  
+		  <tr>
+		    <td>注册时客户端版本</td>
+		    <td colspan="2"><?php echo $this->user['partner']?$this->user['partner']:'web';?></td>
+		  </tr>
+		    <tr>
+		    <td>上次登录客户端版本</td>
+		    <td colspan="2"><?php echo $this->user['lastlogin_partner']?$this->user['lastlogin_partner']:'web';?></td>
+		  </tr>
+		    <tr>
+		    <td>已同步微博</td>
+		    <td colspan="2">
+		    <?php if(!empty($this->syncSites)){
+		  				  foreach($this->syncSites as $site){
+		  				  	echo $site.'&nbsp;&nbsp;';
+		  				  }
+		    			}else{
+		    				echo '该用户还没有同步任何微博。';
+		    			}
+		    ?>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>邮箱</td>
+		    <td colspan="2"><?php echo $this->user['email']?></td>
+		  </tr>
+		  <tr>
+		    <td>居住地</td>
+		    <td colspan="2"><?php echo $this->user['live_province']?>&nbsp; <?php echo $this->user['live_city']?></td>
+		  </tr>
+		  <tr>
+		    <td>地址</td>
+		    <td colspan="2"><?php echo $this->user['address']?></td>
+		  </tr>
+		  
+		</table>
+	</div>
+	<a href="<?php echo $this->admin_url;?>/text?uid=<?php echo $this->user['uid']?>" >查看用户动态信息</a>
+</body>
+<?php include dirname(__FILE__).'/../include/footer.phtml';?>

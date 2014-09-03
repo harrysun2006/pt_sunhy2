@@ -1,0 +1,58 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="signup">
+<div id="header">
+  <div class="mid bg">
+  	<div id="home_link" class="left">
+  	   <a href="/"><img src="images/logo.png" alt="logo" class="logo"/></a>
+  	   <h1><?php echo $this->lang->global->nav->title;?></h1>
+  	</div>
+  	<div class="header_text" style="float: left;"><span><?php echo $this->lang->global->sitehead->title;?></span></div>
+	<div id="nav">
+		<a href="/login" style="float: right; color: #FFFFFF; margin-top: 15px; margin-right: 25px; color: #90d4ff;"><?php echo $this->lang->index->login->title;?></a>
+		<div style="float: right; margin-top: 15px; font-weight: normal; color: #fff; margin-right: 10px;"><span><?php echo $this->lang->global->sitehead->havingid;?></span></div>
+	</div> <!--#nav-->
+
+  </div>
+</div> <!--#header-->
+
+<div id="content">
+  <div class="mid border">
+	 <div class='small_mid' style="width: 350px; height:300px;padding-top:80px;">
+	  	<div id="form">
+	  	  <div class='title_large'>
+			<div class="left"><img src="images/add.png" /></div>
+			<div class="left text"><?php echo $this->lang->global->applycode;?></div>
+		  </div>
+		   <hr class="onepxline" color="#dce2ea">
+		   
+		    <form action="/applycode/do" method="post" id="loginform">
+		    	<table>
+		    		
+		    		<tr>
+		    			<td><label for="email"><?php echo $this->lang->signup->email;?></label></td>
+		    			<td><input type="text" id="email" name="email" value="<?php echo $this->post['email'];?>"/></td>
+		    		</tr>	
+		    		<tr>
+		    			<td colspan='4'>
+		    				<span id='err_email' class='error'><?php echo $this->err['err_email'];?></span>
+		    				<span id='tip_email' class='tip'><?php echo $this->lang->signup->email_example;?></span>
+		    			</td>
+		    		</tr>
+		    		
+		    	</table>
+		    
+		    	<div class="action">
+
+		    	   <input style="text-align: center;" type="button" id='appcode_btn' class="btn" value="<?php echo $this->lang->signup->button_tips;?>"/>
+	    	 	   <input type='hidden' name='formIsValid' id='formIsValid' value='0' />
+		    	</div>
+		    </form>
+	    </div>
+	</div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="error">
+
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content" class="errorPage">
+  <div class="mid border" style="background: #fff;">
+
+	<div id='errorMsg' class='center' >
+			
+		<div class="errType_img left">
+			<?php if ($this->error_code=='404') { ?>
+			<img src='images/404.png'  alt='404' />
+			<?php } else { ?>
+			<img src='images/500.png' alt='500' />
+			<?php } ?>
+		</div>
+		
+		<div class='err_text left'>
+			<div class='f16 b' ><?php //echo trim($this->exception->getMessage()); ?></div>
+			<?php if ($this->error_code=='404') { ?>
+			<div class='err_try'>
+				<?php echo $this->lang->error->messages;?>
+				<br>
+				<?php echo $this->lang->global->error->youmaytodo;?><a href='/'><?php echo $this->lang->error->homepage;?></a>
+				<?php echo $this->lang->global->error->youmaytodoor;?> <a href='javascript:history.back()'><?php echo $this->lang->error->back;?></a>
+				
+			</div>
+			<?php } else if ($this->error_code=='500') {?>
+			
+			<?php } else { ?>
+			<div class='err_try'>
+				<?php echo $this->lang->error->messages;?>
+				
+			</div>
+			<?php } ?>
+		</div>
+
+	</div>
+	    
+  <?php if (!$this->cachedErrors && ('development' == APPLICATION_ENV || 'home'==APPLICATION_ENV || 'yangl'==APPLICATION_ENV)): ?>
+<div class='clearfix'></div>
+  <h3>Exception information:</h3>
+  <p>
+      <b>Message:</b> <?php echo $this->exception->getMessage() ?>
+  </p>
+
+  <h3>Stack trace:</h3>
+  <pre><?php echo $this->exception->getTraceAsString() ?>
+  </pre>
+
+  <h3>Request Parameters:</h3>
+  <pre><?php var_dump($this->request->getParams()) ?>
+  </pre>
+  <?php endif ?>
+	    
+  </div><!--#mid-->
+
+
+</div>
+
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>
+<?php $this->Gz();?>

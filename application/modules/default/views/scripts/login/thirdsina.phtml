@@ -1,0 +1,54 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="login">
+<?php include_once(dirname(__FILE__).'/../include/newheadernonav.phtml');?>	
+
+<div id="content">
+  <div class="mid border">
+  	<div class='small_mid' style="width: 450px; height:350px;height:380px\0;padding-top:50px;!padding-top:25px;">
+	  	<div id="form">
+		  <div class='title_large'>
+			<div class="left"><img src="images/login_key.png" /></div>
+			<div class="left text" id='thirdpartylogo'><?php echo $this->lang->index->login->title;?></div>
+			<span id="loginmore"><a href="/resetpwd"><?php echo $this->lang->index->login->resetpwd;?></a> <a href="/signup/resend"><?php echo $this->lang->index->login->resend;?></a></span> 
+		  </div>
+		  <hr class="onepxline" color="#dce2ea">
+		    <form action="/login" method="post" id="loginform">
+   				<table>
+   					<tr>
+   						<td><label for="email" id='email_title'><?php echo $this->lang->index->login->newusername;?></label></td>
+   						<td><input size="24" type="text" id="email" name="email" value="<?php echo $this->lang->index->login->username_tips;?>"/></td>
+   					</tr>
+   					<tr>
+   						<td></td>
+   						<td><span class='err hide' id='err_email'></span></td>
+   					</tr>
+   					<tr>
+   						<td><label for="password"><?php echo $this->lang->index->login->password;?></label></td>
+   						<td><input type="password" size="24" id="password" name="password" value=""/></td>
+   					</tr>
+   					<tr>
+   						<td></td>
+   						<td><span class='err hide' id='err_password'></span></td>
+   					</tr>   				
+   				</table>			
+   				<div style="clear: both;"></div>
+				<div style="width:150px; margin: 0 auto; padding-top:5px;">
+				<span class="left hide"><input type="checkbox" id="rememberme" name='rememberme'  checked='checked' value='1' /><?php echo $this->lang->index->login->autologin;?></span>
+			    		<input type='hidden' name='pwd_plain' id='pwd_plain' value='0' />
+			    		<input type='hidden' name='login_type' id='login_type' value='local'>
+			    	<input type="submit" id="login_btn" title="<?php echo $this->lang->index->login->button_tips;?>" value="<?php echo $this->lang->index->login->title;?>"/>
+				</div>
+			 </form>
+			 <div id='loginthird'>
+			 <table border='0' width='456'><tr><td><?php echo $this->lang->index->login->loginfromthrid;?></td><td><a href='javascript:void(0);' id='loginfromsina'><img src='images/t-sina.png'></a></td><td><a href='javascript:void(0);' id='loginfromsohu'><img src='images/t-sohu.png'></a></td></tr></table>
+			 </div>
+	    </div>
+	 </div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

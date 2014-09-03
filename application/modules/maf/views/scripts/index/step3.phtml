@@ -1,0 +1,37 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<div class="mid"> 	
+	<div id="top">
+		<div>
+			<a href='/' > <img class='pngfix' src='images/maf/logo.png'></a>
+		</div>
+	</div>
+ 	<div id='orange_header'>请填写您的明信片</div>
+ 	<div class='messagecard'>
+ 		<div id='write_message'> 		
+			<form action="maf/index/view" method="post" id="writeform">
+				<table id='table_write_message'>
+				<tr><td colspan="2" style='font-size:14px;font-weight:200;'>以下各项为必填内容</td></tr>
+					<tr><td>收件人:</td><td><div class='write_short'><input type='text' id='receive_name' name='receive_name' value='<?php echo $this->card['receive_name'];?>'></div></td></tr>
+					<tr><td>地     址:</td><td><div class='write_long'><input type='text' id='receive_address' name='receive_address' value='<?php echo $this->card['receive_address'];?>' ></div></td></tr>
+					<tr><td>邮     编:</td><td><div class='write_short'><input type='text' id='receive_zipcode' name='receive_zipcode' value='<?php echo $this->card['receive_zipcode'];?>' ></div></td></tr>
+					<tr><td colspan="2" class='table_line'></td></tr>
+					<tr><td>寄件人:</td><td><div class='write_short'><input type='text' id='post_name' name='post_name' value='<?php echo $this->card['post_name'];?>' ></div></td></tr>
+					<tr><td>地     址:</td><td><div class='write_long'><input type='text' id='post_address' name='post_address' value='<?php echo $this->card['post_address'];?>'></div></td></tr>
+					<tr><td>邮     编:</td><td><div class='write_short'><input type='text' id='post_zipcode' name='post_zipcode' value='<?php echo $this->card['post_zipcode'];?>' ></div></td></tr>
+					<tr><td colspan="2" class='table_line'></td></tr>
+					<tr><td colspan="2" style="padding-left:434px;"><?php 
+		$thisinfo = $this->lang->post->noping->words_left_info;
+		$thisinfo = str_replace("{WORDNUM}","<label id='txtCount' class='green b f16'></label>&nbsp;",$thisinfo);		
+		echo $thisinfo;
+		?>	  		 
+ 		</span></td></tr>
+ 					<tr><td>祝福语:</td><td><div class='write_text'><textarea id="status_text"  name='message' ><?php echo $this->card['message'];?></textarea></div></td></tr>
+ 					<tr><td colspan="2" align="center"><input type='image' src='images/maf/prew.png' id='step3_btn'></td></div></td></tr>
+				</table>
+			</form>
+		</div>
+ 	</div>
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>

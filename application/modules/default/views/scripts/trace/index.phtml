@@ -1,0 +1,110 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+
+<body id="trace">
+
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid" style="height: 370px; background: #fff;">
+	  <div style="width: 640px;" class="left">
+	    <div id="trace_map" style="width: 100%; height: 380px; margin: 0;border:1px solid #ddd;"></div>
+	   <?php if ($this->config->my_trace) { ?>
+	   		<div style="background: url(images/times-bg.png) no-repeat 0 0; height: 64px; width: 642px; padding: 5px; color: #787878;">	
+	   			<div style="margin-top: 4px; position: relative; width: 625px;"><span id="show_date" style="position: absolute; left: 554px;"><?php echo date('Y.m.d', time()+8*3600);?></span></div>
+	   			<div id="slider" style="width: 625px; height: 9px; background: url(images/times-right.png) repeat 0 0; border: 1px solid #DDDDDD; margin-top: 25px; "></div>
+	   			<div style="float: left;" id="reg_date"><?php echo $this->reg_date;?></div>
+	   			<div style="float: right; margin-right: 14px;"><?php echo $this->lang->trace->today;?></div>
+	   			<div style="text-align: center; margin-top: 10px;"><?php echo $this->lang->trace->time_tip;?></div>
+	   		</div>
+	   <?php }?>
+	  </div>
+	  <div class="right" style="width: 29%; border: 1px solid #ddd; height: 375px; padding: 2px 10px 2px 10px; overflow-y: auto; overflow-x: hidden;">
+	  	<ul class="trace_ul">
+	  		<li>
+	  		<table>
+	  		<tr>
+	  			<td><img src='<?php echo $this->trace_user['avatar_normal'];?>' width="50" height="50"></td>
+	  			<td style="font-size: 14px;"><a href='/<?php echo $this->trace_user['username'];?>' style="font-weight: bold;"><?php echo $this->trace_user['nickname'];?></a><?php echo $this->lang->trace->whos_track; ?></td>
+	  		</tr>
+	  		</table>
+	  		</li>
+<?php if($this->uid){?>
+	  		<li>
+	  			<div style="padding: 10px 0;">
+	  			<?php if($this->uid && $this->trace_user['uid']==$this->uid){?>
+	  				<?php echo $this->lang->trace->share;?>
+	  			<?php }else{?>
+	  				<?php echo $this->lang->trace->say_their;?>
+	  			<?php }?>
+	  			</div>
+	  			
+	  			<textarea style="height: 100px; width: 270px;" id="status_text">
+<?php if($this->uid && $this->trace_user['uid']==$this->uid){?>
+<?php echo $this->lang->trace->my_tips;?>: http://<?php echo $_SERVER['HTTP_HOST'];?>/trace?uid=<?php echo $this->uid;?>
+<?php }else if($this->uid && $this->trace_user['uid']!=$this->uid){?>
+
+<?php }?>
+	  			</textarea>
+				 <?php if ($this->config->my_trace) { ?>
+				<div>
+					<input type="checkbox" name="need_zj_picture" id="need_zj_picture" checked="checked"><?php echo $this->lang->trace->pic_in_shout; ?>
+				</div> 
+				<?php }?>
+				<div class="check_sync" id="check_sync" style="text-align: left;">
+					<?php if($this->site_count > 0){?>
+						<?php if($this->user['priv_blog'] || $this->user['sys_priv_blog']){?>
+							<span><?php echo $this->lang->global->include->dmessage->lock; ?></span>
+						<?php }else{ ?>
+						<span id="shout_checkbox">
+						<input type="checkbox" name="need_sync" id="need_sync" checked="checked" />
+						<?php echo $this->lang->global->include->dmessage->share; ?>
+						</span>
+						<span id="shout_nopublic" class="hide">
+							<?php echo $this->lang->global->include->dmessage->no_public; ?>
+						</span>
+						<?php }?>
+					<?php }else{?>
+						<a href="setting/sync"><?php echo $this->lang->global->include->dmessage->no_bound; ?></a>
+					<?php }?>	 
+				</div>
+				
+				<div class="select_priv left" id='shout_priv' style="margin-top: 10px; position: relative;">
+					<span id="priv_sel_shout" priv="public" class="priv_sel" style="margin-top: 10px;"><?php echo $this->lang->global->include->dmessage->privacy_public;?></span>
+						<div class="drop_priv hide" id="drop_priv_shout" style="position: absolute; top: 39px; width: 96px; left:0;">
+						<span priv="public" id="shout_public" style="line-height:30px;"><?php echo $this->lang->global->include->dmessage->privacy_public;?></span>
+						<div class="xu_line"></div>
+						<span priv="private" style="line-height:30px;"><?php echo $this->lang->global->include->dmessage->privacy_private;?></span>
+						</div>
+				</div>
+				
+				<a href="javascript: void(0);" class="blue_btn right" style="width: 96px; height: 39px; margin-top: 10px; padding-top: 10px;" id="post_btn_trace" accesskey='s'><?php echo $this->shout_text;?></a>
+				
+	  		</li>
+<?php }?>
+	  	</ul>
+	  	<!-- <div style="text-align: right; padding: 6px 0;">
+	  	<?php if($this->pages>0 && $this->page>0 && $this->page<=$this->pages){?>
+		  	<?php echo str_replace('{PAGES}', $this->pages, $this->lang->trace->total_pages);?>
+		  	&nbsp;<?php echo str_replace('{PAGE}', $this->page, $this->lang->trace->current_page);?>&nbsp;
+		  	<?php if($this->page!=1){?>
+		  		<a href='/trace?uid=<?php echo $this->uid;?>&page=<?php echo $this->page-1;?>'><?php echo $this->lang->trace->prev_page;?></a>
+		  	<?php }?>
+		  	&nbsp;
+		  	<?php if($this->page!= $this->pages){?>
+		  		<a href='/trace?uid=<?php echo $this->uid;?>&page=<?php echo $this->page+1;?>'><?php echo $this->lang->trace->next_page;?></a>
+		  	<?php }?>
+	  	<?php }?>
+	  	</div>  -->
+	  </div>
+	  <div class="clearfix"></div>
+  </div><!--#mid-->
+   <div class="clearfix"></div>
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+<script type="text/javascript" src="/js/labeledmarker.js"></script>
+<script type="text/javascript" src="/js/markermanager.js"></script>
+</body>
+</html>
+<?php $this->Gz();?>

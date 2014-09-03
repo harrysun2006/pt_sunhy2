@@ -1,0 +1,106 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/wlanblog" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>搜索</th></tr>
+			<tr>				
+
+				<td>每页结果数:</td>
+				<td>
+				<select name='page_size' id='page_size'>
+					<option value='<?php echo BETTER_PAGE_SIZE;?>' <?php echo $this->params['page_size']==BETTER_PAGE_SIZE ? ' selected="selected"' : '';?>><?php echo BETTER_PAGE_SIZE;?></option>
+					<option value='50' <?php echo $this->params['page_size']==50 ? ' selected="selected"' : '';?>>默认(50)</option>
+					<option value='100' <?php echo $this->params['page_size']==100 ? ' selected="selected"' : '';?>>100</option>
+					<option value='99999999' <?php echo $this->params['page_size']==99999999 ? ' selected="selected"' : '';?>>全部</option>
+				</select>
+				</td>
+			</tr>			
+			
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='submit' value='搜索(s)' accesskey='s' />
+					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />
+					<input type='hidden' name='page' id='page' value='<?php echo $this->params['page'];?>' />
+					<input type='hidden' name='reload' id='reload' value='0' />
+					<input type='hidden' name='type' id='type' value='' />
+					<input type='hidden' name='uid' id='uid' value='<?php echo $this->params['uid'];?>' />
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div>
+
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+				<tr>
+					<th></th>
+					<th width='100'>状态</th>
+					<th>文本内容</th>
+					
+					<th>发布时间</th>
+
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td width='20'><input type='checkbox' name='ids[]'  value='<?php echo $row['id'];?>' ></td>
+					<td class='center'><?php echo $row['status_name'];?></td>
+					<td class='messages'>
+						<div class='msg_row'>						
+						<?php 						
+							echo $row['nickname'];							
+						?>
+						<img src="<?php echo addslashes($row['img']);?>" />
+						<?php 						
+						echo "在Lon=".$row['lon']." Lat=".$row['lat'];
+						echo " 发布了".$row['content'];
+						if($row['photo']){
+							echo  "<br/>附图:<img src='".$row['photo']."' border='0'/>";
+						}
+						
+							?>
+						</div>
+					</td>
+				
+					<td width='80' class='center'><?php echo date('Y-m-d H:i:s', $row['posttm']+BETTER_8HOURS);?></td>
+				</tr>
+				<?php } ?>
+				<tr>
+					<td colspan='10' class='center'>
+					<input type='button' id='chooseAll' name='chooseAll'  value='全选(a)' accesskey='a' />
+					<input type='button' id='chooseNone' name='chooseNone' value='全不选(n)' accesskey='n' />
+					<input type='button' id='chooseReverse' name='chooseReverse' value='反选(v)' accesskey='v' />
+				</td></tr>
+				<tr><td colspan='10'>
+					<input type='button' id='btnPass' value='通过审核' />
+					<input type='button' id='btnFalse' value='审核不通过' />
+					</td>
+				</tr>					
+				<?php } else {  ?>
+				<tr>
+					<td colspan='10' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+		
+		
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

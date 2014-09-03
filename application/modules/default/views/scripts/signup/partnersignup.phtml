@@ -1,0 +1,136 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="signup">
+<?php include_once(dirname(__FILE__).'/../include/newheadernonav.phtml');?>	
+
+<div id="setting_page">
+  <div class="mid">
+	  <div id="setting_menu">   		
+		<div class="setting_right">			
+			<?php echo $this->langTpl('signup_step1');?>
+		</div>
+  		
+  	  </div>
+  	  <div id="setting_content">
+  	  <div class="login_form">
+  	  <div class='login_head'>
+  				<span class='left'>
+  				<?php 
+  				if(strlen(Better_Registry::get('sess')->get('avatarurl'))>0)
+  				{
+  					echo "<img class='avatar user_avatar' style='width:96px;height:96px;' src='".Better_Registry::get('sess')->get('avatarurl')."'/>";
+  				} 				
+  				echo str_replace("{NICKNAME}",Better_Registry::get('sess')->get('protocol_nickname'),$this->lang->global->partner_login->signup->title);  				
+  				?></span>
+  				<span class='right'></span>
+  				<div class='clearfix'></div>
+  	  </div>
+  	  
+  	  <div class='login_left'>
+  	  <div id='partner_signup_firstlogin'>
+  	  	<?php echo $this->lang->global->partner_login->signup->firstlogin;?>
+  	  </div>
+  	  <div id='partner_signup_updateprofile'>
+  	  <?php echo $this->lang->global->partner_login->signup->updateprofile;?>
+  	  </div>
+  	  <div id='partner_signup_lansanjiao'><img src='images/blacksanjiao.gif'></div>
+  	  <div style='text-align:center;width:256px;height:250px;margin-top:10px;'>
+  	  <a href='/signup/go' ><img src='images/autologin.png' border='0' /></a>
+  	  </div>
+  	  <!-- 
+  	  <form action="/signup/do" method="post" id="signup_form">  	   
+		<div class="row">
+		  
+		  <label for="nickname"><?php echo $this->lang->signup->nickname->title;?></label>(<?php echo $this->lang->signup->nickname_remark;?>)
+		  <div class="field">
+		  	 <input type="text" id="nickname" name="nickname" value="<?php echo Better_Registry::get('sess')->get('protocol_nickname');?>" /><span id='ok_nickname'></span>	
+		     <span id='err_nickname' class='err'><?php echo $this->err['err_nickname'];?></span>	    
+		    
+		  </div>
+		</div>
+		<div class="row">
+			<label for="email"><?php echo $this->lang->signup->email;?></label>(<?php echo $this->lang->signup->email_example;?>)
+		  <div class="field">
+		  	  <input type="text" id="email" name="email" value="<?php echo Better_Registry::get('sess')->get('protocol_email');?>"  /><span id='ok_email'></span>			  	 		  	 
+		     <span id='err_email' class='err'><?php echo $this->err['err_email'];?></span>
+		  </div>
+		</div>  
+		<div class="row">
+		  <label for="password"><?php echo $this->lang->signup->password;?></label>(<?php echo $this->lang->signup->password_to_short;?>)
+		  <div class="field">
+		  	 <input type="password" id="password" name="password" value="<?php echo $this->post['password'];?>" />
+		  
+		  	<span id='ok_password'></span>
+    		<span id='err_password' class='err'><?php echo $this->err['err_password'];?></span>
+		  </div>
+		</div> 
+		
+		<div class="row">
+		  <label for="repassword"><?php echo $this->lang->signup->repassword;?></label>(<?php echo $this->lang->signup->password_to_short;?>)
+		  <div class="field">
+		  	<input type="password" id="repassword" name="repassword" value="<?php echo $this->post['repassword'];?>"/>
+		  
+		  	<span id='ok_repassword'></span>
+    		<span id='err_repassword' class='err'><?php echo $this->err['err_password'];?></span>
+    	  </div>
+		</div> 		
+		  	
+		<div class="row">	
+		  <label for='agree'></label>	 
+		  <div class="field">
+		  	<input type="checkbox" id="agree" value="1" name="agree" checked='checked'/>  <?php echo $this->lang->signup->have_readed;?><a href="/signup/terms" class='blank'><?php echo $this->lang->signup->agreement;?></a>
+		    				<span class='err' id='err_agree'><?php echo $this->err['err_agree'];?></span>
+		    	</div>
+		</div>	
+		<div class="row">	
+		  <label for='agree'></label>	 
+		  <div class="field">		
+		    				<input style="text-align: center;" type="button" id='signup_btn' class="btn" value="<?php echo $this->lang->global->partner_login->signup->submit;?>"/>
+	    	 	   <input type='hidden' name='formIsValid' id='formIsValid' value='0' />
+	    	 	   <input type='hidden' name='language' value='<?php echo Better_Registry::get('language');?>' />
+	    	 	   <input type='hidden' name='login_type' value='local' />
+	    	 	   <input type='hidden' name='signupbythird' value='1' id='signupbythird'/>
+	    	 	   <input type='hidden' name='ref_uid' value='<?php echo Better_Registry::get('sess')->get('ref_uid');?>' />
+		  </div>
+		</div> 
+		    	
+		    </form>
+		     -->
+  	  </div>
+  	  <div class='login_right'>
+  	  <div id='partner_login_sync_title'>
+  	  	<?php echo $this->lang->global->partner_login->sync->title;?>
+  	  </div>
+  	  <div id='partner_login_sync_dosync'>
+  	  <?php echo $this->lang->global->partner_login->sync->dosync;?>
+  	  </div>
+  	  <div id='partner_login_hongsanjiao'><img src='images/blacksanjiao.gif'></div>		
+  			<form action="/login" method="post">  			
+  				<label for="email" id='email_title' style='font-size: 14px; font-weight:bold;'><?php echo $this->lang->index->login->newusername;?></label><br>
+  				<input size="24" type="text"  name="email" value=""/><br>
+  				<br>
+  				<label for="password" style='font-size: 14px; font-weight:bold;'><?php echo $this->lang->index->login->password;?></label><br>
+  				<input type="password" size="24"  name="password" value=""/><br>
+  				<br>
+  				<div>
+					<span class="left hide"><input type="checkbox" id="rememberme" name='rememberme'  checked='checked' value='1' /><?php echo $this->lang->index->login->autologin;?></span>
+			    	<input type='hidden' name='pwd_plain' id='pwd_plain' value='0' />
+			    	<input type='hidden' name='login_type' id='login_type' value='local'>
+			    	<input type="submit" id="login_btn" title="<?php echo $this->lang->index->login->button_tips;?>" value="<?php echo $this->lang->global->partner_login->sync->submit;?>" class='btn' style="width:90px;" />
+				</div>
+				<br>
+				<span id="loginmore"><a href="/resetpwd"><?php echo $this->lang->index->login->resetpwd;?></a> &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/signup/resend"><?php echo $this->lang->index->login->resend;?></a></span>  					
+  			</form>
+  			</div>
+  	
+  	  </div>
+	  </div>
+	  <div class="clearfix"></div>
+	</div>
+</div>
+			
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

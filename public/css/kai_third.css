@@ -1,0 +1,79 @@
+/* basic style */
+/* Clear Fix */
+.clearfix{
+	height:0;
+	clear:both;
+	visibility:hidden;
+	overflow: hidden;
+}
+
+
+body{	
+	background: url("../images/fromthird_bk.jpg") no-repeat fixed top center #FFFFFF; 
+	font-family:Verdana,sans-serif; 
+	font-size:12px; 
+	line-height:20px; 
+	color:#666; 
+	background-color:#ffffff; 
+	margin:0; 	
+}
+.mid {margin:0 auto; width:605px;padding-top:80px;height:450px;}
+#form_up{
+	background: url("../images/fromthird_form_up.png") no-repeat;
+	height:15px;
+}
+#form_center{
+	background: url("../images/fromthird_form_center.png");
+	height:193px;	
+}
+#form_down{
+	background: url("../images/fromthird_form_down.png") no-repeat;
+	height:15px;
+}
+#head_guide{
+	float:right;
+	padding-right:20px;
+}
+a {color:#0F7CC5; text-decoration:none;}
+a:hover {color:#e95383;}
+a img {border:none}
+#head_guide a{
+	padding:0 10px;
+}
+#logo{
+	float:left;	
+	width:150px;
+}
+.logoimg{
+	background:url('/images/logo.png');background-position:0px 0px;width:120px;height:63px;float:left;
+}
+#content{
+	margin:0px 10px 10px 20px;
+	float:left;
+	width:545px;
+}
+#guide_content{
+	float:left;
+	width:382px;
+	line-height:22px;	
+}
+#fromsubmit {
+    height: 35px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    width: 217px;
+}
+#fromsubmit a:hover img{
+	margin-top:-35px;
+}
+#aboutkai{
+	padding:12px 0 5px 0;
+}
+input{
+    font-family: Verdana,sans-serif;
+    vertical-align: middle;
+}
+#atkai{
+	padding:0 0 10px 0;
+	line-height:28px;
+}

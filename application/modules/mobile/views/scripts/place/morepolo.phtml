@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="viewport" content="width=device-width; initial-scale=1.4; minimum-scale=1.0; maximum-scale=2.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?php echo $this->lang->global->meta->title;?></title>
+	<?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+	<?php
+	$str = ''; 
+	if(!$this->user['uid']){
+		$str .="<div id='portal'>
+	<a href='/mobile/login/polo'>".$this->lang->index->login->title."</a>
+	<a href='/mobile/signup'>".$this->lang->index->signup."</a>
+	<a href='/mobile/tools/polo'>红切客下载</a>	
+</div>";
+	} else {
+		$str .="<div id='portal'>
+	<a href='/mobile/user?uid=".$this->user['uid']."' />".$this->user['nickname']."</a>	
+	<a href='/mobile/tools/polo'>红切客下载</a>	
+</div>"; 
+	}
+	$str .= "<img src='/images/polo/wap_top.png' border='0' /><br/>New Polo 红切客签到地:北京<br/>";
+	$str .= "<a href='http://wap.moad.cn/MOAD/10620/lbs.aspx?src=1&fp=index.aspx'>活动细则</a>";
+	$polo_poi_id = 1;
+	
+	if($polo_poi_id){
+	?>
+	<style type="text/css">
+body{
+	background:#000;
+	color:#fff;
+}
+a:visited{
+	color:#00a9ff;text-decoration:none;
+}
+a{
+	color:#00a9ff;text-decoration:none;
+}
+</style>
+<?php }?>
+</head>
+<body>
+<?php 
+	if($polo_poi_id){
+		?>
+	
+<div id="header">	
+	<img alt="<?php echo $this->lang->global->nav->title; ?>" src="/images/polo/polotop.gif" />
+	<span style='color: #E95383; font-size: 14px;display:none'>记录足迹，分享城事</span>
+</div>
+<?php  
+
+	} else {?>
+	<?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+<?php }?>
+	<div id="headinfo">
+		<?php 	
+	if($polo_poi_id){		
+		echo $str;
+	} else {
+	?>
+		<a href="/mobile/user?uid=<?php echo($this->user["uid"])?>" ><?php echo($this->user["nickname"])?></a>@
+		<?php if( (int)($this->lastcheckin['poi']['poi_id']) < 1 ){?><a href="/polo/search"><?php echo $this->lang->mobile->global->whereplace; ?></a><?php }else{?>
+			<a href="/mobile/place?pid=<?php echo $this->lastcheckin['poi']['poi_id'];?>"><?php echo $this->lastcheckin['poi']['name']; ?></a>
+		<?php }?><hr/>
+		<?php }?>
+	</div>	
+	
+	<div id="timeline">
+		<?php 
+					
+			if($this->type=='film'){
+				$firstname = "poi_film_list";
+				$secondname = "poi_food_list";
+				$firstname_str = "影院";
+				$secondname_str = "餐馆";
+				$othertype = 'food';
+			} else if($this->type=='food') {
+				$firstname = "poi_food_list";
+				$secondname = "poi_film_list";
+				$firstname_str = "餐馆";
+				$secondname_str = "影院";	
+				$othertype = 'film';	
+			}		
+		?>
+		<?php echo $firstname_str;?>(点击即可签到享优惠好礼)
+		<?php 
+		$i=0;
+		foreach($this->{$firstname} as $rows){?>
+		<li><?php 
+		
+		$tmppoiinfo =Better_Poi_Info::getInstance($rows)->get(); 
+		//var_dump($tmppoiinfo);
+		
+		echo "<a href='/mobile/place?pid=".$tmppoiinfo['poi_id']."' />".$tmppoiinfo['name']."</a>";  ?></li>
+		<?php }?>
+		<?php echo $secondname_str;?>(点击即可签到享优惠好礼)
+		
+		<li><?php 
+		echo "<a href='/mobile/place/morepolo?type=".$othertype."' />更多</a><br/>";
+		?></li>
+		<li><a href='/mobile/place/polo'>返回上一级</a></li>
+
+		
+	</div>
+<?php if($polo_poi_id){?>	 
+<?php include_once(dirname(__FILE__).'/../include/polo.phtml');?>
+<?php  } else {?>
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+<?php  } ?>
+</body>
+</html>

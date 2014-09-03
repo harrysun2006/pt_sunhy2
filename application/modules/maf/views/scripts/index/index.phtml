@@ -1,0 +1,40 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<div class="mid">
+ 	<?php include_once(dirname(__FILE__).'/../include/header.phtml');?> 
+ 	<div id='doing'> 	
+ 		<span id='step1'> 	
+ 		
+		 <form action="" method="post" id="loginform">
+		 
+   			<table>   				
+   					<tr>   						
+   						<td><div class="username"><input size="30" type="text" id="email" name="email" value="<?php echo $this->lang->index->login->username_tips;?>" style="background:none; border:0; padding:4px; width:158px"/></div></td>
+   					</tr>   				
+   					<tr>  					
+   						<td><div class="password"><input type="password" size="24" id="password" name="password" value="" style="background:none; border:0; padding:4px; width:100px"/></div>
+   						
+   						<div class="login"><input type="submit" id="login_btn" style="background:none; border:0; padding:4px; width:96px" value='' /></div>
+   						</td>
+   					</tr>   								
+   					<tr><td>
+			    		<input type='hidden' name='pwd_plain' id='pwd_plain' value='0' />
+			    		<input type='hidden' name='login_type' id='login_type' value='local'>			    	   
+					</td></tr>
+			 	
+			 </table>
+			 </form>
+ 		</span>
+ 		<span id='step2'>
+ 			<div class='centermess_step2'>
+ 			<table><tr><td><img class='pngfix' src='images/maf/badge.png'></td><td valign='top'>只要获得“世间名士”勋章，就可以参加此次活动!（明信片限量100张）</td></tr></table>
+ 			</div>
+ 		</span>
+ 		<span id='step3'>
+ 			<div class='centermess_step3'><a href='javascript:void(0);' id='_mustlogin'><img class='pngfix' src='images/maf/draw-button.png'></a></div>
+ 		</span>	 	
+ 	</div>
+ 	<?php include_once(dirname(__FILE__).'/../include/flash.phtml');?>
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>

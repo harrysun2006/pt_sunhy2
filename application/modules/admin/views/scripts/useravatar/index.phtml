@@ -1,0 +1,196 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		<div style='width: 100%; text-align:left; background-color:#D3DCE3;'>
+		 [<a href='/admin/picture' class='left'>所有图片</a>]
+		 [<a href='/admin/useravatar?avatar=1' class='left'  style="<?php if($this->params['advance'] !=1) echo 'color:#FF0000;font-weight:bold;'?>">用户头像</a>]
+		 [<a href='/admin/photo?photo=1' class='left'>用户图片</a>]
+		 [<a href='/admin/useravatar?avatar=1&advance=1&reload=1&view_type=2' class='left' style="<?php if($this->params['advance'] ==1) echo 'color:#FF0000;font-weight:bold;'?>">掌门头像</a>]</div>
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/useravatar" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>搜索</th></tr>
+			<tr>
+				<td>用户关键字:</td>
+				<td><input type='text' name='keyword' id='keyword' value='<?php echo $this->params['keyword'];?>' /></td>
+				<td>每页结果数:</td>
+				<td>
+				<select name='page_size' id='page_size'>
+					<option value='<?php echo BETTER_PAGE_SIZE;?>' <?php echo $this->params['page_size']==BETTER_PAGE_SIZE ? ' selected="selected"' : '';?>><?php echo BETTER_PAGE_SIZE;?></option>
+					<option value='50' <?php echo $this->params['page_size']==50 ? ' selected="selected"' : '';?>>50</option>
+					<option value='100' <?php echo $this->params['page_size']==100 ? ' selected="selected"' : '';?>>默认(100)</option>
+					<option value='99999999' <?php echo $this->params['page_size']==99999999 ? ' selected="selected"' : '';?>>全部</option>
+				</select>
+				</td>
+			</tr>	
+			<tr>
+				<td>时间范围:</td>
+				<td colspan='6'>
+				从 <input type='text' name='from' id='from' value='<?php echo $this->params['from'];?>' readonly='readonly' />
+				到 <input type='text' name='to' id='to' value='<?php echo $this->params['to'];?>' readonly='readonly' />
+				</td>
+			</tr>					
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='submit' value='搜索(s)' accesskey='s' />
+					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />
+					<input type='hidden' name='page' id='page' value='<?php echo $this->params['page'];?>' />
+					<input type='hidden' name='reload' id='reload' value='1' />
+					<input type='hidden' name='avatar' id='avatar' value='1' />
+					<input type='hidden' name='advance' id='advance' value='<?php echo $this->params['advance']?$this->params['advance']:0 ?>' />
+					<input type='hidden' name='view_type' id='view_type' value='<?php echo $this->params['view_type']?$this->params['view_type']:0 ?>' />
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div>
+
+			<table cellspacing="0" class='kai_table'>	
+				<?php if($this->params['advance']){?>
+				<tr>
+					<td colspan='15' >
+					请选择需要查看的掌门头像：
+					<input value='2'  type='radio' name="change_type" <?php echo $this->params['view_type']==2?'checked':'';?>>未被推荐的用掌门头像</input>
+					<input value='1'  type='radio' name="change_type" <?php echo $this->params['view_type']==1?'checked':'';?>>被推荐的掌门头像</input>					
+					<input value='0'  type='radio' name="change_type" <?php echo $this->params['view_type']==0?'checked':'';?>>所有掌门头像</input>
+					</td>
+				</tr>
+				<?php }?>
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+		
+				<?php if ($this->count>0) { ?>
+				<?php 
+					$i = 0;
+					$j = 1;
+					$colcount = 5;//列数 
+				?>
+				
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+				<?php foreach ($this->rows as $row) {?>
+					<td class='message_col' style="text-align:center">
+					<div id="<?php echo $row['uid']?>_div" class='hide'>
+						<table>
+							<tr>
+								<td>ID</td>
+								<td><?php echo $row['uid']?></td>
+							</tr>
+							<tr>
+								<td>Email</td>
+								<td><?php echo $row['email']?></td>
+							</tr>
+							<tr>
+								<td>用户名</td>
+								<td><?php echo $row['username']?></td>
+							</tr>
+							<tr>
+								<td>昵称</td>
+								<td><?php echo $row['nickname']?></td>
+							</tr>
+							<tr>
+								<td>姓名</td>
+								<td><?php echo $row['realname']?></td>
+							</tr>
+							<tr>
+								<td>性别</td>
+								<td><?php echo $row['gender']?></td>
+							</tr>
+							<tr>
+								<td>出生日期</td>
+								<td><?php echo $row['birthday']?></td>
+							</tr>
+							<tr>
+								<td>自我介绍</td>
+								<td><?php echo $row['self_intro']?></td>
+							</tr>
+							<tr>
+								<td>所在地</td>
+								<td><?php echo $row['live_province']." ".$row['live_city']?></td>
+							</tr>
+							<tr>
+								<td>所在城市</td>
+								<td><?php echo $row['city']?></td>
+							</tr>
+							<tr>
+								<td>位置描述</td>
+								<td><?php echo $row['address']?></td>
+							</tr>
+							<tr>
+								<td>上报时间</td>
+								<td><?php echo $row['lbs_report'] ?  date('Y-m-d H:i:s', $row['lbs_report']) : 0;?></td>
+							</tr>
+						</table>
+					</div>
+					<input type='checkbox' name='uids[]'  value='<?php echo $row['uid'];?>' />
+					<a class='msg_attach' href='<?php echo $row['avatar_url'];?>' target='_blank'><img id='<?php echo $row['uid'];?>' src='<?php echo $row['avatar_thumb'];?>' width='48'  class='avatar'/></a>
+					<?php if(isset($row['poiinfo'])){?>
+							<div><a href='<?php echo BETTER_BASE_URL;?>/<?php echo $row['username'];?>' target='_blank'><?php echo $row['nickname'];?></a></div>
+							<div><a href='<?php echo BETTER_BASE_URL;?>/poi/<?php echo $row['poiinfo']['poi_id'];?>' target='_blank'><?php echo $row['poiinfo']['name'];?></a></div>
+					<?php }else{?>
+						<div><a href='<?php echo BETTER_BASE_URL;?>/<?php echo $row['username'];?>' target='_blank'><?php echo $row['username'];?></a></div>
+					<?php }?>
+					<?php echo date('Y-m-d H:i:s', $row['last_update']+BETTER_8HOURS)?>
+					</td>
+				<?php if($j==count($this->rows) && fmod($j, $colcount)!=0 && $j>$colcount){//生成空的单元格
+					for($c=0; $c<$colcount-fmod(count($this->rows),$colcount); $c++){?>
+						<td>&nbsp;</td>	
+				<?php }
+				}?>
+				
+				<?php if(fmod($j++,$colcount)==0){?>
+					</tr><tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+				<?php 	
+				 } 
+					}?>
+				</tr>
+				<tr>
+					<td colspan='15' class='center'>
+					<input type='button' id='chooseAll1' name='chooseAll1'  value='全选(a)' accesskey='a' />
+					<input type='button' id='chooseNone1' name='chooseNone1' value='全不选(n)' accesskey='n' />
+					<input type='button' id='chooseReverse1' name='chooseReverse1' value='反选(v)' accesskey='v' />
+				</td></tr>
+				<tr><td colspan='15' class='center'>
+					<!-- <select name='todo' id='todo'>
+						<option value=''>请选择操作</option>
+						<option value='del_avatar'>删除所选用户头像</option>
+						<?php if($this->params['view_type']==1){?>
+						<option value='unrecommend_avatar'>取消所选用户的推荐</option>
+						<?php }else if($this->params['view_type']==2){?>
+						<option value='recommend_avatar'>所选用户成为掌门的时推荐到首页</option>
+						<?php }?>
+						<option value='reset_place'>重置用户位置</option>
+						<option value='reset_name'>重置用户姓名</option>
+						<option value='reset_selfintro'>重置用户自我介绍</option> 
+					</select>
+					<input type='button' id='btnTodo' value='确定(d)' accesskey='d' />-->
+					
+					<?php if($this->params['advance']){?>
+						<?php if($this->params['view_type']==2){?>
+						<input type='button' name='btnTodo' actionurl="recommend_avatar" value='推荐所选头像' accesskey='r' />
+						<?php }else if($this->params['view_type']==1){?>
+						<input type='button' name='btnTodo' actionurl="unrecommend_avatar" value='取消推荐所选头像' accesskey='u' />
+						<?php }?>
+					<?php }?>
+					<input type='button' name='btnTodo' actionurl="del_avatar" value='删除所选头像' accesskey='d' />
+					</td>
+				</tr>			
+				<?php } else {  ?>
+				<tr>
+					<td colspan='15' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

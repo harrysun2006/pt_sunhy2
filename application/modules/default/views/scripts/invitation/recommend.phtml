@@ -1,0 +1,152 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="invitation">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="setting_page">
+ <div class="mid title">
+	  <div id="setting_header_title"><span class='text'><?php echo $this->lang->global->nav->find_people;?></span></div>
+	   <div id="setting_header_img"><h2><?php echo $this->lang->global->setting_header_text;?></h2></div>
+ </div>
+ 
+  <div class="mid">
+   
+		  <div id="setting_content">
+		  	 
+		  	 <div id='find_better' class="setting_main">	 
+	                <div class="headertitle">
+		    	
+		           </div>
+	                <div id='people_hot' class='result_box setting_block'>
+	                <h2><?php echo $this->lang->global->people->recommend_hot;?></h2>
+	              
+	                  <table class="find_table friends_table">
+	                  <tr>
+						 <?php
+						 $i=1; 
+						 foreach($this->hotUsers as $user){ ?>
+						 		<td width="33%">
+						 			<div class="left" style="width: 64px;"><img src="<?php echo $user['avatar_small'];?>" alt="" class="left avatar" width="50" height="50" /></div>
+						 			<div class="left" style="margin-left: 10px; width: 94px;">
+						 				<a href="/<?php echo $user['username'];?>"><?php echo $user['nickname'];?></a><br>
+						 				
+						 				<?php
+						 					if($this->thisUser->isFriend($user['uid'])) {?>
+						 						<a href="javascript: void(0);" id="btnUserFriendBtn_<?php echo $user['uid'];?>_<?php echo $user['gender'];?>_<?php echo $user['nickname'];?>" class="remove_friend"><?php echo $this->lang->javascript->global->friend->request->remove;?></a>
+						 				<?php } elseif ($this->thisUser->friends()->hasRequest($user['uid'])) {?>
+						 						<a href='javascript: void(0);'><?php echo $this->lang->javascript->global->friend->request->btn->pending;?></a>
+						 				<?php }else{ ?>
+						 						<a href="javascript: void(0);" id="btnUserFriendBtn_<?php echo $user['uid'];?>_<?php echo $user['gender'];?>_<?php echo $user['nickname'];?>" class="add_friend"><?php echo $this->lang->javascript->global->friend->request->title;?></a>
+						 				<?php }
+						 				?>
+						 			</div>
+						 		</td>
+						 		
+						 	<?php if($i%3==0){?>
+						 		</tr><tr>
+						 	<?php } ?>
+
+						 <?php 
+						 	$i++;
+						 }?>
+						 </tr>
+					 </table>
+					 <div class='clear_fix'></div>
+	                </div>
+	                <div class='clear_fix'></div>
+	                
+	              <!-- -----------------附近的人-------------------- -->
+	                
+	                <div id='people_around' class='result_box i setting_block'>
+	                <h2><?php echo $this->lang->global->people->nearby_people;?></h2>
+	               
+	                  <table class="find_table friends_table">
+	                  <tr>
+						 <?php
+						 $i=1; 
+						 foreach($this->aroundUsers as $user){ ?>
+						 		<td width="33%">
+						 			<div class="left" style="width: 64px;"><img src="<?php echo $user['avatar_small'];?>" alt="" class="left avatar" width="50" height="50" /></div>
+						 			<div class="left" style="margin-left: 10px; width: 94px;">
+						 				<a href="/<?php echo $user['username'];?>"><?php echo $user['nickname'];?></a><br>
+						 				
+						 				<?php
+						 					if($this->thisUser->isFriend($user['uid'])) {?>
+						 						<a href="javascript: void(0);" id="btnUserFriendBtn_<?php echo $user['uid'];?>_<?php echo $user['gender'];?>_<?php echo $user['nickname'];?>" class="remove_friend"><?php echo $this->lang->javascript->global->friend->request->remove;?></a>
+						 				<?php } elseif ($this->thisUser->friends()->hasRequest($user['uid'])) {?>
+						 						<a href='javascript: void(0);'><?php echo $this->lang->javascript->global->friend->request->btn->pending;?></a>
+						 				<?php }else{ ?>
+						 						<a href="javascript: void(0);" id="btnUserFriendBtn_<?php echo $user['uid'];?>_<?php echo $user['gender'];?>_<?php echo $user['nickname'];?>" class="add_friend"><?php echo $this->lang->javascript->global->friend->request->title;?></a>
+						 				<?php }
+						 				?>
+						 			</div>
+						 		</td>
+						 		
+						 	<?php if($i%3==0){?>
+						 		</tr><tr>
+						 	<?php } ?>
+
+						 <?php 
+						 	$i++;
+						 }?>
+						 </tr>
+					 </table>
+					 <div class='clear_fix'></div>
+	                </div>
+	                
+	               <!--  <div id='people_new' class='result_box setting_block'>
+	                  <h2><?php echo $this->lang->global->people->recommend_new;?></h2>
+	              
+	                  <table class="find_table friends_table">
+	                  <tr>
+						 <?php
+						 $i=1; 
+						 foreach($this->newUsers as $user){ ?>
+						 		<td width="33%">
+						 			<div class="left" style="width: 64px;"><img src="<?php echo $user['avatar_small'];?>" alt="" class="left avatar" width="50" height="50" /></div>
+						 			<div class="left" style="margin-left: 10px; width: 94px;">
+						 				<a href="/<?php echo $user['username'];?>"><?php echo $user['nickname'];?></a><br>
+						 				
+						 				<?php
+						 					if($this->thisUser->isFriend($user['uid'])) {?>
+						 						<a href="javascript: void(0);" id="btnUserFriendBtn_<?php echo $user['uid'];?>_<?php echo $user['gender'];?>_<?php echo $user['nickname'];?>" class="remove_friend"><?php echo $this->lang->javascript->global->friend->request->remove;?></a>
+						 				<?php } elseif ($this->thisUser->friends()->hasRequest($user['uid'])) {?>
+						 						<a href='javascript: void(0);'><?php echo $this->lang->javascript->global->friend->request->btn->pending;?></a>
+						 				<?php }else{ ?>
+						 						<a href="javascript: void(0);" id="btnUserFriendBtn_<?php echo $user['uid'];?>_<?php echo $user['gender'];?>_<?php echo $user['nickname'];?>" class="add_friend"><?php echo $this->lang->javascript->global->friend->request->title;?></a>
+						 				<?php }
+						 				?>
+						 			</div>
+						 		</td>
+						 		
+						 	<?php if($i%3==0){?>
+						 		</tr><tr>
+						 	<?php } ?>
+
+						 <?php 
+						 	$i++;
+						 }?>
+						 </tr>
+					 </table>
+					 <div class='clear_fix'></div>
+	                </div>
+	                 -->
+	                <div class='clear_fix'></div>
+	     </div>
+		  
+		  </div>
+		  <div id="setting_menu">
+		  	 <ul id="right_menu"> 
+		        <li> <a href="/invitation/find" class="off"><?php echo $this->lang->global->people->find;?></a> </li> 
+		        <li> <a href="/invitation/recommend" class="on"><?php echo $this->lang->global->people->recommend;?></a> </li> 
+		         <li> <a href="/invitation" class="off"><?php echo $this->lang->global->people->invite;?></a> </li> 
+		  	 </ul>
+		  	
+		  	 
+		  </div>
+		<div class='clearfix'>&nbsp;</div>
+  </div>  
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>
+<?php $this->Gz();?>

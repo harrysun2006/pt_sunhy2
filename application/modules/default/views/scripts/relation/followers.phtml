@@ -1,0 +1,54 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+
+<body id="profile">
+
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid">
+	  <div id="half_left">
+	    <div style='margin-bottom: 5px;'>
+	    	<img src='/images/banner.png' />
+	    </div>
+	    <div id="data">
+			<div class="tabs">
+	            <ul class="tabNavigation">
+	                 <li>
+	                	<a id='showfollowers' href="javascript: void(0);" style='margin-left: 4px;' class='selected'><?php echo $this->lang->user->followers;?></a>
+					 </li>
+	            </ul>
+	        
+	            <div id="followers">
+	            	<table class="blog_table">
+	            	<tbody id="tbl_followers">
+
+					 </tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_followers'></div>
+						</td>
+						</tr>
+					</table>
+	            </div> 
+	            
+	            	            	            
+	        </div><!--#tabs-->
+        
+	  	</div><!--#data-->	
+	  </div><!--#half_left-->
+	  <?php include_once(dirname(__FILE__).'/../include/rightbar.phtml');?>
+	  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<!-- 举报对话框  -->
+<div id='deno' class='hide'>
+	<input type='text' />
+</div>
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

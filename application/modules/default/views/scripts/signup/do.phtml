@@ -1,0 +1,68 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="signup">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="setting_page">
+  <div class="mid">
+	<div id="setting_menu">
+	   <div class="setting_right">	  	
+  		<?php 
+  		echo $this->langTpl('signup_do');
+  				?>
+  		</div>
+	</div>
+	<div id="setting_content">
+			<div class="setting_main">
+	    
+	    <div id="form">
+	    <div class="headertitle"></div>
+	  	 <h2><?php echo $this->lang->signup->active->tips;?></h2>
+
+	    <form id="resendform">
+	      <table width='95%'>
+	    	 <tr>
+	    	 <td class='input' colspan='2'><?php echo $this->activeTips;?></td>
+	    	</tr>
+	    	<tr><td colspan='2'>&nbsp;</td></tr>
+	    	<tr>
+	    		<td class='input center'>
+	    		<input style="width:120px;text-align: center;" type="button" id='now_btn' class="btn" value="<?php echo $this->lang->signup->active->now;?>" />
+	    		</td>
+	    		<td align='right' width='100'>
+	    			<a href='/signup/step2'><?php echo $this->lang->signup->active->late;?></a>
+	    		</td>
+	    	</tr>
+    	
+	    	</table>
+	    </form>
+		</div>
+		</div>
+		<div style='height:100px;'></div>
+	</div>
+	<div class="clearfix"></div>   
+  </div><!--#mid-->
+  <!-- Google Code for &#29992;&#25143;&#27880;&#20876; Conversion Page -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 972678547;
+var google_conversion_language = "ar";
+var google_conversion_format = "2";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "f77QCI3YxAIQk8vnzwM";
+var google_conversion_value = 0;
+/* ]]> */
+</script>
+<script type="text/javascript" src="http://www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="http://www.googleadservices.com/pagead/conversion/972678547/?label=f77QCI3YxAIQk8vnzwM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

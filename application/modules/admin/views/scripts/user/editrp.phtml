@@ -1,0 +1,33 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+			<table cellspacing="0" class='kai_table'>	
+				<form action="<?php echo $this->admin_url;?>/user/updaterp" id="rpreset_form">
+				<tr>
+					<td colspan='15'>
+					Karma变更:<input type='text' id='rp' value="" name="rp">
+（正数表示增加，负数表示减）
+	
+					</td>
+				</tr>	
+				<tr>
+					<td colspan='15'>
+					
+					变更原因:<input type='text' id='note' value="" name="note">
+
+					</td>
+				</tr>	
+				<tr>
+					<td colspan='15'>
+		
+					<input type='submit' id='submitrp' value="确认">
+					<input type='hidden' id='active' value="1" name="active">
+					<input type='hidden' id='uid' value="<?php echo $this->uid; ?>" name="uid">
+					</td>
+				</tr>					
+				</form>
+			</table>	
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

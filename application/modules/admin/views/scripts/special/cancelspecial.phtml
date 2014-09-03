@@ -1,0 +1,36 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+	<form>
+	<div id="list">
+		<table class="kai_table">
+			<tr>
+				<th colspan='4' style="text-align:center;">用户取消</th>
+			</tr>
+			
+			
+			<tr>
+				<td>原因：</td>
+				<td colspan='3'>
+					<textarea id='checkinfo' name='checkinfo' cols='50' rows='4'><?php echo $this->specialDetail['checkinfo'];?></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>是否修改全部此组信息</td>
+				<td colspan='3'>
+				<input type="checkbox" value="1" name="updategroup" id="updategroup" checked="checked" />	
+				<input type='hidden' id='groupid' name='groupid' value="<?php echo $this->specialDetail['groupid'];?>" />				
+				</td>
+			</tr>
+			<tr>
+				<td colspan='4' style="text-align:center;">
+					<input type='hidden' id='nid' name='nid' value="<?php echo $this->specialDetail['nid'];?>">
+					<input type='hidden' id='poi_id' name='poi_id' value="<?php echo $this->specialDetail['poi_id'];?>">
+					<input type='button' id='cancel_spceial' name='cancel_spceial' value="提交" />
+				</td>
+			</tr>
+		</table>
+		</div>
+		</form>
+		
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:lift="http://liftweb.net" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta content="width=320" name="viewport" />   
+    <title><?php echo $this->lang->global->signup; ?></title>
+    <?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+    <?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+    <div class="error">
+		<?php
+			echo $this->lang->mobile->wap->singup_sucess;
+		 ?>
+	</div>
+	<a href='/polo/home'><?php echo $this->lang->global->begin;?></a>
+	 
+	<?php include_once(dirname(__FILE__).'/../include/loginfooter.phtml');?>
+</body>
+</html>  
+  

@@ -1,0 +1,141 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<style type='text/css'>
+body {
+	background: #395795;
+}
+</style>
+<body id="setting">
+
+
+<div id="center_page" >
+  <div class="mid " id='share_page' >
+	<div class="tabs" >
+
+			<div class="sss" id='divUpdatestatus'>
+
+<!-- 吼吼 -->
+<div>
+<div id="status" style="width: 500px; height: 270px;" shoutbox='shoutbox'>
+	<form>
+	<input type='hidden' id='attach' name='attach' value='' />
+	<input type='hidden' id='upbid' name='upbid' value='0' />
+	
+	<div class="left" style="margin-left:10px; margin-top:4px;!margin-top:2px;">
+
+		<img src="images/hou.gif" alt="" class="hide" id="shoutformicon" />
+		<img src="images/tips.gif" alt="" class="hide" id="tipsformicon"/>
+	</div>
+	<div class='dialog_title' id='shout_title'><?php echo $this->shout_title;?></div>
+	<a href="javascript:void(0);" id="close_shout" style="float: right; display: block; margin-top: 8px;!margin-top:4px;"><img src="images/close_button.png" /></a>
+	<div>
+		 <span class="right"  style="margin-right: 50px;">
+<?php 
+		$thisinfo = $this->lang->post->noping->words_left_info;
+		$thisinfo = str_replace("{WORDNUM}","<label id='txtCount' class='green b f16'></label>&nbsp;",$thisinfo);		
+		echo $thisinfo;
+		?>	  		 
+ </span>
+	</div>
+	<div class='clearfix'></div>
+	
+	<textarea id="status_text" style="width: 400px; height: 70px; overflow-y:auto; float: left;" ></textarea>
+	<div class="right"><a href="javascript: void(0);"><img id='btnUpload' src="images/photo.png"  width='80' /></a></div>
+	<div class='clearfix'>&nbsp;</div>
+	
+	<div class='upload hide right' id='divFileDesc'>
+	   <span id='fileDesc' ></span>
+	</div>
+	
+	<div class='clearfix'></div>
+<?php if(!$this->inTrace){?>					
+	<div class="location_bar" style="background-color:#fff8bd;" id='shout_poi_list'>
+		<a href='javascript:void(0);' id='disable_shout_poi' title='<?php echo $this->lang->global->shout_without_poi;?>'><img src="images/close_button2.png" style="margin: 9px 7px;" class="left" /></a>
+
+		
+		<table cellpadding="0" cellspacing="0" border='0' height="40" style="line-height:20px; margin-top:2px;margin-top:1px;" class="left">
+			<tr>
+				<td>
+				<div style="width:450px;text-overflow: ellipsis; white-space:nowrap; overflow:hidden;">
+				<span style="font-size: 14px; font-weight: bold;" id=ready_to_shout_span'>
+				<span id='ready_to_shout_at' class='hide'>@</span> 
+				<span id='ready_to_shout_city' class='hide'><?php echo $this->user['city'];?></span> 
+				<span id='ready_to_shout_poi_name' class='hide'><?php echo $this->user['poi']['name'];?></span>
+
+				<span id='ready_to_shout_not_checkined'><?php echo $this->lang->global->not_checkin_yet;?></span>
+
+				</span>
+				</div>
+				</td>
+			</tr>
+			<tr>
+				<td><div style="width:450px;text-overflow: ellipsis; white-space:nowrap;overflow:hidden;"><span style="color: #a4afbf;" id='ready_to_shout_address'><?php echo $this->user['address'];?></span></div></td>
+			</tr>
+		</table>
+
+		<?php if (!$this->inPoi) { ?>
+		<div class="white_btn right" id='div_change_poi'>
+			<a id="change_place_shout" href="javascript: void(0);"><?php echo $this->lang->global->include->dmessage->change_place_shout;?></a>
+		</div>
+		<?php } ?>
+	</div>
+	<div class='clear_fix'></div>
+	
+	
+	<div style="margin-top: 12px;!margin-top:5px;">
+
+	 <div class="select_priv left" id='shout_priv'>
+		<span id="priv_sel_shout" priv="public" class="priv_sel"><?php echo $this->lang->global->include->dmessage->privacy_public;?></span>
+		<div class="drop_priv hide" id="drop_priv_shout">
+			<span priv="public" id="shout_public"><?php echo $this->lang->global->include->dmessage->privacy_public;?></span>
+			<div class="xu_line"></div>
+			<!-- <span priv="protected"><?php echo $this->lang->global->include->dmessage->privacy_protected;?></span>
+			<div class="xu_line"></div>
+			-->
+			<span priv="private"><?php echo $this->lang->global->include->dmessage->privacy_private;?></span>
+		</div>
+	</div>
+	
+	<div class="check_sync left" id="check_sync">
+	<?php if($this->site_count > 0){?>
+		
+		<span id="shout_checkbox">
+		<input type="checkbox" name="need_sync" id="need_sync" checked="checked" />
+		<?php echo $this->lang->global->include->dmessage->share; ?>
+		</span>
+		<span id="shout_nopublic" class="hide">
+			<?php echo $this->lang->global->include->dmessage->no_public; ?>
+		</span>
+		
+	<?php }else{?>
+		<a href="setting/sync"><?php echo $this->lang->global->include->dmessage->no_bound; ?></a>
+	<?php }?>	 
+	</div>
+	  
+	<div class="right hide" style="margin-right: 30px; font-size: 14px;!margin-right:15px;">
+		<a id='cancel_shout' href="javascript: void(0);" style="color:#0f7cc5;"><?php echo $this->lang->javascript->global->action->confirm->btn_cancel;?></a>
+	</div>
+
+	<div class="right">
+		<a href="javascript: void(0);" class="blue_btn" style="width: 130px; height: 39px;" id="post_btn" accesskey='s'><?php echo $this->shout_text;?></a>
+		<input type='hidden' id='ready_to_shout_poi' value='<?php echo $this->user['last_checkin_poi'];?>' />
+	</div>
+
+	</div>
+	<div class="clearfix"></div>
+<?php }?>
+	</form>
+</div>
+</div>
+
+	    </div>	    	
+	    </div>
+		
+	</div>
+  </div>
+<div id='betterMessageBox' class='hide' title='' style="overflow: visible; "></div>
+<div id='betterConfirmBox' class='hide' title='' style="overflow: visible; "></div>
+<div id='betterFormBox' class='hide' title='' style="overflow: visible; "></div>
+<?php include_once(dirname(__FILE__).'/../include/script.phtml');?>
+</body>
+</html>
+<?php $this->Gz();?>

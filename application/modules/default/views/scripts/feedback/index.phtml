@@ -1,0 +1,67 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="feedback">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid large_box" >
+
+	<div class="tabs">
+	    <ul class="tabNavigation">
+	        <li><a href="/feedback" class="selected first"><?php echo $this->lang->global->feedback->title;?></a></li>
+	        
+	    </ul>
+	    <div id="tab_content" style='min-height:400px; height: 400px; background-color:#fff'>
+	  
+	  <form>
+	    	<div class="serror hide" id='set_basic_error'>
+	    	    <?php echo $this->lang->global->feedback->error;?>
+	    	</div>
+	
+	    	<div class="snotice hide" id='set_basic_success'>
+	    	   <?php echo $this->lang->global->feedback->submitsuccess;?>
+	    	</div>			
+			<table>
+				<tr>
+					<td><label for="feedback_type"><?php echo $this->lang->global->feedback->feedbacktype;?></label></td>
+					<td>
+						<select id='feedback_type'>
+							<option value=''><?php echo $this->lang->global->feedback->choicefeedbacktype;?></option>
+							<option><?php echo $this->lang->global->feedback->regq;?></option>
+							<option><?php echo $this->lang->global->feedback->passwdq;?></option>
+							<option><?php echo $this->lang->global->feedback->loginq;?></option>
+							<option><?php echo $this->lang->global->feedback->errorr;?></option>
+							<option><?php echo $this->lang->global->feedback->yoursuggest;?></option>
+							<option><?php echo $this->lang->global->feedback->otherq;?></option>
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+					<td><label for="feedback_content"><?php echo $this->lang->global->feedback->content;?></label></td>
+					<td><textarea id='feedback_content'><?php echo $this->lang->global->feedback->default_content;?></textarea></td>
+				</tr>
+				
+				<tr>
+					<td valign='top'><label for="feedback_contact"><?php echo $this->lang->global->feedback->email;?></label></td>
+					<td valign='top'>
+						<input type="text" id='feedback_contact' value='<?php echo $this->user['email'] ? $this->user['email'] : "" ?>'/><br>
+						<span style='font-style: italic; '><?php echo $this->lang->global->feedback->email_tip;?></span>						
+					</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td colspan="5"><input type="button" value="<?php echo $this->lang->global->feedback->submittbutton;?>" class="btn" id='btnSubmitFeedback' /></td>
+				</tr>
+			</table>	
+			<input type="hidden" value="<?php echo $this->user['uid']?>" id='feedback_uid' name='feedback_uid' />
+			</form>
+	    </div>
+	    </div>
+	   
+	</div><!--.tabs-->
+  </div><!--#mid-->
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>
+<?php $this->Gz();?>

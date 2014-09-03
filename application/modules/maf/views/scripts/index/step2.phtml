@@ -1,0 +1,46 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<div class="mid">
+ 	<?php include_once(dirname(__FILE__).'/../include/header.phtml');?> 
+ 	<div id='doing'> 	
+ 		<span id='step1'> 	
+	 		<div class='centermess_step1'>
+	 		Hello,<?php echo $this->user['nickname'];?><br/>
+	 		欢迎回到开开
+	 		</div>
+ 		</span>
+ 		<span id='step2'>
+ 			<div class='centermess_step2'>
+ 			<table><tr><td><img class='pngfix' src='images/maf/badge.png'></td><td valign='top'>只要拥有“世间名士”勋章，就可以参加此次活动!（明信片限量100张）</td></tr></table>
+ 			</div>
+ 		</span>
+ 		<span id='step3'>
+ 			<div class='centermess_step3' id='step3_todo'>
+ 			<?php 
+ 			switch($this->mafcard){
+ 				case 1:
+ 			?>
+ 				<a href='/'><img class='pngfix' src='/images/maf/button3.png'></a>
+ 			<?php 	break;
+				case 2:
+			?>
+			<a href='/'><img class='pngfix' src='/images/maf/tks-button.png'></a>
+			<?php 	break;
+				case 3;				
+				case 5;
+			?>
+			<a href='javascript: void(0);' id='_getcard'><img class='pngfix' src='/images/maf/draw-button.png'></a>
+ 			<?php 
+ 					break;
+				case 4:
+			?>
+			<a href='/maf/index/step3'><img class='pngfix' src='/images/maf/draw-button.png'></a>
+			<?php 	break;		
+ 			} 
+ 			?></div>
+ 		</span>	 	
+ 	</div>
+ 	<?php include_once(dirname(__FILE__).'/../include/flash.phtml');?>
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>

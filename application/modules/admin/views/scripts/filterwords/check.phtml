@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>添加过滤词</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script>
+function savemsg(msg)
+{	var ok = confirm(msg+"\n要继续添加单击确定,要退出单击取消!");
+	if(!ok)window.close();
+}
+</script>
+</head>
+<body>
+<font ><b>审核发表现有词汇:</b></font><br/>
+<span>第一个文本框里面包括：单个中文关键字，中英文混合关键字，英文单词，英文词组，数字等</span> <br/>
+<span>第二个文本框里面包括：字数大于一个的中文关键字等</span> <br/>
+<form action="" method="post" id="fwords" name="fwords">
+<?php
+$fPath1 = Better_Config::getAppConfig()->filter->words3.'-1.txt';
+$fPath2 = Better_Config::getAppConfig()->filter->words3.'-2.txt';
+//===============保存数据====================//
+$action = @$_POST['action'];
+if($action)
+{	$words1 = $_POST['words1'];
+	$words2 = $_POST['words2'];
+	Better_Admin_Log::backupWords(3,$words1,$words2);
+	$handle1 = fopen($fPath1,"w");
+	$handle2 = fopen($fPath2,"w");
+	$ok1 = fwrite($handle1,$words1);
+	$ok2 = fwrite($handle2,$words2);
+	if(!$ok1 || !$ok2)echo "<script>savemsg('保存失败!')</script>";
+	else
+		echo "<script>savemsg('保存成功!')</script>";
+}
+//end===============保存数据====================//
+//>>>===============读数据====================//
+$words1 = @file_get_contents($fPath1);
+$words2 = @file_get_contents($fPath2);
+echo "<textarea id='words1' name='words1' rows='20' style='width:49%; float: left;'>$words1</textarea>";
+echo "<textarea id='words2' name='words2' rows='20' style='width:49%; float: left;'>$words2</textarea>";
+//end===============读数据====================//
+?>
+<input type="hidden" name="action" value="1" />
+</form>
+<div style='clear: both;'></div>
+<input type="button" value="保存" onclick="document.forms['fwords'].submit()" />
+<input type="button" value="退出" onclick="window.close()" />
+</body>
+</html>

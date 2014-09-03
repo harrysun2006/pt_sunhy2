@@ -1,0 +1,22 @@
+<div class="footer">
+	<hr/>
+	<div id="portal">
+		<a href="/polo" ><?php echo $this->lang->global->nav->homepage;?></a>
+		<a href="/polo/user" ><?php echo $this->lang->global->nav->user;?></a>
+		<a href="/polo/search" ><?php echo $this->lang->global->nav->search; ?></a>
+		<a href="/polo/user/favorite" ><?php echo $this->lang->mobile->user->favorite->noun;?></a>
+		<br/>
+		<a href="/polo/setting" ><?php echo $this->lang->global->nav->setting; ?></a>
+		<a href="/polo/help" ><?php echo $this->lang->global->foot->help->title; ?></a>
+		<a href="/polo/tools" ><?php echo $this->lang->mobile->foot->tools->title;?></a>		
+		<a href="/polo/login/logout" ><?php echo $this->lang->global->foot->site->logout; ?></a>
+	</div> 
+	<div id="copyright">
+		<span class='time'><?php echo(gmdate("Y-m-d H:i", time()+8*3600)); ?> <br/></span> 
+		<?php echo "©".$this->lang->global->nav->title." ".$this->lang->global->foot->icp_no; ?><br/>
+		乙测资字32005055<br/>
+	</div>
+	<div id="pctips">
+		<?php echo $this->lang->mobile->global->pc_user_tipcs; ?> 
+	</div>
+</div>

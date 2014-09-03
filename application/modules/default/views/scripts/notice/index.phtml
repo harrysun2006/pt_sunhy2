@@ -1,0 +1,124 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+
+<body id="profile">
+
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid">
+	  <div id="half_left">
+	    <div style='margin-bottom: 5px;'>
+	    	<img src='/images/banner.png' />
+	    </div>
+	    <div id="data">
+			<div class="tabs">
+	            <ul class="tabNavigation">
+	             	               	 
+					<?php if ($this->user['uid']==$this->dispUserInfo['uid']) {?>
+						<li><a href="#received" class='first'><?php echo $this->lang->dmessage->received;?><?php echo $this->msCount>0? '('.$this->msCount.')': '';?></a></li>
+						<li><a href='#friend_request'><?php echo $this->lang->user->friend_request;?><?php echo $this->frCount>0? '('.$this->frCount.')': '';?></a></li>
+						<?php if(!Better_Config::getAppConfig()->follower->nocheck){?>
+						<li><a href='#follow_request'><?php echo $this->lang->user->follow_request;?></a></li>
+						<?php }?>
+					<?php } ?>
+					
+	            </ul>
+	            
+	            <div id='received'>
+	            	<?php if($this->user['received_msgs'] > 0){ ?>
+	            	<form>
+	            	<table width="660" class="hide" id="btn_table">
+	            		<tr style="background-color: #f8f9fb;">
+	            			<td align="right">
+	            				<!--  <a id="readall" href="javascript: void(0);"><?php //echo $this->lang->javascript->messages->read_all; ?></a>&nbsp;&nbsp;&nbsp; -->
+	            				<a id="delall" href="javascript: void(0);"><?php echo $this->lang->javascript->messages->del_all; ?></a>&nbsp;&nbsp;&nbsp;
+	            			</td>
+	            		</tr>
+	            	</table>
+	            	</form>
+	            	<?php }?>
+	            	<table class="blog_table">
+	            		<tbody id='tbl_received'></tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_received'></div>
+						</td>
+						</tr>
+					</table>	
+	            </div>
+	            
+	            <div id="friend_request" class='hide'>
+	           	 <?php if($this->friq_count > 0){ ?>
+	           	 	<form>
+	            	<table width="660" id="btn_table">
+	            		<tr style="background-color: #f8f9fb;">
+	            			<td align="right">
+	            				<a id="friq_agreeall" href="javascript: void(0);"><?php echo $this->lang->javascript->messages->agree_all; ?></a>&nbsp;&nbsp;&nbsp;
+	            				<a id="friq_rejectall" href="javascript: void(0);"><?php echo $this->lang->javascript->messages->reject_all; ?></a>&nbsp;&nbsp;&nbsp;
+	            			</td>
+	            		</tr>
+	            	</table>
+	            	</form>
+	            	<?php }?>	
+	            	
+	            	<table class="blog_table">
+	            	<tbody id="tbl_friend_request">
+
+					 </tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_friend_request'></div>
+						</td>
+						</tr>
+					</table>
+	            </div> 	            
+	            
+	            <div id="follow_request" class='hide'>
+	            <?php if($this->floq_count > 0){ ?>
+	           	 	<form>
+	            	<table width="100%" class="" id="btn_table">
+	            		<tr style="background-color: #f8f9fb;">
+	            			<td align="right">
+	            				<a id="floq_agreeall" href="javascript: void(0);"><?php echo $this->lang->javascript->messages->agree_all; ?></a>&nbsp;&nbsp;&nbsp;
+	            				<a id="floq_rejectall" href="javascript: void(0);"><?php echo $this->lang->javascript->messages->reject_all; ?></a>&nbsp;&nbsp;&nbsp;
+	            			</td>
+	            		</tr>
+	            	</table>
+	            	</form>
+	            <?php }?>	
+	            	<table class="blog_table">
+	            	<tbody id="tbl_follow_request">
+
+					 </tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_follow_request'></div>
+						</td>
+						</tr>
+					</table>
+	            </div>
+	        
+	        </div><!--#tabs-->
+        
+	  	</div><!--#data-->	
+	  </div><!--#half_left-->
+	  <?php include_once(dirname(__FILE__).'/../include/rightbar.phtml');?>
+	  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<!-- 举报对话框  -->
+<div id='deno' class='hide'>
+	<input type='text' />
+</div>
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

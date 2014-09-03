@@ -1,0 +1,27 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="tools">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid large_box" >
+
+	<div class="tabs">
+	    <ul class="tabNavigation">
+	        <li><a href="/tools" class="first"><?php echo $this->lang->tools->client->title;?></a></li>
+	        <li><a href="/tools/lbs"><?php echo $this->lang->tools->lbs->title;?></a></li>
+	        <li><a href="/tools/share"><?php echo $this->lang->tools->share->title;?></a></li>
+	        <li><a href="/tools/api" class='selected'><?php echo $this->lang->tools->api->title;?></a></li>
+	    </ul>
+	    	    <div id="tab_content" style='min-height:300px;'>
+	    	    <?php echo $this->LangTpl($this->lang->tools->api->content);?>
+	    	<div class='clearfix'></div>
+	    </div>
+	    </div>
+	   
+	</div><!--.tabs-->
+  </div><!--#mid-->
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>
+<?php $this->Gz();?>

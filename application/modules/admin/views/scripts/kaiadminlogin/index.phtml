@@ -1,0 +1,40 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	<body style='background:#eee;'>
+		<form id="loginForm" action="<?php echo $this->admin_url;?>/login" method="post" target='_top'>
+			<div class="login_table">
+			<table class='kai_table'>
+				<tr>
+					<th colspan="2" ><h2>管理员登陆</h2></th>
+				</tr>
+				<tr>
+					<td colspan='2'>&nbsp;</td>
+				</tr>
+				<?php if ($this->error) {?>
+				<tr>
+					<td colspan='2' class='center error'>
+					<?php echo $this->error;?>
+					</td>
+				</tr>
+				<?php } ?>				
+				<tr>
+					<td>用户名：</td>
+					<td><input type="text" name="name" value="" style='width:120px;'/></td>
+				</tr>
+				<tr>
+					<td>密码：</td>
+					<td><input type="password" name="pwd"  style='width:120px;' /></td>
+				</tr>	
+				<tr>
+					<td colspan='2'>&nbsp;</td>
+				</tr>
+				<tr>
+					<td colspan="2" class="center"><input type="submit" value="登陆" name="submit" /></td>
+				</tr>
+			</table>
+			</div>
+		</form>
+	</body>
+</html>
+
+<?php	
+?>

@@ -1,0 +1,153 @@
+/* basic style */
+/* Clear Fix */
+.clearfix{
+	height:0;
+	clear:both;
+	visibility:hidden;
+	overflow: hidden;
+}
+
+
+body{	
+	font-family:Verdana,sans-serif; 
+	font-size:14px; 
+	line-height:20px; 
+	color:#333; 	
+	margin:0; 
+	
+}
+form {line-height:18px; margin:0}
+body, ul, p {
+    margin: 0;
+    padding: 0;
+}
+#header{
+	height:95px;
+	background-color:#fff;
+}
+#logo{
+	margin-top:13px;
+	width:119px;
+	height:65px;
+}
+#majors{
+	padding:45px 0 0 75px;
+	background:url(../images/promotion/ipad/1.jpg) repeat-y;
+	height:120px;	
+}
+.majoruser{
+	line-height: 18px; width: 82px; height: 85px; text-align: center; overflow: hidden;font-weight: bold;
+}
+.majoruser a,.majoruser a:hover,.third_to_kaikai a,.third_to_kaikai a:hover{color:#000;text-decoration:none;}
+.majoruser img{
+	border:0;
+}
+.mid {margin:0 auto; width:960px;background-color:#006ec7;}
+.box_bottom{
+	background:url(../images/promotion/ipad/bg2.jpg) no-repeat;
+	height:113px;
+}
+#regform{
+	margin:35px 0 0 150px;	
+	background-color:#fff;
+	width:276px;
+}
+#login_third_guide_list{
+	margin:63px 0 0 150px;	
+	background-color:#fff;
+	width:200px;
+}
+#login_third_guide_list img{
+	border:0;
+}
+#regform .ipadrow{
+	height:65px;
+}
+#regform .ipadrows{
+	height:50px
+}
+#third_kaikai,#reg_kaikai{
+	float:left;
+}
+#kai_account{
+	padding:40px 0 0 18px;
+}
+#third_to_kaikai{
+	float:left;
+	background:url(../images/promotion/ipad/3.jpg) no-repeat;
+	height:596px;
+	width:487px;	
+}
+#reg_to_kaikai{
+	float:left;
+	background:url(../images/promotion/ipad/2.jpg) no-repeat;
+	height:596px;
+	width:473px;	
+}
+#account{
+	height:596px;
+	margin-top:-27px;
+}
+#invitation_title{
+	
+}
+#invitation_content{
+	background:url(../images/promotion/ipad/4.jpg) no-repeat;
+	height:166px;
+	width:960px;	
+	font-weight:bold;	
+}
+#invitation_mess{
+	padding:45px 0 0 75px;
+}
+#linkurl{	
+	background:url(../images/promotion/ipad/link-bg.jpg) no-repeat;
+	width:384px;
+	height:33px;
+}
+invitation_link{
+	vertical-align:top;
+}
+#paihang_title{
+	margin-top:17px;
+}
+#invitation_img{
+	float:left;
+}
+#invitation_link{
+	float:left;
+	padding-left:10px;
+}
+
+#paihang_content{
+	background:url(../images/promotion/ipad/5.jpg) no-repeat;
+	height:800px;
+	width:960px;
+}
+#footer{
+	height:40px;
+}
+.left {float:left}
+#switch_scode {
+    color: #8FC31F;
+    cursor: pointer;
+    margin-left: 5px;
+}
+#paihang_list{
+	padding:95px 0 0 75px;
+	width:800px;
+}
+#paihang_list li {	
+	height:45px;
+	line-height:43px;
+	padding:5px 0 0 10px;
+	border-bottom:1px dashed #545454;
+	list-style-type:none;
+}
+#paihang_list .bluetext{
+	color:#006fc7£»
+}
+.avatar{
+	width:48px;
+	height:48px;
+}

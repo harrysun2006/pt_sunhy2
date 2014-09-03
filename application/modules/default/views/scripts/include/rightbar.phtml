@@ -1,0 +1,357 @@
+
+<div id="half_right" class="small_box">
+	    <div class="user box">
+	      <div class="cbox">
+	      <div id="icon">
+	      	<a href='<?php echo BETTER_BASE_URL;?>/<?php echo $this->dispUserInfo['username'];?>'><img src="<?php echo $this->dispUserInfo['avatar_normal'];?>" width='96' height='96' alt=''  class='avatar user_avatar' /></a>
+	      </div>
+	      <div class='user_info right'>
+	      	<div style="font-size:16px; font-weight: bold; color:#000; white-space: nowrap; overflow: hidden;" class='en_h3'><?php echo $this->dispUserInfo['nickname'];?></div>
+	       	
+	      	<div id="user_karma">	     
+	    		 <!-- <img src="/images/karma.gif" class="pngfix" id="karma_icon"><span style='margin: 1px 0 0 2px;'> -->Karma:<?php echo intval($this->dispUserInfo['rp']);?>
+	      	</div>
+	    
+	    
+	       	<div id="user_selfintro">
+	       		<?php echo htmlspecialchars($this->dispUserInfo['self_intro']);?>
+	       	</div> 	
+	       	<?php if($this->dispUserInfo['uid']==$this->uid || ($this->dispUserInfo['uid']!=$this->uid && ($this->dispUserInfo['priv']=='public' || ($this->dispUserInfo['priv']=='protected' && Better_User::getInstance($this->uid)->isFollowing($this->dispUserInfo['uid']))))){?>       
+	      	<span class='location' id='home_location_tips'>
+	      	<?php if ($this->dispUserInfo['lbs_report'] && $this->dispUserInfo['poi']['name']) {?>
+	      	<?php echo $this->lang->global->at;?> <?php echo $this->dispUserInfo['city']?> <a href='/poi/<?php echo $this->dispUserInfo['last_checkin_poi'];?>'><?php echo Better_Cutstring::mystrcut(htmlspecialchars($this->dispUserInfo['poi']['name']), 23);?></a>
+	      	<?php } else { ?>
+		      	<?php if ($this->isyou) {?>
+		      	<?php echo $this->lang->global->you.$this->lang->global->you_have_no_checkins_yet;?>
+		      	<?php } else {?>
+		      	<?php echo $this->dispUserInfo['nickname'].$this->lang->global->no_checkins_yet;?>
+		      	<?php } ?>
+	      	<?php } ?>
+	      	</span>
+	      	
+	      	<!-- <div class='last_status' id='home_last_status_tips'>
+	      		<?php //echo Better_Cutstring::mystrcut($this->dispUserInfo['status']['message'], 28);?>
+	      	</div> 
+	      	<div class="zj_banner">
+	      		<img src='/images/zj.png' class="pngfix"/>
+	      		<a href="/trace?uid=<?php echo $this->dispUserInfo['uid']; ?>" style="color: #595E7B;"><?php echo $this->lang->trace->track; ?></a>
+	      	</div>  -->
+	      
+	      	<?php }?>
+	      </div>
+	      <div class="clearfix"></div>
+	      
+
+	     
+	      <?php 
+			$syncSites = (array)Better_User_Syncsites::getInstance($this->dispUserInfo['uid'])->getSites();
+			$sync_keys = array_keys($syncSites);
+	      		      
+			if (!$this->kai_spec) { 
+				
+	      ?>
+	      <div class="info">
+	      	  <div class="stat first"><a href="/<?php echo $this->dispUserInfo['username'];?>" id='checkins_link'><?php echo $this->dispUserInfo['checkins'];?></a><br/><?php echo $this->lang->sidebar->checkins;?></div>
+	      	   <div class="stat"><a href="/<?php echo $this->dispUserInfo['username'];?>" id='tips_link'><?php echo $this->dispUserInfo['now_tips'];?></a><br><?php echo $this->lang->sidebar->tips;?></div>
+        	  <div class="stat"><a href="/<?php echo $this->dispUserInfo['username'];?>" id='shouts_link'><?php echo $this->dispUserInfo['now_posts'];?></a><br><?php echo $this->lang->sidebar->shouts;?></div>
+        	  <div class="stat"><a href="/relation/friends/uid/<?php echo $this->dispUserInfo['uid'];?>" id='friends_link'><?php echo $this->dispUserInfo['friends'];?></a><br>好友</div>
+        	  <!-- <div class="stat"><a href="/relation/followings/uid/<?php echo $this->dispUserInfo['uid'];?>" id='followings_link'><?php echo $this->dispUserInfo['followings'];?></a><br>关注</div>
+        	  <div class="stat last"><a href="/relation/followers/uid/<?php echo $this->dispUserInfo['uid'];?>" id='followers_link'><?php echo count(Better_User::getInstance($this->dispUserInfo['uid'])->followers);?></a><br><?php echo $this->lang->sidebar->followers;?></div>  
+        	   -->    	  
+        	  <div class="clearfix"></div>
+	      </div>
+	      <?php } ?>
+
+	      <div class="clearfix"></div>
+	      </div>
+	    </div>
+	    
+	    <div class='tline'></div>
+	    
+	   	<?php if ($this->uid && !$this->kai_spec && !$this->isyou) { ?>
+		    <?php if (!in_array($this->uid, (array)$this->dispUser->block()->getBlocks())) {?>
+		    <div class="box hide" id='userFuncs' style='margin: 12px 0 0 12px;'>
+				  <div id="action">
+				  	  <!-- <a href="javascript:void(0);"  id='btnFollow' class="button left" relative='btnFriendRequest'><?php //echo $this->lang->user->follow->cancel;?></a>  -->
+				  	  <?php if($this->isfriend){//是好友?>					  	
+							<ul class="topnav">
+					            <li><a href="javascript:void(0);" id='btnSendMsg' ><?php echo $this->lang->user->friend->message;?></a></li>
+					            <li><a href="javascript:void(0);"  id='btnShowAction'  isshow='<?php echo $this->homeshow == 'true'?'hidden':'show';?>' uid='<?php echo $this->dispUserInfo['uid'];?>'><?php echo $this->homeshow == 'true'?$this->lang->user->friend->hiddenaction:$this->lang->user->friend->showaction;?></a></li>
+					            <li>
+					               	<a href="javascript:void(0);"  id="btnMore"><?php echo $this->lang->user->friend->more?></a>
+					               	<span><a href="javascript:void(0);"  id='btnIcon'></a></span>			               
+					               <ul class="subnav">
+					               		<li> <a href="javascript:void(0);"  id='btnBlock'  ><?php echo $this->lang->user->friend->block;?></a></li>
+									  	<li><a href="javascript:void(0);" id='btnFriendRequest' ><?php echo $this->hasMyFriendRequest ? $this->lang->user->friend->pending : $this->lang->user->friend->add;?></a></li>
+									</ul>
+					            </li>			
+					        </ul>		
+				  	    <?php }else{//不是好友?>	 
+					  	  <a href="javascript:void(0);" id='btnFriendRequest' class='button left'><?php echo $this->hasMyFriendRequest ? $this->lang->user->friend->pending : $this->lang->user->friend->add;?></a>
+					  	
+					  	  <a href="javascript:void(0);" id='btnSendMsg' class="button left"><?php echo $this->lang->user->message;?></a>
+					  	  
+					  	  <a href="javascript:void(0);"  id='btnBlock' class="button left"><?php echo $this->lang->user->block;?></a>
+				  	    <?php }?> 
+				  	  <div class="clearfix"></div>
+				  </div>
+			</div>
+			<div class='tline hide' id='userFuncsLine'></div>
+			<?php } ?>
+		<?php } ?>
+		
+	    
+	     <?php if(count($syncSites)>0) {?>
+	     	<script>
+	     		var hasSync = true;
+	     	</script>
+	     <?php }?>
+	     
+	      <div class="sync box" id='sync'>
+	      	<h3><?php echo $this->lang->global->synchronization;?></h3>
+	      	<a class='sina<?php echo in_array('sina.com', $sync_keys)? "_on": "" ;?>' href='<?php echo in_array('sina.com', $sync_keys)? "http://t.sina.com/{$syncSites['sina.com']['tid']}" : "/setting/sync"; ?>' title='<?php echo in_array('sina.com', $sync_keys) ? $this->lang->global->already_sync : $this->lang->global->no_sync; ?> 新浪微博' target='_blank'></a>
+	      	<a class='qq<?php echo in_array('qq.com', $sync_keys)? "_on": "" ;?>' href='<?php echo in_array('qq.com', $sync_keys)? "http://t.qq.com/{$syncSites['qq.com']['tid']}" : "/setting/sync"; ?>' title='<?php echo in_array('qq.com', $sync_keys) ? $this->lang->global->already_sync : $this->lang->global->no_sync; ?> 腾讯微博' target='_blank'></a>    	
+	      	<a class='qqsns<?php echo in_array('qqsns.com', $sync_keys)? "_on": "" ;?>' href='<?php echo in_array('qqsns.com', $sync_keys)? "http://qzone.qq.com" : "/setting/sync"; ?>' title='<?php echo in_array('qqsns.com', $sync_keys) ? $this->lang->global->already_sync : $this->lang->global->no_sync; ?> QQ' target='_blank'></a>
+	      	
+	     	<?php if(Better_Config::getAppConfig()->msn->switch){?>
+	      	<a class='msn<?php echo in_array('msn.com', $sync_keys)? "_on": "" ;?>' href='<?php echo in_array('msn.com', $sync_keys)? "http://home.live.com" : "/setting/sync"; ?>' title='<?php echo in_array('msn.com', $sync_keys) ? $this->lang->global->already_sync : $this->lang->global->no_sync; ?> msn' target='_blank'></a>
+	      	<?php }?>
+	      	<?php 
+	      		if ($syncSites['renren.com']['tid']) {
+	      			$_url = "http://www.renren.com/profile.do?id={$syncSites['renren.com']['tid']}";
+	      		} else {
+	      			$_url = 'http://renren.com';
+	      		}
+	      	?>
+	      	<a class='renren<?php echo in_array('renren.com', $sync_keys)? "_on": "" ;?>' href='<?php echo in_array('renren.com', $sync_keys)? $_url : "/setting/sync"; ?>' title='<?php echo in_array('renren.com', $sync_keys) ? $this->lang->global->already_sync : $this->lang->global->no_sync; ?> 人人网' target='_blank'></a>
+	      	<a class='kaixin001<?php echo in_array('kaixin001.com', $sync_keys)? "_on": "" ;?>' href='<?php echo in_array('kaixin001.com', $sync_keys)? "http://www.kaixin001.com/home/?uid={$syncSites['kaixin001.com']['tid']}" : "/setting/sync"; ?>' title='<?php echo in_array('kaixin001.com', $sync_keys) ? $this->lang->global->already_sync : $this->lang->global->no_sync; ?> 开心网' target='_blank'></a>
+	      	<?php 
+	      		if ($syncSites['douban.com']['tid']) {
+	      			$douban_url = "http://www.douban.com/people/{$syncSites['douban.com']['tid']}/";
+	      		} else {
+	      			$douban_url = 'http://douban.com';
+	      		}
+	      	?>
+	      	<a class='douban<?php echo in_array('douban.com', $sync_keys)? "_on": "" ;?>' href='<?php echo in_array('douban.com', $sync_keys)? $douban_url : "/setting/sync?target=douban"; ?>' title='<?php echo in_array('douban.com', $sync_keys) ? $this->lang->global->already_sync : $this->lang->global->no_sync; ?> 豆瓣' target='_blank'></a>
+	      	<a class='fanfou<?php echo in_array('fanfou.com', $sync_keys)? "_on": "" ;?>' href='<?php echo in_array('fanfou.com', $sync_keys)? "http://fanfou.com/{$syncSites['fanfou.com']['tid']}" : "/setting/sync"; ?>' title='<?php echo in_array('fanfou.com', $sync_keys) ? $this->lang->global->already_sync : $this->lang->global->no_sync; ?> 饭否' target='_blank'></a>
+
+	      	<a class='facebook<?php echo in_array('facebook.com', $sync_keys)? "_on": "" ;?>' href='<?php echo in_array('facebook.com', $sync_keys)? "http://facebook.com" : "/setting/sync"; ?>' title='<?php echo in_array('facebook.com', $sync_keys) ? $this->lang->global->already_sync : $this->lang->global->no_sync; ?> Facebook' target='_blank'></a>
+	      	<a class='twitter<?php echo in_array('twitter.com', $sync_keys)? "_on": "" ;?>' href='<?php echo in_array('twitter.com', $sync_keys)? "http://twitter.com" : "/setting/sync"; ?>' title='<?php echo in_array('twitter.com', $sync_keys) ? $this->lang->global->already_sync : $this->lang->global->no_sync; ?> Twitter' target='_blank'></a>
+	      	<a class='fsq<?php echo in_array('4sq.com', $sync_keys)? "_on": "" ;?>' href='<?php echo in_array('4sq.com', $sync_keys)? "https://foursquare.com" : "/setting/sync"; ?>' title='<?php echo in_array('4sq.com', $sync_keys) ? $this->lang->global->already_sync : $this->lang->global->no_sync; ?> Foursquare' target='_blank'></a>
+	      	
+	      	<?php 
+	      		if ($syncSites['sohu.com']['tid']){
+	      			$sohu_url = "http://t.sohu.com/u/{$syncSites['sohu.com']['tid']}";
+	      		} else {
+	      			$sohu_url = "http://t.sohu.com";
+	      		}
+	      	?>
+	      	<a class='sohu<?php echo in_array('sohu.com', $sync_keys)? "_on": "" ;?>' href='<?php echo in_array('sohu.com', $sync_keys)? $sohu_url : "/setting/sync"; ?>' title='<?php echo in_array('sohu.com', $sync_keys) ? $this->lang->global->already_sync : $this->lang->global->no_sync; ?> 搜狐微博' target='_blank'></a>
+			
+			<?php 
+				$t163_url = $syncSites['163.com']['tid'] ? "http://t.163.com/{$syncSites['163.com']['tid']}" : 'http://t.163.com/';
+			?>
+			<a class='wangyi<?php echo in_array('163.com', $sync_keys)? "_on": "" ;?>' href='<?php echo in_array('163.com', $sync_keys)? $t163_url : "/setting/sync"; ?>' title='<?php echo in_array('163.com', $sync_keys) ? $this->lang->global->already_sync : $this->lang->global->no_sync; ?> 网易微博' target='_blank'></a>
+	      	
+	      	<a class='shuoke<?php echo in_array('139.com', $sync_keys)? "_on": "" ;?>' href='<?php echo in_array('139.com', $sync_keys)? "http://139.com" : "/setting/sync"; ?>' title='<?php echo in_array('139.com', $sync_keys) ? $this->lang->global->already_sync : $this->lang->global->no_sync; ?> 说客' target='_blank'></a>
+	      	<a class='follow5<?php echo in_array('follow5.com', $sync_keys)? "_on": "" ;?>' href='<?php echo in_array('follow5.com', $sync_keys)? "http://follow5.com" : "/setting/sync"; ?>' title='<?php echo in_array('follow5.com', $sync_keys) ? $this->lang->global->already_sync : $this->lang->global->no_sync; ?> Follow5' target='_blank'></a>  	
+	      	<a class='zuosa<?php echo in_array('zuosa.com', $sync_keys)? "_on": "" ;?>' href='<?php echo in_array('zuosa.com', $sync_keys)? "http://zuosa.com" : "/setting/sync"; ?>' title='<?php echo in_array('zuosa.com', $sync_keys) ? $this->lang->global->already_sync : $this->lang->global->no_sync; ?> 做啥网' target='_blank'></a>
+	      	
+	      	 <div class="clearfix"></div>
+	      </div>
+	      
+	    <div class='tline'></div>
+	      
+	    <?php if ($this->uid && !$this->kai_spec) { ?>
+		<?php if ($this->isyou && $this->inHome) { ?>
+		<div class='box poi_left_owner'>
+		想在开开推广店铺？<a href='/venue' >店长认证>></a>
+		</div>
+		<div style='margin-top: 12px;'>
+			<?php foreach($this->market as $row){?>
+				<div class='box' >
+				<?php 				
+				if(Better_Config::getAppConfig()->webbanner->switch){
+						$imgsrc = $row['imageurl'];
+						$row['href'] = $row['link'];
+					} else {
+						$imgsrc = "/images/market/".$row['img'];
+					}
+					?>
+					<a href='<?php echo $row['href'];?>' target='_blank'><img src='<?php echo $imgsrc;?>' class="zoompng" width='248' height='83'/></a>
+					
+				</div>
+			<?php }?>	
+		</div>
+			<div class='tline'></div>
+		<?php } ?>		
+
+		<?php if (!$this->inHome) { ?>
+	    <?php if ($this->isyou || (!$this->isyou && count($this->badges)>0)){ ?>
+	    <div class="box" id='badge_box'>
+	    	<h3 style="height:auto;"><?php echo $this->lang->global->badge;?>
+	    	<span class='h3_desc'>
+	    	<?php echo $this->dispUserInfo['nickname'];?><?php echo str_replace('{COUNT}', count($this->badges), $this->lang->global->have_badges);?></span>
+	    	</h3>
+	    	<div class='cbox'>
+	    		<ul>
+	    		<?php
+				$badges_count = 0;
+	    		$tmpb = '';
+	    		foreach ($this->badges as $badge) { ?>
+	    		<li><a title='<?php echo $badge['badge_name'];?>' href='#bigbadge_<?php echo $badge['id']?>' class='badge_icons' uid='<?php echo $this->dispUserInfo['uid'];?>'><img src='<?php echo $badge['badge_picture'];?>' class="pngfix" /></a></li>
+<?php 
+$time = $_COOKIE["offset_time"];
+$btime = date('Y-m-d H:i:s', intval($badge['get_time'])+intval($time)).' '.$this->lang->global->got_badge;
+$tmpb .= <<<EOF
+<div style="display:none" id='hidden_b_{$badge['id']}'><div id="bigbadge_{$badge['id']}" ></div></div>
+    								
+EOF;
+	    			$badges_count++;
+	    			if ($badges_count == 15) break;
+	    		} ?>
+	    		<?php if(count($this->badges)>15){?>
+	    		<li style="height:auto"><a href="/space/badges/uid/<?php echo $this->dispUserInfo['uid'];?>"><img class="avatar" src="/images/more2.gif"/></a></li>
+	    		<?php }?>
+	    		</ul>
+	    		<div class="clearfix"></div>
+	    	</div>
+	    </div>
+	    <div class='tline'></div>
+	    <?php } ?>
+	    
+	    <?php if ($this->isyou || (!$this->isyou && count($this->majors)>0)){ ?>
+	    <div class="box">
+	    	<h3 style="height:auto;"><?php echo $this->lang->global->major;?> 
+	    	<span class='h3_desc'>
+	    	<?php echo $this->dispUserInfo['nickname'];?><?php echo str_replace('{COUNT}', $this->dispUserInfo['majors'], $this->lang->global->have_majors);?></span>
+	    	</h3>
+	    	<div class='cbox'>
+	    		<ul class='majors'>
+	    		<?php foreach ($this->majors as $major) { ?>
+	    		<li><?php echo Better_Functions::compareTime($major['major_change_time']);?> <a href='/poi/<?php echo $major['poi_id'];?>'><?php echo $major['city'];?> <?php echo $major['name'];?></a></li>
+	    		<?php } ?>
+	    		<?php if(count($this->majors)>=10){?>
+	    		<li><a href="/relation/mayors/uid/<?php echo $this->dispUserInfo['uid'];?>"><img class="avatar" src="/images/more2.gif" /></a></li>
+	    		<?php }?>
+	    		</ul>
+	    		<div class="clearfix"></div>
+	    	</div>		
+	    </div>
+	    <div class='tline'></div>
+	    <?php }?>
+	  	
+	  	<?php if ($this->isyou || (!$this->isyou && count($this->friends)>0)) { ?>
+	  	<div class="box" id='user_friends'>
+	  		<?php if ($this->isyou) { ?>
+	  		<h3><?php echo $this->lang->sidebar->my_friends;?></h3>
+	  		<?php } else {?>
+	  		<h3 style="height: auto;"><?php echo $this->dispUserInfo['nickname'];?><?php echo $this->lang->sidebar->his_friends;?></h3>
+			<?php } ?>
+	  	  <div class="cbox" id='cbox_user_friends'>
+	  	  	<ul class="avatars" id='ul_user_friends'>
+	  	  	<?php 
+	  	  		$view_count = 20;
+	  	  		$_friends = $this->friends;
+	  	  		$_total = count($_friends);
+	  	  		$view_friends =  array_slice($_friends, 0, $view_count);
+	  	  		if ($_total > $view_count) $html_more = "<li><a href='/relation/friends/uid/{$this->dispUserInfo['uid']}'><img class='avatar' src='/images/more1.gif' alt='{$this->lang->global->kai_more}'/></a></li>";
+	  	  	?>	  	  	
+	  	  	<?php foreach($view_friends as $friend) {?>
+  	  	  		<li><a href="/<?php echo $friend['username'];?>"><img class='avatar' src='<?php echo $friend['avatar_small'];?>' title='<?php echo htmlspecialchars(addslashes($friend['nickname']));?>' style="width:30px; height: 30px;" alt='<?php echo htmlspecialchars(addslashes($friend['nickname']));?>' /></a></li>
+  	  	  	<?php } ?>
+  	  	  	<?php echo $html_more;?>
+	  	  	</ul>
+	  	  	<div class="clearfix"></div>
+	  	  </div>
+	  	</div>	 
+	  	<div class='tline'></div> 
+	  	<?php } ?>	
+	  	
+	    
+	  	<div class="box">
+	  	  <h3><?php echo $this->lang->sidebar->new_visitors;?></h3>
+	  	  <div class="cbox">
+	  	  	<ul class="avatars">
+	  	  	<?php foreach($this->visitors as $visitor) {?>
+  	  	  		<li><a href="/<?php echo $visitor['username'];?>"><img class='avatar ' src="<?php echo $visitor['avatar_small'];?>" title='<?php echo htmlspecialchars(addslashes($visitor['nickname']));?>' style="width:30px; height: 30px;" alt='<?php echo htmlspecialchars(addslashes($visitor['nickname']));?>' /></a></li>
+  	  	  	<?php } ?>
+	  	  	</ul>
+	  	  	<div class="clearfix"></div>
+	  	  </div>
+	  	</div>
+	  	<div class='tline'></div>
+	  	<?php }?>
+	  	
+	  	<?php } else { ?>
+	  	
+	  	<div class='box'>
+	  		<div class='cbox kai_spec_desc'>
+	  		<?php echo $this->LangTpl($this->lang->global->kai_info);?>	  			
+	  		</div>
+	  		<div class='cbox kai_spec_desc' style='text-align:center;'>
+	  		<img src='images/kai_spec.png' alt='' />
+	  		</div>
+	  	</div>
+	  	<div class='tline'></div>
+	  	<?php } ?>
+			 
+			<?php if ($this->isyou && $this->inHome) { ?>
+			<div class="box">
+				<h3><?php echo $this->lang->global->kai_home_mobile;?></h3>
+				<div id='home_down' style='margin-bottom: 5px;'>
+					<a href='/tools/iphonedownload' class='iphonedown'></a>
+					<a href='/tools/s60download' class='s60down'></a>
+	   				<a href='/tools/androiddownload' class='androiddown'></a>
+	   				<a href='/tools/blackberrydownload' class='blackberrydown'></a>
+	   				<a href='/tools/wmdownload' class='wmdown'></a>
+	   				<a href='http://m.k.ai' class='wap'></a>
+	   				<div class='clearfix'></div>
+				</div>
+			</div>
+			<div class='tline'></div>
+			<div class='clearfix'></div>	
+			<div class="box">
+				<h3><?php echo $this->lang->global->rightbar->followkai;?></h3>				
+				<div class='followkai'>						
+					<a href='http://t.qq.com/kaierkaier'><img style='vertical-align:text-bottom;margin-left:-36px;' src='/images/flowerkai.png'/>
+					</a>
+				</div>
+				<div class='followkai'>		
+					<a href='http://t.sina.com.cn/kaikai'><img style='vertical-align:text-bottom;' src='/images/flowerkai.png' /></a>
+				</div>	
+				<div class='followkai'>		
+					<a href='http://www.douban.com/people/kaier/'><img style='vertical-align:text-bottom;margin-left:-72px;' src='/images/flowerkai.png' /></a>						
+				</div>		
+				<div class='followkai'>		
+					<a href='http://www.kaixin001.com/kaikai'><img style='vertical-align:text-bottom;margin-left:-108px;' src='/images/flowerkai.png' />
+					</a>
+				</div>			
+				<div class='followkai'>		
+					<a href='http://kaier.t.sohu.com/'><img style='vertical-align:text-bottom;margin-left:-144px;' src='/images/flowerkai.png' />
+					</a>
+				</div>	
+				<div class="clearfix"></div>
+			</div>
+			<?php } ?>
+			
+			
+			<?php if(!$this->inHome && !$this->kai_spec && $this->isyou){?>
+			 <div class="box">
+			 	<h3>管理</h3>
+			 
+		      <div class='relation'>
+		      	<?php if($this->uid == $this->dispUserInfo['uid']){?>
+			      <a href='/favorite' id='relation_favorite' class='left'>我的收藏夹</a>
+			      <a class='right' id='relation_blocks' href='/relation/blocks/uid/<?php echo $this->dispUserInfo['uid'];?>'>黑名单管理</a>
+		      	<?php }?>
+		      </div>
+		      <div class='clearfix'></div>
+		      </div>
+	      <?php }?>  
+	      
+			<div class='clearfix'></div>	
+			
+	  </div><!--#half_right-->
+<div class="clearfix"></div>	
+<?php echo $tmpb;?>

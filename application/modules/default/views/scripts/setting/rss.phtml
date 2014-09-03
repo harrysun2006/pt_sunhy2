@@ -1,0 +1,37 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="setting">
+
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid">
+	    <div id="set_menu">
+	    <ul>
+	        <li><a href="/setting"><?php echo $this->lang->setting->menu->basic;?></a></li>
+	        <li><a href="/setting/avatar"><?php echo $this->lang->setting->menu->avatar;?></a></li>
+	        <li><a href="/setting/password"><?php echo $this->lang->setting->menu->password;?></a></li>
+	        <!-- <li><a href="/setting/privacy"><?php echo $this->lang->setting->menu->privacy;?></a></li>  -->
+	        <li><a href="/setting/cell"><?php echo $this->lang->setting->menu->cell;?></a></li>
+	        <li><a href="/setting/im"><?php echo $this->lang->setting->menu->im;?></a></li>
+	        <li><a href="/setting/sync"><?php echo $this->lang->setting->menu->sync;?></a></li>
+	    </ul>
+	    </div>
+	    <div id="set_pass" class='set_form'>
+	        <h2><?php echo $this->lang->setting->rss->title;?></h2>
+	    	<div class="userinfo">
+	    	<form>
+	    	<div class="snotice" id='set_password_error'>
+	    	    <?php echo $this->lang->setting->rss->tips;?>
+	    	</div>
+
+			</form>
+			</div>
+	    </div>
+	    <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>

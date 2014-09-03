@@ -1,0 +1,124 @@
+<html>
+<head>
+	<title>活动审核</title>
+	<style>
+	.kai_table { border:0px; width:100%; line-height:160%;}
+	.kai_table th {background:#aad;}
+	.kai_table td { text-align:left; padding:1px 8px 1px 8px; }
+	.kai_table tr.light { background:#fff; }
+	.kai_table tr.dark { background:#eee;}
+	.kai_table tr.light:hover, .kai_table tr.dark:hover { background:#ddd; }
+	.kai_table td.pager { padding: 4px 10px 4px 10px; line-height:160%; text-align:left; }
+	.kai_table td.messages { word-break:break-word; max-width:400px; overflow:hidden;}
+	.kai_table td.center, .center{ text-align:center; }
+	.kai_table tr.selected { background:#FFCC99; }
+	.kai_table td.selected { background:#FFCC99; }
+	
+	#list table{
+		border-collapse:collapse;
+		font-size: 12px;
+	}
+	#list td, th{
+		border: 1px solid black;
+	}
+	#list th{
+		background-color: #d3dce3;
+		color:#000;
+	}
+	
+	body{font-size: 12px;}
+	</style>
+	
+	<script type='text/javascript' src="/js/jquery/jquery-1.4.2.min.js" charset="utf-8"></script>
+</head>
+	<body id="list">
+		<h3>活动审核</h3>
+		<span>地点：</span><?php echo $this->poi['name'];?>
+		<a href="/market/login/logout" style="position: absolute; right: 20px;">[退出]</a>
+		<br><br>
+		<a href="/market/index?status=not_check">[未审核]</a>
+		<a href="/market/index?status=has_check">[已审核]</a>
+		<a href="/market">[全部]</a>
+		<br><br>
+		<table width="100%" class="kai_table">
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+				
+			<tr>
+				<th>&nbsp;</th>
+				<th>头像</th>
+				<th>用户姓名</th>
+				<th>内容</th>
+				<th>类型</th>
+				<th>发送时间</th>
+				<th>审核</th>
+			</tr>
+			<?php if($this->count>0){?>
+			<?php foreach ($this->rows as $row) {?>
+
+				<tr class='message_row'>
+					<td width='20'>
+						<input type='checkbox' name='ids[]'  value='<?php echo $row['bid'];?>'>
+					</td>
+					<td><img src="<?php echo $row['user']['avatar_url'];?>" /></td>
+
+					<td><?php echo $row['nickname'];?></td>
+
+					<td>
+						<?php echo $row['message'];?>
+						<br>
+						<?php if($row['attach_url']){?>
+							<img src="<?php echo $row['attach_thumb'];?>" />
+						<?php }?>
+					</td>	
+
+					<td><?php echo $row['type'];?></td>
+
+					<td><?php echo date('Y-m-d H:i:s', $row['dateline']+BETTER_8HOURS);?></td>
+
+					<td>
+						<?php if($this->mid==1000 && !$row['kai_checked'] ){?>
+						<a href='/market/index/check?bid=<?php echo $row['bid'];?>&uid=<?php echo $row['uid'];?>&poi_id=<?php echo $this->poi['poi_id'];?>'>审核</a>
+						<?php }?>
+						
+						<?php if($this->mid==2000 && !$row['partner_checked'] ){?>
+						<a href='/market/index/check?bid=<?php echo $row['bid'];?>&uid=<?php echo $row['uid'];?>&poi_id=<?php echo $this->poi['poi_id'];?>'>审核</a>
+						<?php }?>
+					</td>
+
+				</tr>
+
+				<?php } ?>
+				<tr>
+					<td colspan='10' class='center'>
+					<input type='button' id='chooseAll' name='chooseAll'  value='全选' />
+					<input type='button' id='chooseNone' name='chooseNone' value='全不选' />
+					<input type='button' id='chooseReverse' name='chooseReverse' value='反选' />
+					</td>
+				</tr>
+				<?php if($this->params['status']=='not_check'){?>
+					<tr>
+						<td colspan="10">
+							<input type='hidden' id='poi_id' value="<?php echo $this->poi['poi_id'];?>">
+							<input type='button' id='checkall' name='checkall'  value='全部审核' />
+						</td>
+					</tr>
+				<?php }?>
+			<?php }else{?>
+				<tr>
+					<td colspan="10" class="center">没有数据</td>
+				</tr>
+			<?php }?>
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+		</table>
+		
+		<?php echo $this->headScript();?>
+	</body>
+</html>

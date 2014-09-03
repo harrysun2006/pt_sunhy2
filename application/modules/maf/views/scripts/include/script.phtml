@@ -1,0 +1,93 @@
+
+<?php 
+$cssUrl = $this->cssUrl ? $this->cssUrl : BETTER_BASE_URL.(Better_Config::getAppConfig()->css->path);
+$jsUrl = $this->jsUrl ? $this->jsUrl : BETTER_BASE_URL.(Better_Config::getAppConfig()->javascript->path);
+?>
+<script type='text/javascript' src="<?php echo $jsUrl;?>/jquery/jquery-1.4.2.min.js" charset="utf-8"></script>  
+
+<script type='text/javascript' src='<?php echo $jsUrl;?>/jquery/mixed.js?ver=<?php echo BETTER_VER_CODE;?>' charset='utf-8' language='javascript'></script>
+<script type='text/javascript' language='javascript'>
+var gmap_key = '<?php echo $key;?>';
+var BASE_URL = '<?php echo BETTER_BASE_URL;?>';
+var LANGUAGE = '<?php echo Better_Registry::get('language');?>';
+var BETTER_VER_CODE = '<?php echo BETTER_VER_CODE;?>';
+var BASE_DOMAIN = '<?php echo $_SERVER['SERVER_NAME'];?>';
+
+var betterLang = new Object();
+
+var Better_PostMessageMaxLength = '<?php echo $this->config->blog->post_max_size;?>';
+var Better_PostMessageMinLength = '<?php echo $this->config->blog->post_min_size;?>';
+var Better_Shout_Type = '<?php echo $this->shout_type;?>';
+var Better_Need_Post_Js = <?php echo $this->needPostJs ? '1' : '0';?>;
+var Better_Need_Checkin_Js = <?php echo $this->needCheckinJs ? '1' : '0';?>;
+var Better_CheckinJs_Inited = 0;
+var Better_In_Test = '<?php echo BETTER_NEED_INVITECODE ? '1' : '0';?>';
+var Better_InDebug = <?php echo (APPLICATION_ENV=='production' || APPLICATION_ENV=='testing') ? '0' : '1';?>;
+var Better_Lbs_Promotion = <?php echo $this->config->lbs->promotion ? '1' : '0';?>;
+
+</script>
+<?php echo $this->headLink();?>
+<?php echo $this->jsLanguage();?>
+<script type='text/javascript' src='<?php echo $jsUrl;?>/better.js?ver=<?php echo BETTER_VER_CODE;?>' charset='utf-8' ></script>
+<script type='text/javascript'>
+<?php
+	if ($this->user['uid']>0) {
+?>
+var betterUser = new BetterUser('<?php echo $this->user['uid'];?>', '<?php echo $this->user['username'];?>', '<?php echo addslashes($this->user['nickname']);?>', '', '<?php echo $this->needEmailJs ? $this->user['email'] : '';?>');
+<?php if ($this->needCellJs) { ?>
+betterUser.cell_no = '<?php echo $this->user['cell_no'];?>';
+<?php } ?>
+betterUser.fav_bids = <?php echo json_encode(Better_User::getInstance($this->user['uid'])->favorites);?>;
+betterUser.address = '<?php echo $this->user['address'];?>';
+betterUser.lbs_report = <?php echo is_numeric($this->user['lbs_report']) ? $this->user['lbs_report'] : 0;?>;
+betterUser.gender = '<?php echo $this->user['gender']?>';
+betterUser.x = <?php echo floatval($this->user['x']);?>;
+betterUser.y = <?php echo floatval($this->user['y']);?>;
+betterUser.lon = <?php echo floatval($this->user['lon']);?>;
+betterUser.lat = <?php echo floatval($this->user['lat']);?>;
+betterUser.city = '<?php echo addslashes($this->user['city']);?>';
+betterUser.avatar = '<?php echo $this->user['avatar'];?>';
+betterUser.avatar_normal = '<?php echo $this->user['avatar_url'];?>';
+betterUser.avatar_small = '<?php echo $this->user['avatar_small'];?>';
+betterUser.avatar_tiny = '<?php echo $this->user['avatar_tiny'];?>';
+betterUser.priv_blog = <?php echo intval($this->user['priv_blog']);?>;
+betterUser.followings = <?php echo json_encode(Better_User::getInstance($this->user['uid'])->followings);?>;
+betterUser.friends = <?php echo json_encode(Better_User::getInstance($this->user['uid'])->friends);?>;
+betterUser.blocks = <?php echo json_encode(Better_User::getInstance($this->user['uid'])->blocks);?>;
+betterUser.blockedby = <?php echo json_encode(Better_User::getInstance($this->user['uid'])->blockedby);?>;
+betterUser.live_province = '<?php echo addslashes($this->user['live_province']);?>';
+betterUser.live_city = '<?php echo addslashes($this->user['live_city']);?>';
+betterUser.state = '<?php echo $this->user['state'];?>';
+betterUser.last_checkin_poi = <?php echo intval($this->user['last_checkin_poi']);?>;
+betterUser.last_checkin_poi_name = '<?php echo $this->user['last_checkin_poi'] ? addslashes($this->user['poi']['name']) : '';?>';
+betterUser.priv = '<?php echo $this->user['priv'];?>';
+betterUser.timezone = '<?php echo $this->user['timezone'];?>';
+<?php if ($this->poi_favorites) { ?>
+betterUser.poi_favorites = <?php echo json_encode($this->poi_favorites);?>;
+<?php }?>
+<?php
+	} else {
+?>
+var betterUser = new BetterUser();
+<?php
+	}
+?>
+var pageLon = betterUser.lon;
+var pageLat = betterUser.lat;
+</script>
+<?php echo $this->headScript();?>
+<?php if (APPLICATION_ENV=='production') { ?>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18462194-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<?php } ?>

@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:lift="http://liftweb.net" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta content="width=320" name="viewport" />   
+   <title>开开，记录城市足迹</title>
+    <?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+   
+	<div id='category'>
+	<?php 
+	echo $this->brandurl;
+	?>
+	</div><div id='content'>
+			
+	
+			<?php 
+			if($this->brandid==26){
+				echo $this->message."<br/>";
+			}
+			for($i=0;$i<count($this->phone);$i++)
+			{
+				$thisphoneurl .= "<a href='/mobile/tools/outergetproduct?reflink=".$this->reflink."&pid=".$this->phone[$i]['pid']."'>".$this->phone[$i]['name']."</a>";
+				$thislinktext .= $this->phone[$i]['name'];
+				if(strlen($thislinktext)>13 || (strlen($this->phone[$i+1]['name'])+strlen($thislinktext))>13 || strlen($this->phone[$i+1]['name'])==0)
+				{				
+					echo $thisphoneurl."<br/>";
+					$thisphoneurl ="";
+					$thislinktext ="";										
+				}
+				else
+				{				
+					$thisphoneurl .="|&nbsp;";
+				}
+					
+			}
+			
+				
+			?>
+			
+	
+			<?php
+					echo $this->urlNext." ".$this->urlPrev;
+				?>
+				
+	</div>
+	<a href='javascript:history.go(-1);'>返回</a>
+</body>
+</html>  
+  

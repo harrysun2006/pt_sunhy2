@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $this->title;?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<base href="<?php echo BETTER_BASE_URL;?>/" />
+<?php echo $this->headMeta();?>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" charset="utf-8" ></script> 
+
+<?php echo $this->headLink();?>
+<?php echo $this->jsLanguage();?>
+<?php //echo $this->headScript();?>
+
+<style>
+  * { margin: 0}
+  header { padding: 10px; }
+  td { vertical-align: top; }
+  #parent_container { border: 2px solid lightblue; }
+  #children_container { border: 2px solid lightgreen; }
+  .poi_addr { color: #CCD; }
+  .button { cursor: pointer; }
+  ol { margin-top: 10px; }
+  #blurscreen
+  {
+    position: absolute;
+    top: 0;  
+    z-index:99;
+    display: none;
+    background-color: #333;
+    color: #FFF;
+  }
+  #inputbox
+  {
+    position: absolute;
+    top: 0;  
+    display: none;
+    background-color: #333;
+  }
+  #inputbox div {
+    margin: auto; /* center */
+    top: 200px;
+    width: 360px;
+    border: 2px solid #CCC; 
+    background-color: #FFF;
+    padding: 10px;
+  }
+  #inputbox div textarea {
+    width: 320px;
+    height: 200px;
+  }
+</style>
+
+<script>
+function add_parent(default_name)
+{
+  $('#inputbox').height($(document).height());
+  $('#inputbox').width($(document).width());
+  $('#inputbox').css('display','block');
+  $('#inputbox div textarea').val(default_name);
+}
+
+function add_parent_submit()
+{
+  $('#inputbox').css('display', 'none');
+
+  var s = $('#inputbox div textarea').val();
+  if(s == '')
+    return;
+
+  blur(true);
+  $.post("/admin/poitree/addparent", s,
+    function (data) {
+      alert(data);
+      if(data.substr(0, 2) == 'ok')
+        window.open(document.location.href, '_self');
+      blur(false);
+    });
+}
+
+function add_parent_cancel()
+{
+  $('#inputbox').css('display', 'none');
+}
+
+function del_parent(pid)
+{
+  $.post("/admin/poitree/delparent", pid,
+    function (data) {
+      alert(data);
+      if(data.substr(0, 2) == 'ok')
+        window.open(document.location.href, '_self');
+    });
+}
+
+function select_all_children()
+{
+  $('input:[class^=chk_unset_parent]').each(function(index, tag) {
+    $(tag).attr('checked', 1);
+  });
+}
+
+function reverse_select_all_children()
+{
+  $('input:[class^=chk_unset_parent]').each(function(index, tag) {
+    if($(tag).attr('checked'))
+      $(tag).attr('checked', 0);
+    else
+      $(tag).attr('checked', 1);
+  });
+}
+
+function add_child(parent_id)
+{
+  var pid = prompt("请输入 POI Id");
+  if(pid == null) return;
+  $.post("/admin/poitree/setparent", pid + ' ' + parent_id,
+    function (data) {
+      alert(data);
+      if(data.substr(0, 2) == 'ok')
+        window.open(document.location.href, '_self');
+    });
+}
+
+function del_selected_children()
+{
+  var pids = "";
+  $('input:[class^=chk_unset_parent]').each(function(index, tag) {
+    if($(tag).attr('checked'))
+      pids += $(tag).attr('pid') + ' ';
+  });
+  if(pids != "")
+  {
+    $.post("/admin/poitree/unsetparent", pids, function (data) {
+      alert(data);
+      if(data.substr(0, 2) == 'ok')
+        window.open(document.location.href, '_self');
+    });
+  }
+}
+
+function layout()
+{
+  $('#parent_container').height($(document).height() - 50);
+  $('#parent_container').width(320);
+  $('#children_container').width($(document).width() - 320);
+  $('#blurscreen').height($(document).height());
+  $('#blurscreen').width($(document).width());
+}
+
+function blur(flag)
+{
+  $('#blurscreen').css('display', flag ? 'block' : 'none');
+}
+
+function init()
+{
+  layout();
+
+  $('#blurscreen').ajaxError(function() {
+   alert("服务器错误");
+   blur(false);
+  });
+}
+
+</script>
+</head>
+<body onload="init()">
+<header id='header'><span id="site_title"><a href="<?php echo BETTER_BASE_URL . '/admin/poitree';?>" title="重置页面"><?php echo $this->title?></a></span>
+  </header>
+  <table id='main_tbl'>
+    <tr>
+    <td id="parent_container">
+      <div>
+      <span class="navi">
+      <?php navibar($this->page, ceil($this->parent_pois['count'] / $this->page_size), "/admin/poitree?page=%d"); ?>
+      </span> | 
+      <span class="button" onclick="add_parent('')">添加</span>
+      </div>
+      <ol>
+      <?php
+      foreach($this->parent_pois['rows'] as $r)
+      {
+        printf("<li><span class=\"button\" onclick=\"add_parent('%s')\" title=\"搜索POI并添加到该连锁品牌\">+</span>
+          <span class=\"button\" onclick=\"del_parent('%d')\" title=\"删除该连锁品牌（相关的POI不受影响）\">x</span>
+          <a href=\"%s?pid=%d&page=%d\">%s</a></li>",
+          $r['name'],
+          $r['pid'],
+          BETTER_BASE_URL . "/admin/poitree", $r['pid'], $this->page, htmlspecialchars($r['name']));
+      }
+      ?></ol>
+    </td><td id="children_container" class="td_poi">
+      <div>
+      <span class="navi">
+      <?php
+        if($this->children_pois['count'] > $this->page_size)
+          navibar($this->page2, ceil($this->children_pois['count'] / $this->page_size), "/admin/poitree?pid={$this->selected_parent_pid}&page={$this->page}&page2=%d");
+        else
+          print("(仅有一页)");
+      ?>
+      </span> | 
+      <span class="button" onclick="add_child('<?=$this->selected_parent_pid?>')">添加</span> | 
+      <span class="button" onclick="select_all_children()">全选</span> | 
+      <span class="button" onclick="reverse_select_all_children()">反选</span> | 
+      <span class="button" onclick="del_selected_children()">移除选中的</span>
+      </div>
+      <ol> <?php
+        foreach($this->children_pois['rows'] as $r)
+        {
+          printf("<li> <input type=\"checkbox\" class=\"chk_unset_parent\" pid=\"%d\"/>
+            <a href=\"/poi/{$r['pid']}\" target=\"_blank\" title=\"查看详情\">%s <span class=\"poi_addr\">%s : %s</span></a></li>",
+            $r['pid'],
+            htmlspecialchars($r['name']), htmlspecialchars($r['city']), htmlspecialchars($r['address']));
+        }
+     ?></ol>
+    </td>
+   </tr>
+  </table>
+  <div id='inputbox'>
+    <div>
+      <p>请输入POI名称，名称后可跟随用"|"分割的搜索关键词，可输入多行，如<br/>
+      <b>肯德基|肯德基|KFC<br/>花园饼屋</b></p>
+      <textarea></textarea><br/>
+      <button id='btn_input_keywords_ok' onclick="add_parent_submit()">确定</button>
+      <button id='btn_input_keywords_cancel' onclick="add_parent_cancel()">取消</button>
+    </div>
+  </div>
+  <div id="blurscreen">正在更新，请耐心等待……</div>
+</body>
+<html>
+<?php
+        function navibar($page, $max_page, $urlformat)
+        {
+          if($page > 1)
+          {
+            $html .= sprintf(" <a href=\"$urlformat\">上页</a>", $page - 1);
+          }
+          else
+          {
+            $html .= sprintf(" 上页");
+          }
+          $html .= " {$page}/$max_page ";
+          if($page < $max_page)
+          {
+            $html .= sprintf(" <a href=\"$urlformat\">下页</a>", $page + 1);
+          }
+          else
+          {
+            $html .= sprintf(" 下页");
+          }
+
+          echo $html;
+        }
+?>

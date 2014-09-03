@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="viewport" content="width=device-width; initial-scale=1.4; minimum-scale=1.0; maximum-scale=2.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?php echo $this->lang->global->meta->title;?></title>
+	<?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+	<?php
+	$str = ''; 
+	if(!$this->user["uid"]){
+		$str .="<div id='portal'>
+	<a href='/polo/login'>".$this->lang->index->login->title."</a>
+	<a href='/polo/signup'>".$this->lang->index->signup."</a>
+	<a href='/polo/tools'>".$this->lang->global->foot->tools->title."</a>	
+</div>";
+	} else {
+		$str .="</br>"; 
+	}
+	$str .= "<img src='/images/polo/wap_top.png' border='0' /><br/>New Polo 出没地  当前:{CITYNOW}<br/> 切换到{CITYONE} {CITYTWO}";
+	$polo_poi_id = 0;
+	if($this->place['poi_id']==Better_Config::getAppConfig()->market->polo->poi->bj){
+		$citynow = '北京';
+		$cityone = "<a href='/polo/place?pid=".Better_Config::getAppConfig()->market->polo->poi->sh."' />上海</a>";
+		$citytwo = "<a href='/polo/place?pid=".Better_Config::getAppConfig()->market->polo->poi->gz."' />广州</a>";
+		$polo_poi_id = 1;
+	} else if($this->place['poi_id']==Better_Config::getAppConfig()->market->polo->poi->sh){
+		$citynow = '上海';
+		$cityone = "<a href='/polo/place?pid=".Better_Config::getAppConfig()->market->polo->poi->bj."' />北京</a>";
+		$citytwo = "<a href='/polo/place?pid=".Better_Config::getAppConfig()->market->polo->poi->gz."' />广州</a>";
+		$polo_poi_id = 1;
+	} else if($this->place['poi_id']==Better_Config::getAppConfig()->market->polo->poi->gz){
+		$citynow = '广州';
+		$cityone = "<a href='/polo/place?pid=".Better_Config::getAppConfig()->market->polo->poi->bj."' />北京</a>";
+		$citytwo = "<a href='/polo/place?pid=".Better_Config::getAppConfig()->market->polo->poi->sh."' />上海</a>";
+		$polo_poi_id = 1;
+	}
+	if($polo_poi_id){
+	?>
+	<style type="text/css">
+body{
+	background:#000;
+	color:#fff;
+}
+<?php }?>
+</style>
+</head>
+<body>
+<?php 	
+	if($polo_poi_id){
+		?>
+	
+<div id="header">	
+	<img alt="<?php echo $this->lang->global->nav->title; ?>" src="/images/polo/top.png" />
+	<span style='color: #E95383; font-size: 14px;display:none'>记录足迹，分享城事</span>
+</div>
+<?php  } else {?>
+	<?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+<?php }?>
+	<div id="headinfo">	
+	<?php 	
+	if($polo_poi_id){
+		$str = str_replace('{CITYNOW}',$citynow,$str);
+		$str = str_replace('{CITYONE}',$cityone,$str);
+		$str = str_replace('{CITYTWO}',$citytwo,$str);
+		echo $str;
+	} else {
+	?>
+		<a href="/polo/user?uid=<?php echo($this->user["uid"])?>" ><?php echo($this->user["nickname"])?></a>@
+		<?php if( (int)($this->lastcheckin['poi']['poi_id']) < 1 ){?><a href="/polo/search"><?php echo $this->lang->mobile->global->whereplace; ?></a><?php }else{?>
+			<a href="/polo/place?pid=<?php echo $this->lastcheckin['poi']['poi_id'];?>"><?php echo $this->lastcheckin['poi']['name']; ?></a>
+		<?php }?><hr/>
+		<?php }?>
+	</div>
+	<div id="basic">
+		<?php 
+			echo $this->place['name'];
+			if ( strlen( trim($this->place['intro'])) > 0 )
+				echo " <a href=\"/polo/place/introduction?pid=".$this->place['poi_id']."\">"."介绍"."</a>";
+			echo "<br/>";
+			if( 0 && strlen($this->place['city']) > 0 || strlen($this->place['address']) > 0 )
+				echo $this->place['city'].$this->place['address']."<br/>";
+			$phones = preg_split("/[\s,]+/", $this->place['phone']);
+			echo $this->lang->javascript->home->add_poi->phone.":";
+			foreach( $phones as $phone){
+				echo "<a href=\"wtai://wp/mc;".$phone."\">".$phone."</a> ";
+			}
+			echo "<br/>";
+			echo $this->lang->global->poi->major.":<a href=\"/polo/user?uid=".$this->place['major_detail']['uid']."\">".$this->place['major_detail']['nickname']."</a><br/>";
+			echo $this->lang->mobile->global->poi_notice.$this->place['notification']['content']."<br/>";
+					 
+		?>
+		<a href="/polo/user/shout?cat=checkin&pid=<?php echo $this->place['poi_id'];?>"><?php echo $this->lang->mobile->poi_checkin_title;?></a>|<a href="/polo/user/shout?cat=tips&pid=<?php echo $this->place['poi_id'];?>"><?php echo $this->lang->mobile->poi_tips_title?></a>|<a href="/polo/user/addfavorite?cat=place&id=<?php echo $this->place['poi_id'];?>"><?php echo $this->lang->mobile->poi_favorites_title;;?></a>
+		<hr/>
+	</div>
+	<?php 
+		if(strlen($this->errorinfo)>0){
+		?>
+	<div id="error"><?php echo $this->errorinfo;?></div>
+	<?php }?>
+	<div id="timeline">
+		<?php echo $this->lang->global->tips->text."|<a href=\"/polo/place/visitor?pid=".$this->place['poi_id']."\">".$this->lang->mobile->global->visitor_list."</a>";
+		//echo "|<a href=\"/polo/place/nearbyusers?pid=".$this->place['poi_id']."\">".$this->lang->sidebar->around_people."</a><br/>";?>
+		
+		<table>
+	    	<?php for($i=0; $i < count($this->tips); $i++) {?>
+	    		<tr valign="top" >
+	    			<?php	    				
+	    				echo "<td>".($i+1).".</td>";
+	    				echo "<td><a href=\"/polo/user?uid=".$this->tips[$i]['uid']."\">".$this->tips[$i]['nickname']."</a>:".$this->tips[$i]['message'];
+	    				
+	           				
+	    		$checktype = ("checkin" == $this->tips[$i]['type'])? 0:1;
+	        	if($this->tips[$i]['uid']!=$this->user['uid'])
+	        	{
+	           		if($checktype){
+	           			echo "<a href=\"/polo/user/shout?cat=".$this->tips[$i]['type']."&upbid=".$this->tips[$i]['bid']."\">".$this->lang->javascript->global->blog->rt."</a> ";
+	           			if("tips" == $this->tips[$i]['type'] && $this->tips[$i]['polled']==0){
+	           				echo "<a href=\"/polo/user/poll?todo=create&option=up&status_id=".$this->tips[$i]['bid']."&poiid=".$this->place['poi_id']."\">".$this->lang->javascript->poi->tips->up."</a> ";
+	           				echo "<a href=\"/polo/user/poll?todo=create&option=down&status_id=".$this->tips[$i]['bid']."&poiid=".$this->place['poi_id']."\">".$this->lang->javascript->poi->tips->down."</a> ";
+	           			}
+	           		}
+	        	}
+	       	 	else
+	        	{
+	           		echo "<a href=\"/polo/user/delblog?id=".$this->tips[$i]['bid']."\">".$this->lang->javascript->global->blog->delete_it."</a> ";
+	        	}
+	        	if($checktype) {
+	           		echo "<a href=\"/polo/user/addfavorite?cat=".$this->tips[$i]['type']."&id=".$this->tips[$i]['bid']."&fid=".$this->tips[$i]['uid']."\">".$this->lang->javascript->global->favorite->title."</a> ";	       
+	        	}
+	           				
+	    				echo "</td>";
+	    			?>
+	      		</tr>
+	      		<?php if($this->tips[$i]['attach_tiny']){?>
+	               	<tr>
+	               		<td></td><td><img src="<?php echo $this->tips[$i]['attach_tiny'];?>" /></td>
+	               	</tr>
+	           <?php }?>
+	            <tr>
+	            	<td></td>
+	            	<td>
+	            		<?php echo Better_Functions::compareTime($this->tips[$i]['dateline']); ?>
+	               		<?php
+	               			$source = $this->tips[$i]['source'];
+	               			echo $this->lang->user->from.Better_Functions::source($source);
+	               		?>
+	               	</td>
+	            </tr>
+	     	<?php }?>      
+	    </table>
+	</div>
+	 <?php 
+	 	if( count($this->tips) < 1 )
+	 		echo "<p>".$this->lang->javascript->poi->tips->no_tips."</p>";
+	 	else if( $this->hasMore )
+	 		echo "<p><a href=\"/polo/place/tips?pid=".$this->place['poi_id']."&page=1\">".$this->lang->javascript->poi->tips->more_tips."</a></p>";
+	 ?>
+<?php if($polo_poi_id){?>	 
+<?php include_once(dirname(__FILE__).'/../include/polo.phtml');?>
+<?php  } else {?>
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+<?php  } ?>
+</body>
+</html>

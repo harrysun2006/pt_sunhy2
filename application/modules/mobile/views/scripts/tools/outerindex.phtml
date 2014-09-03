@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:lift="http://liftweb.net" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta content="width=320" name="viewport" />   
+     <title>开开，记录城市足迹</title>
+      <?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>    
+	<div id='category'><?php echo $this->menuos."|".$this->menubrand;?></div>
+	<div id='content'>
+	<ul class="toolsSystem">  		       
+				    	
+		    
+   			<li>
+   					   <a href='/mobile/tools/outerchooseos?reflink=<?php echo $this->reflink;?>&os=android' name='android'>
+   					   <img id="Android" src="/images/mobilesystem/gray-android.png" border="0" /></a>
+   			</li>
+  			<li>	
+  						<a href="/mobile/tools/outerchooseos?reflink=<?php echo $this->reflink;?>&os=s60" name='symbian'>
+  						<img id="Symbian"  src="/images/mobilesystem/gray-symbian.png" border="0" /></a>
+  			</li> 	
+  			<!-- 
+  			<li>	
+  						<a href="/mobile/tools/outerchooseos?reflink=<?php echo $this->reflink;?>&os=wm" name='wm'>
+  						<img id="Wm"  src="/images/mobilesystem/gray-windows.png" border="0" /></a>
+  			</li>
+  			 -->
+  			 <li>	
+  						<a href="http://k.ai/files/out_clients/<?php echo $this->reflink;?>/Kai_1.5_<?php echo $this->reflink;?>.cab" name='wm'>
+  						<img id="Wm"  src="/images/mobilesystem/gray-windows.png" border="0" /></a>
+  			</li>
+  			<li>
+   					   <a href='/mobile/tools/outerchooseos?reflink=<?php echo $this->reflink;?>&os=apple' name='iphone'>
+   					   <img id="iphone" src="/images/mobilesystem/gray-iphone.png" border="0" /></a>
+   			</li>	
+  			
+  			<li>	
+  						<a href="/mobile/tools/chooseos?os=bb" name='wm'>
+  						<img id="Bb"  src="/images/mobilesystem/gray-blackberry.png" border="0" /></a>
+  			</li>
+  									   
+		    	
+		</ul>
+		本软件不收取任何费用。<br/>
+客服电话：0512-62885198 <br/>
+			<a href='javascript:history.go(-1);'>返回</a>
+	</div>	
+</body>
+</html>  
+  

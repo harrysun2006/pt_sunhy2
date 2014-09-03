@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $this->title;?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<base href="<?php echo BETTER_BASE_URL;?>/" />
+<?php echo $this->headMeta();?>
+<link rel="stylesheet" type="text/css" href="css/admin.poicluster.css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" charset="utf-8" ></script> 
+<script type="text/javascript" src="js/controllers/admin/poicluster.js?ver=<?php echo BETTER_VER_CODE;?>" charset="utf-8" ></script>
+
+<?php if ($_SERVER['SERVER_NAME']=="10.10.59.98") {?>
+<script type="text/javascript" src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixThnWgwAfIozEyIOiZ15mj0OMKvahRVNoJqYZPBWjUNqHRmCrcDysiTvw&hl=zh-CN" ></script>
+<?php } else if ($_SERVER['SERVER_NAME']=="10.35.254.252") {?>
+<script type="text/javascript" src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixRf4hW1KVnn8WbEudSO60E8y0lOtRQIvdEZencEGSh_7plvsDzq8hTvPA&hl=zh-CN" ></script>
+<?php } else if ($_SERVER['SERVER_NAME']=="k.ai" || $_SERVER['SERVER_NAME']=="www.k.ai") {?>
+<script type="text/javascript" src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixR0YGVtJgVUGyuoBMON3xMOzZ92exTxqToQuvODwiSqaEqRvydHv2Of4w&hl=zh-CN" ></script>
+<?php } else if ($_SERVER['SERVER_NAME']=="better.com") { ?>
+<script type="text/javascript" src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixRj8_478J9x0a1RAYZVCh_P5t2MQxQFiKRCTOv6boSPU_U9n6dBscS_MQ&hl=zh-CN" ></script>
+<?php } else if ($_SERVER['SERVER_NAME']=="10.10.8.210") {?>
+<script type="text/javascript" src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixRZ6XYiRqDrFNXiYmJNYO0C9S7p8xQOJVTxDlX0ywZvGIoqSFd9lj_xTQ&hl=zh-CN" ></script>
+<?php } else if ($_SERVER['SERVER_NAME']=="10.10.8.14") { ?>
+<script type="text/javascript" src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixTIeabhJxt35huM1qHE-t7G2FYhYxRFN3yj3wkN7tMXe_I6At1MX92QZw&hl=zh-CN" ></script>
+<?php } else if ($_SERVER['SERVER_NAME']=="10.10.1.252") {?>
+<script type="text/javascript" src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixQMpeF6SNs3tyzUWltG12eU-tdblBTYV9Q2tSBaqbHhNWEPqislvFA4Ww&hl=zh-CN" ></script>
+<?php } else if ($_SERVER['SERVER_NAME']=="10.10.24.1"){?>
+<script type="text/javascript" src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixRfuL57xm6vtbRSFk_2XKmLZ4dZoRTO24XDuth4G1igwhMTNPLExhHsVQ&hl=zh-CN" ></script>
+<?php }else if ($_SERVER['SERVER_NAME']=="t.k.ai") {?>
+<script src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;sensor=true&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixR70nOoihVuSrFkMKRvrlP1ctZ_yRTKG4u7n3SYcefCCfoqLkIKJUasJA" type="text/javascript"></script>
+<?php }else if ($_SERVER['SERVER_NAME']=="test.k.ai") {?>
+<script src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;sensor=true&amp;key=ABQIAAAA5j_eG7fdmvd0213SICEk0xTT0xKFAB01y4p9jsg9ZaIeDXHp8hTxalUfkg4d7Uc14pqw9C56qpWIFQ" type="text/javascript"></script>
+<?php }else if ($_SERVER['SERVER_NAME']=="127.0.0.5") { ?>
+<script type="text/javascript" charset="utf-8" src="http://ditu.google.cn/maps?file=api&v=2&key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixQjmfA8qHQp5KOl_wF9TYpaNSUWExSwpN39oRwhM4cWmCX3M7wvrYBptQ&hl=zh-CN" ></script>
+<?php }else if ($_SERVER['SERVER_NAME']=="127.0.0.4") { ?>
+<script type="text/javascript" charset="utf-8" src="http://ditu.google.cn/maps?file=api&v=2&key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixSSICGrzIueNRiGdIiRBGWTKNPPZhSAI9TQfFMIxfjcSrk9wJ1Wn-C6OA&hl=zh-CN" ></script>
+<?php } else {?>
+<script type="text/javascript" src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixS3MHZs5Ta_LBAGK8i2UwqeHUWysRTNLN4Su0YyzQAZ61s6LZ_G4J_Oaw&hl=zh-CN" ></script>
+<?php }?>
+
+<script type="text/javascript" language="javascript">
+var BASE_URL = '<?php echo BETTER_BASE_URL;?>';
+var BETTER_ADMIN_URL = '<?php echo BETTER_BASE_URL.'/admin';?>';
+var betterLang = new Object();
+var isAdmin = true;
+var BETTER_VER_CODE = '<?php echo BETTER_VER_CODE;?>';
+var Better_Need_Checkin_Js = false;
+var Better_InDebug = true;
+</script>
+<?php echo $this->headLink();?>
+<?php echo $this->jsLanguage();?>
+<?php //echo $this->headScript();?>
+</head>
+<body onload="init()" onBeforeUnload="if(keyword_dirty()) return '你有未保存的修改';"> <!-- todo callback -->
+<header id='header'><span id="site_title"><a href="<?php echo BETTER_BASE_URL . '/admin/poicluster';?>" title="重置页面"><?php echo $this->title?></a></span>
+  </header>
+  <table id='main_tbl'>
+   <!-- row #1, buttons -->
+     <tr id="tool_bar"><td colspan="3"><span id="page_navi">关键词页面导航：
+        <?php
+        {
+          $min_page = 1; // page index starts from 0
+          $max_page = ceil($this->keywords['count'] * 1.0 / $this->keywords['page_size']);
+          $page = $this->keywords['page'];
+          $page_size = $this->keywords['page_size'];
+          $html = "第 $page/$max_page 页 ";
+          if($page > $min_page)
+          {
+            $html .= sprintf(" <a href=\"" . BETTER_BASE_URL . "/admin/poicluster?page=%d&page_size=$page_size\" accesskey=\"p\">上页(p)</a>", $page - 1);
+          }
+          else
+          {
+            $html .= sprintf(" 上页");
+          }
+          if($page < $max_page)
+          {
+            $html .= sprintf(" <a href=\"" . BETTER_BASE_URL . "/admin/poicluster?page=%d&page_size=$page_size\" accesskey=\"n\">下页(n)</a>", $page + 1);
+          }
+          else
+          {
+            $html .= sprintf(" 下页");
+          }
+          $html .= sprintf(" <input id=\"page_idx\" value=\"$page\" /> <a href=\"javascript:goto_page()\" accesskey=\"g\">转到(g)</a>");
+
+          echo $html;
+        }
+        ?></span>
+       <button onclick="keyword_user_save(false)" accesskey="s">保存当前关键词(s)</button>
+     </td></tr>
+    <!-- row #2, column headers -->
+    <tr>
+      <td><div id="keywords_head">搜索词 (<a href="javascript:keyword_custom_search()" accesskey="c">自定义搜索(c)</a>)</div>
+      </td>
+      <td><div id="poi_head">搜索结果 (<a href="javascript:poi_add()" accesskey='a'>添加POI(a)</a>) (参数：
+        <?php
+        if(isset($this->params['namekeyword']))
+        printf("%s,%.4f,%.4f,%d", $this->params['namekeyword'], $this->params['city_lat'], $this->params['city_lon'], $this->params['radius'])
+        ?>)</div></td>
+      <td><div id="map_head">地图</div></td>
+    </tr>
+    <!-- row #3, column bodies -->
+    <tr>
+    <td id="keywords_container" class="td_keywords">
+      <ol>
+      <?php
+      foreach($this->keywords['rows'] as $r)
+      {
+        printf("<li><a href=\"/admin/poicluster?page=$page&page_size=$page_size&namekeyword=%s&city_lat={$r['lat']}&city_lon={$r['lon']}&radius=%d\">{$r['keyword']}</a>
+          <span class=\"del_keyword\" rel=\"{$r['keyword']}\" title=\"删除关键词\">x</span>
+          </li>",
+          urlencode($r['keyword']), ($r['radius'] ? $r['radius'] : 3000));
+      }
+      ?></ol>
+    </td><td id="poi_container" class="td_poi">
+      <ol>
+<?php
+/* 
+  this->pois is a array of:
+
+  [0] => Array
+        (
+            [no] => 1
+            [poi_id] => 122544
+            [cid] => 
+            [name] => 大湖城邦
+            [phone] => 
+            [category_id] => 1
+            [address] => 高和路#58
+            [lon] => 120.67854
+            [lat] => 31.2937
+            [x] => 11248055
+            [y] => 3073652
+            [level] => 6
+            [dist] => 5314.62514524
+            [country] => 
+            [city] => 苏州市
+            [province] => 
+            [major] => 15882
+            [notification] => Array
+                (
+                )
+
+            [bonus] => 0
+            [major_detail] => Array
+                (
+                    [uid] => 0
+                    [email] => 
+                )
+
+            [users] => 0
+            [visitors] => 0
+            [category_name] => 餐饮
+            [category_image] => food.png
+        )
+ */
+     if($this->pois)
+     {
+       // render poi list
+       $idx = 0;
+       foreach($this->pois as $p)
+       {
+         $pid = $p['poi_id'];
+         $name = htmlspecialchars($p['name']);
+         $address = htmlspecialchars($p['address']);
+
+         // POI 的基本信息存放在 DOM 属性里，以便 JS 读写之。
+         printf("<li id=\"poi_item_{$pid}\" class=\"poi_item\"
+           pid=\"$pid\" name=\"$name\" lat=\"{$p['lat']}\" lon=\"{$p['lon']}\" radius=\"{$p['radius']}\" address=\"$address\"
+           onmouseover=\"map_highlight_poi($idx, true)\" onmouseout=\"map_highlight_poi($idx, false)\"
+           >");
+
+         // display poi name
+         printf("<div class=\"poi_name\"><span id=\"poi_name_{$pid}\" onclick=\"toggle_poi_detail($pid)\" title=\"单击开关POI详情\">{$p['name']}</span></div>");
+
+         // buttons for various operations
+         printf("<div class=\"poi_opts\">");
+         printf(" <span id=\"poi_toggle_def_{$pid}\" onclick=\"toggle_default($pid)\">目标</span>");
+         printf(" <span id=\"poi_toggle_merge_{$pid}\" onclick=\"toggle_merge($pid)\">合并</span>");
+         printf(" <a href=\"/admin/poi/updatepoi?id={$pid}\" target=\"blank\" title=\"打开外部编辑器\">编辑</a>");
+         printf("</div>");
+
+         // poi detail
+         printf("<div id=\"poi_detail_{$pid}\" class=\"poi_detail_off\">%s</div>", poi_get_detail($p));
+
+         printf("</li>");
+
+         ++$idx;
+       }
+     }
+     ?></ol>
+    </td>
+    <td id="map_container"><div id="map_convas"> (map here) </div>
+      <div id="tip_container"><p><b>tips</b></p><ul>
+        <li>页面布局和热键功能在 Google Chrome 浏览器中表现最佳</li>
+        <li>默认的搜索区域就是地图的视野，所以在点击“自定义搜索”之前，应该调整好地图的中心、缩放等级，这样搜索时只需要输入关键词就可以了</li>
+        <li>很多按钮都有快捷键，比如按 alt+c 就可以“自定义搜索(c)”，请留意按钮标题后面的括号内字母</li>
+        <li>点击地图上的图钉可以将POI列表锁定（不再自行滚动），再次点击任意图钉解除锁定。这是为了方便从地图上定位到POI列表</li>
+      </ul></div>
+    </td>
+   </tr>
+  </table>
+</body>
+<html>
+<?php
+     // 生成POI详情HTML
+function poi_get_detail($p)
+{
+  return sprintf("<table><tr><td>poi_id: </td><td>{$p['poi_id']}</td></tr>
+<tr><td>category: </td><td>{$p['category_id']} {$p['category_name']}</td></tr>
+<tr><td>level: </td><td>{$p['level']}</td></tr>
+<tr><td>level_adjust: </td><td><input id=\"poi_detail_level_adjust_{$p['poi_id']}\" onBlur=\"poi_set_level_adjust({$p['poi_id']})\" value=\"{$p['level_adjust']}\" orig_value=\"{$p['level_adjust']}\"/></td></tr>
+<tr><td>radius: </td><td><input id=\"poi_detail_radius_{$p['poi_id']}\" onBlur=\"poi_set_radius({$p['poi_id']})\" value=\"{$p['radius']}\" orig_value=\"{$p['radius']}\"/></td></tr>
+<tr><td>lat,lon: </td><td>{$p['lat']},{$p['lon']}</td></tr>
+<tr><td>city: </td><td>{$p['city']}</td></tr>
+<tr><td>address: </td><td>{$p['address']}</td></tr></table>");
+}
+
+// 生成关键词页面导航条
+function page_navigator($view)
+{
+  $html = '';
+  $min_page_index = 1;
+  var_dump($view->keywords);
+  return;
+  $max_page_index = ceil($view->keywords['count'] * 1.0 / $view->keywords['page_size']);
+  $curr = isset($view->params['page']) ? $view->params['page'] : $min_page_idx; // page index starts from 0
+  if($curr > $min_page_index)
+  {
+    $html += sprintf("<a href=\"?page=%d\">上一页</a>", $curr - 1);
+  }
+  if($curr < $max_page_index)
+  {
+    $html += (empty($html) ? '' : ' ') . sprintf("<a href=\"?page=%d\">下一页</a>", $curr + 1);
+  }
+
+  return $html;
+}
+?>

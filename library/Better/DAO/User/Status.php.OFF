@@ -1,0 +1,1272 @@
+<?php
+
+/**
+ * 取用户相关微博的DAO
+ * 
+ * @package Better.DAO.User
+ * @author leip <leip@peptalk.cn>
+ *
+ */
+class Better_DAO_User_Status extends Better_DAO_Base
+{
+	private static $instance = array();
+
+	private $profileTbl = '';
+	private $attachTbl = '';
+
+ 	/**
+   	*
+    */
+    public function __construct($identifier = 0)
+    {
+		$this->tbl = BETTER_DB_TBL_PREFIX.'blog';
+		$this->profileTbl = BETTER_DB_TBL_PREFIX.'profile';
+		$this->attachTbl = BETTER_DB_TBL_PREFIX.'attachments';
+		$this->priKey = 'bid';
+		$this->orderKey = 'dateline';
+		
+		parent::__construct ($identifier);
+		$this->assignUserDbConnection();
+	}
+	
+  	public static function getInstance($identifier=0)
+	{
+		if (!isset(self::$instance[$identifier]) || self::$instance[$identifier]==null) {
+			self::$instance[$identifier] = new self($identifier);
+		}
+		
+		return self::$instance[$identifier];
+	}	
+	
+
+	/**
+	 * 
+	 * 网站“我关注的”
+	 * @param array $params
+	 * @return array
+	 */
+	public function &webFollowings(array $params)
+	{
+		$results = array();
+		
+		$page = $params['page'] ? (int)$params['page'] : 1;
+		$page<=0 && $page = 1;
+		$pageSize = $params['page_size'] ? (int)$params['page_size'] : 1;
+		$pageSize<=0 && $pageSize = BETTER_PAGE_SIZE;
+		
+		$max = $page*$pageSize+1;
+		$followings = 0;
+		$uid = (int)$this->identifier;
+		
+		if ($uid) {
+			$followings = count((array)Better_User::getInstance($this->identifier)->followings);
+		}
+		
+		$of = (int)Better_Config::getAppConfig()->dblist_offset;
+		if ($followings>=$of) {
+			$sql = "SELECT fe.uid AS feuid, b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+				 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down
+				 ,p.nickname, p.username, p.gender, p.self_intro, p.last_checkin_poi, p.avatar, p.priv_blog, p.priv_location
+				 ,p.address AS user_address, p.range AS user_range, p.city AS user_city, X(p.xy) AS user_xy, Y(p.xy) AS user_y, p.lbs_report
+				 ,at.file_id, at.filename, at.dateline AS at_dateline, at.mimetype, at.filesize, at.ext
+			FROM ".BETTER_DB_TBL_PREFIX."blog AS b
+			";
+		} else {
+			$sql = "SELECT fe.uid AS feuid, b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+				 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down
+				 ,p.nickname, p.username, p.gender, p.self_intro, p.last_checkin_poi, p.avatar, p.priv_blog, p.priv_location
+				 ,p.address AS user_address, p.range AS user_range, p.city AS user_city, X(p.xy) AS user_xy, Y(p.xy) AS user_y, p.lbs_report
+				 ,at.file_id, at.filename, at.dateline AS at_dateline, at.mimetype, at.filesize, at.ext
+			FROM (
+				SELECT b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+				 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down,b.xy FROM ".BETTER_DB_TBL_PREFIX."blog AS b 
+				 	WHERE b.uid=".$uid."
+				UNION 
+				SELECT b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+				 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down,b.xy FROM ".BETTER_DB_TBL_PREFIX."blog AS b
+					INNER JOIN ".BETTER_DB_TBL_PREFIX."friends AS f ON b.uid=f.uid
+					WHERE f.friend_uid=".$uid."
+				UNION 
+				SELECT b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+				 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down,b.xy FROM ".BETTER_DB_TBL_PREFIX."blog AS b 
+					INNER JOIN ".BETTER_DB_TBL_PREFIX."follower AS fe ON b.uid=fe.uid
+					WHERE fe.follower_uid=".$uid."
+				) AS b
+			";			
+		}
+		
+		$sql .= "
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."user_banned AS ub
+					ON ub.uid=b.uid AND ub.uid IS NULL				
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."profile AS p
+					ON p.uid=b.uid
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."follower AS fe
+					ON b.uid=fe.uid AND fe.follower_uid=".$uid."
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."friends AS f
+					ON b.uid=f.uid AND f.friend_uid=".$uid."
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."blockedby AS bl
+					ON b.uid=bl.uid AND bl.blocked_by_uid=".$uid."
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."attachments AS at
+					ON b.uid=at.uid AND at.file_id=b.attach	
+			WHERE 
+		";
+			
+		$sql2 = " b.checked=1 AND b.priv!='private' AND b.uid!=".$uid." ";
+		$sql2 .= " AND bl.uid IS NULL";
+		$sql2 .= " AND fe.follower_uid='".$uid."'";
+		$sql2 .= " 
+			AND (
+					(
+						(p.priv_blog+p.sys_priv_blog)=0
+						AND
+						b.priv='public'
+					)
+					OR
+					(
+						f.friend_uid IS NOT NULL
+						AND b.priv!='private'
+					)
+					OR
+					(
+						b.type='tips'
+					)
+				)
+		";
+		
+		$sql .= "
+		(
+			(
+				b.uid=".$uid." 
+			)
+			OR
+			(".$sql2.")
+		)
+		ORDER BY b.dateline DESC
+		LIMIT ".$max."
+		";
+
+		$servers = Better_DAO_User_Assign::getInstance()->getServerIds();
+		foreach ($servers as $sid) {
+			$cs = parent::assignDbConnection('user_server_'.$sid);
+			$rdb = &$cs['r'];
+			
+			$rs = self::squery($sql, $rdb);
+			$rows = $rs->fetchAll();
+			foreach ($rows as $row) {
+				$results[$row['dateline'].'.'.$row['bid']] = $row;
+			}			
+		}
+		
+		if (count($results)>0) {
+			krsort($results);
+			if (count($results)>BETTER_MAX_LIST_ITEMS) {
+				$tmp = array_chunk($results, BETTER_MAX_LIST_ITEMS);
+				$results = $tmp[0];
+				unset($tmp);
+			}
+		}		
+		
+		return $results;		
+	}
+		
+	/**
+	 * 
+	 * 网站“我关注的”
+	 * @param array $params
+	 * @return array
+	 */
+	public function &websFollowings(array $params)
+	{
+		$results = array();
+		
+		$page = $params['page'] ? (int)$params['page'] : 1;
+		$page<=0 && $page = 1;
+		$pageSize = $params['page_size'] ? (int)$params['page_size'] : 1;
+		$pageSize<=0 && $pageSize = BETTER_PAGE_SIZE;
+		$withoutKai = isset($params['without_kai']) ? (bool)$params['without_kai'] : false;
+		
+		$max = $page*$pageSize+1;
+		$followings = 0;
+		$uid = (int)$this->identifier;
+		
+		if ($uid) {
+			$followings = count((array)Better_User::getInstance($this->identifier)->followings);
+		}
+		
+		$of = (int)Better_Config::getAppConfig()->dblist_offset;
+
+		$sql = "SELECT fe.uid AS feuid, b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+				 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down
+				 ,p.nickname, p.username, p.gender, p.self_intro, p.last_checkin_poi, p.avatar, p.priv_blog, p.priv_location
+				 ,p.address AS user_address, p.range AS user_range, p.city AS user_city, X(p.xy) AS user_xy, Y(p.xy) AS user_y, p.lbs_report
+				 ,at.file_id, at.filename, at.dateline AS at_dateline, at.mimetype, at.filesize, at.ext
+			FROM ".BETTER_DB_TBL_PREFIX."blog AS b
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."user_banned AS ub
+					ON ub.uid=b.uid AND ub.uid IS NULL				
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."profile AS p
+					ON p.uid=b.uid
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."follower AS fe
+					ON b.uid=fe.uid AND fe.follower_uid=".$uid."
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."friends AS f
+					ON b.uid=f.uid AND f.friend_uid=".$uid."
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."blockedby AS bl
+					ON b.uid=bl.uid AND bl.blocked_by_uid=".$uid."
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."attachments AS at
+					ON b.uid=at.uid AND at.file_id=b.attach	
+			WHERE 
+		";
+			
+		$sql2 = " b.checked=1 AND b.priv!='private' AND b.uid!=".$uid." ";
+		$sql2 .= " AND bl.uid IS NULL";
+		$sql2 .= " AND fe.follower_uid='".$uid."'";
+		$sql2 .= " 
+			AND (
+					(
+						(p.priv_blog+p.sys_priv_blog)=0
+						AND
+						b.priv='public'
+					)
+					OR
+					(
+						f.friend_uid IS NOT NULL
+						AND b.priv!='private'
+					)
+					OR
+					(
+						b.type='tips'
+					)
+				)
+		";
+		
+		if ($followings<$of) {
+			$sql2 .= " AND b.bid IN (
+				SELECT b1.bid FROM ".BETTER_DB_TBL_PREFIX."blog AS b1
+				 	WHERE b1.uid='".$uid."'
+				UNION 
+				SELECT b2.bid FROM ".BETTER_DB_TBL_PREFIX."blog AS b2
+					INNER JOIN better_friends AS f ON b2.uid=f.uid
+					WHERE f.friend_uid='".$uid."'
+				UNION 
+				SELECT b3.bid FROM ".BETTER_DB_TBL_PREFIX."blog AS b3 
+					INNER JOIN better_follower AS fe ON b3.uid=fe.uid
+					WHERE fe.follower_uid='".$uid."'
+				)";
+		}
+		
+		if ($withoutKai) {
+			$sql .= " b.uid!='10000' AND ";
+		}
+		
+		$sql .= "
+		(
+			(
+				b.uid=".$uid." 
+			)
+			OR
+			(".$sql2.")
+		)
+		ORDER BY b.dateline DESC
+		LIMIT ".$max."
+		";
+
+		$servers = Better_DAO_User_Assign::getInstance()->getServerIds();
+		foreach ($servers as $sid) {
+			$cs = parent::assignDbConnection('user_server_'.$sid);
+			$rdb = &$cs['r'];
+			
+			$rs = self::squery($sql, $rdb);
+			$rows = $rs->fetchAll();
+			foreach ($rows as $row) {
+				$results[$row['dateline'].'.'.$row['bid']] = $row;
+			}			
+		}
+		
+		if (count($results)>0) {
+			krsort($results);
+			if (count($results)>BETTER_MAX_LIST_ITEMS) {
+				$tmp = array_chunk($results, BETTER_MAX_LIST_ITEMS);
+				$results = $tmp[0];
+				unset($tmp);
+			}
+		}		
+		
+		return $results;		
+	}
+	
+
+	/**
+	 * 
+	 * 网站“我关注的”
+	 * @param array $params
+	 * @return array
+	 */
+	public function &tinyWebFollowings(array $params)
+	{
+		$results = array();
+		
+		$page = $params['page'] ? (int)$params['page'] : 1;
+		$page<=0 && $page = 1;
+		$pageSize = $params['page_size'] ? (int)$params['page_size'] : 1;
+		$pageSize<=0 && $pageSize = BETTER_PAGE_SIZE;
+		$dateline = isset($params['dateline']) ? $params['dateline'] : 0;
+		$withSelf = isset($params['with_self']) ? (bool)$params['with_self'] : false;
+		$withoutKai = isset($params['without_kai']) ? (bool)$params['without_kai'] : false;
+		
+		$max = $page*$pageSize+1;
+		$followings = 0;
+		$uid = (int)$this->identifier;
+		
+		if ($uid) {
+			$followings = count((array)Better_User::getInstance($this->identifier)->followings);
+		}
+		
+		$of = (int)Better_Config::getAppConfig()->dblist_offset;
+		if ($followings>=$of) {
+			$sql = "SELECT fe.uid AS feuid, b.bid, b.dateline
+			FROM ".BETTER_DB_TBL_PREFIX."blog AS b
+			";
+		} else {
+			$sql = "SELECT fe.uid AS feuid, b.bid,b.dateline
+			FROM (
+				SELECT b.bid, b.dateline,b.checked, b.priv,b.uid,b.type FROM ".BETTER_DB_TBL_PREFIX."blog AS b 
+				 	WHERE b.uid=".$uid."
+				UNION 
+				SELECT b.bid, b.dateline,b.checked, b.priv,b.uid,b.type FROM ".BETTER_DB_TBL_PREFIX."blog AS b
+					INNER JOIN ".BETTER_DB_TBL_PREFIX."friends AS f ON b.uid=f.uid
+					WHERE f.friend_uid=".$uid."
+				UNION 
+				SELECT b.bid, b.dateline,b.checked, b.priv,b.uid,b.type FROM ".BETTER_DB_TBL_PREFIX."blog AS b 
+					INNER JOIN ".BETTER_DB_TBL_PREFIX."follower AS fe ON b.uid=fe.uid
+					WHERE fe.follower_uid=".$uid."
+				) AS b
+			";			
+		}
+		
+		$sql .= "
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."user_banned AS ub
+					ON ub.uid=b.uid AND ub.uid IS NULL				
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."profile AS p
+					ON p.uid=b.uid
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."follower AS fe
+					ON b.uid=fe.uid AND fe.follower_uid=".$uid."
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."friends AS f
+					ON b.uid=f.uid AND f.friend_uid=".$uid."
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."blockedby AS bl
+					ON b.uid=bl.uid AND bl.blocked_by_uid=".$uid."
+			WHERE 
+		";
+
+		$sql .= " b.checked=1 AND b.priv!='private' AND b.uid!=".$uid." ";
+		$sql .= " AND bl.uid IS NULL";
+		$sql .= " AND fe.follower_uid='".$uid."'";
+		$sql .= " 
+			AND (
+					(
+						(p.priv_blog+p.sys_priv_blog)=0
+						AND
+						b.priv='public'
+					)
+					OR
+					(
+						f.friend_uid IS NOT NULL
+						AND b.priv!='private'
+					)
+					OR
+					(
+						b.type='tips'
+					)
+				)
+		";
+		
+		if ($withoutKai) {
+			$sql .= " AND b.uid!='10000'";
+		}
+		
+		if ($dateline) {
+			$sql .= " AND b.dateline>".($dateline);
+		}
+		
+		if ($withSelf) {
+			$sql .= " OR b.uid='".$this->identifier."' ";
+		}
+		
+		$sql .= "
+		ORDER BY b.dateline DESC
+		LIMIT ".$max."
+		";
+
+		$servers = Better_DAO_User_Assign::getInstance()->getServerIds();
+		foreach ($servers as $sid) {
+			$cs = parent::assignDbConnection('user_server_'.$sid);
+			$rdb = &$cs['r'];
+			
+			$rs = self::squery($sql, $rdb);
+			$rows = $rs->fetchAll();
+			foreach ($rows as $row) {
+				$results[$row['dateline'].'.'.$row['bid']] = $row;
+			}			
+		}
+		
+		if (count($results)>0) {
+			krsort($results);
+			if (count($results)>BETTER_MAX_LIST_ITEMS) {
+				$tmp = array_chunk($results, BETTER_MAX_LIST_ITEMS);
+				$results = $tmp[0];
+				unset($tmp);
+			}
+		}		
+		
+		return $results;		
+	}	
+	
+	/**
+	 * 转发我的
+	 * 
+	 * @param array $params
+	 * @return array
+	 */
+	public function &rtMine(array $params)
+	{
+		$results = array();
+		
+		$page = $params['page'] ? (int)$params['page'] : 1;
+		$page<=0 && $page = 1;
+		$pageSize = $params['page_size'] ? (int)$params['page_size'] : 1;
+		$pageSize<=0 && $pageSize = BETTER_PAGE_SIZE;
+		
+		$max = $page*$pageSize;
+		$followings = 0;
+		$uid = (int)$this->identifier;
+		
+		if ($uid) {
+			$followings = count((array)Better_User::getInstance($this->identifier)->followings);
+		}
+		
+		$of = (int)Better_Config::getAppConfig()->dblist_offset;
+		
+		if ($followings>=$of) {
+			$sql = "SELECT fe.uid AS feuid, b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+				 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down
+				 ,p.nickname, p.username, p.gender, p.self_intro, p.last_checkin_poi, p.avatar, p.priv_blog, p.priv_location
+				 ,p.address AS user_address, p.range AS user_range, p.city AS user_city, X(p.xy) AS user_xy, Y(p.xy) AS user_y, p.lbs_report
+				 ,at.file_id, at.filename, at.dateline AS at_dateline, at.mimetype, at.filesize, at.ext
+			FROM ".BETTER_DB_TBL_PREFIX."blog AS b
+			";
+		} else {
+			$sql = "SELECT b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+				 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down
+				 ,p.nickname, p.username, p.gender, p.self_intro, p.last_checkin_poi, p.avatar, p.priv_blog, p.priv_location
+				 ,p.address AS user_address, p.range AS user_range, p.city AS user_city, X(p.xy) AS user_xy, Y(p.xy) AS user_y, p.lbs_report
+				 ,at.file_id, at.filename, at.dateline AS at_dateline, at.mimetype, at.filesize, at.ext
+			FROM (
+				SELECT b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+				 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down,b.xy FROM ".BETTER_DB_TBL_PREFIX."blog AS b WHERE b.uid=".$uid."
+				UNION 
+				SELECT b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+				 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down,b.xy FROM ".BETTER_DB_TBL_PREFIX."blog AS b
+					JOIN ".BETTER_DB_TBL_PREFIX."friends AS f ON b.uid=f.uid
+					WHERE f.friend_uid=".$uid."
+				UNION 
+				SELECT b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+				 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down,b.xy FROM ".BETTER_DB_TBL_PREFIX."blog AS b 
+					JOIN ".BETTER_DB_TBL_PREFIX."follower AS fe ON b.uid=fe.uid
+					WHERE fe.follower_uid=".$uid."
+				) AS b
+			";			
+		}
+		
+		$sql .= "
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."user_banned AS ub
+					ON ub.uid=b.uid AND ub.uid IS NULL		
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."profile AS p
+					ON p.uid=b.uid
+			LEFT JOIN ".BETTER_DB_TBL_PREFIX."follower AS fe
+				ON b.uid=fe.uid AND fe.follower_uid=".$uid."
+			LEFT JOIN ".BETTER_DB_TBL_PREFIX."friends AS f
+				ON b.uid=f.uid AND f.friend_uid=".$uid."
+			LEFT JOIN ".BETTER_DB_TBL_PREFIX."blockedby AS bl
+				ON b.uid=bl.uid AND bl.blocked_by_uid=".$uid."
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."attachments AS at
+					ON b.uid=at.uid AND at.file_id=b.attach	
+			WHERE 
+		";
+			
+		$sql .= " b.checked=1 AND b.priv!='private' AND b.uid!=".$uid." ";
+		$sql .= " AND b.upbid LIKE '".$uid.".%' ";
+		$sql .= " AND bl.uid IS NULL";
+		$sql .= " 
+			AND (
+					(
+						(p.priv_blog+p.sys_priv_blog)=0
+						AND
+						b.priv='public'
+					)
+					OR
+					(
+						f.friend_uid IS NOT NULL
+						AND b.priv!='private'
+					)
+					OR
+					(
+						b.type='tips'
+					)
+				)
+		";
+		
+		$sql .= " 
+		ORDER BY b.dateline DESC
+		LIMIT ".$max."
+		";
+
+		$servers = Better_DAO_User_Assign::getInstance()->getServerIds();
+		foreach ($servers as $sid) {
+			$cs = parent::assignDbConnection('user_server_'.$sid);
+			$rdb = &$cs['r'];
+			
+			$rs = self::squery($sql, $rdb);
+			$rows = $rs->fetchAll();
+			foreach ($rows as $row) {
+				$results[$row['dateline'].'.'.$row['bid']] = $row;
+			}			
+		}
+		
+		if (count($results)>0) {
+			krsort($results);
+			if (count($results)>BETTER_MAX_LIST_ITEMS) {
+				$tmp = array_chunk($results, BETTER_MAX_LIST_ITEMS);
+				$results = $tmp[0];
+				unset($tmp);
+			}
+		}		
+		
+		return $results;		
+	}
+	
+	/**
+	 * 
+	 * 某人周围的
+	 * @param array $params
+	 * @return array
+	 */
+	public function &aroundSomebody(array $params)
+	{
+		$results = array();
+		
+		$page = $params['page'] ? (int)$params['page'] : 1;
+		$page<=0 && $page = 1;
+		$pageSize = $params['page_size'] ? (int)$params['page_size'] : 1;
+		$pageSize<=0 && $pageSize = BETTER_PAGE_SIZE;
+		
+		$max = $page*$pageSize;
+		$lon = (float)$params['lon'];
+		$lat = (float)$params['lat'];
+		$uid = (int)$this->identifier;
+		
+		list($x, $y) = Better_Functions::LL2XY($lon, $lat);
+		$range = 50000;
+		$x1 = $x-$range/2;
+		$y1 = $y+$range/2;
+		$x2 = $x+$range/2;
+		$y2 = $y-$range/2;
+		
+		$sql = "SELECT fe.uid AS feuid, b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+			 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down
+			 ,p.nickname, p.username, p.gender, p.self_intro, p.last_checkin_poi, p.avatar, p.priv_blog, p.priv_location
+			 ,p.address AS user_address, p.range AS user_range, p.city AS user_city, X(p.xy) AS user_xy, Y(p.xy) AS user_y, p.lbs_report
+			 ,at.file_id, at.filename, at.dateline AS at_dateline, at.mimetype, at.filesize, at.ext
+			FROM ".BETTER_DB_TBL_PREFIX."blog AS b
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."user_banned AS ub
+					ON ub.uid=b.uid AND ub.uid IS NULL				
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."profile AS p
+					ON p.uid=b.uid
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."follower AS fe
+					ON b.uid=fe.uid AND fe.follower_uid=".$uid."
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."friends AS f
+					ON b.uid=f.uid AND f.friend_uid=".$uid."
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."blockedby AS bl
+					ON b.uid=bl.uid AND bl.blocked_by_uid=".$uid."
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."attachments AS at
+					ON b.uid=at.uid AND at.file_id=b.attach	
+			WHERE MBRWithin(`b`.`xy`, GeomFromText('Polygon(({$x1} {$y2}, {$x1} {$y1}, {$x2} {$y1}, {$x2} {$y2}, {$x1} {$y2}))'))";		
+	
+					
+		$sql .= " AND b.checked=1 AND b.priv!='private' AND b.uid!=".$uid." ";
+		$sql .= " AND bl.uid IS NULL";
+		$sql .= " 
+			AND (
+					(
+						(p.priv_blog+p.sys_priv_blog)=0
+						AND
+						b.priv='public'
+					)
+					OR
+					(
+						f.friend_uid IS NOT NULL
+						AND b.priv!='private'
+					)
+					OR
+					(
+						b.type='tips'
+					)
+				)
+		";
+		
+		$sql .= "
+		ORDER BY b.dateline DESC
+		LIMIT ".$max."
+		";
+
+		$servers = Better_DAO_User_Assign::getInstance()->getServerIds();
+		foreach ($servers as $sid) {
+			$cs = parent::assignDbConnection('user_server_'.$sid);
+			$rdb = &$cs['r'];
+			
+			$rs = self::squery($sql, $rdb);
+			$rows = $rs->fetchAll();
+			foreach ($rows as $row) {
+				$results[$row['dateline'].'.'.$row['bid']] = $row;
+			}			
+		}
+		
+		if (count($results)>0) {
+			krsort($results);
+			if (count($results)>BETTER_MAX_LIST_ITEMS) {
+				$tmp = array_chunk($results, BETTER_MAX_LIST_ITEMS);
+				$results = $tmp[0];
+				unset($tmp);
+			}
+		}		
+		
+		return $results;		
+	}
+	
+
+	/**
+	 * 客户端用户公共空间
+	 * 
+	 * @param array $params
+	 * @return array
+	 */
+	public function &apiPublicTimeline(array $params)
+	{
+		$results = array();
+		
+		$page = $params['page'] ? (int)$params['page'] : 1;
+		$page<=0 && $page = 1;
+		$pageSize = $params['page_size'] ? (int)$params['page_size'] : 1;
+		$pageSize<=0 && $pageSize = BETTER_PAGE_SIZE;
+		
+		$max = $page*$pageSize;
+		$followings = 0;
+		$uid = (int)$this->identifier;
+		
+		if ($uid) {
+			$followings = count((array)Better_User::getInstance($this->identifier)->followings);
+		}
+		
+		if ($followings>15) {
+			$sql = "SELECT fe.uid AS feuid, b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+				 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down
+				 ,p.nickname, p.username, p.gender, p.self_intro, p.last_checkin_poi, p.avatar, p.priv_blog, p.priv_location
+				 ,p.address AS user_address, p.range AS user_range, p.city AS user_city, X(p.xy) AS user_xy, Y(p.xy) AS user_y, p.lbs_report
+				 ,at.file_id, at.filename, at.dateline AS at_dateline, at.mimetype, at.filesize, at.ext
+			FROM ".BETTER_DB_TBL_PREFIX."blog AS b
+			";
+		} else {
+			$sql = "SELECT fe.uid AS feuid, b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+				 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down
+				 ,p.nickname, p.username, p.gender, p.self_intro, p.last_checkin_poi, p.avatar, p.priv_blog, p.priv_location
+				 ,p.address AS user_address, p.range AS user_range, p.city AS user_city, X(p.xy) AS user_xy, Y(p.xy) AS user_y, p.lbs_report
+				 ,at.file_id, at.filename, at.dateline AS at_dateline, at.mimetype, at.filesize, at.ext
+			FROM (
+				SELECT b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+				 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down,b.xy FROM ".BETTER_DB_TBL_PREFIX."blog AS b WHERE b.uid=".$uid."
+				UNION 
+				SELECT b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+				 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down,b.xy FROM ".BETTER_DB_TBL_PREFIX."blog AS b
+					JOIN ".BETTER_DB_TBL_PREFIX."friends AS f ON b.uid=f.uid
+					WHERE f.friend_uid=".$uid."
+				UNION 
+				SELECT b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+				 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down,b.xy FROM ".BETTER_DB_TBL_PREFIX."blog AS b 
+					JOIN ".BETTER_DB_TBL_PREFIX."follower AS fe ON b.uid=fe.uid
+					WHERE fe.follower_uid=".$uid."
+				) AS b
+			";			
+		}
+		
+		$sql .= "
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."profile AS p
+					ON p.uid=b.uid
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."follower AS fe
+					ON b.uid=fe.uid AND fe.follower_uid=".$uid."
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."friends AS f
+					ON b.uid=f.uid AND f.friend_uid=".$uid."			
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."attachments AS at
+					ON b.uid=at.uid AND at.file_id=b.attach	
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."user_banned AS ub
+					ON ub.uid=b.uid AND ub.uid IS NULL		
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."blockedby AS bl
+					ON b.uid=bl.uid AND bl.blocked_by_uid=".$uid."
+			WHERE 1
+		";
+			
+		$sql2 = " b.checked=1 AND b.priv!='private' AND b.uid!=".$uid." ";
+		$sql2 .= " AND bl.uid IS NULL";
+		$sql2 .= " AND (fe.follower_uid='".$uid."' OR f.friend_uid='".$uid."')";
+		$sql2 .= " 
+			AND
+			(
+				(		
+					f.friend_uid IS NOT NULL
+					AND 
+					(
+						b.`priv`='protected'
+						OR
+						(
+							(
+								p.priv_blog=1
+								OR
+								p.sys_priv_blog=1
+							)
+							AND
+							b.`priv`='public'
+							AND
+							fe.follower_uid IS NOT NULL
+						)
+					)
+				)
+				
+				OR
+				(
+					b.priv='public'
+					AND
+					p.priv_blog=0
+					AND 
+					p.sys_priv_blog=0
+				)
+				
+				OR
+				(
+					fe.follower_uid IS NOT NULL
+					AND 
+					(
+						p.priv_blog=1
+						OR
+						p.sys_priv_blog=1
+					)
+					AND
+					b.priv='public'
+				)
+			)
+		";
+		
+		$sql .= " AND
+		(
+			b.`type` IN ('normal', 'checkin', 'tips')
+			AND
+			(
+				(
+					b.uid=".$uid." 
+				)
+				OR
+				(".$sql2.")
+			)
+		)
+		ORDER BY b.dateline DESC
+		LIMIT ".$max."
+		";
+
+		$servers = Better_DAO_User_Assign::getInstance()->getServerIds();
+		foreach ($servers as $sid) {
+			$cs = parent::assignDbConnection('user_server_'.$sid);
+			$rdb = &$cs['r'];
+			
+			$rs = self::squery($sql, $rdb);
+			$rows = $rs->fetchAll();
+			foreach ($rows as $row) {
+				$results[$row['dateline'].'.'.$row['bid']] = $row;
+			}			
+		}
+		
+		if (count($results)>0) {
+			krsort($results);
+			if (count($results)>BETTER_MAX_LIST_ITEMS) {
+				$tmp = array_chunk($results, BETTER_MAX_LIST_ITEMS);
+				$results = $tmp[0];
+				unset($tmp);
+			}
+		}		
+		
+		return $results;
+	}	
+	/**
+	 * 客户端用户公共空间
+	 * 
+	 * @param array $params
+	 * @return array
+	 */
+	public function &apiPublicsTimeline(array $params)
+	{
+		$results = array();
+		
+		$page = $params['page'] ? (int)$params['page'] : 1;
+		$page<=0 && $page = 1;
+		$pageSize = $params['page_size'] ? (int)$params['page_size'] : 1;
+		$pageSize<=0 && $pageSize = BETTER_PAGE_SIZE;
+		
+		$max = $page*$pageSize;
+		$followings = 0;
+		$uid = (int)$this->identifier;
+		
+		if ($uid) {
+			$followings = count((array)Better_User::getInstance($this->identifier)->followings);
+		}
+		
+		$of = (int)Better_Config::getAppConfig()->dblist_offset;
+		$sql = "SELECT fe.uid AS feuid, b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+				 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down
+				 ,p.nickname, p.username, p.gender, p.self_intro, p.last_checkin_poi, p.avatar, p.priv_blog, p.priv_location
+				 ,p.address AS user_address, p.range AS user_range, p.city AS user_city, X(p.xy) AS user_xy, Y(p.xy) AS user_y, p.lbs_report
+				 ,at.file_id, at.filename, at.dateline AS at_dateline, at.mimetype, at.filesize, at.ext
+			FROM ".BETTER_DB_TBL_PREFIX."blog AS b
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."user_banned AS ub
+					ON ub.uid=b.uid AND ub.uid IS NULL			
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."profile AS p
+					ON p.uid=b.uid
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."follower AS fe
+					ON b.uid=fe.uid AND fe.follower_uid=".$uid."
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."friends AS f
+					ON b.uid=f.uid AND f.friend_uid=".$uid."
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."blockedby AS bl
+					ON b.uid=bl.uid AND bl.blocked_by_uid=".$uid."
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."attachments AS at
+					ON b.uid=at.uid AND at.file_id=b.attach	
+			WHERE 1
+		";
+			
+		$sql2 = " b.checked=1 AND b.priv!='private' AND b.uid!=".$uid." ";
+		$sql2 .= " AND bl.uid IS NULL";
+		$sql2 .= " AND (fe.follower_uid='".$uid."')";
+		$sql2 .= " 
+			AND (
+					(
+						(p.priv_blog+p.sys_priv_blog)=0
+						AND
+						b.priv='public'
+					)
+					OR
+					(
+						f.friend_uid IS NOT NULL
+						AND b.priv!='private'
+					)
+					OR
+					(
+						b.type='tips'
+					)
+				)
+		";
+		
+		if ($followings<$of) {
+			$sql2 .= " AND b.bid IN (
+				SELECT b1.bid FROM ".BETTER_DB_TBL_PREFIX."blog AS b1
+				 	WHERE b1.uid='".$uid."'
+				UNION 
+				SELECT b2.bid FROM ".BETTER_DB_TBL_PREFIX."blog AS b2
+					INNER JOIN better_friends AS f ON b2.uid=f.uid
+					WHERE f.friend_uid='".$uid."'
+				UNION 
+				SELECT b3.bid FROM ".BETTER_DB_TBL_PREFIX."blog AS b3 
+					INNER JOIN better_follower AS fe ON b3.uid=fe.uid
+					WHERE fe.follower_uid='".$uid."'
+				)";
+		}		
+		
+		$sql .= " AND
+		(
+			(
+				b.uid=".$uid." 
+			)
+			OR
+			(".$sql2.")
+		)
+		ORDER BY b.dateline DESC
+		LIMIT ".$max."
+		";
+
+		$servers = Better_DAO_User_Assign::getInstance()->getServerIds();
+		foreach ($servers as $sid) {
+			$cs = parent::assignDbConnection('user_server_'.$sid);
+			$rdb = &$cs['r'];
+			
+			$rs = self::squery($sql, $rdb);
+			$rows = $rs->fetchAll();
+			foreach ($rows as $row) {
+				$results[$row['dateline'].'.'.$row['bid']] = $row;
+			}			
+		}
+		
+		if (count($results)>0) {
+			krsort($results);
+			if (count($results)>BETTER_MAX_LIST_ITEMS) {
+				$tmp = array_chunk($results, BETTER_MAX_LIST_ITEMS);
+				$results = $tmp[0];
+				unset($tmp);
+			}
+		}		
+		
+		return $results;
+	}
+	
+	/**
+	 * 
+	 * 取得某个poi上的动态
+	 * @param array $params
+	 * @return array
+	 */
+	public function &getSomePoi(array $params)
+	{
+		$type = isset($params['type']) ? $params['type'] : 'normal';
+		$poiId = (int)$params['poi'];
+		
+		$results = array();
+		
+		$page = $params['page'] ? (int)$params['page'] : 1;
+		$page<=0 && $page = 1;
+		$pageSize = $params['page_size'] ? (int)$params['page_size'] : 1;
+		$pageSize<=0 && $pageSize = BETTER_PAGE_SIZE;
+		
+		$max = $page*$pageSize;
+		$uid = (int)$this->identifier;
+
+		$sql = "SELECT fe.uid AS feuid, b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+			 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down
+			 ,p.nickname, p.username, p.gender, p.self_intro, p.last_checkin_poi, p.avatar, p.priv_blog, p.priv_location
+			 ,p.address AS user_address, p.range AS user_range, p.city AS user_city, X(p.xy) AS user_xy, Y(p.xy) AS user_y, p.lbs_report
+			 ,at.file_id, at.filename, at.dateline AS at_dateline, at.mimetype, at.filesize, at.ext
+		FROM ".BETTER_DB_TBL_PREFIX."blog AS b
+			LEFT JOIN ".BETTER_DB_TBL_PREFIX."user_banned AS ub
+				ON ub.uid=b.uid AND ub.uid IS NULL			
+			LEFT JOIN ".BETTER_DB_TBL_PREFIX."profile AS p
+				ON p.uid=b.uid
+			LEFT JOIN ".BETTER_DB_TBL_PREFIX."follower AS fe
+				ON b.uid=fe.uid AND fe.follower_uid=".$uid."
+			LEFT JOIN ".BETTER_DB_TBL_PREFIX."friends AS f
+				ON b.uid=f.uid AND f.friend_uid=".$uid."
+			LEFT JOIN ".BETTER_DB_TBL_PREFIX."blockedby AS bl
+				ON b.uid=bl.uid AND bl.blocked_by_uid=".$uid."
+			LEFT JOIN ".BETTER_DB_TBL_PREFIX."attachments AS at
+				ON b.uid=at.uid AND at.file_id=b.attach	
+		WHERE b.poi_id='".$poiId."'
+		";
+			
+		$sql2 = " b.checked=1 AND b.priv!='private' AND b.uid!=".$uid." ";
+		$sql2 .= " AND bl.uid IS NULL";
+		$sql2 .= " 
+			AND (
+					(
+						(p.priv_blog+p.sys_priv_blog)=0
+						AND
+						b.priv='public'
+					)
+					OR
+					(
+						f.friend_uid IS NOT NULL
+						AND b.priv!='private'
+					)
+					".($type=='tips' ? "
+					OR
+					(
+						b.type='tips'
+					)
+					" : "")."
+				)
+		";
+		
+		if ($type=='tips') {
+			$sql .= " AND
+			(
+				b.`type`='tips'
+			)
+			";			
+		} else {
+			$sql .= " AND
+			(
+				b.`type`='".$type."'
+				AND
+				(
+					(
+						b.uid=".$uid." 
+					)
+					OR
+					(".$sql2.")
+				)
+			)
+			";
+		}
+		$sql .= "
+		ORDER BY b.dateline DESC
+		LIMIT ".$max."
+		";
+
+		$servers = Better_DAO_User_Assign::getInstance()->getServerIds();
+		foreach ($servers as $sid) {
+			$cs = parent::assignDbConnection('user_server_'.$sid);
+			$rdb = &$cs['r'];
+			
+			$rs = self::squery($sql, $rdb);
+			$rows = $rs->fetchAll();
+			foreach ($rows as $row) {
+				$results[$row['dateline'].'.'.$row['bid']] = $row;
+			}			
+		}
+		
+		if (count($results)>0) {
+			krsort($results);
+			if (count($results)>BETTER_MAX_LIST_ITEMS) {
+				$tmp = array_chunk($results, BETTER_MAX_LIST_ITEMS);
+				$results = $tmp[0];
+				unset($tmp);
+			}
+		}		
+		
+		return $results;		
+	}
+	
+	/**
+	 * 获取某人的动态
+	 * 
+	 * @param array $params
+	 * @return array
+	 */
+	public function &getSomebody(array $params)
+	{
+		$results = array();
+		
+		$page = $params['page'] ? (int)$params['page'] : 1;
+		$page<=0 && $page = 1;
+		$pageSize = $params['page_size'] ? (int)$params['page_size'] : 1;
+		$pageSize<=0 && $pageSize = BETTER_PAGE_SIZE;
+		$type = (array)$params['type'];
+		$uid = (int)$params['uid'];
+		
+		$max = $page*$pageSize+1;
+		$followings = 0;
+		$thisUid = (int)$this->identifier;
+		
+		$sql = "SELECT b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+			 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down
+			 ,p.nickname, p.username, p.gender, p.last_checkin_poi, p.avatar, p.priv_blog, p.state
+			 ,p.address AS user_address, p.range AS user_range, p.city AS user_city, X(p.xy) AS user_xy, Y(p.xy) AS user_y, p.lbs_report
+			 ,at.file_id, at.filename, at.dateline AS at_dateline, at.mimetype, at.filesize, at.ext
+		FROM ".BETTER_DB_TBL_PREFIX."blog AS b 
+				INNER JOIN ".BETTER_DB_TBL_PREFIX."profile AS p
+					ON p.uid=b.uid
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."attachments AS at
+					ON b.uid=at.uid AND at.file_id=b.attach
+				LEFT JOIN ".BETTER_DB_TBL_PREFIX."friends AS f
+					ON b.uid=f.uid AND f.friend_uid=".$thisUid."
+			WHERE b.uid='".$uid."'
+		";
+		if (count($type)<3 && count($type)>0) {
+			$sql .= " AND b.type IN ('".implode("','", $type)."')";
+		}
+		
+		if ($uid!=$thisUid) {
+			$sql .= " AND b.checked=1 AND b.priv!='private' AND p.state!='banned'
+			AND (
+					(
+						(p.priv_blog+p.sys_priv_blog)=0
+						AND
+						b.priv='public'
+					)
+					OR
+					(
+						f.friend_uid IS NOT NULL
+						AND b.priv!='private'
+					)
+					".
+					(in_array('tips', $type) ? "
+					OR
+					(
+						b.type='tips'
+					)
+					" : "")
+					."
+				)
+			";	
+		}
+
+		$sql .= "
+		ORDER BY b.dateline DESC
+		LIMIT ".$max."
+		";
+
+		$rdb = Better_DAO_User_Assign::getInstance()->getRdbByUid($uid);
+		$rs = self::squery($sql, $rdb);
+		$rows = $rs->fetchAll();
+		foreach ($rows as $row) {
+			$results[$row['dateline'].'.'.$row['bid']] = $row;
+		}		
+		
+		if (count($results)>0) {
+			krsort($results);
+			if (count($results)>BETTER_MAX_LIST_ITEMS) {
+				$tmp = array_chunk($results, BETTER_MAX_LIST_ITEMS);
+				$results = $tmp[0];
+				unset($tmp);
+			}
+		}				
+		
+		return $results;
+	}
+	
+	/**
+	 * 
+	 * 根据bid获取数据
+	 * @param unknown_type $bid
+	 */
+	public static function &byBid($bid)
+	{
+		list($uid, $foobar) = explode('.', $bid);
+		$result = array();
+		
+		$rdb = Better_DAO_User_Assign::getInstance()->getRdbByUid($uid);
+		$sql = "SELECT b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+					 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down
+					 ,p.nickname, p.username, p.gender, p.self_intro, p.last_checkin_poi, p.avatar, p.priv_blog, p.priv_location
+					 ,p.address AS user_address, p.range AS user_range, p.city AS user_city, X(p.xy) AS user_xy, Y(p.xy) AS user_y, p.lbs_report
+					 ,at.file_id, at.filename, at.dateline AS at_dateline, at.mimetype, at.filesize, at.ext
+				FROM `".BETTER_DB_TBL_PREFIX."blog` AS b
+					INNER JOIN `".BETTER_DB_TBL_PREFIX."profile` AS p
+						ON p.uid=b.uid
+					LEFT JOIN `".BETTER_DB_TBL_PREFIX."attachments` AS at
+						ON  b.uid=at.uid AND at.file_id=b.attach	
+				WHERE bid='".$bid."'
+			 ";
+		
+		$rs = self::squery($sql, $rdb);
+		$result = $rs->fetch();
+		
+		return $result;
+	}
+	
+	/**
+	 * 
+	 * 简化的根据bid获取数据，只从blog表取
+	 * @param unknown_type $bid
+	 */
+	public static function &simpleByBid($bid)
+	{
+		list($uid, $foobar) = explode('.', $bid);
+		$result = array();
+		
+		$rdb = Better_DAO_User_Assign::getInstance()->getRdbByUid($uid);
+		$sql = "SELECT b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+					 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down
+				FROM `".BETTER_DB_TBL_PREFIX."blog` AS b
+				WHERE bid='".$bid."'
+			 ";
+		
+		$rs = self::squery($sql, $rdb);
+		$result = $rs->fetch();
+		
+		return $result;		
+	}
+		
+	/**
+	 * 
+	 * 指定一些bid来获得数据
+	 * 主要用在获取转发的吼吼、签到等
+	 * 
+	 * @param array $params
+	 * @return array
+	 */
+	public function &byBids(array $params)
+	{
+		$results = array();
+		
+		$bids = (array)$params['bids'];
+		if (count($bids)==0) {
+			return $results;
+		}
+		
+		$uid = (int)$this->identifier;
+		
+		$cacher = Better_Cache::remote();
+		$cachedBids = array();
+		foreach ($bids as $bid) {
+			$cacheKey = 'blog_bid_'.md5($bid);
+			$row = $cacher->get($cacheKey);
+			if ($row) {
+				$results[$row['dateline'].'.'.$row['bid']] = $row;
+				$cachedBids[] = $row['bid'];
+			}
+		}
+		
+		if (count($cachedBids)<=count($bids)) {
+			$bids = array_diff($bids, $cachedBids);
+		
+			$sql = "SELECT fe.uid AS feuid, b.bid, b.upbid, b.uid, b.dateline, b.message, b.ip, b.attach, b.source, b.checked, b.favorited, b.address, b.city, X(b.xy) AS x, Y(b.xy) AS y, b.range
+					 ,b.`type`, b.poi_id, b.priv, b.badge_id, b.major, b.up, b.down
+					 ,p.nickname, p.username, p.gender, p.self_intro, p.last_checkin_poi, p.avatar, p.priv_blog, p.priv_location
+					 ,p.address AS user_address, p.range AS user_range, p.city AS user_city, X(p.xy) AS user_xy, Y(p.xy) AS user_y, p.lbs_report
+					 ,at.file_id, at.filename, at.dateline AS at_dateline, at.mimetype, at.filesize, at.ext
+				FROM ".BETTER_DB_TBL_PREFIX."blog AS b
+					LEFT JOIN ".BETTER_DB_TBL_PREFIX."user_banned AS ub
+						ON ub.uid=b.uid AND ub.uid IS NULL		
+					LEFT JOIN ".BETTER_DB_TBL_PREFIX."profile AS p
+						ON p.uid=b.uid
+					LEFT JOIN ".BETTER_DB_TBL_PREFIX."follower AS fe
+						ON b.uid=fe.uid AND fe.follower_uid=".$uid."
+					LEFT JOIN ".BETTER_DB_TBL_PREFIX."friends AS f
+						ON b.uid=f.uid AND f.friend_uid=".$uid."
+					LEFT JOIN ".BETTER_DB_TBL_PREFIX."blockedby AS bl
+						ON b.uid=bl.uid AND bl.blocked_by_uid=".$uid."
+					LEFT JOIN ".BETTER_DB_TBL_PREFIX."attachments AS at
+						ON b.uid=at.uid AND at.file_id=b.attach	
+				WHERE 
+					b.checked=1 AND b.priv!='private' AND bl.uid IS NULL
+					AND 
+						b.bid IN ('".implode("','", $bids)."')
+					AND
+					(
+						b.uid='".$uid."'
+						OR
+						(
+							(
+								(p.priv_blog+p.sys_priv_blog)=0
+								AND
+								b.priv='public'
+							)
+							OR
+							(
+								f.friend_uid IS NOT NULL
+								AND b.priv!='private'
+							)
+							OR
+							(
+								b.type='tips'
+							)
+						)
+					)
+			";
+	
+			$servers = Better_DAO_User_Assign::getInstance()->getServerIds();
+			foreach ($servers as $sid) {
+				$cs = parent::assignDbConnection('user_server_'.$sid);
+				$rdb = &$cs['r'];
+				
+				$rs = self::squery($sql, $rdb);
+				$rows = $rs->fetchAll();
+				foreach ($rows as $row) {
+					$results[$row['dateline'].'.'.$row['bid']] = $row;
+					$cacher->set('blog_bid_'.md5($row['bid']), $row);
+				}			
+			}
+		}
+
+		return $results;				
+	}
+	
+}

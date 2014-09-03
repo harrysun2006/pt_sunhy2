@@ -1,0 +1,100 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/log" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>搜索</th></tr>
+			<tr>
+				<td>操作内容:</td>
+				<td><input type='text' name='keyword' id='keyword' value='<?php echo $this->params['keyword'];?>' /></td>
+				<td>管理员:</td>
+				<td colspan=''><input type='text' name='user_keyword' id='user_keyword' value='<?php echo $this->params['user_keyword'];?>' /></td>
+				<td>类型</td>
+				<td >
+				<select name='act_type' id='act_type'>
+					<option value=''  selected="selected">默认(全部)</option>
+					<option value='change_status' <?php echo $this->params['act_type']=='change_status' ? ' selected="selected"' : '';?>>更改状态</option>
+					<option value='delete' <?php echo $this->params['act_type']=='delete' ? ' selected="selected"' : '';?>>删除微博或私信</option>
+					<option value='del_feedback' <?php echo $this->params['act_type']=='del_feedback' ? ' selected="selected"' : '';?>>删除用户反馈</option>
+					<option value='pass_blog' <?php echo $this->params['act_type']=='pass_blog' ? ' selected="selected"' : '';?>>微博审核通过</option>
+					<option value='pass_image' <?php echo $this->params['act_type']=='pass_image' ? ' selected="selected"' : '';?>>图片审核通过</option>
+					<option value='pass_reply' <?php echo $this->params['act_type']=='pass_reply' ? ' selected="selected"' : '';?>>恢复审核通过</option>
+					<option value='reply_feedback' <?php echo $this->params['act_type']=='reply_feedback' ? ' selected="selected"' : '';?>>回复用户反馈</option>
+					<option value='reply_kaimessage' <?php echo $this->params['act_type']=='reply_kaimessage' ? ' selected="selected"' : '';?>>回复私信</option>
+					<option value='rt_by_email' <?php echo $this->params['act_type']=='rt_by_email' ? ' selected="selected"' : '';?>>邮件转发</option>
+					<option value='send_privmsg' <?php echo $this->params['act_type']=='send_privmsg' ? ' selected="selected"' : '';?>>发送私信</option>
+					<option value='update_risk_words' <?php echo $this->params['act_type']=='update_risk_words' ? ' selected="selected"' : '';?>>更新过滤词词库</option>
+				</select>
+				</td>
+			<tr>
+				<td>时间范围:</td>
+				<td colspan='3'>
+				从 <input type='text' name='from' id='from' value='<?php echo $this->params['from'];?>' readonly='readonly' />
+				到 <input type='text' name='to' id='to' value='<?php echo $this->params['to'];?>' readonly='readonly' />
+				</td>
+
+				<td>每页结果数:</td>
+				<td>
+				<select name='page_size' id='page_size'>
+					<option value='<?php echo BETTER_PAGE_SIZE;?>' <?php echo $this->params['page_size']==BETTER_PAGE_SIZE ? ' selected="selected"' : '';?>>默认(<?php echo BETTER_PAGE_SIZE;?>)</option>
+					<option value='50' <?php echo $this->params['page_size']==50 ? ' selected="selected"' : '';?>>50</option>
+					<option value='100' <?php echo $this->params['page_size']==100 ? ' selected="selected"' : '';?>>100</option>
+					<option value='99999999' <?php echo $this->params['page_size']==99999999 ? ' selected="selected"' : '';?>>全部</option>
+				</select>
+				</td>
+			</tr>			
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='submit' value='搜索(s)' accesskey='s' />
+					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />
+					<input type='hidden' name='page' id='page' value='1' />
+					<input type='hidden' name='reload' id='reload' value='0' />
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div>
+
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+				<tr>
+					<th>管理员帐号</th>
+					<th>操作内容</th>
+					<th>操作类型</th>
+					<th>操作时间</th>
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td width='80' class='center'><?php echo $this->highlight($row['username'], $this->params['user_keyword']);?></td>
+					<td class='messages'><?php echo $this->highlight($row['content'], $this->params['keyword']);?></td>
+					<td width='120' class='center'><?php echo $row['act_type'];?></td>
+					<td width='80' class='center'><a><?php echo date('Y-m-d H:i:s', $row['dateline']+BETTER_8HOURS);?></a></td>
+				</tr>
+				<?php } ?>
+			
+				<?php } else {  ?>
+				<tr>
+					<td colspan='10' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:lift="http://liftweb.net" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta content="width=320" name="viewport" />   
+    <title>开开，记录城市足迹</title>
+  <?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+开开，记录城市足迹
+<br>
+<img src="/images/xinshouzhinan-big.jpg" border='0'><br>
+<a href='/mobile/tools/outerindex?reflink=<?php echo $this->reflink;?>'>点击进入下载页面</a>
+<br>
+开开是与朋友分享位置的新潮网络服务。在开开，你可以轻松结识附近志趣相投的城市潮人，探索吃喝玩乐Happy去处，发表各种贴士秘笈，搜集神秘勋章，并享受各种签到优惠！<br>
+1.一键签到，记录自己的城市足迹<br>
+2.和朋友分享自己的发现或心得<br>
+3.随时随地发表点滴思绪<br>
+4.搜集神秘勋章，做掌门，享特别优惠<br>
+5.将自己的动态同步到微博、人人、开心、豆瓣等热门网站<br>
+<div id='category'><?php echo $this->menuos."|".$this->menubrand;?></div>
+	<div id='content'>
+	<table>
+			<?php $i = 0; foreach($this->brands as $brands){?>
+			<tr>
+				<td><?php echo ($i+1).".";?></td><td><a href="/mobile/tools/outerphone?reflink=<?php echo $this->reflink;?>&bid=<?php echo $brands['bid'];?>"><?php echo $brands['desc']; ?></a></td>			</tr>
+		
+			<?php $i++; }?>
+	</table>
+</div>
+	本软件不收取任何费用。<br/>
+客服电话：0512-62885198 <br/>
+			<a href='javascript:history.go(-1);'>返回</a>
+</body>
+</html>  
+  

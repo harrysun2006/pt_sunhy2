@@ -1,0 +1,78 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="invitation">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid border" style="background-color: #fff;">
+	
+	<div class='small_mid' style='min-height:440px;'>
+		<div class='title_large'>
+			<div class="left"><img src="images/add.png" class="pngfix" /></div>
+			<div class="left text"><?php echo $this->lang->global->people->find_people;?></div>
+		</div>
+
+	<div class="tabs">
+	    <ul class="tabNavigation">
+	        
+	        <li><a href="/invitation/find" ><?php echo $this->lang->global->people->kai;?></a></li>	        
+	        <li><a href="/invitation/mailaddressbook"  class="selected first"><?php echo $this->lang->global->people->emailfriend;?></a></li>
+	        <li><a href="/invitation"><?php echo $this->lang->global->invitation->im;?></a></li>
+	        <li><a href="/invitation/sendmail"><?php echo $this->lang->global->invitation->sendmail;?></a></li>
+	        <li><a href="/invitation/clientaddressbook"><?php echo $this->lang->global->invitation->clientaddressbook;?></a></li>	         
+	     </ul>	   
+	    <div id='find_email' class="no_border" class='m300' style="padding:10px 10px 0 20px;!padding:0 5px 0 20px;">
+	      		<form>
+	                <div class='pfElements'>
+	                <table>
+	                	<tr>
+	                		<td><?php echo $this->lang->global->people->input_email;?></td>	
+	                		<td> <input type="text" size="28" value=""  id='email_user' name="email_user"  tabindex='10' />@
+	                		<select name='email_domain' id='email_domain'>
+	                  		<option value=''><?php echo $this->lang->global->people->choice_email;?></option>
+	                  		<?php foreach($this->email_domains as $domain) {?>
+	                 		 <option value='<?php echo $domain;?>'><?php echo $domain;?></option>
+	                 		<?php } ?>
+	                  		</select>
+	                		</td>	
+	                	</tr>
+	                	<tr>
+	                		<td><?php echo $this->lang->global->people->password;?></td>	
+	                		<td> <input type="password" size="28" value=""  id='email_pass' name="email_pass"  tabindex='11' /></td>	
+	                	</tr>	
+	                	<tr>
+	                		<td colspan='5'><span class='err hide' id='errFindEmail'></span></td>
+	                	</tr>
+	                </table>
+	                <input type="button" id='btnFindEmail' value="<?php echo $this->lang->people->search->button_tips;?>" class='btn2' style="margin-top: 16px;"/>
+	                
+	                
+	                </div>
+	               
+	                <div id='email_result' class='hide result_box'>
+	                 <h2><?php echo $this->lang->global->people->emailfriend_in_id;?></h2>
+	                 
+	                  <table class="find_table friends_table">
+	                  	<tbody id='tbl_findEmail'>
+
+					    </tbody>
+					 </table>
+					 
+					 <h2><?php echo $this->lang->global->people->emailfriend_notin_id;?></h2>
+					 <table class="find_table">
+	                  	<tbody id='tbl_revertEmail'>
+							
+					    </tbody>
+					 </table>
+					 
+	                </div>
+	          </form>       
+	     </div>
+	   
+	</div><!--.tabs-->
+	</div><!-- .small_mid  -->
+  </div><!--#mid-->
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>
+<?php $this->Gz();?>

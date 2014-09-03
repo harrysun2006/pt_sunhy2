@@ -1,0 +1,78 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="index">
+
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid">
+
+	  <div id="half_left">
+			<div class="tabs">
+	            <ul class="tabNavigation">
+	                <li class="title"><?php echo $this->lang->global->venue->require_suncss; ?></li>
+	            </ul>
+	            <div id="venue_box">    
+	           
+		        <div id='venue-step3'>
+					<span><img src="images/attention.png"  class="pngfix"/></span>
+					<span>恭喜！您的信息已经成功提交</span>					
+				</div> 
+				<div class='clearfix'></div>
+				
+				<div class='venue_about_mess left'>
+				<div id='venue_line'></div>
+				<div class='clearfix'></div>
+				恭喜！您的信息已经成功提交开开客服会在72小时内审核，并与您取得联系。在对您的商户进行认证之后，您之前提供的“优惠信息”也将上线，并且会通过开开推送到用户的电脑、手机上。希望为您带来更多的顾客！
+如果您在商户认证申请中遇到任何问题，欢迎通过以下方式与我们联系。 
+<br/>
+电话： 0512-62888255 转市场 （周一至周五 9:00~17:00） 
+<br/>
+EMAIL：contact@k.ai
+				
+				</div>
+				<div class='clearfix'></div>
+				<div id='require_form' >
+				<div class='venue_submit'><a href='<?php echo $this->gotourl;?>'><div class='venue_botton'>完成认证</div></a></div> 		
+							
+				</div>	 		
+	              <div class="clearfix"></div>
+	              
+	            </div>
+	        </div><!--#tabs-->
+        
+	  </div><!--#half_left-->
+	  <div id="half_right">
+	    <div id="venue_step" class="right_nav">
+	      <h2><?php echo $this->lang->global->venue->title; ?></h2>
+	      <ul>	     
+	        <li>	         
+	         <?php echo $this->lang->global->venue->about; ?>	         
+	        </li>
+	      	<li >	         
+	         <?php echo $this->lang->global->venue->step1; ?>        
+	        </li>
+	        <li >	        
+	          <?php echo $this->lang->global->venue->step2; ?>	         
+	        </li>
+	        <li class='on'>	         
+	          <?php echo $this->lang->global->venue->sucess; ?>	         
+	        </li>
+	      </ul>
+	       <div class="clearfix"></div>
+	    </div>
+	    
+	    <div class="right_nav">
+	      <ul class="button"><li>
+	        <a href="/<?php echo $this->dispUserInfo['username'];?>">返回个人主页</a>
+	        </li>
+	      </ul>
+	    </div>
+	  </div><!--#half_right-->
+	  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+<?php echo $tmpb;?>
+</body>
+</html>
+<?php $this->Gz();?>

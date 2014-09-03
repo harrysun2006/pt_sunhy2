@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:lift="http://liftweb.net" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta content="width=320" name="viewport" />   
+      <title>开开，记录城市足迹</title>
+       <?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+  
+	<div id='category'><?php echo $this->menuos."|".$this->menubrand;?></div>
+	<div id='content'>
+	<table>
+			<?php $i = 0; foreach($this->brands as $brands){?>
+			<tr>
+				<td><?php echo ($i+1).".";?></td><td><a href="/mobile/tools/outerphone?reflink=<?php echo $this->reflink;?>&bid=<?php echo $brands['bid'];?>"><?php echo $brands['desc']; ?></a></td>			</tr>
+		
+			<?php $i++; }?>
+	</table>
+	</div>	
+	<a href='javascript:history.go(-1);'>返回</a>
+</body>
+</html>  
+  

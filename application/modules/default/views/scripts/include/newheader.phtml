@@ -1,0 +1,36 @@
+<div id="header">
+  <div class="mid">
+  	<div id="home_link">
+  	   <a href="/home" class="logo_logedin" target="_blank"></a>
+  	</div>
+  	<div id='header_right'>
+	  	<?php include_once(dirname(__FILE__).'/../include/headeruserlan.phtml');?>	
+		<div id="nav">	
+		  <form method="get" action="/search" id='top_search'>
+		  	<ul>	  	
+		  		<li class="first"><a href="/home"><?php echo $this->lang->global->nav->homepage;?></a></li>
+		  		<li class="second"><a href="/<?php echo $this->UserLink();?>"><?php echo $this->lang->global->nav->user;?></a></li>
+		  		<li class="third"><a href="/pois"><?php echo $this->lang->global->nav->around;?></a></li>
+		  		<li class="fourth"><a href="/invitation/find"><?php echo $this->lang->global->nav->find_people;?></a></li>
+		  		<li class="fivth"><a href="/tools"><?php echo $this->lang->global->nav->tools;?></a></li>
+		  		<?php include_once(dirname(__FILE__).'/../include/headersearch.phtml');?>
+		  	</ul>
+		  	</form>
+		</div> <!--#nav-->	
+	 
+		<div id='search_choose'>
+			<div id='top_search_jiao'><img src='images/login_third_topjiao.gif'></div>
+			<div id='top_search_list'>
+				<li>请选择搜索范围</li>
+				<li id='search_type_poi' class='search_mouse_on'>
+					带有<span id="m_keyword_poi"></span>的地点
+				</li>
+				<li id='search_type_people' class=''>
+					名为<span id="m_keyword_people"></span>的人
+				</li>
+		 	</div>
+		</div>			
+  </div>
+  </div>
+</div> <!--#header-->
+	

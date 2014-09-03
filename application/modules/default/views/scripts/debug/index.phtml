@@ -1,0 +1,84 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="index">
+
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid">
+
+	  <div id="half_left">
+	    <div class="big_box">
+	     <!-- <div class="fill"></div>  --> 
+	      <div class="updatestatus">
+	      	<a href='/tools' title='<?php echo $this->lang->global->down_tips;?>'><img src="images/trans.gif" alt="" class='left pngfix' <?php if(Better_Registry::get('language')=='en'){?> style="margin: 10px 8px 0 10px;" <?php }else{?> style="margin: 10px 55px 0 24px;" <?php }?>  id="downtocell"/></a>
+	      	<a id="checkina" href="#checkindlg" disable='disable'><img src="images/check-in.png" alt="" style="margin-right: 2px;" /></a>
+	      	<a id="shouta" href="#status"><img src="images/trans.gif" alt="" id="shoutapng"/></a>
+	      </div>
+	    </div>
+	    <div id="data">
+			<div class="tabs">
+	            <ul class="tabNavigation">
+	                <li><a href="#followings" class='first'><?php echo $this->lang->home->my_followings;?></a></li>
+	                <li><a href="#aroundme"><?php echo $this->lang->home->aroundme;?></a></li>
+	                <?php if ($this->config->rt_me) { ?><li><a href="#rtmine" ><?php echo $this->lang->home->rtmine;?></a></li><?php } ?>
+	                <li><a href="#all"><?php echo $this->lang->home->newmajors;?></a></li>
+	            </ul>
+	            <div id="followings">
+	            	<table class="blog_table"><tbody id='tbl_followings'><tr class='tbl_tr_ajax_loading'><td colspan='8' class='tbl_ajax_loading'><img src='images/ajax_loading.gif' alt='' /></td></tr></tbody></table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_followings'></div>
+						</td>
+						</tr>
+					</table>	
+	            </div>
+	            
+	            <div id="aroundme" style='display:none'>
+	            	<table class="blog_table">
+	            		<tbody id='tbl_aroundme'></tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_aroundme'></div>
+						</td>
+						</tr>
+					</table>
+	            </div>	            	
+
+	            <div id="all" style='display:none'>
+	            	<table class="blog_table">
+	            		<tbody id='tbl_all'></tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_all'></div>
+						</td>
+						</tr>
+					</table>
+	            </div>	    
+				<div id="rtmine" style='display:none'>
+	            	<table class="blog_table">
+	            		<tbody id='tbl_rtmine'></tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_rtmine'></div>
+						</td>
+						</tr>
+					</table>
+	            </div>	    
+	        </div><!--#tabs-->
+        
+	  	</div><!--#data-->	
+	  </div><!--#half_left-->
+	  <?php include_once(dirname(__FILE__).'/../include/rightbar.phtml');?>
+  </div><!--#mid-->
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>

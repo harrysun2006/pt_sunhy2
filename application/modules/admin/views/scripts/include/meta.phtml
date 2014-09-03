@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><?php echo $this->title;?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<base href="<?php echo BETTER_BASE_URL;?>/" />
+<?php echo $this->headMeta();?>
+<link rel="stylesheet" type="text/css" href="css/better.css" />
+<link rel="stylesheet" type="text/css" href="css/admin.css" />
+<style type='text/css'>@IMPORT url("/js/jquery/jquery.fancybox/jquery.fancybox-1.3.1.css");</style>
+<style type='text/css'>@IMPORT url("/css/jquery.tooltip.css");</style>
+<script type='text/javascript' src='js/jquery/mixed.js?ver=<?php echo BETTER_VER_CODE;?>' charset='utf-8' ></script>
+
+<script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
+<script type='text/javascript' src='/js/jquery/jquery.requireScript.js'></script>
+<script type='text/javascript' src='/js/jquery/jquery.cookie.js'></script>
+<script type='text/javascript' src='/js/jquery/jquery.bgiframe.js'></script>
+<script type='text/javascript' src='/js/jquery/jquery.dimensions.js'></script>
+<script type='text/javascript' src='/js/jquery/jquery.tooltip.js'></script>
+<script type='text/javascript' src='/js/jquery/jquery.fancybox/jquery.fancybox-1.3.1.js'></script>
+<script type='text/javascript' src='/js/jquery/jquery.fancybox/jquery.easing.1.3.js'></script>
+
+<?php if ($_SERVER['SERVER_NAME']=='10.10.59.98') {?>
+<script type="text/javascript" src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixThnWgwAfIozEyIOiZ15mj0OMKvahRVNoJqYZPBWjUNqHRmCrcDysiTvw&hl=zh-CN" ></script>
+<?php } else if ($_SERVER['SERVER_NAME']=='10.35.254.252') {?>
+<script type="text/javascript" src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixRf4hW1KVnn8WbEudSO60E8y0lOtRQIvdEZencEGSh_7plvsDzq8hTvPA&hl=zh-CN" ></script>
+<?php } else if ($_SERVER['SERVER_NAME']=='k.ai' || $_SERVER['SERVER_NAME']=='www.k.ai') {?>
+<script type="text/javascript" src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixR0YGVtJgVUGyuoBMON3xMOzZ92exTxqToQuvODwiSqaEqRvydHv2Of4w&hl=zh-CN" ></script>
+<?php } else if ($_SERVER['SERVER_NAME']=='better.com') { ?>
+<script type="text/javascript" src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixRj8_478J9x0a1RAYZVCh_P5t2MQxQFiKRCTOv6boSPU_U9n6dBscS_MQ&hl=zh-CN" ></script>
+<?php } else if ($_SERVER['SERVER_NAME']=='10.10.8.210') {?>
+<script type="text/javascript" src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixRZ6XYiRqDrFNXiYmJNYO0C9S7p8xQOJVTxDlX0ywZvGIoqSFd9lj_xTQ&hl=zh-CN" ></script>
+<?php } else if ($_SERVER['SERVER_NAME']=='10.10.8.14') { ?>
+<script type="text/javascript" src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixTIeabhJxt35huM1qHE-t7G2FYhYxRFN3yj3wkN7tMXe_I6At1MX92QZw&hl=zh-CN" ></script>
+<?php } else if ($_SERVER['SERVER_NAME']=='10.10.1.252') {?>
+<script type="text/javascript" src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixQMpeF6SNs3tyzUWltG12eU-tdblBTYV9Q2tSBaqbHhNWEPqislvFA4Ww&hl=zh-CN" ></script>
+<?php } else if ($_SERVER['SERVER_NAME']=='10.10.24.1'){?>
+<script type="text/javascript" src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixRfuL57xm6vtbRSFk_2XKmLZ4dZoRTO24XDuth4G1igwhMTNPLExhHsVQ&hl=zh-CN" ></script>
+<?php }else if ($_SERVER['SERVER_NAME']=='t.k.ai') {?>
+<script src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;sensor=true&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixR70nOoihVuSrFkMKRvrlP1ctZ_yRTKG4u7n3SYcefCCfoqLkIKJUasJA" type="text/javascript"></script>
+<?php }else if ($_SERVER['SERVER_NAME']=='127.0.0.5') { ?>
+<script type="text/javascript" charset='utf-8' src="http://ditu.google.cn/maps?file=api&v=2&key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixQjmfA8qHQp5KOl_wF9TYpaNSUWExSwpN39oRwhM4cWmCX3M7wvrYBptQ&hl=zh-CN" ></script>
+<?php }else if ($_SERVER['SERVER_NAME']=='127.0.0.2') { ?>
+<script type="text/javascript" charset='utf-8' src="http://ditu.google.cn/maps?file=api&v=2&key=ABQIAAAAEbxo6U_sQtFXy4NrpOQSPhRNyzVm-9nZuwxmgYQF4q80Us7tjhQyM_GKE_gKXEcFDcgv4ad8bzci0g&hl=zh-CN" ></script>
+<?php } else {?>
+<script type="text/javascript" src="http://ditu.google.cn/maps?file=api&amp;v=2&amp;key=ABQIAAAAz2EYq_GNa47dPkdP-6nRixS3MHZs5Ta_LBAGK8i2UwqeHUWysRTNLN4Su0YyzQAZ61s6LZ_G4J_Oaw&hl=zh-CN" ></script>
+<?php }?>
+
+<script type='text/javascript' language='javascript'>
+var BASE_URL = '<?php echo BETTER_BASE_URL;?>';
+var BETTER_ADMIN_URL = '<?php echo BETTER_BASE_URL.'/admin';?>';
+var betterLang = new Object();
+var isAdmin = true;
+var BETTER_VER_CODE = '<?php echo BETTER_VER_CODE;?>';
+var Better_Need_Checkin_Js = false;
+var Better_InDebug = true;
+</script>
+<?php echo $this->headLink();?>
+<?php echo $this->jsLanguage();?>
+<script type='text/javascript' src='/js/better.js?ver=<?php echo BETTER_VER_CODE;?>'></script>
+<?php echo $this->headScript();?>
+<!-- <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />  -->
+</head>

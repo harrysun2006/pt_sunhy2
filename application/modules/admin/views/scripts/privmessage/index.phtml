@@ -1,0 +1,39 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper' >
+		<form id='msg_form' action='<?php echo $this->admin_url;?>/privmessage/send' method='post'>
+			<table style='margin: 0 auto; width: 500px;'>
+				<tr>
+					<td colspan='4'>
+						<h3>发送内部私信</h3>
+					</td>
+				</tr>
+				<tr>
+					<td>收信人：</td>
+					<td>内容：</td>
+				</tr>
+				<tr>
+					<td>
+						<div id='whitelist' style='width: 200px ; height: 320px; overflow-y: auto; border: 1px solid #000; text-align: left;'>
+							<?php $msgs= Better_Whitelist::getInstance(APPLICATION_PATH.'/../data/workers.dat')->getMsgs();
+							foreach($msgs as $val){
+								$arr = explode('--', $val);
+								$uid = $arr[1];
+								?>
+								<input type='checkbox' name='uids[]' value='<?php echo $uid;?>'/>
+								<span><?php echo $val;?></span><br>
+							<?php }?>
+						</div>
+					</td>
+					<td><textarea cols='40' rows='21' name='msg_content' id='msg_content'></textarea></td>
+				</tr>
+				<tr>
+					<td colspan='4'>
+						<input type='submit' id='send_msg' name='submit' value='确定' />
+					</td>
+				</tr>
+			</table>
+			</form>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

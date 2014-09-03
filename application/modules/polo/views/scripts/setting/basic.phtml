@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="viewport" content="width=device-width; initial-scale=1.4; minimum-scale=1.0; maximum-scale=2.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?php echo $this->lang->global->meta->title;?></title>
+	<?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+	<?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+	<div id="headinfo">
+		<?php 
+    		if( $this->user['uid'] > 0 ){
+				echo "<a href=\"/polo/user?uid=".$this->user["uid"]."\" >".$this->user["nickname"]."</a>@";
+				if( (int)($this->lastcheckin['poi']['poi_id']) < 1 ){
+					echo "<a href=\"/polo/search\">".$this->lang->mobile->global->whereplace."</a>";
+				}else{
+					echo "<a href=\"/polo/place?pid=".$this->lastcheckin['poi']['poi_id']."\">".$this->lastcheckin['poi']['name']."</a>";
+				}
+				echo "<hr/>";
+			}
+		?>	
+	</div>
+	<?php echo "<a href=\"/polo/setting\">".$this->lang->global->nav->setting."</a>->".$this->lang->setting->basic->title;?>
+	 <div id="error">
+		<?php 
+			if( 0 && strlen($this->err['err']) > 0 )
+				//echo "<font color=\"red\">".$this->err['err']."</font><br/>";
+				echo  $this->err['err']."</font><br/>";
+		?>
+	</div>
+	<div id="set_form">
+	   	<div class="userinfo">
+		<form method="post" action='/polo/setting/update' >
+	    	<div class="row">
+			  <label for="email"><?php echo $this->lang->setting->basic->email->title;?></label>
+			  <div class="field">
+			  	 <input type="text" size="40" id="email" name="email" value="<?php echo $this->user['email'];?>" <?php if ($this->isValidating) { ?>disabled='disabled'<?php }?>/><br/>
+			  	 <span class="help">(<?php echo $this->isValidating ? str_replace('{EMAIL}', $this->lastRequestEmail, $this->lang->global->require_validated) : $this->lang->setting->basic->email->tips;?>)</span><br/>
+			  </div>
+			  <div id="error"><span id='err_email' class='err'><?php echo $this->err['err_email']."<br/>";?></span></div>
+			</div>
+			<div class="row">
+			  <label for="url"><?php echo $this->lang->setting->basic->domain->title;?></label>
+			  <div class="field">
+			  		<input type="text" size="40" id="username" name="username" value="<?php echo $this->user['username'];?>"/><br/>			  		
+			  		<span class="help">(<?php echo $this->lang->setting->basic->domain->tips;?>)</span><br/>
+			  </div>
+			  <div id="error">
+			  	<span id='err_username' class='err'><?php echo $this->err['err']['err_username']."<br/>";?></span>
+			  </div>
+			</div>
+			<div class="row">
+				<label for="nickname"><?php echo $this->lang->setting->basic->nickname->title;?></label><br/>
+			   	<div class="field">
+			    	<input type="text" size="40" id="nickname" name="nickname" value="<?php echo $this->user['nickname'];?>"/><br/>
+			  		<span class="help">(<?php echo $this->lang->setting->basic->nickname->tips;?>)</span>
+			 	</div>
+			 	<div id="error"><span id='err_nickname' class='err'><?php echo $this->err['err']['err_nickname']."<br/>";?></span></div>
+			</div>
+			<div class="row">
+				<label for="person_sex"><?php echo $this->lang->setting->basic->gender->title;?></label>
+				<div class="field"><?php  
+				
+				if ($this->user['gender']!='secret'){
+					$thisradio_type = "disabled='true'";
+				}
+				?>
+					<input id="gender_male" name="gender" type="radio" value="male" <?php if ($this->user['gender']=='male') { echo "checked='checed'";} echo $thisradio_type;?>/> <?php echo $this->lang->setting->basic->gender->male;?>
+					<input id="gender_female" name="gender" type="radio" value="female" <?php if ($this->user['gender']=='female') { echo "checked='checed'"; }echo $thisradio_type;?>/> <?php echo $this->lang->setting->basic->gender->female;?>
+					<input id="gender_secret" name="gender" type="radio" value="secret" <?php if ($this->user['gender']=='secret') { echo "checked='checed'"; }echo $thisradio_type;?> /> <?php echo $this->lang->setting->basic->gender->secret;?><br/>
+					<!-- <span class='err'>(<?php echo $this->lang->setting->basic->gender->tips;?>)</span><br/><br/> -->				
+				</div>				
+			</div>
+		  
+			<div class="row">
+				<label for="birth"><?php echo $this->lang->setting->basic->birthday->title;?></label>
+				<div class="field">
+					<input type="text" size="40" id="birthday" name="birthday" value="<?php echo $this->user['birthday'];?>" /><br/><br/>
+				</div>
+				<div id="error"></div>
+			</div>
+			<div class="row">
+				<label for="desc"><?php echo $this->lang->setting->basic->intro->title;?></label>
+				<div class="field">
+				<textarea cols="40" rows="2" id="self_intro" name="self_intro" ><?php echo $this->user['self_intro'];?></textarea>
+				<span id='err_intro' class='err'><?php echo $this->err['err']['err_intro'];?></span>
+			</div>			
+		</div>
+		<br>
+		<input type='hidden' name='todo' id='todo' value='basic' />
+		<input type="submit" value="<?php echo $this->lang->setting->basic->button_tips;?>" class="save btn" id='btnSaveBasic' />
+		</form>
+	</div>
+	
+	<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>

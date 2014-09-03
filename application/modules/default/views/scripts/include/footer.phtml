@@ -1,0 +1,50 @@
+<div id="footer">
+  <div class="mid">
+
+    <!-- <div class="inmid"></div>  -->
+    <div class='icp'>
+<!-- <a href="/kai" title="<?php echo $this->lang->global->foot->aboutus->news;?>"><?php echo $this->lang->global->foot->aboutus->news;?></a>&nbsp;&nbsp;&nbsp;&nbsp;  -->
+<a href="http://blog.k.ai/" title="<?php echo $this->lang->global->foot->aboutus->blog;?>"><?php echo $this->lang->global->foot->aboutus->blog;?></a>		&nbsp;&nbsp;&nbsp;&nbsp;	
+<a href="/signup/aboutus" class='blank' title="<?php echo $this->lang->global->foot->aboutus->aboutus;?>"><?php echo $this->lang->global->foot->aboutus->aboutus;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/signup/terms" class='blank' title="<?php echo $this->lang->global->foot->aboutus->tos;?>"><?php echo $this->lang->global->foot->aboutus->tos;?></a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/help/learnmore" title="<?php echo $this->lang->global->foot->aboutus->learnmore;?>"><?php echo $this->lang->global->foot->aboutus->learnmore;?></a>&nbsp;&nbsp;&nbsp;&nbsp; 
+<a href="http://wiki.k.ai" title="<?php echo $this->lang->global->foot->aboutus->openkai;?>"><?php echo $this->lang->global->foot->aboutus->openkai;?></a>
+<br>
+<?php if($this->inIndex){?>
+<a href="http://www.miibeian.gov.cn/" target="_blank">苏ICP备09008736号</a> 增值电信业务经营许可证：苏B2-20090144 苏B2-20090233 乙测资字32005055 
+<?php }?>
+</div>
+
+  </div> 
+
+  </div>
+
+</div> <!--#footer-->
+ 
+<div id='divFbMessage' class='hide' title=''></div>
+<div id='divFbSendMessage' class='hide'>
+
+<?php 
+if ($this->user['uid']) {
+	include_once(dirname(__FILE__).'/dmessage.phtml');
+} else {
+	echo "<img style='display: none;' id='btnUpload' src='images/photo.png'  width='80' />";
+}
+
+?>
+</div>
+<div id='betterMessageBox' class='hide' title='' style="overflow: visible; "></div>
+<div id='betterConfirmBox' class='hide' title='' style="overflow: visible; "></div>
+<div id='betterFormBox' class='hide' title='' style="overflow: visible; "></div>
+<?php include_once(dirname(__FILE__).'/../include/script.phtml');?>
+<?php if (APPLICATION_ENV!='production') { ?><!-- Exec Time: <?php echo $this->execTime();?> s --><?php } ?>
+
+
+<?php if($this->uid){?>
+<!-- Feedback button-->
+<a id='feedbackbutton' href='/feedback'><img src="/images/<?php echo $this->Images('feedback.gif');?>" alt="" /></a>
+<?php }?>
+
+<?php if(!$this->inIndex){?>
+<a id='backTop' class='hide' href='javascript: void(0);' onclick="window.scrollTo(0,0);"><img src='/images/backTop.gif' /></a>
+<?php }?>

@@ -1,0 +1,90 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+			<form method='post' action='<?php echo $this->admin_url;?>/poi/search'>
+				<input type='hidden' name='id' value="<?php echo $this->params['id'];?>" />
+				<input type='hidden' name='lon' value="<?php echo $this->poi_info['lon'];?>" />
+				<input type='hidden' name='lat' value="<?php echo $this->poi_info['lat'];?>" />
+				
+			<table width='100%'>
+				<tr>
+					<th colspan='5'>搜索</th>
+				</tr>
+				<tr>
+					<td>POI关键字：</td>
+					<td><input type='text' size='40' name='keyword' id='keyword' value="<?php echo $this->params['keyword'];?>"/></td>
+					<td>范围：</td>
+					<td>
+						<select id='range' name='range'>
+							<option value='5000'>5KM</option>
+							<option value='10000'>10KM</option>
+							<option value='50000'>50KM</option>
+							<option value='100000'>100KM</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan='4'><input type='submit' id="search_btn" value='搜索'/></td>
+				</tr>
+			</table>
+			</form>
+			
+			<input type='hidden' name='ref_poi_id' id="ref_poi_id" value="">
+			<input type="hidden" name='poi_id' id='poi_id' value="<?php echo $this->params['id'];?>">
+				
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+				<tr>
+					<th width='20'></th>
+					<th class='nowrap'>POI ID</th>
+					<th class='nowrap' width='50'>分类</th>
+					<th class='nowrap'>名称</th>
+					<th class='nowrap'>城市</th>
+					<th class='nowrap' style="padding: 3px 30px;">地址</th>
+					<th class='nowrap'>皇帝</th>
+					<th class='nowrap'>创始人</th>
+					<th class='nowrap'>创建时间</th>
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td><input type='radio' name='poiid'  value='<?php echo $row['poi_id'];?>' /></td>
+					<td class='center'><a href='#' target='_blank'><?php echo $row['poi_id'];?></a></td>
+					<td class='center'><a href='#' target='_blank'><?php echo $row['category_name']?></a></td>
+					<td class='center'><a href='#' target='_blank'><?php echo $this->highlight($row['name'], $this->params['keyword']);?></a></td>	
+					<td class='center'><a href='#' target='_blank'><?php echo $row['city']?></a></td>
+					<td class='center'><a href='#' target='_blank'><?php echo $row['address'];?></a></td>
+					<td class='center'><a href='#' target='_blank'><?php echo $row['major'];?></a></td>
+					<td class='center'><a href='#' target='_blank'><?php echo $row['creator'];?></a></td>
+					<td class='center'><?php echo $row['create_time'] ?  date('Y-m-d H:i:s', $row['create_time']+BETTER_8HOURS) : 0;?></td>
+				</tr>
+				<?php } ?>
+				<tr>
+					<td colspan='15' class=''>
+						<input type='button' id='merge_btn' value='合并' />
+						<input type='button' id='submit_btn' value='确定' />
+					</td>
+				</tr>
+				<?php } else {  ?>
+				<tr>
+					<td colspan='15' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

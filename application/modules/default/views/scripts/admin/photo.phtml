@@ -1,0 +1,49 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="admin" >
+<div id="header">
+  <div class="mid">
+  	<div id="home_link">
+  	   <a href="/index"><img src="images/logo.png" alt="logo" class="logo"/></a>
+  	   <h1>贝多</h1>
+  	</div>
+	<div id="nav">
+	  <form method="get" action="/search" id='top_search'>
+	  	<ul>
+	  		<li class="on"><a href="/home">首页</a></li>
+	  		<li><a href="/user">空间</a></li>
+	  		<li><a href="/around">雷达</a></li>
+	  		<li><a href="/people/find">找朋友</a></li>
+	  		<li><a href="/tools">工具</a></li>
+	  		<li><a href="/setting">设置</a></li>
+	  		<?php include_once(dirname(__FILE__).'/../include/headersearch.phtml');?>
+	  	</ul>
+	  	</form>
+	</div> <!--#nav-->
+
+  </div>
+</div> <!--#header-->
+<div id="nav">
+  <div class="mid">
+  	<form method="get" action="search.html">
+  	<ul>
+  		<li><a href="admin">管理</a></li>
+  	</ul>
+  	</form>
+  </div>
+</div> <!--#nav-->
+
+<div id="content">
+  <div class="mid">
+	  <div id="half_left">
+	  	<p>图片管理: <a href="/admin/photo" onclick="getAvatarImg();return false;">头像</a> <a href="/admin/photo" onclick="getAttachImg();return false;">附件</a></p>
+	  	<div id="display_img">
+		</div>
+	  </div><!--#half_left-->
+	  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>

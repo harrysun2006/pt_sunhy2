@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="viewport" content="width=device-width; initial-scale=1.4; minimum-scale=1.0; maximum-scale=2.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?php echo $this->lang->global->meta->title;?></title>
+	<?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+	<?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+	<div id="headinfo">
+		<a href="/mobile/user?uid=<?php echo($this->user["uid"])?>" ><?php echo($this->user["nickname"])?></a>@
+		<?php if( (int)($this->lastcheckin['poi']['poi_id']) < 1 ){?><a href="/mobile/search"><?php echo $this->lang->mobile->global->whereplace; ?></a><?php }else{?>
+		
+			<a href="/mobile/place?pid=<?php echo $this->lastcheckin['poi']['poi_id'];?>"><?php echo $this->lastcheckin['poi']['name']; ?></a>
+		<?php }?><hr/>
+	</div>
+	<div id="content">
+		<?php echo $this->error;?>
+		<form enctype="multipart/form-data" action="/mobile/user/doshout" method="post" id="shoutform">
+  			<span><?php echo $this->displayTips."(<=140".$this->lang->post->words_left_part2.")"?></span><br/><br/>
+  			<textarea cols="40" rows="2" id="self_intro" name="message" ></textarea><br/>
+        	<?php         	
+        	if($this->user['status']['source']!='IFN' and $this->user['status']['source']!='IPN'){?><input type="file" name="attach" size=30 /><br/><?php }?>
+        	<?php
+        		//original status        		
+        		if( $this->upblog ){
+        			$original = "<p>".$this->lang->mobile->global->original;
+        			$original .="<a href=\"/mobile/user?uid=".$this->upblog['user']['uid']."\">".$this->upblog['user']['nickname']."</a>";
+	       			if( $this->upblog['user']['poi']['poi_id'] ){
+        				$original .= "@<a href=\"/mobile/place?pid=".$this->upblog['user']['poi']['poi_id']."\">".$this->upblog['blog']['blog_poi']['name']."</a>";
+        			}
+        			$thistype = $this->upblog['blog']['type'];
+        			switch ($thistype){
+        				case 'normal':
+        					$original .="[".$this->lang->mobile->user->shout->noun."]";
+        				break;
+        				case 'tips':
+        					$original .="[".$this->lang->mobile->user->tip->noun."]";
+        				break;
+        				case 'checkin':
+        					$original .="[".$this->lang->mobile->user->checkin->noun."]";
+        				break;  
+        			}     
+        			if( strlen($this->upblog['blog']['message']) > 0 ){
+        				$original .= ":".$this->upblog['blog']['message'];
+        			}         			 			
+        			$original .= "</p>";
+        			echo $original;
+        		}
+        		?>
+        		<?php         		
+        		if($this->category!='tips')
+        		{
+        		?>
+        	<select name="priv" id="priv" >
+        		<option value="public"><?php echo $this->lang->global->include->dmessage->privacy_public; ?></option>
+        		<option value="private"><?php echo $this->lang->global->include->dmessage->privacy_private; ?></option>
+        	</select>
+        	<?php } ?>        	<input type="hidden" name="type" value="<?php echo $this->category;?>" />
+        	<input type="hidden" name="poi_id" value="<?php echo $this->poi_id;?>" />
+        	<input type="hidden" name="upbid" value="<?php echo $this->upblog['blog']['bid'];?>" />
+        	<input type="hidden" name="source" value="mobile" />
+        	<br/>
+      		<input value="<?php echo $this->lang->resetpwd->button_tips; ?>" type="submit"  <?php echo $this->buttondisable; ?>/>
+		</form>
+		
+	</div>
+	<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>

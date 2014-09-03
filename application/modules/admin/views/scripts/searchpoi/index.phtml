@@ -1,0 +1,152 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		<?php include_once(dirname(__FILE__).'/../include/poifunctions.phtml');?>
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/searchpoi" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>搜索</th></tr>
+			<tr>
+				<td>POI关键字:</td>
+				<td><input type='text' name='namekeyword' id='namekeyword' value='<?php echo $this->params['namekeyword'];?>' /></td>
+				<td>位置关键字:</td>
+				<td><input type='text' name='placekeyword' id='placekeyword' value='<?php echo $this->params['placekeyword'];?>' /></td>
+			</tr>	
+			<tr>
+				<td>城市:</td>
+				<td>
+					<select id='city' name='city'>
+						<option value=''>--不限--</option>
+						<option value='39.90888,116.398001' <?php echo $this->params['city']=='39.90888,116.398001'? "selected": "" ;?>>北京</option>
+						<option value='31.222197,121.472054' <?php echo $this->params['city']=='31.222197,121.472054'? "selected": "" ;?>>上海</option>
+						<option value='23.134104,113.322323' <?php echo $this->params['city']=='23.134104,113.322323'? "selected": "" ;?>>广州</option>
+						<option value='22.546806,114.069672' <?php echo $this->params['city']=='22.546806,114.069672'? "selected": "" ;?>>深圳</option>
+					</select>
+					&nbsp;
+					<select id='range' name='range'>
+						<option value='500' >500米</option>
+						<option value='1000' >1000米</option>
+						<option value='30000' selected>30公里</option>
+						<option value='50000' >50公里</option>
+						<option value='99999999' >不限</option>
+					</select>
+					&nbsp;
+					<div id='city_map'></div>
+					<input type='hidden' id='city_lat' name='city_lat' value='<?php echo $this->params['city_lat'];?>'/>
+					<input type='hidden' id='city_lon' name='city_lon' value='<?php echo $this->params['city_lon'];?>'/>
+				</td>
+				<td>每页结果数:</td>
+				<td>
+				<input type='hidden' name='page_size' id='page_size' value='99999999'/>
+				全部
+				<!-- <select name='page_size' id='page_size'>
+					<option value='<?php echo BETTER_PAGE_SIZE;?>' <?php echo $this->params['page_size']==BETTER_PAGE_SIZE ? ' selected="selected"' : '';?>>默认(<?php echo BETTER_PAGE_SIZE;?>)</option>
+					<option value='50' <?php echo $this->params['page_size']==50 ? ' selected="selected"' : '';?>>50</option>
+					<option value='100' <?php echo $this->params['page_size']==100 ? ' selected="selected"' : '';?>>100</option>
+					<option value='99999999' <?php echo $this->params['page_size']==99999999 ? ' selected="selected"' : '';?>>全部</option>
+				</select>  -->
+				</td>
+			</tr>
+							
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='submit' value='搜索(s)' accesskey='s' />
+					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />
+					<input type='hidden' name='page' id='page' value='<?php echo $this->params['page'];?>' />
+					<input type='hidden' name='reload' id='reload' value='0' />
+					
+					<input type='hidden' name='doubt' id='doubt' value='<?php echo $this->params['doubt'];?>'/>
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div>
+		
+			<table cellspacing="0" class='kai_table'>	
+				<?php if ($this->count>0) { ?>
+					<tr>
+						<td colspan='15' height='50'>
+							目标POI：<input type='text' id='target_pid' name='target_pid' value=''/>&nbsp;&nbsp;&nbsp;
+							<span id='target_name'></span>&nbsp;&nbsp;&nbsp;
+							<span id='target_address'></span>&nbsp;&nbsp;&nbsp;
+						</td>
+					</tr>
+				<?php }?>
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator(false);?>
+					</td>
+				</tr>					
+				<tr>
+					<th width='20'></th>
+					<th class='nowrap'>POI ID</th>
+					<th class='nowrap' width='50'>分类</th>
+					<th class='nowrap'>名称</th>
+					<th class='nowrap'>城市</th>
+					<th class='nowrap' style="padding: 3px 30px;">地址</th>
+					<th class='nowrap'>皇帝</th>
+					<th class='nowrap'>创始人</th>
+					<th class='nowrap'>创建时间</th>
+					<th class='nowrap'>电话</th>
+					<th class='nowrap' width='60'>操作</th>										
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td><input id='check_<?php echo $row['poi_id'];?>' type='checkbox' name='poids[]'  value='<?php echo $row['poi_id'];?>' latlon='<?php echo $row['lat'].'|'.$row['lon'];?>' pname='<?php echo $row['name'];?>'/></td>
+					<td class='center'><a href='/poi?id=<?php echo $row['poi_id'];?>' target='_blank'><?php echo $this->highlight($row['poi_id'], $this->params['namekeyword']);?></a></td>
+					<td class='center'><?php echo $row['category_name']?></td>
+					<td class='center'><a href='javascript: void(0);' onclick='POI_show_infowindow("<?php echo $row['lat'].'|'.$row['lon'];?>", "<?php echo $row['name'];?>");'><?php echo $this->highlight($row['name'], $this->params['namekeyword']);?></a></td>	
+					<td class='center'><?php echo $row['city']?></td>
+					<td class='center'><?php echo $row['address'];?></td>
+					<td class='center'><a href='<?php echo isset($row['major_name'])? "/".$row['major_name'] : "javascript:void(0);"; ?>'   <?php echo isset($row['major_name'])? "target='_blank'" : "" ; ?>><?php echo $row['major'];?></a></td>
+					<td class='center'><a href='<?php echo isset($row['creator_name'])? "/".$row['creator_name'] : "javascript:void(0);"; ?>'   <?php echo isset($row['creator_name'])? "target='_blank'" : "" ; ?>><?php echo $row['creator'];?></a></td>
+					<td class='center'><?php echo $row['create_time'] ?  date('Y-m-d H:i:s', $row['create_time']+BETTER_8HOURS) : 0;?></td>
+					<td class='center'><?php echo $row['phone'];?></td>
+					<td class='center' width='50'>
+						<a class="xiugai" href='<?php echo $this->admin_url;?>/poi/updatepoi?id=<?php echo $row['poi_id'];?>' id="<?php echo $row['poi_id']?>" target='_blank'>修改</a><br>
+						<a href='javascript: void(0);' onclick='POI_setTargetPoi({pid:"<?php echo $row['poi_id'];?>", name:"<?php echo $row['name'];?>", address:"<?php echo $row['address'];?>", latlon:"<?php echo $row['lat'].'|'.$row['lon'];?>"});'>设为目标</a>
+					</td>
+					<input type='hidden' class='lonlat' name='<?php echo $row['name'];?>' value='<?php echo $row['lat'].'|'.$row['lon'];?>' />
+				</tr>
+				<?php } ?>
+				<tr>
+					<td colspan='15' class='center'>
+					<input type='button' id='chooseAll' name='chooseAll'  value='全选(a)' accesskey='a' />
+					<input type='button' id='chooseNone' name='chooseNone' value='全不选(n)' accesskey='n' />
+					<input type='button' id='chooseReverse' name='chooseReverse' value='反选(v)' accesskey='v' />
+				</td>
+				</tr>
+				
+					<tr>
+						<td colspan='15'>
+							<a id='show_map' href='javascript:void(0);'>地图中查看</a>
+							<div id='admin_map' class='hide' style='height: 350px; margin: 0 0 10px 0;'></div>
+						</td>
+					</tr>
+				
+				
+				<tr><td colspan='15'>
+					<input type='button' id='btnMerge' value='合并' />
+					<input type='button' id='btnDel' value='删除' />
+					</td>
+				</tr>					
+				<?php } else {  ?>
+				<tr>
+					<td colspan='15' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator(false);?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

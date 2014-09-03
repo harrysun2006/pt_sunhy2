@@ -1,0 +1,124 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="setting">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+<style>
+#friendlist li {
+float:left;
+width:75px;
+text-align:center;
+}
+</style>
+<div id="setting_page">
+ <div class="mid title">
+	  <div id="setting_header_title" style="text-align:center"><span class='text'><?php echo $this->lang->setting->import->title;?></span></div>
+	   <div id="setting_header_img"><h2><?php echo $this->lang->global->setting_header_text;?></h2></div>
+ </div>
+ 
+  <div class="mid">
+	<div id="setting_menu" class="hide">
+	    <ul id="right_menu">	   
+	        <li><a href="/setting" class="off"><?php echo $this->lang->setting->menu->basic;?></a></li>
+	        <li><a href="/setting/avatar" class="off"><?php echo $this->lang->setting->menu->avatar;?></a></li>
+	        <li><a href="/setting/password" class="off"><?php echo $this->lang->setting->menu->password;?></a></li>
+	        <li><a href="/setting/privacy" class="off"><?php echo $this->lang->setting->menu->privacy;?></a></li> 
+	        <li><a href="/setting/cell" class="off"><?php echo $this->lang->setting->menu->cell;?></a></li>
+	        <?php if ($this->config->msn_robot->enabled) { ?>
+	        <li><a href='/setting/im' class="off"><?php echo $this->lang->setting->menu->im;?></a></li>
+	        <?php } ?>	        
+	        <li><a href="/setting/sync" class="off"><?php echo $this->lang->setting->menu->sync;?></a></li>
+	        <li><a href="/setting/email" class="off"><?php echo $this->lang->setting->menu->email;?></a></li>
+	        <?php if (!$this->config->lbs->promotion) { ?><li><a href="/tools/lbs" class="off"><?php echo $this->lang->tools->lbs->title;?></a></li><?php } ?>
+	        <li><a href="/tools/share" class="off"><?php echo $this->lang->tools->share->title;?></a></li>
+	        <li><a href="/setting/bedoimport" class="on"><?php echo $this->lang->setting->menu->bedoimport;?></a></li>
+	    </ul>
+	 </div>
+	<div id="setting_tip" style="float: right;font-size: 14px; width: 280px;">
+		<div style="padding:32px 25px 0 25px;color:#ffffff;font-family:'微软雅黑,黑体'">
+		<?php echo $this->lang->setting->import->tip;?></div>
+	 </div>
+	 <div id="setting_content" style="min-height:400px">
+		<div class="setting_main">
+			<div id="importChoose" class="<?php echo $this->importChooseStyle;?>">
+	  	 		<h2 style="font-family:'微软雅黑,黑体';font-size:14px;"><?php echo str_replace('XXXX', $this->totalNum, $this->lang->setting->import->info);?></h2>
+		    	<div class="syncSet" style="padding: 20px">
+				<form>
+		    		<table>
+		    			<tbody>
+		    				<tr>
+		    					<td width="30"><input type="checkbox" name="blog" id="blog" <?php echo !$this->blogCnt ? 'disabled="disabled" ' : '';?>/></td><td width="100"><?php echo $this->lang->setting->import->blog;?></td><td width="200"><?php echo $this->blogCnt?> <?php echo $this->lang->setting->import->blogDesc?></td>
+		    				</tr>
+		    				<tr>
+		    					<td><input type="checkbox" name="photo" id="photo" <?php echo !$this->photoCnt ? 'disabled="disabled" ' : '';?>/></td><td><?php echo $this->lang->setting->import->photo;?></td><td><?php echo $this->photoCnt?> <?php echo $this->lang->setting->import->photoDesc?></td>
+		    				</tr>
+		    				<tr>
+		    					<td><input type="checkbox" name="miniBlog" id="miniBlog" <?php echo !$this->miniBlogCnt ? 'disabled="disabled" ' : '';?>/></td><td><?php echo $this->lang->setting->import->miniBlog;?></td><td><?php echo $this->miniBlogCnt?> <?php echo $this->lang->setting->import->miniBlogDesc?></td>
+		    				</tr>
+		    			</tbody>
+		    		</table>
+		    		<br />
+		    		<img border="0" style="vertical-align: middle;cursor:pointer" src="/images/bedo/import.png"  id="startImport" /> <img src="/images/bedo/skip.png" border="0" style="vertical-align: middle;cursor:pointer;margin-left:40px;" id="skipImport" />
+				</form>
+				</div>
+			</div>
+			<div id="importing" class="snotice <?php echo $this->importingStyle;?>" style="line-height:26px">
+			<?php echo $this->lang->setting->import->doing?>
+			</div>
+			<div id="noneImport" class="<?php echo $this->noneImportStyle;?>" style="line-height:26px">
+				<div class="snotice"><?php echo $this->lang->setting->import->none?></div>
+				<?php
+		    		if ($this->firstImport) { 
+		    	?>
+		    	<br />
+		    	<a href="#"><img src="/images/bedo/start.png" border="0" style="vertical-align: middle;" id="skipImport" /></a>
+		    	<?php
+		    		}
+		    	?>
+			</div>
+			<div id="importTip" class="hide">
+	  	 		<h2 style="font-family:'微软雅黑,黑体';font-size:14px;padding-left:0px;"><?php echo $this->lang->setting->import->loading;?></h2>
+		    	<span style="font-family:'微软雅黑,黑体';font-size:13px;font-weight:bold"><?php echo $this->lang->setting->import->loadtip;?></span>
+		    	<div class="syncSet" style="padding: 20px">
+		    	<?php
+		    		if ($this->firstImport) { 
+		    	?>
+		    	<a href="#" style="margin-left:50px"><img src="/images/bedo/start.png" border="0" style="vertical-align: middle;" id="skipImport" /></a>
+		    	<?php
+		    		}
+		    	?>
+				</div>
+			</div>
+			<?php 
+				
+				if ($this->friendlist) {
+					?>
+					<div id="frindtitle" style="background-color: rgb(235, 235, 235); line-height: 30px; padding-left: 30px; color: rgb(60,60,60); height: 30px; overflow: hidden; margin-top: 20px; clear: both;font-weight:bold;margin:20px 0;"><?php echo $this->lang->setting->import->bedofriend?></div>
+					<div id="friendlist">
+						<ul>
+					<?php 
+					foreach ($this->friendlist as $val) {
+						?>
+							<li>
+								<a href="<?php echo $val['link']?>"><img src="<?php echo $val['img']?>" alt="<?php echo $val['txt']?>" width="48" height="48" /></a><br />
+								<a href="<?php echo $val['link']?>"><?php echo $val['txt']?></a>
+							</li>
+						<?php 
+					}
+					?>
+						</ul>
+					</div>
+					<?php 
+				}
+				?>
+	    </div>
+	    
+	    	  
+	 </div>	    
+  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

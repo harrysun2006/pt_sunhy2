@@ -1,0 +1,87 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+
+<body id="profile">
+
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid">
+	  <div id="half_left">
+	    <div style='margin-bottom: 5px;'>
+	    	<img src='/images/banner.png' />
+	    </div>
+	    <div id="data">
+			<div class="tabs">
+	            <ul class="tabNavigation">
+	             	               	 
+					<?php if ($this->user['uid']==$this->dispUserInfo['uid']) {?>
+					<li><a href='#blog_favorites' style='margin-left: 4px;'><?php echo $this->lang->user->blog_favorites;?></a></li>
+					<li><a href='#poi_favorites'><?php echo $this->lang->user->poi_favorites;?></a></li>
+					<li><a href='#tips_favorites'><?php echo $this->lang->user->tips_favorites;?></a></li>
+					<?php } ?>
+					
+	            </ul>
+	            
+	            <div id="blog_favorites" class='hide'>
+	            	<table class="blog_table">
+	            	<tbody id="tbl_blog_favorites">
+
+					 </tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_blog_favorites'></div>
+						</td>
+						</tr>
+					</table>
+	            </div> 	            
+	            
+	            <div id="poi_favorites" class='hide'>
+	            	<table class="blog_table">
+	            	<tbody id="tbl_poi_favorites">
+
+					 </tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_poi_favorites'></div>
+						</td>
+						</tr>
+					</table>
+	            </div> 	       
+	            
+	            <div id="tips_favorites">
+	            	<table class="blog_table">
+	            	<tbody id="tbl_tips_favorites">
+
+					 </tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_tips_favorites'></div>
+						</td>
+						</tr>
+					</table>
+	            </div> 
+	        
+	        </div><!--#tabs-->
+        
+	  	</div><!--#data-->	
+	  </div><!--#half_left-->
+	  <?php include_once(dirname(__FILE__).'/../include/rightbar.phtml');?>
+	  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<!-- 举报对话框  -->
+<div id='deno' class='hide'>
+	<input type='text' />
+</div>
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

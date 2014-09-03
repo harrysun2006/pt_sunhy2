@@ -1,0 +1,124 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="index">
+
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid">
+
+	  <div id="half_left">
+			<div class="tabs">
+	            <ul class="tabNavigation">
+	                <li class="title"><?php echo $this->lang->global->venue->apply; ?></li>
+	            </ul>
+	            <div id="venue_box"> 
+	           	<div class='venue_about_title'>
+		           	<div class='left'>登记我的商家有什么好处?</div>		           	
+		           	<div class='venue_about_title_sanjiao'>         		
+		           	</div>
+	           	</div> 
+	            <div class='venue_about_mess'>
+	     			<div class='venue_about_block'>
+		     			<div class='venue_about_mess_icon'></div>
+		     			<div class='block_mess'>
+			     			<div class='block_title'>线上运营店铺</div>
+			     			<div>开开商户后台为您即时提供店铺签到信息，实时了解顾客对店铺点评，线上与顾客互动；</div>
+		     			</div>
+	     			</div>
+	     			<div class='venue_dashed_line'></div>     
+		            <div class='venue_about_block'>
+		     			<div class='venue_about_mess_icon'></div>
+		     			<div class='block_mess'>
+			     			<div class='block_title'>优惠由您选择</div>
+			     			<div>自选符合商户气质的优惠折扣，吸引更多开开用户成为您的店铺常客；</div>
+		     			</div>
+		     		</div> 
+		     		<div class='venue_dashed_line'></div>     
+		            <div class='venue_about_block'>
+		     			<div class='venue_about_mess_icon'></div>
+		     			<div class='block_mess'>
+			     			<div class='block_title'>掌握顾客信息</div>
+			     			<div>谁到过店里？他们有怎么样的行为轨迹？开开为您作免费宣传，吸引潜在目标受众；</div>
+		     			</div>
+		     		</div> 
+		     		<div class='venue_dashed_line'></div>     
+		            <div class='venue_about_block'>
+		     			<div class='venue_about_mess_icon'></div>
+		     			<div class='block_mess'>
+			     			<div class='block_title'>抓住实际客流</div>
+			     			<div>优惠信息将在1公里范围内优先展示！开开为您作免费宣传，帮您抓住近在咫尺的实际客流；</div>
+		     			</div>
+		     		</div> 
+		     		<div class='venue_dashed_line'></div>     
+		            <div class='venue_about_block'>
+		     			<div class='venue_about_mess_icon'></div>
+		     			<div class='block_mess'>
+			     			<div class='block_title'>口碑营销利器</div>
+			     			<div>顾客可把在您店铺的消息分享给15个社区的好友，商户后台可以看到您的顾客热衷分享的社交网络。</div>
+		     			</div>
+		     		</div> 
+				</div>  
+				<div class='venue_about_title'>
+					<div class='left'>第 一 步 – 认证您的身份</div>
+					<div class='venue_about_title_sanjiao'>
+		           		
+		           	</div>
+		         </div>  
+				<div class='venue_about_mess'>为了验证您的身份是真正的店长，我请您登记一些验证信息。登记后，开开客服会在72小时内与您取得联系，并为您提供最佳的推广方案。
+				</div>  
+				<div class='venue_about_title'><div class='left'>第 二 步 – 为顾客提供『开开优惠』</div><div class='venue_about_title_sanjiao'>
+		           </div></div>  
+				<div class='venue_about_mess'>在认证成功后，您将可以轻松修改自己的店铺信息，还可以自助为您的顾客提供各种各样的『开开优惠』。
+『开开优惠』经过审核上线后，开开会将其展示在您店铺附近用户的电脑、手机上，为您带来更多的顾客！
+赶快申请加入我们吧！
+				</div>
+				
+				<?php 
+					$url = "/venue/step1";
+					if($this->poi_id){
+						$url .= "?id=".$this->poi_id;
+					}
+				?>
+				
+				<div class='venue_submit'><a href='<?php echo $url; ?>'><div class='venue_botton'>开始认证</div></a></div> 				
+	              <div class="clearfix"></div>
+	              
+	            </div>
+	        </div><!--#tabs-->
+        
+	  </div><!--#half_left-->
+	  <div id="half_right">
+	    <div id="venue_step" class="right_nav">
+	      <h2><?php echo $this->lang->global->venue->title; ?></h2>
+	      <ul>	     
+	        <li class='on'>	         
+	         <?php echo $this->lang->global->venue->about; ?>	         
+	        </li>
+	      	<li>	         
+	         <?php echo $this->lang->global->venue->step1; ?>        
+	        </li>
+	        <li>	        
+	          <?php echo $this->lang->global->venue->step2; ?>	         
+	        </li>
+	        <li>	         
+	          <?php echo $this->lang->global->venue->sucess; ?>	         
+	        </li>
+	      </ul>
+	       <div class="clearfix"></div>
+	    </div>
+	    
+	    <div class="right_nav" id="venue_right_back">
+	      <ul class="button"><li>
+	        <a href="javascript:history.go(-1);">返回前一页</a>
+	        </li>
+	      </ul>
+	    </div>
+	  </div><!--#half_right-->
+	  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+<?php echo $tmpb;?>
+</body>
+</html>
+<?php $this->Gz();?>

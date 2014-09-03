@@ -1,0 +1,246 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="setting">
+
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="setting_page">
+ <div class="mid title">
+	  <div id="setting_header_title"><span class='text'><?php echo $this->lang->global->nav->setting;?></span></div>
+	  <div id="setting_header_img"><h2><?php echo $this->lang->global->setting_header_text;?></h2></div>
+ </div>
+ 
+  <div class="mid">
+	<div id="setting_menu">
+	    <ul id="right_menu">
+	        <li><a href="/setting" class="off"><?php echo $this->lang->setting->menu->basic;?></a></li>
+	        <li><a href="/setting/avatar" class="off"><?php echo $this->lang->setting->menu->avatar;?></a></li>
+	        <li><a href="/setting/password" class="off"><?php echo $this->lang->setting->menu->password;?></a></li>
+	        <li><a href="/setting/privacy" class="off"><?php echo $this->lang->setting->menu->privacy;?></a></li>
+	        <li><a href="/setting/cell" class="off"><?php echo $this->lang->setting->menu->cell;?></a></li>
+	        <?php if ($this->config->msn_robot->enabled) { ?>
+	        <li><a href='/setting/im' class="off"><?php echo $this->lang->setting->menu->im;?></a></li>
+	        <?php } ?>	  	        
+	        <li><a href="/setting/sync" class="on"><?php echo $this->lang->setting->menu->sync;?></a></li>
+	        <li><a href="/setting/email" class="off"><?php echo $this->lang->setting->menu->email;?></a></li>
+	        <?php if (!$this->config->lbs->promotion) { ?><li><a href="/tools/lbs" class="off"><?php echo $this->lang->tools->lbs->title;?></a></li><?php } ?>
+	        <li><a href="/tools/share" class="off"><?php echo $this->lang->tools->share->title;?></a></li>
+	        <?php if ($this->bedoUid) {?>
+	        <li><a href="/setting/bedoimport" class="off"><?php echo $this->lang->setting->menu->bedoimport;?></a></li>
+	        <?php } else {?>
+	        <li><a href="/setting/bedobind" class="off"><?php echo $this->lang->setting->menu->bedoimport;?></a></li>
+	        <?php }?>
+	    </ul> 
+	 </div>
+	    <div id="setting_content">
+			<div class="setting_main">
+			
+  	 		<h2><?php echo $this->lang->setting->sync->title;?></h2>
+		   
+	    	<div class="userinfo">
+	    	
+	    	<form action='#' id='form_set_sync' style='line-height: 20px;'>
+
+		    	<div style='margin-bottom: 15px;'>
+					<?php echo $this->lang->setting->sync->tips;?>
+				</div>
+					    	
+	    	    <table class="sync_table" cellspacing='0'>
+	    	    	<?php 
+	    	    		$sites = array( 'sina'=> '新浪微博', 
+	    	    					    'qq'=> '腾讯微博', 
+	    	    						'qqsns'=> 'QQ',
+	    	    					    'msn'=> 'MSN',
+	    	    					    'kaixin001'=> '开心网',
+	    	    					    'renren'=> '人人网',
+	    	    						'douban'=> '豆瓣',
+	    	    						'fanfou'=> '饭否',
+	    	    						'facebook'=> 'Facebook',
+	    	    						'twitter'=> 'Twitter',
+	    	    						'4sq'=> 'Foursquare',
+	    	    						'sohu'=> '搜狐微博',
+	    	    						'163'=> '网易微博',
+	    	    						'139'=> '139说客',
+	    	    						'follow5'=> 'Follow5',
+	    	    						'zuosa'=> '做啥',
+	    	    						
+	    	    		);
+	    	    		
+	    	    		foreach($sites as $site=>$name){?>
+							<!-- <?php echo $site;?> -->
+				    	    <tr>
+				    	    	<td class='center' width='62'>
+				    	    		<img src='images/3rdSite/<?php echo $site;?>.gif'/>
+				    	    	</td>
+				    	    	<td width='302'>
+				    	    		<span class='sync_title'><?php echo $name;?></span><br>
+				    	    		<?php if(isset($this->syncSites[$site.'.com'])){?>
+				    	    			<span class='sync_account' id='status_<?php echo $site;?>'>已同步<?php echo $this->syncSites[$site.'.com']['username']?></span>
+				    	    		<?php }else{
+				    	    			echo "<span class='sync_account' id='status_$site'>未同步</span>";
+				    	    		}?>
+				    	    	</td>
+				    	    	<td width='116'>
+				    	    		<?php if(isset($this->syncSites[$site.'.com'])){?>
+				    	    			<span id='sync_<?php echo $site;?>'><input type='checkbox' ref='<?php echo $site.'.com';?>' id='sync_badge_<?php echo $site;?>' <?php echo $this->syncSites[$site.'.com']['sync_badge']==1 ? 'checked': ''; ?>>勋章同步</span>
+				    	    		<?php }else{ ?>
+				    	    			<span id='sync_<?php echo $site;?>' class='hide'><input type='checkbox' ref='<?php echo $site.'.com';?>' id='sync_badge_<?php echo $site;?>' <?php echo $this->syncSites[$site.'.com']['sync_badge']==1 ? 'checked': ''; ?>>勋章同步</span>
+				    	    		<?php }?>
+				    	    	</td>
+				    	    	<td width='42'>
+										<?php 
+										if(isset($this->syncSites[$site.'.com'])) {
+											$site == '139' ? $onclick = 'onclick="unbind()"' : $onclick = '';
+										?>
+										<a href='javascript: void(0);' id='cancel_<?php echo $site;?>' ref='<?php echo $site;?>' <?php echo $onclick;?>>解除</a>
+										<a href='javascript: void(0);' id='restore_<?php echo $site;?>' ref='<?php echo $site;?>' class='hide'>放弃</a>
+										<?php 
+											if($site=='qq'){
+												$href = '/setting/sync?target=qq';
+											} else if ($site=='douban'){
+												$href = '/setting/sync?target=douban';
+											} else if ($site=='facebook'){
+												$href = '/setting/sync?target=facebook';
+											} else if ($site=='163'){
+												$href = '/setting/sync?target=163';
+											} else if ($site=='renren'){
+												$href = '/setting/sync?target=renren';
+											} else if ($site=='4sq'){
+												$href = '/setting/sync?target=4sq';
+											} else if ($site=='qqsns'){
+												$href = '/setting/sync?target=qqsns';
+											} else if ($site=='139'){
+												$onclick = 'onclick="login()"';
+												$href = 'javascript: void(0);';
+											} else {
+												$href = 'javascript: void(0);';
+											}
+										
+										?>
+										<a href='<?php echo $href;?>' <?php echo $onclick ? $onclick : '';?> id='bind_<?php echo $site;?>' ref='<?php echo $site;?>' class='hide'>同步</a>
+										<?php 
+										} else {
+											 
+										?>
+										<a href='javascript: void(0);' id='cancel_<?php echo $site;?>' ref='<?php echo $site;?>' class='hide'>解除</a>
+										<a href='javascript: void(0);' id='restore_<?php echo $site;?>' ref='<?php echo $site;?>' class='hide'>放弃</a>
+										<?php 
+										
+											if( $site=='qq'){
+												$href = '/setting/sync?target=qq';
+											} else if ($site=='douban'){
+												$href = '/setting/sync?target=douban';
+											} else if ($site=='facebook'){
+												$href = '/setting/sync?target=facebook';
+											} else if ($site=='163'){
+												$href = '/setting/sync?target=163';
+											} else if ($site=='renren'){
+												$href = '/setting/sync?target=renren';
+											} else if ($site=='4sq'){
+												$href = '/setting/sync?target=4sq';
+											} else if ($site == 'qqsns'){
+												$href = '/setting/sync?target=qqsns';
+											} else if ( $site=='139' ){
+												$onclick = 'onclick="login()"';
+												$href = 'javascript: void(0);';
+											}else{
+												$href = 'javascript: void(0);';
+											}
+										
+										?>
+										<a href='<?php echo $href;?>' <?php echo $onclick ? $onclick : '';?> id='bind_<?php echo $site;?>' ref='<?php echo $site;?>'>同步</a>
+									<?php }?>
+									
+				    	    	</td>
+				    	    </tr>
+				    	    <tr id='func_<?php echo $site;?>' class='sync_input hide'>
+				    	    	<td colspan='4'>
+				    	    	<span>
+				    	    		<?php 
+				    	    			if($site=='facebook'){
+				    	    				echo '<span class="err">绑定Facebook 需要你的浏览器同时可以访问 Facebook 和 开开 网站&nbsp;&nbsp;&nbsp; </span>';
+				    	    				echo '<a href="/setting/sync?target=facebook" id="new_bind_facebook">绑定</a>';
+				    	    			}else{ ?>
+				    	    				<?php echo $this->lang->setting->sync->service->account;?><input type='text' id='username_<?php echo $site;?>' value=''  size='16' />
+							    	    	<?php echo $this->lang->setting->sync->service->password;?><input type='password' id='password_<?php echo $site;?>' value='' size='10' />
+							    	    	<?php if ($site=='sina'): ?>
+							    	    	<input type="checkbox" name="followkai" id="followkai" checked="checked" />关注开开
+						    	    		<?php endif;?>
+						    	    		<input type='button' id='btn_<?php echo $site;?>' value='<?php echo $this->lang->setting->sync->service->bind;?>'  class='btn'/>
+						    	    		<br>
+						    	    		<?php 
+						    	    			if($site=='digu'){
+						    	    				$tips = $this->lang->setting->sync->service->digu->tips;
+						    	    			}else if($site=='zuosa'){
+						    	    				$tips = $this->lang->setting->sync->service->zuosa->tips;
+						    	    			}else{
+						    	    				$tips = '';
+						    	    			}
+						    	    		?>
+						    	    		<span id='err_<?php echo $site;?>' class='err <?php echo !$tips ? 'hide': '';?>'><?php echo $tips;?></span>
+				    	    		<?php }?>
+					    	    	
+				    	    	</span>
+				    	    	</td>
+				    	    </tr>	    	    			
+	    	    		<?php }
+	    	    	?>
+	    	    	
+	    		</table>
+
+			</form>
+			</div>
+			
+			<div id="loginarea"></div>
+<script type="text/javascript" src="http://auth.139.com/connect/featureloader.php"></script>
+<script type="text/javascript" charset="utf-8">
+	var MItimer =setInterval( function(){
+		if(MI && MI.init){
+		clearInterval(MItimer);
+		MI.init('<?php echo Better_Config::getAppConfig()->shuoke_api->key;?>','http://<?php echo $_SERVER['SERVER_NAME'], ':', $_SERVER["SERVER_PORT"];?>/proxy.html');
+		
+	}
+	},500)
+	function login(){
+		MI.Connect.requireSession(
+			function(r){
+				if(r.status == MI.ConnectState.connected){}
+				var url = '/setting/sync?callback=139&token=' + r.token + '&userid=' + r.userid;
+				window.location.href = url;
+			}
+			,function(r){})
+	}
+	function unbind(){
+		MI.Connect.requireSession(
+			function(r){
+				if(r.status == MI.ConnectState.connected) {}
+				var url = '/setting/sync?callback=139&token=' + r.token + '&userid=' + r.userid + '&at=unbind';
+				window.location.href = url;
+			}
+			,function(r){})
+	}
+	
+	function logout(){
+		MI.Connect.logout(function(r){
+			if(r.status == MI.ConnectState.userNotLoggedIn)
+				alert("退出成功");
+			else
+				alert("退出失败");
+		})
+	}
+</script>			
+			
+	    </div>
+	   
+	   
+	   
+	</div><!--.tabs-->
+	    
+	    <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

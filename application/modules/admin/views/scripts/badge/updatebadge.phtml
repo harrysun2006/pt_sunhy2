@@ -1,0 +1,168 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+	<form id="update_badge" enctype="multipart/form-data" action="/admin/badge/doupdatebadge" method="post">
+	<div id="list">
+		<table class="kai_table">
+			<tr>
+				<th colspan='4' style="text-align:center;">更新勋章</th>
+				
+			</tr>
+			<tr>
+				<td>勋章名称</td>
+				<td colspan='3'>
+					<input type='text' name='badge_name' value="<?php echo $this->badge['badge_name'];?>"/>
+					<input type='hidden' name='id' value="<?php echo $this->badge['id'];?>"/>
+				</td>
+			</tr>
+			<tr>
+				<td>勋章描述</td>
+				<td colspan='3'>				
+					<textarea id='got_tips' name='got_tips' cols='50' rows='4'><?php echo $this->badge['got_tips'];?></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>勋章同步语：</td>
+				<td colspan='3'>
+					<textarea id='sync_tips' name='sync_tips' cols='50' rows='4'><?php echo $this->badge['sync_tips'];?></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>图片(300)：</td>
+				<td colspan='3'>
+				<input type='file' name='badge_big' />
+				</td>
+			</tr>
+			<tr>
+				<td>图片(96)：</td>
+				<td colspan='3'>
+		<input type='file' name='badge_96' />
+				</td>
+			</tr>
+			<tr>
+				<td>图片(48w)：</td>
+				<td colspan='3'>
+		<input type='file' name='badge_48w' />
+				</td>
+			</tr>
+			<tr>
+				<td>图片(48)：</td>
+				<td colspan='3'>
+				<input type='file' name='badge_100' />
+				</td>
+			</tr>
+			<tr>
+				<td>图片(36)：</td>
+				<td colspan='3'>
+		<input type='file' name='badge_36' />
+				</td>
+			</tr>
+			<tr>
+				<td>图片(24)：</td>
+				<td colspan='3'>
+		<input type='file' name='badge_24' />
+				</td>
+			</tr>
+		<tr>
+				<td>开始时间：</td>
+				<td colspan='3'>
+				<input id="btm" type="text" name="btm" value="<?php echo $this->badge['btm']>0 ? (date('Y-m-d H:i',$this->badge['btm']+8*3600)):'';?>" />		为空表示时间不限制	(格式 2011-05-01 12:00)			
+				</td>
+			</tr>
+			<tr>
+				<td>结束时间：</td>
+				<td colspan='3'>
+					<input id="etm" type="text" name="etm" value="<?php echo $this->badge['etm']>0 ? (date('Y-m-d H:i',$this->badge['etm']+8*3600)):'';?>" />为空表示时间不限制 (格式 2011-05-01 12:00)
+				</td>
+			</tr>
+			<tr>
+				<td>勋章类别：</td>
+				<td colspan='3'>
+					<select name='family' id='family'>		
+					<option value='normal' <?php if($this->badge['family']=='normal') echo "selected='selected'";?> >荣誉勋章</option>
+					<option value='explore' <?php if($this->badge['family']=='explore') echo "selected='selected'";?> >城市探索</option>
+					<option value='memorial' <?php if($this->badge['family']=='memorial') echo "selected='selected'";?> >纪念日</option>
+					<option value='event' <?php if($this->badge['family']=='event') echo "selected='selected'";?> >精彩活动</option>
+					<option value='partner' <?php if($this->badge['family']=='partner') echo "selected='selected'";?> >品牌优惠</option>
+					</select>
+				</td>
+			</tr>	
+			<?php if($this->badge['category']=='blog' || $this->badge['category']=='checkin') {?>	
+			<tr>
+				<td>勋章分类：</td>
+				<td colspan='3'>							
+					<select name='category' id='category'>							
+					<option value='blog' <?php if($this->badge['category']=='blog') echo "selected='selected'";?> >动态</option>					
+					<option value='checkin' <?php if($this->badge['category']=='checkin') echo "selected='selected'";?> >签到</option>					
+					<!-- 
+					<option value='sync' <?php if($this->badge['category']=='sync') echo "selected='selected'";?> >SNS绑定</option>
+					<option value='invite' <?php if($this->badge['category']=='invite') echo "selected='selected'";?> >好友邀请</option>
+					<option value='blog' <?php if($this->badge['category']=='blog') echo "selected='selected'";?> >动态</option>					
+					<option value='checkin' <?php if($this->badge['category']=='checkin') echo "selected='selected'";?> >签到</option>
+					<option value='friend' <?php if($this->badge['category']=='friend') echo "selected='selected'";?> >好友</option>					
+					<option value='treasure' <?php if($this->badge['category']=='treasure') echo "selected='selected'";?> >挖宝</option>
+					<option value='fiesta' <?php if($this->badge['category']=='fiesta') echo "selected='selected'";?> >兑换宝物</option>
+					<option value='poi' <?php if($this->badge['category']=='poi') echo "selected='selected'";?> >POI相关</option>
+					<option value='login' <?php if($this->badge['category']=='login') echo "selected='selected'";?> >登陆</option>
+					<option value='rp' <?php if($this->badge['category']=='rp') echo "selected='selected'";?> >Karma</option>
+					</select>
+					 -->
+					
+				</td>
+			</tr>
+			 <?php } else {?>
+					 <input type='hidden' name='category' id='category' value='<?php echo $this->badge['category']; ?>'/>
+					 <?php }?>	
+			<tr>
+				<td>勋章性别：</td>
+				<td colspan='3'>
+					<select name='gender' id='gender'>				
+					<option value='all' <?php if($this->badge['gender']=='all') echo "selected='selected'";?> >都可以</option>
+					<option value='male' <?php if($this->badge['gender']=='male') echo "selected='selected'";?> >男性</option>
+					<option value='female' <?php if($this->badge['gender']=='female') echo "selected='selected'";?> >女性</option>						
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>勋章获得条件描述：</td>
+				<td colspan='3'>
+					<textarea id='info' name='info' cols='50' rows='4'><?php echo $this->badge['info'];?></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>勋章条件：</td>
+				<td colspan='3'>
+				条件分类：<select name='what_con' id='what_con'>					
+					<option value='is_where'>地点</option>
+					<option value='had_specialsync'>特殊的SNS</option>
+					<option value='had_syncs'>SNS 数量</option>
+					<option value='had_text'>包含内容</option>
+					<option value='blog_type'>发布类型</option>
+					<option value='dis_range'>有效签到距离</option>
+					<option value='poi_name'>地点含有的关键字</option>
+					<option value='user_gender'>性别限制</option>
+					</select>
+					<br/>
+					<div id='badge_con_tips'></div>
+					<br/>
+					<textarea id='con_txt' name='con_txt' cols='50' rows='4'></textarea>					
+					<input type='button' id='joincon' name='joincon' value="生成条件" />
+				</td>
+			</tr>	
+			<tr>
+				<td>勋章表达式：</td>
+				<td colspan='3'>
+				<textarea id='condition' name='condition' cols='50' rows='4' readOnly="true"><?php echo $this->badge['condition'];?></textarea><br/>
+				<input type='button' id='clearcon' name='clearcon' value="清空" />							
+				</td>
+			</tr>		
+			<tr>
+				<td colspan='4' style="text-align:center;">
+					<input type='button' id='badge_update' name='badge_update' value="修改" />
+				</td>
+			</tr>
+		</table>
+		</div>
+		</form>
+		
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

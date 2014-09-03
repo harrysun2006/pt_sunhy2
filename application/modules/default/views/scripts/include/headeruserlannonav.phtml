@@ -1,0 +1,75 @@
+<div class="userlannonav">
+	<?php if (Better_Registry::get('sess')->uid<=0){?>
+		<form action="/login" method="post">
+		<div class='left' >
+		<span style='margin:0 1px 0 8px;'>帐号</span>
+		<input type='text' name='email' size='18' id='login_id' value="Email/手机号/贝多号" style="color:#999999;font-size:12px;">	
+		<span style='margin:0 1px 0 14px;'>密码</span>
+		<input type="password" name="password" value="" size='15' id='login_passwd' />
+		<input type='submit' name='login_btn' value='登录'  id='login_btn' />
+                <a href='/signup' style='margin-left:14px;'>立即注册</a>		
+                <a href='/resetpwd' style='margin-left:10px;'>忘记密码?</a>
+		</div>
+		<?php 
+		$comefrom = strtolower($_SERVER['HTTP_REFERER']);		
+		if(strpos($comefrom,'qq.com')!== false){
+		?>	
+		 <div style='float: right;padding-right:2px;vertical-align:middle;'>
+              <a href='/login/thirdqq' id='top_loginfromqq' style='margin:0px;margin-top:1px;'><img src='images/t-qq.png' style='margin-top:3px;!margin-top:1px;'></a>
+         </div>
+		<?php } else if(strpos($comefrom,'sina.com')!== false){?>
+		<div style='float: right;padding-right:2px;vertical-align:middle;'>
+              <a href='login?login_from=sina' id='top_loginfromqq' style='margin:0px;margin-top:1px;'><img src='images/t-sina.png' style='margin-top:3px;!margin-top:1px;'></a>
+         </div>
+		<?php } else if(strpos($comefrom,'sohu.com')!== false){?>
+		<div style='float: right;padding-right:2px;vertical-align:middle;'>
+              <a href='login?login_from=sohu' id='top_loginfromqq' style='margin:0px;margin-top:1px;'><img src='images/t-sohu.png' style='margin-top:3px;!margin-top:1px;'></a>
+         </div>
+		<?php } else if(strpos($comefrom,'kaixin001.com')!== false){?>
+		<div style='float: right;padding-right:2px;vertical-align:middle;'>
+              <a href='login?login_from=kaixin001' id='top_loginfromqq' style='margin:0px;margin-top:1px;'><img src='images/t-kaixin001.png' style='margin-top:3px;!margin-top:1px;'></a>
+         </div>
+		<?php } else{?>
+		<div id='top_login_fromthird'>
+			<a href='/login' style='margin:0px;'>微博帐号登录</a>
+		</div>
+		<?php }?>	
+		<div id='top_login_third_guide_block'>
+			<div id='top_login_third_guide_menu'><img src='images/login_third_topjiao.gif'></div>
+			<div id='top_login_third_guide_list'>
+				<div id='top_login_third_guide_title'></div>
+				<div>
+					<span>
+						<a href='/login/thirdsina' id='top_loginfromsina'><img src='images/t-sina.png'></a>
+				 	</span>
+				 	<span>
+				 		<a href='/login/thirdqq' id='top_loginfromqq'><img src='images/t-qq.png'></a>
+				 	</span>
+				 	<span>
+				 		<a href='login/thirdqqsns' id='top_loginfromrenren'><img src='images/t-qqsns.png'></a>
+				 	</span>				 	
+				 	<span>
+				 		<a href='/login/thirddouban' id='top_loginfromdouban'><img src='images/t-douban.png'></a>
+				 	</span>
+				 	<span>
+				 		<a href='login?login_from=sohu' id='top_loginfromsohu'><img src='images/t-sohu.png'></a>
+				 	</span>
+				 	<span>
+				 		<a href='login?login_from=kaixin001' id='top_loginfromkaixin001'><img src='images/t-kaixin001.png'></a>
+				 	</span>
+				 	<span>
+				 		<a href='login/third163' id='top_loginfrom163'><img src='images/t-163.png'></a>
+				 	</span>
+				 	<span>
+				 		<a href='login/thirdrenren' id='top_loginfromrenren'><img src='images/t-renren.png'></a>
+				 	</span>				 	
+			 	</div>
+		 	</div>
+		</div>
+		</form>
+	<?php } else { ?> 
+		<a class='user fenge' style="width:120px;" href="/<?php echo $this->dispUserInfo['username'];?>"><?php echo $this->dispUserInfo['nickname'];?></a>
+		<a class="user" href="/setting"><?php echo $this->lang->global->nav->setting;?></a>		
+		<a href='/login/logout' class="user"><?php echo $this->lang->global->foot->site->logout;?></a> 
+	<?php }?>
+</div>

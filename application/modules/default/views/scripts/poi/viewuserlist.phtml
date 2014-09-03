@@ -1,0 +1,323 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+
+<body id="poi">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<?php if(!$this->poi_closed){?>
+<div id="content">
+	<input type="hidden" value="<?php echo $this->viewtype?>" id="viewtype" />
+  <div class="mid">
+     <div id="half_left">		
+		<div style="margin-bottom:10px" class="left-item left-border">
+			<div style="padding:2px">
+				<div class="poiinfo">
+					<div class='top-left'>
+		    			<img src="<?php echo $this->poiInfo['logo_url'];?>" width='62' alt='' />
+		    		</div>
+					<div class="top-center">
+						<div class="title left line-width line-height24" >
+						<a class="poiname1"  title="<?php  echo $this->poiInfo['name'];?>"  href="/poi/<?php  echo $this->poiInfo['poi_id'];?>">
+							<?php if(mb_strlen($this->poiInfo['name'],'utf-8')>12){?>
+								<?php echo mb_substr(htmlspecialchars($this->poiInfo['name']),0,12,'utf-8').'...';?>
+							<?php }else{?>
+								<?php echo $this->poiInfo['name']?>
+							<?php }?>
+						</a>
+							<span class="typeflag" >
+							</span>
+						</div>
+						<div class="left line-width line-height20" >
+							<div class="left"><?php echo $this->lang->global->poi->poi_address;?></div>
+							<div class="left" title="<?php  echo $this->poiInfo['address'];?>"><?php	echo Better_Cutstring::mystrcut($this->poiInfo['address'], 18);?></div>
+						</div>
+						<div class="left  line-width line-height20" >
+							<div class="left" style="white-space: nowrap;"><?php echo $this->lang->global->poi->poi_phone;?></div>
+							<div class="left"><?php echo $this->poiInfo['phone'] ? $this->poiInfo['phone'] : ' - '?></div>
+						</div>
+						
+					</div>
+					<div class="top-right1" >
+						<span class="returnTriangle" ></span>
+						<span class="returnContent" >
+							<a href="/poi/<?php echo $this->poiInfo['poi_id']?>" style="color:#ffffff" title="返回 <?php echo $this->poiInfo['name']?>">返回<?php echo $this->poiInfo['name']?></a>
+						</span>
+					</div>
+		  			
+					 <div class="clearfix"></div> 
+				</div>
+				<div class="map">
+					<form method='post'>
+						<div class="map_container" >
+							<div id="map_canvas" style="width: 648px; height: 182px;" class='map'></div>
+						</div>
+						<input type="hidden" value="" id="location_lat" />
+					   	 <input type="hidden" value="" id="location_lon" />
+					</form>
+				</div>
+			</div>
+		</div>
+		 <div id="data" class="left-item left-border">
+			<div class="tabs">
+	            <ul class="usertabNavigation">
+	                <li><a href="#friendshere" class='first'>来过的好友</a></li>
+	                <li><a href="#friendstobe" >想来的好友</a></li>
+	            </ul>
+	            <div id="friendshere">
+	            	<table class="poi_table">
+	            		<tbody id='tbl_friendshere'>
+	            				<tr class='tbl_tr_ajax_loading'>
+	            					<td colspan='8' class='tbl_ajax_loading'>
+	            						<img src='images/ajax_loading.gif' alt='' />
+	            					</td>
+	            				</tr>
+	            		</tbody>
+	            	</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_friendshere'></div>
+						</td>
+						</tr>
+					</table>	
+	            </div>
+	            
+				<div id="friendstobe" style='display:none'>
+	            	<table class="poi_table">
+	            		<tbody id='tbl_friendstobe'></tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_friendstobe'></div>
+						</td>
+						</tr>
+					</table>
+	            </div>	    
+	        </div><!--#tabs-->
+        
+	  	</div><!--#data-->	
+	 </div><!--#half_left-->
+	 <div id="half_right" class="small_box">
+	 	<div class=" checkin-info">
+		    <div class='poi_detail poi_box' >
+		    <div class="white-blank"></div>
+		     	<div class="info">			     	   	  
+			        <div  class="box-1"  > 
+						<?php if ($this->poiInfo['major']>0) { ?>
+			        	  	<a href="/<?php echo $this->poiInfo['major_detail']['username'];?>"><img title='<?php echo htmlspecialchars(addslashes($this->poiInfo['major_detail']['nickname'].'  '.$this->lang->global->checkin->title.$this->major_checkin_counts.$this->lang->global->count));?>' src="<?php echo $this->poiInfo['major_detail']['avatar_normal'];?>" width='43' height='43' alt='' class='poi_major_avatar' /></a>
+			        	  <?php }else{ ?>
+			        	  	<a href="javascript: void(0);" >
+			        	  		<img src="<?php echo BETTER_BASE_URL.'/images/noavatar.gif';?>" width='43' height='43' alt='' class='' />
+			        	  	</a>
+			        	  <?php } ?>
+			        </div>		        	
+	        	  <div class="box-2" >
+	        	  	<div class="major-icon"></div>
+	        	  	<div class="title grayc"  style="float: left; width: 59px;"><?php echo $this->lang->global->poi->major;?></div>
+	        	  	</div>	        		
+				      <div class="box-3">
+				      	  	<div class="checkin-count" >
+					      	  	<font id='poi_checkins' style="color:#A0A5AB;font-size: 18px;font-weight: bold;"><?php echo $this->poiInfo['checkins'];?></font>
+					      	  	<br/><span class="title grayc"><?php echo $this->lang->sidebar->checkins;?></span>
+				      	  	</div>
+				      </div>
+					  <div class="box-4" >
+				      	  <div class="shou-count" >
+				        	 <font id='poi_shouts' style="color:#A0A5AB;font-size: 18px;font-weight: bold;"><?php echo $this->poiInfo['posts'];?></font>
+				        	 <br><span class="title grayc"><?php echo $this->lang->sidebar->shouts;?></span>
+				        	</div>
+			        	</div>  
+	        	  <div class="clearfix"></div>
+		     	</div>
+		     	<div class="clearfix"></div>		
+			</div>
+			<div class="clearfix"></div>
+			<div class="tline"></div>
+			<div class="nborder owner">
+				<div class="owner-con" >
+					<?php if($this->poiowerdetail && $this->poiowerdetail['avatar_small']){?>
+						<div class="owner-img-default" >
+							<a href="<?php echo BETTER_BASE_URL?>/<?php echo $this->poiowerdetail['username'];?>" title="<?php echo $this->poiowerdetail['nickname'];?>">
+								<img src="<?php echo $this->poiowerdetail['avatar_small']?>"  width='43' height='43' alt='' class='poi_major_avatar' ></img>
+							</a>
+				        </div>
+					<?php }else{?>
+						<div class="owner-img-default" >
+							<a href="javascript: void(0);" >
+								<img src="/images/noavatar.gif"  width='43' height='43' alt='' class='poi_major_avatar' ></img>
+							</a>
+				        </div>
+				       <?php }?>
+			        <div class="owner-text">
+			        	<?php if($this->poiowerdetail){?>
+			        	<div class="owner-name"><a href="<?php echo BETTER_BASE_URL?>/<?php echo $this->poiowerdetail['username'];?>" title="<?php echo $this->poiowerdetail['nickname'];?>"><?php echo $this->poiowerdetail['nickname'];?></a></div>
+			        	<div class="owner-tips grayc">是这里的店长</div>
+			        	<?php }else{?>
+			        	<div class="owner-name grayc">暂时没有店长</div>
+			        	<div class="owner-tips"><a href='/venue?id=<?php echo $this->poiInfo['poi_id'];?>'>[店长认证]</a></div>
+			        	<?php }?>
+			        </div>
+			        <div class="owner-action">
+			        	<?php if($this->isowner){?>
+			        	<a href="<?php echo BETTER_BASE_URL?>/poi/owner?id=<?php echo $this->poiInfo['poi_id'];?>" class="manage-in">管理入口</a>
+			        	<?php }else{?>
+			        	<a href="javascript:void(0)" class="owner-logo" title="店长" ></a>
+			        	<?php }?>
+			        </div>
+				</div>
+			</div>
+			<div class="tline"></div>
+			<div class="nborder">
+				<div style="line-height:37px;text-align:center">
+				<?php if($this->checkinCount > 0 && $this->deltaTime){?>
+					<span>我来过这里 <span><?php echo $this->checkinCount;?></span> 次，最近一次是 <span><?php echo $this->deltaTime;?></span></span>
+					<?php }else{?>
+					<span>从没有在此地签过到</span>
+					<?php }?>
+				</div>
+			</div>
+		</div>
+		<div class="right-content top-border" >
+			<div class="white-blank"></div>
+			<?php if(count($this->aroundUsers)>0){?>
+			<div class="checkin-list">
+				<div class="right-title">
+					<div class="right-words"><h3>60天签到排行</h3></div>
+					<div ><a class="right-img" href="javascript:void(0);" id="checkin-list"></a></div>
+					<div ><a class="right-img-hide" href="javascript:void(0);" id="checkin-list-hide"></a></div>
+				</div>
+				<div id="checkin-list-content">
+					<?php foreach ($this->aroundUsers as $key=>$row){?>
+					<div class="checkin-item">
+						<div class="img-item"><a  href="/<?php echo $row['username']; ?>"><img title="<?php echo $row['nickname']; ?>" src="<?php echo $row['avatar_small']?>" class="avatar"  style="width:30px; height: 30px;" /></a></div>
+						<div class="text-item"><a title="<?php echo $row['nickname']; ?>" class="title" href="/<?php echo $row['username']; ?>"><?php echo $row['nickname']?></a></div>
+						<div class="info-item" >
+							<div class="date-item" ><?php echo date('m月d日',$row['checkin_time']);?></div>
+							<?php switch ($key){
+								case 0:$bgc="#0F7CC5";break;
+								case 1:$bgc="#3093D6";break;
+								case 2:$bgc="#5BB3ED";break;
+								default:$bgc="#A5BED4";break;
+							}?>
+							<div class="count-item"  style="background:<?php echo $bgc;?>;">
+								<?php if($row['times']<10) {
+												echo  $row['times'].'次';
+										   }elseif($row['times']>99){
+										   		echo "99+";
+										   }else{ 
+										   		echo $row['times'];
+										   }?>
+								</div>
+						</div>
+					</div>
+					<?php }?>
+					<!--<?php if(count($this->aroundUsers)>=6){?>					
+					<div class="morebtn">
+						<a href="javascript:void(0)" >
+							<span></span>
+						</a>
+				</div>
+					<?php }?>-->
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class='tline distance'></div>
+			<?php }?>
+			<?php if(count($this->todoUsers)>0){?>
+			<div class="todo-list">
+				<div class="right-title">
+					<div class="right-words"><h3>TA们想去这儿</h3></div>
+					<div ><a id="todo-list" class="right-img" href="javascript:void(0);"></a></div>
+					<div ><a class="right-img-hide" href="javascript:void(0);" id="todo-list-hide"></a></div>
+				</div>
+				<div id="todo-list-content" >
+					<div class="todo-user-list">
+				 	<?php foreach ($this->todoUsers as $todouser){?>
+				 		<div class="todo-user-list-item">
+				 			<a href="/<?php echo $todouser['username']?>">
+				 				<img title="<?php echo $todouser['nickname'];?>" src="<?php echo $todouser['avatar_small']?>" class="avatar" style="width:30px;height:30px"></img>
+				 			</a>
+				 		</div>
+				 	<?php }?>
+				 	</div>
+				 </div>
+				 <div class="clearfix"></div>
+			</div>
+			<div class='tline  distance'></div>
+			<?php }?>
+			<?php if(count($this->relatedPois)>0){?>
+			<div class=" related-poi">
+				<div class="right-title">
+						<div class="right-words"><h3>相关地点</h3></div>
+						<div ><a id="related-poi" class="right-img" href="javascript:void(0);"></a></div>
+						<div ><a class="right-img-hide" href="javascript:void(0);" id="related-poi-hide"></a></div>
+				</div>
+				 <div id="related-poi-content" >
+				 	<div>
+				 	<?php foreach ($this->relatedPois as $relatedpoi){?>
+					  <div><a href="/poi/<?php echo $relatedpoi['poi_id']?>"><?php echo $relatedpoi['name'];?></a></div>
+					 <?php }?>
+					 </div>
+				  </div>
+				  <div class="clearfix"></div>
+			</div>
+			<div class='tline distance hide'></div>
+			<?php }?>
+			<div class="recommend-poi hide">
+			  <div class="right-title">
+					<div class="right-words"><h3>其他推荐</h3></div>
+					<div ><a class="right-img" id="recommend-poi" href="javascript:void(0);"></a></div>
+					<div ><a class="right-img-hide" href="javascript:void(0);" id="recommend-poi-hide"></a></div>
+			</div>
+			
+			  <div id="recommend-poi-content">
+				<?php foreach ($this->relatedPois as $relatedpoi){?>
+					  <div><a href="/poi/<?php echo $relatedpoi['poi_id']?>"><?php echo $relatedpoi['name'];?></a></div>
+				<?php }?>
+			  </div>
+			</div>
+			
+			<div class="IEclear"></div>
+	   		<div class="clearfix"></div> 
+		</div>
+	 </div>
+	 <div class="clearfix"></div> 
+	   
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<div id="poi_report_dlg" class="hide">
+	<form style="width: 100%;">
+	<input type="hidden" id="poi_id_report" value="<?php echo $this->poiInfo['poi_id'];?>"/>
+	<span><?php echo $this->lang->global->poi->report->reason->title; ?></span>
+			
+	<select id="reason_report">
+		<option value="incorrect"><?php echo $this->lang->global->poi->report->reason->incorrect; ?></option>
+		<option value="closedown"><?php echo $this->lang->global->poi->report->reason->close; ?></option>
+		<option value="duplicate"><?php echo $this->lang->global->poi->report->reason->repeat; ?></option>
+		<option value="other"><?php echo $this->lang->global->poi->report->reason->other; ?></option>
+	</select>
+
+	<br><br> 
+	<input class="button btn right" type="button" id="btn_report_poi" value="<?php echo $this->lang->javascript->report->poi->denounce;?>" />
+	</form>
+</div>
+<?php }else{?>
+	<div id="content">
+		<div class='mid' style='background-color: #fff; border: 1px solid #999;'>
+	  		<div style="width: 400px; margin: 60px auto; !margin: 25px auto;">
+	  			<img src='images/close_place.png' alt='' class='left' />
+	  			<h3><?php echo $this->lang->global->poi_closed; ?></h3>
+	  			<span><?php echo $this->lang->global->back_link;?></span>
+	  			<br><br>
+	  			<p><?php echo $this->lang->global->poi_closed_tip; ?></p>
+	  		</div>
+  		</div>
+	</div>
+<?php }?>
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

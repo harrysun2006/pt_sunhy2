@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:lift="http://liftweb.net" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta content="width=320" name="viewport" />   
+    <title><?php echo $this->lang->global->meta->title;?></title>
+    <?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+<img alt="<?php echo $this->lang->global->nav->title; ?>" src="/images/polo/polotop.gif" /><br/>
+<img src='/images/polo/wap_top.png' border='0' /><br/>
+    <?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+    <div id="headinfo">
+    	<?php 
+    		if( $this->user['uid'] > 0 ){
+				echo "<a href=\"/mobile/user?uid=".$this->user["uid"]."\" >".$this->user["nickname"]."</a>@";
+				if( (int)($this->lastcheckin['poi']['poi_id']) < 1 ){
+					echo "<a href=\"/mobile/search\">".$this->lang->mobile->global->whereplace."</a>";
+				}else{
+					echo "<a href=\"/mobile/place?pid=".$this->lastcheckin['poi']['poi_id']."\">".$this->lastcheckin['poi']['name']."</a>";
+				}
+				echo "<hr/>";
+			}
+		?>	
+	</div>
+	
+	
+	<div class="toolsSystem">   	
+	       
+			<li>
+   					   <a href='/mobile/tools/polochooseos?os=apple' name='iphone'>
+   					   <img id="iphone" src="/images/mobilesystem/gray-iphone.png" border="0" /></a>
+   			</li>		    	
+		    
+   			<li>
+   					   <a href='/mobile/tools/polochooseos?os=android' name='android'>
+   					   <img id="Android" src="/images/mobilesystem/gray-android.png" border="0" /></a>
+   			</li>
+  			<li>	
+  						<a href="/mobile/tools/polochooseos?os=s60" name='symbian'>
+  						<img id="Symbian"  src="/images/mobilesystem/gray-symbian.png" border="0" /></a>
+  			</li> 	
+		</div>	
+	
+	<?php 
+    	if( $this->user['uid'] > 0 )
+    		include_once(dirname(__FILE__).'/../include/footer.phtml');			
+		else
+			include_once(dirname(__FILE__).'/../include/loginfooter.phtml');
+	?>
+</body>
+</html>  
+  

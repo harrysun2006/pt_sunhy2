@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:lift="http://liftweb.net" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta content="width=320" name="viewport" />   
+    <?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+     <style type="text/css">
+body{
+	background:#000;
+	color:#fff;
+}
+a:visited{
+	color:#00a9ff;text-decoration:none;
+}
+a{
+	color:#00a9ff;text-decoration:none;
+}
+</style>
+</head>
+<body>
+    <div id="header">	
+	<img alt="<?php echo $this->lang->global->nav->title; ?>" src="/images/polo/polotop.gif" />
+	<span style='color: #E95383; font-size: 14px;display:none'>记录足迹，分享城事</span>
+</div>
+
+	<div id="error">
+		<?php
+			 if($this->err['has_err'])
+				echo $this->err['err']."<br/>"; 
+		 ?>
+	</div>
+	<form action="/mobile/login" method="post" id="loginform">
+  		<div>
+  			<input name="username" type="hidden" value="true" />
+  		</div>
+    	<span><?php echo $this->lang->index->login->username;?></span>
+        <p><input value="<?php echo $this->username; ?>" type="text" name="email" /></p>
+      	<span><?php echo $this->lang->index->login->password;?></span>
+      	<p><input name="password" type="password" /></p>
+        <p><input name="rememberme" type="checkbox" value="1" checked="true" /><?php echo $this->lang->index->login->autologin; ?></p>
+        <input type='hidden' name='ref_url' id='ref_url' value='<?php echo $this->ref_url;?>' />
+	    <input type='hidden' name='pwd_plain' id='pwd_plain' value='0' />
+        <p><input value="<?php echo $this->lang->index->login->title; ?>" type="submit" /></p>
+	</form>
+  	<p><?php echo $this->lang->mobile->global->havenot_sign; ?> <a href="/mobile/signup"><?php echo $this->lang->index->signup;?></a>!</p>
+  	*小贴士：你还可以用手机免费下载<a href='/mobile/tools/polo'>红切客</a>客户端，随时随地Check in！<br/>
+  	<?php include_once(dirname(__FILE__).'/../include/polo.phtml');?>
+</body>
+</html>  

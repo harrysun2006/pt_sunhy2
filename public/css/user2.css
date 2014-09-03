@@ -1,0 +1,86 @@
+@import "brown/ui.all.css";
+/* basic style */
+.clearfix {clear:both;}
+
+body {font-family:Verdana; font-size:12px; line-height:22px; color:#333; background-color:#fff; margin:0}
+
+a { color:#265589; text-decoration:none;}
+a:hover { color:#265589; text-decoration:underline; }
+
+a img {border:none}
+
+h1 {display:none}
+ul{ list-style:none; margin:0; padding:0;}
+p { margin:0; padding:0;}
+/* main structure */
+.mid {margin:0 auto; width:940px;}
+#header { background-color: #6C9ED5; height:75px}
+#footer { clear:both; background: url(../images/fade.gif) repeat-x; border-top:1px solid #ccc; padding:10px;}
+#footer span {float:left; font-size:1em}
+#footer ul {display:block; margin:0; padding:0; float:right; list-style-type:none}
+#footer li { float:left; padding:0 10px;}
+
+#content {width:100%; margin:15px 0 25px}
+#half_left {width:640px; float:left;}
+#half_right {width:280px; float:right; background:url(../images/right_bg.jpg) repeat-y;}
+
+.logo { margin:10px 5px 0px}
+
+#home_link {float:left}
+/*top user */
+#topuser { float:right; width:640px; margin:10px 5px;}
+#topuser .usertitle { text-align:right;line-height:1.5em;}
+#topuser .usertitle .name { color:#638c0b; font-weight:bold; margin:0 5px;}
+#topuser .nemu { float:right;}
+#topuser .nemu li { float:left;}
+#topuser .nemu a { padding:0 5px; border-left:solid 1px #CCCCCC;}
+
+/* nav bar */
+#nav { float:right;font-size:14px; line-height:33px; height:33px; width:640px; margin:0 2px; background-color:#265589}
+#nav li { float:left; padding:0 5px 0 9px;line-height:33px;}
+#nav li a { font-weight:bold; display:block; text-align:center; width:68px; color:#efefef}
+
+/* left */
+.updatestatus {background: url(../images/input_bg.jpg) repeat-x; border: 1px solid #2E4D6F; padding: 8px; margin-bottom:12px;}
+.updatestatus textarea {width: 98%}
+.updatestatus label {font-size:1.2em; color:#D2A42D; font-weight:bold}
+.updatestatus .location {font-size:1.2em; color:#9B5315; font-weight:bold}
+/* blog */
+table.blog_table {width:100%; border-collapse:collapse;border-spacing:0px;margin:0;padding:0;}
+.blog_table td { vertical-align: top; border-bottom:1px dotted #cdcdcd;}
+.blog_table td.avatar {width:56px; padding:8px 0;}
+.blog_table td.info  {padding:8px 16px 0 0;}
+.blog_table td.image {width: 140px; padding:8px 10px 0 0; text-align:center;}
+.blog_table td.info .status  {text-overflow:ellipsis; overflow:hidden}
+.blog_table td.info .ext {color:#666; overflow:hidden}
+.blog_table td img {margin:0px; padding:0px;}
+
+.blog_table a {color:#265589}
+.blog_table a.user {color:#9B5315}
+.blog_table a.place {color:#666}
+
+.blog_table tr:hover{background-color:#EFD9A0}
+
+/* right cols */
+.user .info .name {font-size:14px; font-weight:bold}
+.user .icon {float:left; }
+.user .info {margin-left: 85px; }
+
+.avatars li {width:40px; float: left; margin:5px 0; text-align:center}
+.avatars li img {display:block; float:none; margin:2px auto; width:32px; height:32px; border:1px solid #333}
+ul.avatars {clear: both; margin:0; padding:0; list-style-type:none}
+ul.avatars:after {content: "."; display: block; height: 0; clear: both; visibility: hidden}
+/* box */
+.box {margin-bottom:15px; padding:8px;}
+.box h3 {margin:0; padding:0 8px; background-color:#EFD9A0; color:#9B7515; height:22px; line-height:22px; font-size:14px; font-weight:bold;}
+.box h3 {border-top:1px solid #D2A42D; border-bottom:1px solid #D2A42D}
+.cbox { clear: both; padding:10px;}
+
+/* tab */
+ul.tabNavigation li{ display:inline}
+ul.tabNavigation li a{ padding:4px 5px;  background-color:#EFD9A0;  color:#9B7515; text-decoration:none;font-size:1.1em}
+ul.tabNavigation li a.selected, 
+ul.tabNavigation li a:hover{ background-color:#F4F0E4;  color:#9B7515}
+ul.tabNavigation li a.selected{ border:1px solid #D2A42D}
+ul.tabNavigation li a:focus{ outline:0}
+div.tabs >div{ padding:5px; border-top:2px solid #D2A42D}

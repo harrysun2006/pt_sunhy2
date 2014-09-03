@@ -1,0 +1,90 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="tools">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+<div id="content">
+  <div class="mid" style="height:46px;">
+	<div id="setting_header_title"><?php echo $this->lang->tools->client->title->normal;?></div>
+	 <div id="setting_header_img"><h2><?php echo $this->lang->global->setting_header_text;?></h2></div>
+  </div>
+  <div id="setting_page">
+    <div class="mid">    
+	  <div id="setting_content">
+	    <div class="setting_main">
+        <h2><?php echo $this->lang->tools->client->download->local;?></h2>
+			<form>
+	    	
+	    	<div id="download">
+		    	<table id="choicephone">
+		    	<tr>
+		    		<td class="text"><?php echo $this->lang->tools->client->download->brand;?></td>
+			    	<td>
+			    	<div id='brands'></div>
+			    	</td>
+			    	<td class="text"><?php echo $this->lang->tools->client->download->model;?></td>
+		    		<td>
+					<div id='phones'></div>
+					</td>
+				</tr>
+				</table>
+				<table id="phone_panel">
+				<tr>
+			    	<td><img src="" id="brand_img" /></td>
+			    	<td><img src="" id="phone_img" /></td>
+			    	<td>
+			    		<div id="p_desc" style='text-align: left;'></div>&nbsp;
+			    	</td>		    	
+		    	</tr>	    	
+		    	</table>
+	    	</div>
+			</form>		
+		   
+		<h2><?php echo $this->lang->tools->client->systemchoice;?></h2>
+		<div id="devices">
+	    <ul class="toolsSystem">	
+  			<li style="margin-left: 10px;!margin-left:5px;">
+   					   <a href='/tools/iphonedownload' class='iphonedown'>
+   					   </a>
+   			</li>		    	
+		    
+   			<li>
+   					   <a href='/tools/androiddownload' class='androiddown'>
+   					   </a>
+   			</li>
+
+  			<li>	
+  						<a href="/tools/s60download" class='s60down'>
+  						</a>
+  			</li> 
+  			
+  			<li>	
+  						<a href="/tools/wmdownload" class='wmdown'>
+  						</a>
+  			</li>	
+  			<li>	
+  						<a href="/tools/blackberrydownload" class='blackberrydown'>
+  						</a>
+  			</li>	
+  							   
+		   </ul>
+		   <div class="clearfix"></div>
+		   </div>
+		   
+		  		
+		</div>
+	</div><!--#setting_content-->
+	<div id="setting_menu">
+		
+		<div class="setting_right">
+			<h2>小贴士</h2>
+			<?php echo $this->lang->tools->visit_wap;?>
+		</div>
+
+	 </div>
+	 <div class='clearfix'>&nbsp;</div>
+  </div><!--#mid-->
+  </div><!--#setting_page-->
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>
+<?php $this->Gz();?>

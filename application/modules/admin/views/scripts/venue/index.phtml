@@ -1,0 +1,113 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/venue" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>搜索</th></tr>
+			<tr>
+				<td>POI ID:</td>
+				<td><input type='text' name='poi_id' id='poi_id' value='<?php echo $this->params['poi_id'];?>' /></td>
+			</tr>	
+							
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='submit' value='搜索(s)' accesskey='s' />
+					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />
+					<input type='hidden' name='page' id='page' value='<?php echo $this->params['page'];?>' />
+					<input type='hidden' name='reload' id='reload' value='0' />
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div>
+		
+		
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+				<tr>
+					<th width='20'></th>
+					<th class='nowrap'>POI ID</th>
+					<th class='nowrap'>状态</th>
+					<th class='nowrap' width='50'>名称</th>
+					<th class='nowrap'>申请用户信息</th>
+					<th class='nowrap'>优惠内容</th>
+					<th class='nowrap'>图片</th>
+					<th class='nowrap'>创建时间</th>	
+					<th class='nowrap'>审核</th>				
+									
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {						
+					?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td><input type='checkbox' name='nid[]'  value='<?php echo $row['nid'];?>' /></td>
+					<td class='center'><a href='/poi?id=<?php echo $row['poi_id'];?>' target='_blank'><?php echo $this->highlight($row['poi_id'], $this->params['namekeyword']);?></a></td>
+					<td class='center' ><span id='check_type_<?php echo $row['id'] ?>'><?php echo $row['check_type'];?></span></td>
+					<td class='center' ><?php echo $row['poi']['name'];?></td>
+					<td class='center'>
+					
+					<a href='/<?php echo $row['user']['username'];?>'><?php echo $row['user']['nickname'];?></a><br/>
+			公司全称：<?php echo $row['company'];?><br/>
+			业主姓名：<?php echo $row['ownername'];?><br/>
+			联系电话：<?php echo $row['phone'];?><br/>
+			电邮:<?php echo $row['email'];?><br/>		
+			是否代申请：<?php if($row['ownertype']==0){
+							 echo "否";
+			} else {
+				echo "是";
+			}
+			?><br/>
+			是否连锁：	<?php if($row['lotsshop']==0){
+							 echo "否";
+			} else {
+				echo "是";
+			}
+			
+			
+			?>
+					
+					
+					</td>	
+					
+					<td class='center' id='content_<?php echo $row['nid']; ?>'><?php echo $row['content'];?><br/>开始时间:<?php echo $row['begintm'] ?  date('Y-m-d H:i:s', $row['begintm']+BETTER_8HOURS) : 0;?><br/>结束时间:<?php echo $row['endtm'] ?  date('Y-m-d H:i:s', $row['endtm']+BETTER_8HOURS) : 0;?></td>
+					<td class='center' id='image_<?php echo $row['nid']; ?>'><?php if($row['image_url']){ ?><img src='<?php echo $row['attach_tiny'];?>'><?php }?></td>
+					<td class='center'><?php echo $row['dateline'] ?  date('Y-m-d H:i:s', $row['dateline']+BETTER_8HOURS) : 0;?></td>
+					
+					<td class='center'><?php if($row['status']==0){?><div id='doing_<?php echo $row['id']; ?>'><input type='button' id='accessall_<?php echo $row['id']; ?>' name='accessall_<?php echo $row['id']; ?>'  value='通过' temppoiid='<?php echo $row['poi_id']; ?>' /><br/>
+	<input type='button' id='accessreq_<?php echo $row['id']; ?>' name='accessreq_<?php echo $row['id']; ?>'  value='通过/优惠不通过' temppoiid='<?php echo $row['poi_id']; ?>' />	<br/>			
+	<a class="xiugai" href='<?php echo $this->admin_url;?>/venue/refusevenue?id=<?php echo $row['id'];?>&poi_id=<?php echo $row['poi_id'];?>' id="<?php echo $row['id']?>">不通过</a>				
+					</div><?php } ?>					
+				
+					</td>
+					
+				</tr>
+				<?php } ?>
+				
+				<tr><td colspan='15'>
+				
+					</td>
+				</tr>					
+				<?php } else {  ?>
+				<tr>
+					<td colspan='15' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

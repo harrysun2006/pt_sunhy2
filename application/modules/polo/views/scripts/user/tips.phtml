@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="viewport" content="width=device-width; initial-scale=1.4; minimum-scale=1.0; maximum-scale=2.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?php echo $this->lang->global->meta->title;?></title>
+	<?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+	<?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+	<div id="headinfo">		
+		<a href="/polo/user?uid=<?php echo($this->userInfo["uid"])?>" ><?php echo($this->userInfo["nickname"])?></a>
+		<?php echo "->".$this->lang->user->tips;?>
+		<hr/>
+	</div>
+	<?php 
+		if(strlen($this->errorinfo)>0){
+		?>
+	<div id="error"><?php echo $this->errorinfo;?></div>
+	<?php }?>
+	<div id="content">
+		<table>
+	   	<?php 	 	   	
+	   		for($i=0; $i < count($this->timeline); $i++) {
+	   			echo "<tr valign=\"top\">";
+	   			echo "<td>".($this->start + $i).".</td>";
+	   			echo "<td>";
+	           		
+	   			$checktype = ("checkin" == $this->timeline[$i]['type'])? 0:1;	 
+           		
+           		echo $this->timeline[$i]['message'];
+    			if($this->timeline[$i]['attach_tiny'] && $checktype){
+               		echo "<br/><img src=\"".$this->timeline[$i]['attach_tiny']."\"/>";                      				}
+	           	echo "</td></tr>";
+	           	echo "<tr><td></td><td><a href=\"/polo/place?pid=".$this->timeline[$i]['poi']['poi_id']."\">".$this->timeline[$i]['poi']['name']."</a> ".Better_Functions::compareTime($this->timeline[$i]['dateline']);
+	   			if($this->timeline[$i]['uid']!=$this->user['uid'])
+	        	{
+	           		if($checktype){
+	           			echo "<a href=\"/polo/user/shout?cat=".$this->timeline[$i]['type']."&upbid=".$this->timeline[$i]['bid']."\">".$this->lang->javascript->global->blog->rt."</a> ";
+	           			if("tips" == $this->timeline[$i]['type'] && $this->timeline[$i]['polled']==0){
+	           				echo "<a href=\"/polo/user/poll?todo=create&option=up&status_id=".$this->timeline[$i]['bid']."\">".$this->lang->javascript->poi->tips->up."</a> ";
+	           				echo "<a href=\"/polo/user/poll?todo=create&option=down&status_id=".$this->timeline[$i]['bid']."\">".$this->lang->javascript->poi->tips->down."</a> ";
+	           			}
+	           		}
+	        	}
+	       	 	else
+	        	{
+	           		echo "&nbsp;<a href=\"/polo/user/delblog?id=".$this->timeline[$i]['bid']."\">".$this->lang->javascript->global->blog->delete_it."</a> ";
+	        	}
+	        	if($checktype) {
+	           		echo "<a href=\"/polo/user/addfavorite?cat=".$this->timeline[$i]['type']."&id=".$this->timeline[$i]['bid']."&fid=".$this->timeline[$i]['uid']."\">".$this->lang->javascript->global->favorite->title."</a> ";	       
+	        	}
+	           	echo "</td></tr>";
+	    	}?>	           
+		</table>
+		 <?php
+		 
+			echo $this->urlNext." ".$this->urlPrev;
+			if( count($this->timeline) < 1 ){
+		 		echo("<p>".$this->lang->javascript->user->no_tips."</p>");
+		 		
+		}
+		?>
+	</div>
+		
+	<div id="visitors">
+	</div>
+	<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>

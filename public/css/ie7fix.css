@@ -1,0 +1,89 @@
+
+html {
+	overflow: scroll;
+	overflow-x: hidden;	
+}
+
+#switchcontrol {
+	margin-top:-8px;
+	text-align:absolute-middle;
+}
+
+#msg_content {
+	width:450px;
+}
+
+
+ul.tabnavigation {background:#e8ecf2; width:100%;}
+
+.search ul.dropdown{
+	position: relative;
+	margin-top:0px;
+}
+
+
+.search_div{
+	margin: 8px 0 3px;
+}
+
+.user .info{
+	padding:0 0 3px;
+}
+
+ul#range_dropdown  {
+	margin-top: -80px;
+}
+
+.signup_tips_title {
+	margin-top: 6px;
+}
+
+#head_msg{	
+	*left: -135px;	
+}
+
+.head_circle{
+	padding-bottom: 3px;
+}
+
+#search_poi_div select{
+	height: auto;
+}
+
+#add_poi_city, #add_poi_province, #add_poi_country{
+	width: 58px;
+}
+
+#fake_select{
+	padding: 6px 0 2px 5px;
+}
+
+.poi_action_btn a{
+	left: -4px;
+}
+
+#nav div.userlannonav {
+	padding:2px 0 0 10px;
+}
+#top_login_fromthird{	
+	margin-top:-2px;
+	padding-right:1px;	
+}
+#top_login_third_guide_block{		
+	width:150px;
+	left:568px;
+}
+#top_login_third_guide_title{
+	padding-top:3px;
+}
+#top_login_third_guide_list{
+	margin-top:-5px;
+}
+#top_login_third_guide_list span{
+	display:block;
+}
+#search_choose{
+	margin-left:-5px;
+} 
+
+.upload-div #btnUpload .phototext{margin:6px 0 0 0}

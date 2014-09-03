@@ -1,0 +1,6 @@
+$(function(){
+	
+	//s60downloadInit();
+	
+});
+

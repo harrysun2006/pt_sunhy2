@@ -1,0 +1,63 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="admin" onload="setStartEndDate();">
+<div id="header">
+  <div class="mid">
+  	<div id="home_link">
+  	   <a href="/index"><img src="images/logo.png" alt="logo" class="logo"/></a>
+  	   <h1>贝多</h1>
+  	</div>
+	<div id="nav">
+	  <form method="get" action="/search" id='top_search'>
+	  	<ul>
+	  		<li class="on"><a href="/home">首页</a></li>
+	  		<li><a href="/user">空间</a></li>
+	  		<li><a href="/around">雷达</a></li>
+	  		<li><a href="/people/find">找朋友</a></li>
+	  		<li><a href="/tools">工具</a></li>
+	  		<li><a href="/setting">设置</a></li>
+	  		<?php include_once(dirname(__FILE__).'/../include/headersearch.phtml');?>
+	  	</ul>
+	  	</form>
+	</div> <!--#nav-->
+
+  </div>
+</div> <!--#header-->
+<div id="nav">
+  <div class="mid">
+  	<ul>
+  		<li><a href="admin">管理</a></li>
+  	</ul>
+  </div>
+</div> <!--#nav-->
+
+<div id="content">
+  <div class="mid">
+	  <div id="half_left">
+	  	<p>操作查询</p>
+		
+	  	<div id="query">
+		<form onsubmit="return false;">
+			查询用户名：<input type="text" size="11" name='username' id='username' value="">
+			查询种类：
+			<select name='by' id="by" >
+				<option value='actor' selected>按操作人查询</option>
+				<option value='owner' >按主人查询</option>
+			</select>
+			起始时间:<input type="text" size="15" name="start" value="" id="start" >
+			结束时间:<input type="text" size="15" name="end" value="" id="end" >
+			<input type="button" value="查询" onclick="actionQuery()" />
+		</form>
+		</div>
+		
+		<div id="work">
+		</div>	
+		
+	  </div><!--#half_left-->
+	  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>

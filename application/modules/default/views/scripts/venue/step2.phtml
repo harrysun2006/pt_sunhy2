@@ -1,0 +1,137 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="index">
+
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid">
+
+	  <div id="half_left">
+			<div class="tabs">
+	            <ul class="tabNavigation">
+	                <li class="title"><?php echo $this->lang->global->venue->notification; ?></li>
+	            </ul>
+	            <div id="venue_box">	            
+	          
+		       <div class='venue_about_title'>
+					<div class='left'>签到优惠</div>
+					<div class='venue_about_title_sanjiao'>		           		
+		           	</div>
+		         </div> 
+		         <div class='venue_special_mess'>顾客每次签到都可以得到这份惊喜，即光顾您的店铺即可得到哦；掌门是在您商户签到最多的顾客。您可以为Ta设置最给力的折扣或更好玩的惊喜，来鼓励开开的用户都来争夺掌门之位。
+				</div>
+			
+						<div class='clearfix'></div>
+
+				 
+					<div class="row" style='margin-bottom:20px;'>
+					 
+					  <div class="field">
+					  <textarea id='notification_content' name='notification_content' cols='93' rows='4' ><?php echo $this->specialDetail['content'];?><?php echo $this->lang->javascript->venue->specialtext->mark; ?></textarea>
+					  </div>
+					</div>
+					 <div class='venue_about_title'>
+					<div class='left'>持续时间</div>
+					<div class='venue_about_title_sanjiao'>		           		
+		           	</div>
+		         </div> 
+		         <div style='margin-bottom:15px;'>
+		         <div class='venue_special_mess'><div class='left'>设置签到优惠并且审核通过后默认将持续90天，点击设置可进行修改。</div>
+		         <div class='venue_special_submit venue_button'><a href='javascript:void(0)' id='venue_change_tm'>设置</a></div>
+				</div>
+				
+				<div class='clearfix'></div>
+		         <div class="row hide" id='special_tm' >
+					<span class='input_title'><?php echo $this->lang->javascript->golbal->special->begintm;?></span><input type="text" id="begintm" class="calendarFocus"  />
+		<span class='input_title'><?php echo $this->lang->javascript->golbal->special->endtm;?></span><input type="text" id="endtm" class="calendarFocus" />
+					<input type='hidden' id='show_tm' value='0' />
+					</div>
+					</div>
+					<div class='clearfix'></div>
+		          <div class='venue_about_title'>
+					<div class='left'>上传照片</div>
+					<div class='venue_about_title_sanjiao'>		           		
+		           	</div>
+		         </div> 
+		          <div class='venue_special_mess'><div class='left'>上传您拍摄的礼品或店铺一角作为优惠的配图。最多上传1张，小于2M,支持jpg、gif、png。</div>
+		          <div class='venue_special_submit venue_button'><a href='javascript:void(0)' id='tempbtnUpload'>上传</a></div>
+		         
+				</div>
+					<div class="row hide">					 
+					<input type='text' name='avatar_path' id='avatar_path' size='35' readonly='readonly' value='<?php echo $this->lang->global->venue->attach->mark; ?>' style="color: #999999;" />
+					<input type='hidden' id='end_btnUpload' value='' />						    			 
+					</div>					
+				
+					<input type='hidden' id='tempattach' name='attach' value='' />
+					<input type="hidden" id="poi_id" name="poi_id" value="<?php echo $this->poi_id;?>" />	
+					<input type="hidden" id="r_id" name="r_id" value="<?php echo $this->r_id;?>" />			
+				
+				<div class='clearfix'></div>
+			<div class="row">
+			<div style='margin:20px 0 0 130px;'>
+				<div class='venue_submit' style="float:left;"><a href='#freview_special' id='_freview_special'><div class='venue_botton' ><?php echo $this->lang->global->venue_require->freview;?></div></a></div>
+				<div class='venue_submit' style="margin-left:20px;float:left;"><a href='javascript:void(0)' id='venue_notification_submit'><div class='venue_botton' >提交信息</div></a></div>
+			</div>
+			<div class='venue_submit' style="float:right;line-height:35px;font-weight:bold;font-size:14px;width:auto;margin-right:25px;font-family:Arial;"><a href='<?php echo $this->gotourl;?>'><?php echo $this->lang->global->venue_require->skip;?></a></div>	
+
+			</div>
+				
+					
+	              <div class="clearfix"></div>
+	              
+	            </div>
+	        </div><!--#tabs-->
+        
+	  </div><!--#half_left-->
+	  <div id="half_right">
+	    <div id="venue_step" class="right_nav">
+	      <h2><?php echo $this->lang->global->venue->title; ?></h2>
+	      <ul>	     
+	        <li>	         
+	         <?php echo $this->lang->global->venue->about; ?>	         
+	        </li>
+	      	<li >	         
+	         <?php echo $this->lang->global->venue->step1; ?>        
+	        </li>
+	        <li class='on'>	        
+	          <?php echo $this->lang->global->venue->step2; ?>	         
+	        </li>
+	        <li>	         
+	          <?php echo $this->lang->global->venue->sucess; ?>	         
+	        </li>
+	      </ul>
+	       <div class="clearfix"></div>
+	    </div>
+	    
+	    <div class="right_nav" id="venue_right_back">
+	      <ul class="button"><li>
+	        <a href="/poi/<?php echo $this->poi_id;?>">返回地点详情</a>
+	        </li>
+	      </ul>
+	    </div>
+	  </div><!--#half_right-->
+	  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+
+
+<div style="display: none;">
+
+<div id="freview_special" shoutbox='shoutbox'>		
+		<h2><span class="left">手机客户端效果</span><span style="font-size: 12px; font-weight: normal;color:#B7BDC4;line-height:36px;" class="right">*以iPhone版为例，其他版本类似。</span></h2><br/>
+		
+		<div id='view_special_content'>
+		<div id='view_special_txt'> </div>
+		
+		</div>
+		
+		<div class='clear_fix'></div>
+</div>
+</div>
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+<?php echo $tmpb;?>
+</body>
+</html>
+<?php $this->Gz();?>

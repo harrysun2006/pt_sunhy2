@@ -1,0 +1,90 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'>
+		<?php include_once(dirname(__FILE__).'/menu.phtml');?>
+		
+		<div id="list">
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/userrank" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='10' class='center'>搜索</th></tr>
+			<tr>
+				<td>用户关键字:</td>
+				<td><input type='text' name='user_keyword' id='user_keyword' value='<?php echo $this->params['user_keyword'];?>' /></td>
+				<td>操作类型:</td>
+				<td>
+					<select name='act_type' id='act_type'>
+						<option value=''>全部</option>
+						<option value='del_blog' <?php echo $this->params['act_type']=='del_blog' ? ' selected="selected"' : '';?>>删除微博</option>
+						<option value='del_attach' <?php echo $this->params['act_type']=='del_attach' ? ' selected="selected"' : '';?>>删除附件</option>
+						<option value='reset_place' <?php echo $this->params['act_type']=='reset_place' ? ' selected="selected"' : '';?>>重置微博位置</option>
+						<option value='reset_user_place' <?php echo $this->params['act_type']=='reset_user_place' ? ' selected="selected"' : '';?>>重置用户位置</option>
+						<option value='reset_user_realname' <?php echo $this->params['act_type']=='reset_user_realname' ? ' selected="selected"' : '';?>>重置用户姓名</option>
+						<option value='reset_user_selfintro' <?php echo $this->params['act_type']=='reset_user_selfintro' ? ' selected="selected"' : '';?>>重置用户自我介绍</option> 
+						<option value='del_avatar' <?php echo $this->params['act_type']=='del_avatar' ? ' selected="selected"' : '';?>>删除用户头像</option>
+					</select>
+				</td>
+			<!--<td>每页结果数:</td>
+				<td>
+				<select name='page_size' id='page_size'>
+					<option value='<?php echo BETTER_PAGE_SIZE;?>' <?php echo $this->params['page_size']==BETTER_PAGE_SIZE ? ' selected="selected"' : '';?>>默认(<?php echo BETTER_PAGE_SIZE;?>)</option>
+					<option value='50' <?php echo $this->params['page_size']==50 ? ' selected="selected"' : '';?>>50</option>
+					<option value='100' <?php echo $this->params['page_size']==100 ? ' selected="selected"' : '';?>>100</option>
+					<option value='99999999' <?php echo $this->params['page_size']==99999999 ? ' selected="selected"' : '';?>>全部</option>
+				</select>
+				</td> -->
+			</tr>			
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='submit' value='搜索(s)' accesskey='s' />
+					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />
+					<input type='hidden' name='page' id='page' value='1' />
+					<input type='hidden' name='reload' id='reload' value='0' />
+				</td>
+			</tr>
+	
+			</table>		
+			</form>
+		</div>
+
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+				<tr>
+					<th>用户ID</th>
+					<th>用户名</th>
+					<th>操作类型</th>
+					<th>被操作次数</th>
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td class='center'><?php echo $this->highlight($row['uid'], $this->params['user_keyword']);?></td>
+					<td class='center'><?php echo $this->highlight($row['username'], $this->params['user_keyword']);?></td>
+					<td class='center'><?php echo $row['act_type'];?></td>
+					<td class='center'><?php echo $row['count'];?></td>	
+				</tr>
+				<?php } ?>
+			
+				<?php } else {  ?>
+				<tr>
+					<td colspan='10' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

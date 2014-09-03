@@ -1,0 +1,235 @@
+*html{
+background-image:url(about:blank);
+background-attachment:fixed;
+}
+
+#switchcontrol {
+	text-align:absolute-middle;
+}
+
+.binput {
+	border:1px solid #ddd1ce; 
+	padding:0.3em;
+}
+
+ul.tabNavigation {
+	margin-bottom:0px;
+	padding-bottom:0px;
+	border:0px;
+}
+
+#feedbackbutton{
+	display: block;
+	_position:absolute;
+	_bottom:auto;
+	_top:expression(eval(document.documentElement.scrollTop)+200);
+}
+#footer div.col{display:inline;float:left; width:185px; margin-left:40px;margin-top:20px}
+#nav li.search {width:270px; float:right; height:30px;position:relative;}
+.search ul.dropdown{
+	display: none;
+	position:absolute; 
+	_top:49px;
+	_left:15px;
+	width:90px; 
+	background:#fff; 
+	border:1px solid black;
+}
+#nav div.userlan {text-align:right;padding:10px 28px 11px 0px;height:17px; font-family:ºÚÌå,Arial;font-weight:500;font-size:14px;background: url(../images/line.jpg); background-repeat: no-repeat;} 
+#nav li.search #search_text{ border:0; background:url(../images/search-center.png) repeat 0 0; width:163px; float: left; margin-top: 0; height:22px;line-height:20px;}
+#nav li.search #search_button{ border:0; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/search-right.png');_ background-image: none; width:22px; height:24px; text-indent:-9999px; float: left;}
+#index .download{display:inline;float:left;margin-left:20px}
+#index .download ul{display:inline;float:left; width:100px; margin-left:33px}
+#index .download ul.downloadinfo{display:inline;float:left; width:125px; margin-left:1px; OVERFLOW: hidden;HEIGHT: 265px}
+#index .download ul li img{display:inline;border:0; width:115px;margin-bottom : 2px;}
+#index #moveinfo img{margin-left:26px;float:left;}
+.small_box .tline{height:1px; border-top:1px solid #d1d9e3; border-bottom:0;font-size:0;}
+ul.tabNavigation li{ display:inline;float:left;  line-height:24px; height:24px; vertical-align: baseline;}
+/*
+ul.tabNavigation li a.selected {filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/search-bg.png');_ background-image: none;}
+ul.tabNavigation li a.dropbt{filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/dropdown.png');_ background-image: none right;}
+*/
+
+ul.tabNavigation li a.dropbt{
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, src="../images/drop_down.png");  
+background:no-repeat 50% 50%;}
+ul.tabNavigation ul.dropdown{
+	display: none;
+	position: absolute;
+	text-align: center;
+	width:102px;
+	z-index: 999;
+	background: #FFFFFF;
+	border:1px solid #8D9DB0;
+	top:110px;
+	float: left;
+	clear: both;	
+}	
+	
+#set_form {display:inline;width:610px; float:left; margin-top:16px; margin-left:160px;}
+.avatars li img {float:none; margin:2px auto; width:52px; height:52px}
+
+
+#half_left {
+	_height: 1200px;
+	 margin-bottom:-600px; 
+   padding-bottom:600px; 
+}
+
+#half_right {
+	_height: 600px;
+	 margin-bottom:-400px; 
+   padding-bottom:400px; 
+}
+
+.pleft {
+	_height : 750px;
+}
+
+.pleft {margin-bottom:-10px;}
+
+.large_box {margin-bottom:12px; border-right:1px solid #DCE2EA;border-left:1px solid #dce2ea; border-bottom:1px solid #dce2ea;}
+#data div.tabs {border-left:1px solid #dce2ea; border-bottom:1px solid #dce2ea;}
+
+img.poi_major_avatar{
+	z-index: 2;
+	position: absolute;
+}
+#downtocell {
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, src="../images/en.downtocell.png");  
+background:no-repeat 50% 50%;
+
+width:180px;
+height:74px;
+}
+table.pblog_table {width:480px; border-collapse:collapse;border-spacing:0px;padding:0}
+.poi_list{
+	height: 370px;
+	width:490px;
+	border: 1px solid #e7ebf1;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+#index .download{margin-left:23px; margin-top: 15px;}
+#index .download ul{ width:100px; margin-left:30px}
+#index .download ul.downloadinfo{text-align: center; width:128px;margin-left:-19px}
+#index .download ul li img{border:0; width:115px;margin-bottom : 1px;}
+#index #moveinfo img{margin-left:26px;float:left;}
+
+img.ie6poiicon {
+	width: 24px;
+	height: 24px;
+}
+#shoutapng{filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, src="../images/shout.png");  
+background:no-repeat 50% 50%;
+}
+
+.ui-dialog{
+	border: 1px solid #e7ebf1;
+}
+.blue_btn{
+	width: 137px; 
+	height: 39px; 
+	display: block; 
+	!filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, src="../images/blue-button.png");  
+	!background:no-repeat 50% 50%;
+	color: #FFF;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+	text-decoration: none;
+	padding-top:5px;
+}
+#loginform {margin-top:5px}
+#loginform label {color:#4d6719}
+#loginform input { width:250px; padding:5px 2px; font-size:14px; text-align:center; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;}
+#loginform select { width:257px;font-size:14px; text-align:center; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px;}
+#loginform #signup_btn {height: 39px; 
+	display: block; 
+	border: 0px;
+	color: #FFF;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: left;
+	vertical-align: middle;
+	text-decoration: none;
+	width: 160px;
+	padding-top:5px;}
+#loginform #more {float:right; margin-top:36px}
+#loginform #login_btn {width: 137px; 
+	height: 39px; 
+	display: block; 
+	!filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, src="../images/blue-button.png");  
+	!background:no-repeat 50% 50%;
+	color: #FFF;
+	font-size: 15px;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+	text-decoration: none;
+	padding-top:5px;}
+div.tabs {background-color:#fff;border-top:1px solid #dce2ea;}
+.mid {margin:0 auto; width:952px; }
+.no_border{
+	border:0;
+}
+
+
+
+img.ie6poi_logo {
+	width: 48px;
+	height: 48px;
+}
+#half_left {width:590px;padding-right: 2px; background:#fff;float:left;min-height:600px;}
+}
+
+
+a.poi_major_avatar_a{
+	margin:-17px 0 0 -65px; 
+}
+
+.action a{height:20px; display:block; float:left; margin-right:7px; text-align:center; color:#0F7CC5}
+
+.large_box{
+	padding-bottom: 48px;	
+}
+
+#head_msg{
+	z-index: 1000;
+	position: absolute;
+	top: 27px;
+	left: 620px;
+}
+
+.head_circle{
+	_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/head_circle.png');
+	_background: none;
+	margin-left:-8px;
+	top: -9px;
+}
+
+.xu_line{
+	overflow: hidden;
+}
+
+#search_poi_div input{
+	width: 325px;
+	height: 20px;
+	padding-top:8px;
+}
+
+.create_div input{
+	width: 290px;
+	padding: 4px;
+}
+
+#add_poi_city, #add_poi_province, #add_poi_country{
+	width: 41px;
+}
+
+#fake_select{
+	padding: 6px 0 0 5px;
+	margin-top: 2px;
+	height: 10px;
+}

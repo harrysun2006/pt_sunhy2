@@ -1,0 +1,102 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+	<form>
+	<div id="list">
+		<input type='hidden' id="poi_id" name="poi_id" value="<?php echo $this->poi_id;?>" />
+		<input type='hidden' id="check_id" name="check_id" value="<?php echo $this->id;?>" />
+		<table class="kai_table">
+			<tr>
+				<th colspan='4' style="text-align:center;">审核POI信息</th> 
+			</tr>
+			<tr>
+			<td>POI ID：</td>
+				<td colspan="2">
+					<?php echo $this->poi_id;?>					
+				</td>
+			</tr>
+			<tr>
+			<td>用户ID</td><td colspan="2"><?php echo $this->uid?></td>
+			</tr>
+			<tr>
+			<td>修改时间</td><td colspan="2"><?php echo date('Y-m-d H:i:s',$this->time)?></td>
+			</tr>
+			<tr>
+			<td>当前审核状态</td><td colspan="2"><?php echo $this->checked?></td>
+			</tr>
+			<tr>
+				<td>修改内容</td>
+				<th>用户修改前</th>
+				<th>用户修改后</th>
+			</tr>
+			<?php if(array_key_exists('name',$this->new) && array_key_exists('name',$this->old)){?>
+			<tr>
+				<td>名称：</td>
+				<td><?php echo  $this->old->name?></td>
+				<td><?php echo  $this->new->name?></td>
+			</tr>
+			<?php }
+			 if(array_key_exists('address',$this->new) && array_key_exists('address',$this->old)){
+			?>
+			<tr>
+				<td>地址：</td>
+				<td><?php echo  $this->old->address?></td>
+				<td><?php echo  $this->new->address?></td>
+			</tr>
+			<?php }
+			 if(array_key_exists('city',$this->new) && array_key_exists('city',$this->old)){
+			?>
+			<tr>
+				<td>城市：</td>
+				<td><?php echo  $this->old->city?></td>
+				<td><?php echo  $this->new->city?></td>
+			</tr>
+			<?php }
+			 if(array_key_exists('phone',$this->new) && array_key_exists('phone',$this->old)){
+			?>
+			<tr>
+				<td>电话：</td>
+				<td><?php echo  $this->old->phone?></td>
+				<td><?php echo  $this->new->phone?></td>
+			</tr>
+			<?php }
+			 if(array_key_exists('lon',$this->old)
+			   && array_key_exists('lat',$this->old)){
+			?>
+			<tr>
+				<td>修改之前-地点(经纬度)：</td>
+				<td colspan='2'>
+					<input type='text' id='lonlat' value='<?php echo  $this->old->lat.','.$this->old->lon; ?>' size='40'/>
+					<div class="map">
+						<div id="admin_map" style="width: 450px; height: 260px; margin: 0;border:1px solid #ddd;" class='map'></div>
+						<input type="hidden" value="<?php echo $this->old->lat ?>" id="poi_lat" />
+						<input type="hidden" value="<?php echo $this->old->lon ?>" id="poi_lon" />
+					</div>
+				</td>
+			</tr>
+			<?php }
+			 if(array_key_exists('lon',$this->new) 
+			   && array_key_exists('lat',$this->new)){?>
+			   <tr>
+				<td>修改之后-地点(经纬度)：</td>
+				<td colspan='2'>
+					<input type='text' id='new_lonlat' value='<?php echo  $this->new->lat.','.$this->new->lon; ?>' size='40'/>
+					<div class="map">
+						<div id="admin_canavs" style="width: 450px; height: 260px; margin: 0;border:1px solid #ddd;" class='map'></div>
+						<input type="hidden" value="<?php echo $this->new->lat ?>" id="poi_new_lat" />
+						<input type="hidden" value="<?php echo $this->new->lon ?>" id="poi_new_lon" />
+					</div>
+				</td>
+			</tr>
+			<?php }?>
+			   
+		</table>
+		<div style="margin-top:10px">			
+					<input type='button' id='checkSuccess' name='poi_update' value="审核通过" />
+					<input type='button' id='checkFailure' name='poi_update' value="审核不通过" />
+					<input type='button' id='checkDelete' name='poi_update' value="删除" />
+		</div>
+		</div>
+		</form>
+		
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

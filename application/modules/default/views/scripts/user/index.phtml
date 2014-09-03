@@ -1,0 +1,201 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+
+<body id="profile">
+
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid">
+	  <div id="half_left">
+	    <div style='margin-bottom: 5px;'>
+	    	<img src='/images/banner.png' />
+	    </div>
+	    <div id="data">
+			<div class="tabs">
+	            <ul class="tabNavigation">
+	              <?php if ($this->kai_spec) { ?>
+	                 <li>
+	                	<a href="/<?php echo $this->dispUserInfo['username'];?>#doing" style='margin-left: 4px;' onclick='event.returnValue=false;return false;'><?php echo $this->lang->user->doing;?></a>
+	               	 </li>	         	
+	               <?php } else { ?>
+	                 <li>
+	                	<a href="/<?php echo $this->dispUserInfo['username'];?>#doing" style='margin-left: 4px;' onclick='event.returnValue=false;return false;'><?php echo $this->lang->user->doing;?></a>
+	               	 </li>
+	               	  <?php if(in_array($this->uid, $this->dispUser->friends) || $this->uid==$this->dispUserInfo['uid']){?>
+		               	  <li>
+		                	<a href="/<?php echo $this->dispUserInfo['username'];?>#user_trace" onclick='event.returnValue=false;return false;'>踪迹</a>
+		               	 </li>	               	 	
+	               	  <?php }?>
+					  <?php if($this->uid==$this->dispUserInfo['uid']){ ?>
+						<li>
+	               	 		<a href="/<?php echo $this->dispUserInfo['username'];?>#todo" onclick='event.returnValue=false;return false;'> 我想去</a>
+						</li>
+						<?php }else{ ?>
+	               	 	<li>
+	               	 		<a href="/<?php echo $this->dispUserInfo['username'];?>#todo" onclick='event.returnValue=false;return false;'> TA想去</a>
+						</li>
+	               	 <?php }
+	               }?>
+	            </ul>
+	            
+<style type="text/css">
+
+.pagination {
+	margin:0;
+	padding: 2px;
+}
+
+.pagination ul{
+	margin: 0;
+	padding: 0;
+	text-align: right;
+	font-size: 12px;
+}
+
+.pagination li{
+	margin:0 3px 0 1px;  
+	list-style-type: none;
+	display: inline;
+}
+
+
+.pagination a, .pagination a:visited{
+	padding: 3px 3px;
+	border: 1px solid #9aafe5;
+	text-decoration: none;
+	color: #2e6ab1;
+}
+
+.pagination a:hover, .pagination a:active{
+	border: 1px solid #2b66a5;
+	color: #000;
+	background-color: lightyellow;
+}
+.pagination li.currentpage{
+	margin:0 3px 0 1px; 
+	font-weight: bold;
+	padding: 3px 3px;
+	border: 1px solid navy;
+	background-color: #2e6ab1;
+	color: #FFF;
+}
+.pagination li.disablepage{
+	margin:0 3px 0 1px; 
+	padding: 3px 3px;
+	border: 1px solid #929292;
+	color: #929292;
+}
+.pagination li.nextpage {
+	font-weight: bold;
+}
+
+</style>
+	            <div id="doing" class='hide'>
+	            	<table class="blog_table">
+	            	<tbody id="tbl_doing"></tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<?php echo $this->pagerhtml; ?>
+						</td>
+						</tr>
+					</table>
+	            </div>
+	            
+	            <div id="todo" class='hide'>
+	            	<table class="blog_table">
+	            	<tbody id="tbl_todo">
+
+					 </tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_todo'></div>
+						</td>
+						</tr>
+					</table>
+	            </div>
+	            
+	            
+	            <div id="user_trace" class="hide">
+	            	<div id="trace_map" class='hide' style="width: 650px; height: 400px;margin: 0;border:1px solid #ddd;"></div>
+	            	
+	            	
+	     <ul class="trace_ul hide" id='trace_ul'>
+	  		
+<?php if($this->uid){?>
+	  		<li>
+	  		<div style='margin-bottom: 10px;'>
+	  			<div class='left' style='background: url(images/trace_tip.png) no-repeat -4px 0; height: 26px; width: 10px;'></div>
+	  			<div class='left' style='background: #EA5283; height: 26px; font-size: 14px; font-weight: bold; color: #fff; line-height: 26px;'>
+	  			<?php if($this->uid && $this->dispUserInfo['uid']==$this->uid){?>
+	  				<?php echo $this->lang->trace->share;?>
+	  			<?php }else{?>
+	  				<?php echo $this->lang->trace->say_their;?>
+	  			<?php }?>
+	  			</div>
+	  			<div class='left' style='background: url(images/trace_tip.png) no-repeat -15px 0; height: 26px; width: 10px;'></div>
+	  			
+	  			<div class="check_sync right" id="check_sync" style="text-align: left; width: auto; padding-top: 0;">
+					<?php if($this->site_count > 0){?>
+						<span id="shout_checkbox">
+							<input type="checkbox" name="trace_need_sync" id="trace_need_sync" checked="checked" />
+							<?php echo $this->lang->global->include->dmessage->share; ?>
+						</span>
+						<span id="shout_nopublic" class="hide">
+							<?php echo $this->lang->global->include->dmessage->no_public; ?>
+						</span>
+					<?php }else{?>
+						<a href="setting/sync"><?php echo $this->lang->global->include->dmessage->no_bound; ?></a>
+					<?php }?>	 
+				</div>
+				
+	  			<div class='clearfix'></div>
+	  			</div>
+	  			
+	  			<textarea style="height: 41px; width: 468px; float: left; overflow-x: hidden;" id="trace_status_text">
+<?php if($this->dispUserInfo['uid']==$this->uid){?>
+<?php echo $this->lang->trace->my_tips;?>: http://<?php echo $_SERVER['HTTP_HOST'];?>/<?php echo $this->dispUserInfo['username'];?>
+<?php }else if($this->dispUserInfo['uid']!=$this->uid){?>
+<?php }?></textarea>
+				
+				<?php if($this->dispUserInfo['uid']==$this->uid){?>
+					<a href="javascript: void(0);" class="right" style="width: 134px; height: 47px; margin-top: 2px; background: url(images/trace_btn_me.png) no-repeat 0 0;" id="post_btn_trace" ></a>
+				<?php }else{?>
+					<a href="javascript: void(0);" class="right" style="width: 134px; height: 47px; margin-top: 2px; background: url(images/trace_btn_other.png) no-repeat 0 0;" id="post_btn_trace" ></a>
+				<?php }?>
+				
+				<div class='clearfix'></div>
+	  		</li>
+	  		
+<?php }?>
+	  	</ul>
+	            	
+	            	
+	            	<table class="blog_table" style="margin-top: 10px;">
+	            		<tbody id="tbl_user_trace">
+
+					 	</tbody>
+	            	</table>
+	            </div>	       
+	            	            	            
+	        </div><!--#tabs-->
+        
+	  	</div><!--#data-->	
+	  </div><!--#half_left-->
+	  <?php include_once(dirname(__FILE__).'/../include/rightbar.phtml');?>
+	  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<!-- 举报对话框  -->
+<div id='deno' class='hide'>
+	<input type='text' />
+</div>
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

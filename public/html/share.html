@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>分享到开开</title>
+</head>
+<body>
+<script type="text/javascript" language="JavaScript">
+
+if (external.menuArguments) {
+        var parentwin = external.menuArguments;
+        if (parentwin.document.selection) {
+                var sel = parentwin.document.selection.createRange().text;
+        }
+        if (!sel) {
+                var sel = '';
+        }
+        sel=substr(sel,1,240);
+
+        var url = parentwin.location.href;
+        var title = parentwin.document.title;
+
+        if (parentwin.event.srcElement.tagName == "a") {
+                url = parentwin.event.srcElement.getAttribute("href");
+                title = parentwin.event.srcElement.innerText;
+        }
+
+        title=substr(title,1,76);
+        url=substr(url,1,255);
+        try
+        {
+                var w = window.open('http://k.ai/share?status_title='+encodeURIComponent(title)+'&status_text='+encodeURIComponent(url),'_blank','scrollbars=no,width=661,height=192,left=160,top=200,status=no,resizable=yes');
+        }
+        catch (e) {}
+
+        if (typeof(w)=="undefined" || w==null) {
+        try{
+                 var sDialog = "status:no; help:no;scroll:no;dialogLeft:160px;dialogTop:200px;dialogWidth:661px;dialogHeight:192px;";
+                 var wDialog = window.showModelessDialog('http://k.ai/share?status_title?status_title='+encodeURIComponent(title)+'&status_text='+encodeURIComponent(url),null,sDialog);
+        }catch(e){}
+
+        }
+} else {
+        history.go(-1);
+}
+function substr(str,num1,num2)
+{
+        var bytes=0;
+        var retStr="";
+        for(var i=0;i<str.length;i++){
+                if(str.charCodeAt(i)>127){
+                         bytes=bytes+2;
+                }
+                else{
+                        bytes++;
+                }
+                if (bytes<(num2+1) && bytes>(num1-1)){
+                        retStr=retStr+str.charAt(i);
+                }
+        }
+        return retStr;
+}
+</script>
+</body>
+</html>

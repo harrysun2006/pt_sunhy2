@@ -1,0 +1,142 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		<div style='width: 100%; text-align:left; background-color:#D3DCE3;'>[<a href='/admin/text' class='left'  style="color:#FF0000;font-weight:bold;">所有最新</a>] [<a href='/admin/article?type=normal' class='left'>吼吼</a>] [<a href='/admin/article?type=tips' class='left'>贴士</a>] [<a href='/admin/dmessage' class='left'>用户私信</a>]</div>
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/text" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>搜索</th></tr>
+			<tr>
+				<td>时间范围:</td>
+				<td colspan='3'>
+				从 <input type='text' name='from' id='from' value='<?php echo $this->params['from'];?>' readonly='readonly' />
+				到 <input type='text' name='to' id='to' value='<?php echo $this->params['to'];?>' readonly='readonly' />
+				</td>
+
+				<td>每页结果数:</td>
+				<td>
+				<select name='page_size' id='page_size'>
+					<option value='<?php echo BETTER_PAGE_SIZE;?>' <?php echo $this->params['page_size']==BETTER_PAGE_SIZE ? ' selected="selected"' : '';?>><?php echo BETTER_PAGE_SIZE;?></option>
+					<option value='50' <?php echo $this->params['page_size']==50 ? ' selected="selected"' : '';?>>默认(50)</option>
+					<option value='100' <?php echo $this->params['page_size']==100 ? ' selected="selected"' : '';?>>100</option>
+					<option value='99999999' <?php echo $this->params['page_size']==99999999 ? ' selected="selected"' : '';?>>全部</option>
+				</select>
+				</td>
+			</tr>			
+			
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='submit' value='搜索(s)' accesskey='s'  id="btnSearch"/>
+					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />
+					<input type='hidden' name='page' id='page' value='<?php echo $this->params['page'];?>' />
+					<input type='hidden' name='reload' id='reload' value='0' />
+					<input type='hidden' name='type' id='type' value='' />
+					<input type='hidden' name='uid' id='uid' value='<?php echo $this->params['uid'];?>' />
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div>
+
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+				<tr>
+					<th></th>
+					<th width='100'>文本类型</th>
+					<th>文本内容</th>
+					<th>发布人</th>
+					<th>发布时间</th>
+
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td width='20'><input type='checkbox' name='ids[]'  value='<?php echo $row['id'];?>' fromid='<?php echo $row['fid'];?>'></td>
+					<td class='center'><?php echo $row['type'];?></td>
+					<td class='messages'>
+						<div class='msg_row'>
+						<?php 
+							if($row['priv']=='public'){?>
+								<a target='_blank' href='/<?php echo $row['username'];?>#messages'><?php echo $row['content'];?></a>
+							<?php }else{
+								echo $row['content'];
+							}?>
+						</div>
+					</td>
+					<td class='center'><a href='<?php echo $this->admin_url;?>/text?uid=<?php echo $row['uid'];?>'><?php echo $row['uinfo'];?></a></td>
+					<td width='80' class='center'><?php echo date('Y-m-d H:i:s', $row['dateline']+BETTER_8HOURS);?></td>
+				</tr>
+				<?php } ?>
+				<tr>
+					<td colspan='10' class='center'>
+					<input type='button' id='chooseAll' name='chooseAll'  value='全选(a)' accesskey='a' />
+					<input type='button' id='chooseNone' name='chooseNone' value='全不选(n)' accesskey='n' />
+					<input type='button' id='chooseReverse' name='chooseReverse' value='反选(v)' accesskey='v' />
+				</td></tr>
+				<tr><td colspan='10'>
+					<input type='button' id='btnDel' value='删除' />
+					<?php if($this->params['uid']){?>
+						<input type='button' id='btnDelandBan' value='删除并封号' uid="<?php echo $this->params['uid'];?>" />
+						
+						<div id='delandban_account' style="display: none;" title='对<?php echo $this->params['uid'];?>进行封号'>
+						<div style="height: 275px; width: 300px; text-align: left;">
+						<h4>请输入封号原因：</h4>
+						<textarea cols='40' rows='10' id='ban_reason_textarea'></textarea><br><br>
+						<input type="button" id='ban_btn' value='确定'>
+						
+						</div>
+						</div>
+						
+					<?php } ?>
+					<input type='button' id='btn_rtemail' value='通过邮件转发' />
+					</td>
+				</tr>					
+				<?php } else {  ?>
+				<tr>
+					<td colspan='10' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+		
+		<div style='display: none;'>
+			<div id='admin_rtemail'>
+				<table style='float: left;'>
+					<tr>
+						<td>收件人Email:</td>
+						<td><input type='text' id='reciver' name='reciver' value='' size='35' /></td>
+					</tr>
+					<tr>
+						<td>内容:</td>
+						<td><textarea id='msg_content' cols='40' rows='16'></textarea></td>
+					</tr>
+					<tr>
+						<td colspan='2'><input type='button' name='rt_btn' id='rt_btn' value='确定' /></td>
+					</tr>
+				</table>
+				
+				<div id='whitelist' style='width: 200px ; height: 320px; overflow-y: auto; border: 1px solid #000; float: right;'>
+					<?php $emails= Better_Whitelist::getInstance(APPLICATION_PATH.'/../data/workers.dat')->getEmails();
+					foreach($emails as $val){?>
+						<a href='javascript: void(0);'><?php echo $val;?></a>
+					<?php }?>
+				</div>
+				
+			</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

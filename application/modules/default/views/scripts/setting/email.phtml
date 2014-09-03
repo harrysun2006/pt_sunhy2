@@ -1,0 +1,84 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="setting">
+
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="setting_page">
+ <div class="mid title">
+	  <div id="setting_header_title"><span class='text'><?php echo $this->lang->global->nav->setting;?></span></div>
+	   <div id="setting_header_img"><h2><?php echo $this->lang->global->setting_header_text;?></h2></div>
+ </div>
+  <div class="mid">
+	<div id="setting_menu">
+	    <ul id="right_menu">
+	        <li><a href="/setting" class="off"><?php echo $this->lang->setting->menu->basic;?></a></li>
+	        <li><a href="/setting/avatar" class="off"><?php echo $this->lang->setting->menu->avatar;?></a></li>
+	        <li><a href="/setting/password" class="off"><?php echo $this->lang->setting->menu->password;?></a></li>
+	        <li><a href="/setting/privacy" class="off"><?php echo $this->lang->setting->menu->privacy;?></a></li> 
+	        <li><a href="/setting/cell" class="off"><?php echo $this->lang->setting->menu->cell;?></a></li>
+	        <?php if ($this->config->msn_robot->enabled) { ?>
+	        <li><a href='/setting/im' class="off"><?php echo $this->lang->setting->menu->im;?></a></li>
+	        <?php } ?>	        
+	        <li><a href="/setting/sync" class="off"><?php echo $this->lang->setting->menu->sync;?></a></li>
+	        <li><a href="/setting/email"  class="on"><?php echo $this->lang->setting->menu->email;?></a></li>
+	        <?php if (!$this->config->lbs->promotion) { ?><li><a href="/tools/lbs" class="off"><?php echo $this->lang->tools->lbs->title;?></a></li><?php } ?>
+	        <li><a href="/tools/share" class="off"><?php echo $this->lang->tools->share->title;?></a></li>
+	        <?php if ($this->bedoUid) {?>
+	        <li><a href="/setting/bedoimport" class="off"><?php echo $this->lang->setting->menu->bedoimport;?></a></li>
+	        <?php } else {?>
+	        <li><a href="/setting/bedobind" class="off"><?php echo $this->lang->setting->menu->bedoimport;?></a></li>
+	        <?php }?>
+	    </ul>
+	</div>
+	      <div id="setting_content">
+			<div class="setting_main">
+			
+  	 		<h2><?php echo $this->lang->setting->email->title;?></h2>
+		
+		    
+		    
+			<div>
+	    	<div class="userinfo">
+	    	<form>
+	    	<div class="setting_notice hide" id='set_email_success'>
+	    	   <?php echo $this->lang->setting->email->msg->set_success;?>
+	    	</div>  	
+	    	
+	    		<div class='row'>
+	    			<div class='field'>
+	    				<input type='checkbox' name='email_person' id='email_person' <?php if ($this->user['email4person']==1) {?>checked='checked' <?php } ?>/> 
+	    				<span for='email_person'><?php echo $this->lang->setting->email->person;?></span>
+	    			</div>
+	    		</div>
+	    		<div class='row'>
+	    			<div class='field'>
+	    				<input type='checkbox' name='email_community' id='email_community' <?php if ($this->user['email4community']==1) {?>checked='checked' <?php } ?>/> 
+	    				<span for='email_community'><?php echo $this->lang->setting->email->community;?></span>
+	    			</div>
+	    		</div>
+	    		<div class='row'>
+	    			<div class='field'>
+	    				<input type='checkbox' name='email_product' id='email_product' <?php if ($this->user['email4product']==1) {?>checked='checked' <?php } ?>/> 
+	    				<span for='email_product'><?php echo $this->lang->setting->email->product;?></span>
+	    			</div>
+	    		</div>
+	    		
+				
+	    		<input type="button" id='btnEmail' value="<?php echo $this->lang->setting->privacy->button_tips;?>" class="save btn"/>
+			</form>
+			</div>
+	    </div>
+	    </div>
+	   
+	   <div style="height:230px;"></div>
+	</div><!--.tabs-->
+	    
+	    <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

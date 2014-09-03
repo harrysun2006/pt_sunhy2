@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta content="width=320" name="viewport" />   
+    <title><?php echo $this->lang->global->signup; ?></title>
+    <?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+    <?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+    <div id='content'>
+    <div class="error">
+		<?php
+			if( strlen($this->errresult)  )
+				echo $this->errresult."<br/>"; 
+		 ?>
+	</div>
+
+   	<form action="/mobile/signup/do" method="post" id="signupform">  		
+    	<span><?php echo $this->lang->signup->email;?></span><br/>
+    	<input value="<?php echo $this->post['email'];?>" type="text" name="email" /><br/>    	
+		<?php if($this->err['err_email']) {?>
+    	<span id='err_email' class='error'><?php echo $this->err['err_email']."<br/>";?></span>
+    	<?php }?>    
+      	<span><?php echo $this->lang->signup->password;?></span><br/>
+     
+      	<input name="password" type="password" /><br/>
+      	<?php if($this->err['err_password']) {?>
+      		<span id='err_password' class='error'><?php echo $this->err['err_password']."<br/>";?></span>
+        <?php }?>    
+      	<?php echo $this->lang->signup->repassword."<br/>";?>      	
+      	<input name="repassword" type="password" /><br/>
+      	<?php if($this->err['err_password']) {?>      
+      		<span id='err_repassword' class='error'><?php echo $this->err['err_repassword']."<br/>";?></span>
+      	<?php }?>  
+		<span id='tip_password' class='tip'><?php echo $this->lang->setting->password->new->tips;?></span><br/>		
+      	<span><?php echo $this->lang->signup->nickname->title;?></span><br/>
+      	<input value="<?php echo $this->post['nickname'];?>" name="nickname" type="text" maxlength=20 /><br/>
+		<span id='tip_nickname' class='tip'>(<?php echo $this->lang->signup->nickname_remark;?>)</span><br/>		
+		<?php if($this->err['err_nickname']){?>
+      	<span id='err_nickname' class='error'><?php echo $this->err['err_nickname']."<br/>";?></span>
+      	<?php }?>
+      	<span><?php echo $this->lang->signup->scode->title;?></span><br/>
+      
+		  	<input type='text' id='code' name='code' value='' class="left" style="width:60px;"/><img id="img_code" src='/Scode?<?php echo rand(100000,999999);?>' class="left" style='margin-left:10px;'/><br/>
+		  	<?php if($this->err['err_code']){?>
+      	<span id='err_code' class='error'><?php echo $this->err['err_code']."<br/>";?></span>
+      	<?php }?>
+		  	
+		   
+      	
+      	
+      	
+      	
+      	
+        <input type="hidden" value="0" name="agree" > <input type="checkbox" value="1" name="agree" checked="checked" /><?php echo $this->lang->signup->have_readed?><a href='/mobile/signup/term'><?php echo $this->lang->signup->agreement;?></a><br/>
+      
+		<?php if($this->err['err_agree']){?>
+      	<span id='err_agree' class='error'><?php echo $this->err['err_agree']."<br/>";?></span>
+      	<?php }?>
+      
+       <input value="<?php echo $this->lang->signup->tips;?>" type="submit" /></p>
+	</form>
+	 </div>
+	<?php include_once(dirname(__FILE__).'/../include/loginfooter.phtml');?>
+</body>
+</html>  
+  

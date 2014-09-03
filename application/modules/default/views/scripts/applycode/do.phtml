@@ -1,0 +1,59 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="signup">
+<div id="header">
+  <div class="mid bg">
+  	<div id="home_link">
+  	   <a href="/"><img src="images/logo.png" alt="logo" class="logo"/></a>
+  	   <h1><?php echo $this->lang->global->nav->title;?></h1>
+  	</div>
+	<div id="nav">
+	<?php include_once(dirname(__FILE__).'/../include/headeruserlan.phtml');?>	
+	  <form method="get" action="/search">
+	  	<ul>
+	  		<li><a href="/"><?php echo $this->lang->global->nav->homepage;?></a></li>
+	  		<li><a href="/user"><?php echo $this->lang->global->nav->user;?></a></li>
+	  		<li><a href="/poi"><?php echo $this->lang->global->nav->around;?></a></li>
+	  		<li><a href="/people/find"><?php echo $this->lang->global->nav->find_people;?></a></li>
+	  		<li><a href="/tools"><?php echo $this->lang->global->nav->tools;?></a></li>
+	  		<li><a href="/setting"><?php echo $this->lang->global->nav->setting;?></a></li>
+	  		<?php include_once(dirname(__FILE__).'/../include/headersearch.phtml');?>
+	  	</ul>
+	  	</form>
+	</div> <!--#nav-->
+
+  </div>
+</div> <!--#header-->
+
+<div id="content">
+  <div class="mid border">
+  	<div class='small_mid' style="width: 350px; height:250px;padding-top:80px;">
+  		
+	  	<div id="form">
+	  	  <div class='title_large'>
+			<div class="left"><img src="images/attention.png" /></div>
+			<div class="left text"><?php echo $this->ifsuccess? $this->lang->global->congratulate : $this->lang->global->error_ocupied;?></div>
+		  </div>
+		  <hr class="onepxline" color="#dce2ea">
+
+	      <table>
+	        <tr>
+	    	 	<td class='input'>
+	    	 		<h3><?php echo $this->message;?></h3>
+	    	 	</td>
+	    	</tr>
+	    	<tr>
+	    		<td class='input center'>
+	  	 [ <a href='/home'><?php echo $this->lang->signup->back;?></a> ]</td>
+	    	</tr>
+    	
+	    	</table>
+	    	
+		</div><hr class="onepxline" color="#dce2ea">
+	</div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>

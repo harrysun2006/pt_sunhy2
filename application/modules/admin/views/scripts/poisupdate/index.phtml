@@ -1,0 +1,42 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>		<div class='content_wraper'><div id="list">		<?php include_once(dirname(__FILE__).'/../include/poifunctions.phtml');?>
+		<div style="margin: 10px auto;">			<form action="<?php echo $this->admin_url;?>/poisupdate" id="search_form">			<table class='kai_table'>			<tr><th colspan='6' class='center'>搜索</th></tr>			<tr>				<td>POI ID</td>				<td><input type='text' name='poi_id' value='<?php echo $this->params['poi_id'];?>'/></td>				<td>每页结果数:				<select name='page_size' id='page_size'>					<option value='<?php echo BETTER_PAGE_SIZE;?>' <?php echo $this->params['page_size']==BETTER_PAGE_SIZE ? ' selected="selected"' : '';?>>默认(<?php echo BETTER_PAGE_SIZE;?>)</option>					<option value='50' <?php echo $this->params['page_size']==50 ? ' selected="selected"' : '';?>>50</option>					<option value='100' <?php echo $this->params['page_size']==100 ? ' selected="selected"' : '';?>>100</option>					<option value='99999999' <?php echo $this->params['page_size']==99999999 ? ' selected="selected"' : '';?>>全部</option>				</select>				</td>							</tr>			<tr>				<td colspan='6' class='center'>					<input type='submit' value='搜索(s)' accesskey='s' />					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />					<input type='hidden' name='page' id='page' value='<?php echo $this->params['page'];?>' />					<input type='hidden' name='reload' id='reload' value='0' />				</td>			</tr>				</table>					</form>		</div>
+			<table cellspacing="0" class='kai_table' style='width: 50%; float: left;'>	
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+				<tr>					<th width='10'>&nbsp;</th>
+					<th>POI ID</th>
+					<th>名称</th>
+					<th>地址</th>
+					<th>处理时间</th>					<th>操作</th>
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>					<td width='10'><input type='checkbox' id='<?php echo $row['id'];?>' name='pids[]' value='<?php echo $row['poi_id'];?>' latlon='<?php echo $row['lat'].'|'.$row['lon'];?>' poi_name='<?php echo $row['name'];?>' poi_address='<?php echo $row['address'];?>' /></td>
+					<td width='80' class='center'><?php echo $row['poi_id'];?></td>
+					<td width='80' class='center'><?php echo $row['name'];?></td>	
+					<td width='120' class='center'><a href='http://ditu.google.com/maps?f=q&source=s_q&hl=zh-CN&geocode=&q=<?php echo $row['address'];?>&z=14' target='_blank'><?php echo $row['address'];?></a></td>
+					<td width='80' class='center'><?php echo date('Y-m-d H:i:s', $row['dateline']+BETTER_8HOURS);?></td>					<td><a class="xiugai" href='<?php echo $this->admin_url;?>/poi/updatepoi?id=<?php echo $row['poi_id'];?>' target='_blank'>修改</a></td>
+				</tr>
+				<?php } ?>				<tr>					<td colspan='15' class='center'>					<input type='button' id='chooseAll' name='chooseAll'  value='全选(a)' accesskey='a' />					<input type='button' id='chooseNone' name='chooseNone' value='全不选(n)' accesskey='n' />				</td></tr>				<tr><td colspan='15'>					<input type='button' id='btnUpdate' value='修改' />					<!-- <input type='button' id='btnDel' value='删除' />  -->					</td>				</tr>					<?php } else {  ?>
+				<tr>
+					<td colspan='10' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>				<div id='update_map' style='width: 49%; height: 400px; float: right;'></div>
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

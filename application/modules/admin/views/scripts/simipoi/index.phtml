@@ -1,0 +1,155 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		<?php include_once(dirname(__FILE__).'/../include/poifunctions.phtml');?>
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/simipoi" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>搜索</th></tr>
+			<tr>
+				<td>POI名称关键字:</td>
+				<td><input type='text' name='namekeyword' id='namekeyword' value='<?php echo $this->params['namekeyword'];?>' /></td>
+				<td>位置关键字:</td>
+				<td><input type='text' name='placekeyword' id='placekeyword' value='<?php echo $this->params['placekeyword'];?>' /></td>
+				<td>每页结果数:</td>
+				<td>
+				<select name='page_size' id='page_size'>
+					<option value='<?php echo BETTER_PAGE_SIZE;?>' <?php echo $this->params['page_size']==BETTER_PAGE_SIZE ? ' selected="selected"' : '';?>>默认(<?php echo BETTER_PAGE_SIZE;?>)</option>
+					<option value='50' <?php echo $this->params['page_size']==50 ? ' selected="selected"' : '';?>>50</option>
+					<option value='100' <?php echo $this->params['page_size']==100 ? ' selected="selected"' : '';?>>100</option>
+					<option value='99999999' <?php echo $this->params['page_size']==99999999 ? ' selected="selected"' : '';?>>全部</option>
+				</select>
+				</td>
+			</tr>	
+							
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='submit' value='搜索(s)' accesskey='s' />
+					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />
+					<input type='hidden' name='page' id='page' value='<?php echo $this->params['page'];?>' />
+					<input type='hidden' name='reload' id='reload' value='0' />
+					
+					<input type='hidden' id='simitype' name='type' value='<?php echo $this->params['type']?>' />
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div>
+		
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>	
+				<tr>
+					<td colspan='15' class='center'>
+					<input type='button' id='chooseAll' name='chooseAll'  value='全选(a)' accesskey='a' />
+					<input type='button' id='chooseNone' name='chooseNone' value='全不选(n)' accesskey='n' />
+					<input type='button' id='chooseReverse' name='chooseReverse' value='反选(v)' accesskey='v' />
+				</td></tr>				
+				<tr>
+					<th width='20'></th>
+					<th class='nowrap'>需合并的POI</th>
+					<th class='nowrap' width='60'>操作</th>	
+					<th class='nowrap' >目标POI</th>									
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row' id="<?php echo $row[0]['refid'];?>">
+					<td class="checkbox_td"><input type='checkbox' value="<?php echo $row[0]['refid'];?>"/></td>
+					<td class="sub_checkbox_td" style="padding: 3px 10px; line-height: 16px;">
+						<?php 
+							$ref_poi = Better_Poi_Info::getInstance($row[0]['refid'])->getBasic();
+							$ref_lon = $ref_poi['lon'];
+							$ref_lat = $ref_poi['lat'];
+							foreach($row as $k=>$val){
+								$poi = Better_Poi_Info::getInstance($val['id'])->getBasic();
+								$p_lon = $poi['lon'];
+								$p_lat = $poi['lat'];
+								
+								$disc = Better_Service_Lbs::getDistance($ref_lon, $ref_lat, $p_lon, $p_lat);
+								?>
+								<?php if($k!=0){?>
+									<div style="height: 5px; border-bottom: 1px dotted #999; overflow: hidden; "></div>
+								<?php }?>
+								<input type="checkbox" id="<?php echo $val['id'];?>" checked="checked"/>
+								<a href="javascript: void(0);" onclick="Better_Admin_Simi_Switch(<?php echo $val['id'];?>);" style='color: green; font-weight: bold;'>[交换]</a>
+								<div id="div_<?php echo $val['id'];?>">
+									id: <a href="/poi/<?php echo $val['id'];?>" target="_blank" class='ida'><?php echo $val['id'];?></a><br>
+									等级: <?php echo $val['level'];?><br>
+									名称: <span style='color: red;'><?php echo $val['name'];?></span><br>
+									地址: <?php echo $val['addrline'];?><br>
+									距离：<?php echo round($disc/1000, 3);?>公里<br>
+									<?php if($poi['checkins']){?>
+									<span style="color: red; font-weight: bold;">签到数：<?php echo $poi['checkins'];?></span><br>
+									<?php }else{?>
+									签到数：<?php echo $poi['checkins']? $poi['checkins']: '0';?><br>
+									<?php }?>
+									来源：<?php echo $poi['creator']? '用户自建': ($poi['aibang_id']? '爱帮':'谷歌');?>
+									<a href='/admin/poi/updatepoi?id=<?php echo $val['id'];?>' target='_blank' style='font-weight:bold;'>[修改]</a>	
+								</div>
+								
+						<?php }
+						?>
+					</td>
+					<td>
+						<span>==></span><br>
+						<a href="javascript: void(0);" onclick="Better_Admin_Merge_Pois($(this), <?php echo $row[0]['refid'];?>);">合并</a><br>
+						<a href="javascript: void(0);" onclick="Better_Admin_Simi_Del(<?php echo $row[0]['refid'];?>);">不合并</a>
+					</td>
+					<td>
+									id: <a href="/poi/<?php echo $row[0]['refid'];?>" target="_blank" class='ida'><?php echo $row[0]['refid'];?></a><br>
+									等级: <?php echo $row[0]['reflevel'];?><br>
+									名称: <span style='color: red;'><?php echo $this->highlight($row[0]['refname'], $this->params['namekeyword']);?></span><br>
+									地址: <?php echo $this->highlight($row[0]['refaddrline'], $this->params['placekeyword']);?><br>
+									<?php if($ref_poi['checkins']){?>
+									<span style="color: red; font-weight: bold;">签到数：<?php echo $ref_poi['checkins'];?></span><br>
+									<?php }else{?>
+									签到数：<?php echo $ref_poi['checkins']? $ref_poi['checkins']: '0';?><br>
+									<?php }?>
+									来源：<?php echo $ref_poi['creator']? '用户自建': ($ref_poi['aibang_id']? '爱帮':'谷歌');?><br>
+									<a href='/admin/poi/updatepoi?id=<?php echo $row[0]['refid'];?>' target='_blank' style='font-weight:bold;'>[修改]</a>	
+					</td>
+				</tr>
+				<?php } ?>
+				
+				<tr><td colspan='15'>
+					<input type='button' id='btnMerge' value='合并' />
+					<input type='button' id='btnNotMerge' value='不合并' />
+					</td>
+				</tr>					
+				<?php } else {  ?>
+				<tr>
+					<td colspan='15' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>
+			
+			<div style="margin-top: 30px;">
+			<table width="100%" height='100'>
+				<tr><th colspan='10' align='left'>输入ID合并POI</th></tr>
+				<tr>
+					<td align='left' width='250'>需合并的POI ID（中间用逗号（,）隔开）：</td>
+					<td align='left'><input type="text" id="manu_pids" size='40'/></td>
+					<td align='left'>目标POI ID（唯一）：</td>
+					<td align='left'><input type="text" id="manu_target_pid" /></td>
+				</tr>
+				<tr>
+					<td colspan='10' align='left'><input type="button" id="manu_btn" value="合并"/></td>
+				</tr>
+			</table>	
+			</div>
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

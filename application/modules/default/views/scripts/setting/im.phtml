@@ -1,0 +1,61 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="setting">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid white_bg">
+	<div class="mid large_box" >
+
+	<div class="tabs">
+	    <ul class="tabNavigation">
+	        <li><a href="/setting"><?php echo $this->lang->setting->menu->basic;?></a></li>
+	        <li><a href="/setting/avatar"><?php echo $this->lang->setting->menu->avatar;?></a></li>
+	        <li><a href="/setting/password"><?php echo $this->lang->setting->menu->password;?></a></li>
+	        <li><a href="/setting/privacy"><?php echo $this->lang->setting->menu->privacy;?></a></li>
+	        <li><a href="/setting/cell"><?php echo $this->lang->setting->menu->cell;?></a></li>
+	        <?php if ($this->config->msn_robot->enabled) { ?>
+	        <li><a href='/setting/im' class='selected'><?php echo $this->lang->setting->menu->im;?></a></li>
+	        <?php } ?>	  	        
+	        <li><a href="/setting/sync"><?php echo $this->lang->setting->menu->sync;?></a></li>
+	        <li><a href="/setting/email"><?php echo $this->lang->setting->menu->email;?></a></li>
+	        <?php if (!$this->config->lbs->promotion) { ?><li><a href="/tools/lbs"><?php echo $this->lang->tools->lbs->title;?></a></li><?php } ?>
+	        <li><a href="/tools/share"><?php echo $this->lang->tools->share->title;?></a></li>
+	    </ul>
+	    <div id="tab_content" style='min-height:300px; height: 350px;'>
+			<div id="set_form">
+	        <h2><?php echo $this->lang->setting->im->title;?></h2>
+	    	<div class="userinfo">
+	    	<form>
+	    	<?php if (trim($this->user['msn'])!='') {?>
+	    	<div class="snotice"  id='msn_tips'>
+	    	    <span class='err'><?php echo $this->user['msn'];?></span><?php echo $this->lang->setting->im->binded_tips1;?> <?php echo $this->lang->setting->im->binded_tips2;?>
+	    	</div>
+	    	<?php } ?>
+		    	<div class="row">
+					<?php echo $this->lang->setting->im->tips;?>
+				</div>	    	
+	    		<h2><?php echo $this->lang->setting->im->msn->title;?></h2>
+	    		<div class="row">
+	    			<?php echo $this->lang->setting->im->msn->input_account;?>
+	    			<br/>
+	    			<input type="text" size="30" id="msn_to_bind" name="msn_to_bind" class='binput' value=""/>
+	    		
+	    		<input type="button" id='btnBindMsn' value="<?php echo $this->lang->setting->im->button_tips;?>" class='btn'/> <span class='err' id='errBindMsn'></span>
+	    		</div>
+
+			</form>
+			</div>
+	    </div>
+	    </div>
+	    </div>
+	   
+	</div><!--.tabs-->
+	    <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

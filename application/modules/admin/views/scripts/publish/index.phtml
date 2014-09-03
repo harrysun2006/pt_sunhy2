@@ -1,0 +1,151 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+			<div style='width: 100%; text-align:left; background-color:#D3DCE3;'>[<a href='/admin/publish' class='left'>客户端产品管理</a>] [<a href='/admin/publish/phone' class='left'>手机机型管理</a>] </div>
+		<div style="margin: 10px auto;" class="hide">
+			<form action="<?php echo $this->admin_url;?>/publish" id="search_form">
+			<table class='kai_table'>
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='hidden' name='page' id='page' value='<?php echo $this->params['page'];?>' />
+					<input type='hidden' name='reload' id='reload' value='0' />
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div> 
+		
+		<div style="margin: 10px auto;">
+			<form action="" id="add_form">
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>添加新版本</th></tr>
+			<tr>
+				<td>名称:</td>
+				<td><input type='text' name='name' id='name' value='' /></td>
+				<td>描述:</td>
+				<td><input type='text' name='desc' id='desc' value='' /></td>
+				<td>操作系统:</td>
+				<td>
+					<select name="oid" id="oid">
+						<?php foreach($this->oss as $os){?>
+							<option value="<?php echo $os['oid']; ?>"><?php echo $os['name']?></option>
+						<?php }?>
+					</select>
+				</td>
+			</tr>	
+			<tr>	
+				<td>发布日期:</td>
+				<td><input type="text" id="post_date" readonly='readonly' value="<?php echo date('Y-m-d', time()+BETTER_8HOURS);?>"></td>
+				<td>版本号:</td>
+				<td><input type="text" name="version" id="version" value="" /></td>
+				<td>文件名:</td>
+				<td><input type="text" name="filename" id="filename" value="" /></td>
+			</tr>				
+				
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='button' id="btnAdd" value='添加'/>
+					<input type='reset' value='重置'/>
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div> 
+		
+		<div style="margin: 30px auto;" class="hide" id="update_div">
+			<form action="" id="update_form">
+			<input type="hidden" id="pid" />
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>更新</th></tr>
+			<tr>
+				<td>名称:</td>
+				<td><input type='text' name='name_update' id='name_update' value='' /></td>
+				<td>描述:</td>
+				<td><input type='text' name='desc_update' id='desc_update' value='' /></td>
+				<td>操作系统:</td>
+				<td>
+					<select name="oid_update" id="oid_update">
+						<?php foreach($this->oss as $os){?>
+							<option value="<?php echo $os['oid']; ?>"><?php echo $os['name']?></option>
+						<?php }?>
+					</select>
+				</td>
+			</tr>	
+			<tr>	
+				<td>发布日期:</td>
+				<td><input type="text" id="post_date_update" readonly='readonly' value="<?php echo date('Y-m-d', time()+BETTER_8HOURS);?>"></td>
+				<td>版本号:</td>
+				<td><input type="text" name="version_update" id="version_update" value="" /></td>
+				<td>文件名:</td>
+				<td><input type="text" name="filename_update" id="filename_update" value="" /></td>
+			</tr>		
+				
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='button' id="btnUpdate" value='更新'/>
+					<input type='button' id="btnfangqi" value='放弃'/>
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div> 
+
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+				<tr>
+					<th></th>
+					<th>名称</th>
+					<th>描述</th>
+					<th>操作系统</th>
+					<th>版本号</th>
+					<th>文件名</th>
+					<th>发布日期</th>
+					<th>&nbsp;</th>
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td><input type='checkbox' name='pids[]'  value='<?php echo $row['pid'];?>' /></td>
+					<td class='center' id="<?php echo $row['pid']?>_name"><?php echo $row['name']?></td>
+					<td class='center' id="<?php echo $row['pid']?>_desc"><?php echo $row['desc']?></td>
+					<td class='center' id="<?php echo $row['pid']?>_oid" oid='<?php echo $row['oid'];?>'><?php echo $row['oname']?></td>
+					<td class='center' id="<?php echo $row['pid']?>_version"><?php echo $row['version']?></td>
+					<td class='center' id="<?php echo $row['pid']?>_filename"><?php echo $row['filename']?></td>
+					<td class='center'><?php echo date('Y-m-d H:i:s', $row['postdate']+BETTER_8HOURS);?></td>
+					<td class='center'><a href="javascript: void(0);" id="<?php echo $row['pid'];?>">修改</a>
+					</td>		
+				</tr>
+				<?php } ?>
+				<tr>
+					<td colspan='10' class='center'>
+					<input type='button' id='chooseAll' name='chooseAll'  value='全选(a)' accesskey='a' />
+					<input type='button' id='chooseNone' name='chooseNone' value='全不选(n)' accesskey='n' />
+					<input type='button' id='chooseReverse' name='chooseReverse' value='反选(v)' accesskey='v' />
+				</td></tr>
+				<tr><td colspan='10'>
+					<input type='button' id='btnDel' name='btnDel' value='删除所选(d)' accesskey='d' />
+					</td>
+				</tr>					
+				<?php } else {  ?>
+				<tr>
+					<td colspan='10' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

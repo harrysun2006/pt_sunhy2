@@ -1,0 +1,186 @@
+<?php 
+$cssUrl = $this->cssUrl ? $this->cssUrl : BETTER_BASE_URL.(Better_Config::getAppConfig()->css->path);
+$jsUrl = $this->jsUrl ? $this->jsUrl : BETTER_BASE_URL.(Better_Config::getAppConfig()->javascript->path);
+?>
+<script type='text/javascript' src="<?php echo $jsUrl;?>/jquery/jquery-1.4.2.min.js" charset="utf-8"></script>  
+<?php if ($_SERVER['SERVER_NAME']=='10.10.59.98') {
+	$key='ABQIAAAAz2EYq_GNa47dPkdP-6nRixThnWgwAfIozEyIOiZ15mj0OMKvahRVNoJqYZPBWjUNqHRmCrcDysiTvw';
+} else if ($_SERVER['SERVER_NAME']=='10.35.254.252') {
+	$key='ABQIAAAAz2EYq_GNa47dPkdP-6nRixRf4hW1KVnn8WbEudSO60E8y0lOtRQIvdEZencEGSh_7plvsDzq8hTvPA';
+} else if ($_SERVER['SERVER_NAME']=='k.ai' || $_SERVER['SERVER_NAME']=='www.k.ai') {
+	$key='ABQIAAAAz2EYq_GNa47dPkdP-6nRixR0YGVtJgVUGyuoBMON3xMOzZ92exTxqToQuvODwiSqaEqRvydHv2Of4w';
+} else if ($_SERVER['SERVER_NAME']=='10.10.1.252') {
+	$key='ABQIAAAAz2EYq_GNa47dPkdP-6nRixQMpeF6SNs3tyzUWltG12eU-tdblBTYV9Q2tSBaqbHhNWEPqislvFA4Ww';
+} else if ($_SERVER['SERVER_NAME']=='10.10.8.210') {
+	$key='ABQIAAAAz2EYq_GNa47dPkdP-6nRixRZ6XYiRqDrFNXiYmJNYO0C9S7p8xQOJVTxDlX0ywZvGIoqSFd9lj_xTQ';
+} else if ($_SERVER['SERVER_NAME']=='10.10.8.14') { 
+	$key='ABQIAAAAz2EYq_GNa47dPkdP-6nRixTIeabhJxt35huM1qHE-t7G2FYhYxRFN3yj3wkN7tMXe_I6At1MX92QZw';
+} else if ($_SERVER['SERVER_NAME']=='10.10.8.15') { 
+	$key='ABQIAAAAz2EYq_GNa47dPkdP-6nRixRLocabZxudpmq6BtbaLQqnAw-qxBRnGZIUhLEfa2-t24RZEqKH5zl1vg';
+} else if ($_SERVER['SERVER_NAME']=='10.10.24.1') { 
+	$key='ABQIAAAAz2EYq_GNa47dPkdP-6nRixRfuL57xm6vtbRSFk_2XKmLZ4dZoRTO24XDuth4G1igwhMTNPLExhHsVQ';
+} else if ($_SERVER['SERVER_NAME']=='222.92.116.11') { 
+	$key='ABQIAAAAz2EYq_GNa47dPkdP-6nRixQPL8_HQ7fvNf2BbLVszoGo13XaUxR5n2G7v0R2JZ1K1yOdlSJz7yMS6A';
+} else if ($_SERVER['SERVER_NAME']=='127.0.0.4') { 
+	$key='ABQIAAAAz2EYq_GNa47dPkdP-6nRixSSICGrzIueNRiGdIiRBGWTKNPPZhSAI9TQfFMIxfjcSrk9wJ1Wn-C6OA';
+} else if ($_SERVER['SERVER_NAME']=='127.0.0.5') { 
+	$key='ABQIAAAAz2EYq_GNa47dPkdP-6nRixQjmfA8qHQp5KOl_wF9TYpaNSUWExSwpN39oRwhM4cWmCX3M7wvrYBptQ';
+} else if ($_SERVER['SERVER_NAME']=='a.k.ai') { 
+	$key='ABQIAAAAz2EYq_GNa47dPkdP-6nRixSqwauxr2-99EJe1WoibE7PH44ybxTxEj_p6d9PmnakCkFrS3e39sfEUw';
+} else if ($_SERVER['SERVER_NAME']=='api.k.ai') { 
+	$key='ABQIAAAAz2EYq_GNa47dPkdP-6nRixTKGH8ogAUyjxm5RbVzxR3tVBu6shQ4twMa_T2jWi8AnEZsPSQcbeeihw';
+} else if ($_SERVER['SERVER_NAME']=='test.k.ai') { 
+	$key='ABQIAAAA5j_eG7fdmvd0213SICEk0xTT0xKFAB01y4p9jsg9ZaIeDXHp8hTxalUfkg4d7Uc14pqw9C56qpWIFQ';
+} else if ($_SERVER['SERVER_NAME']=='10.10.59.99') { 
+	$key='ABQIAAAAz2EYq_GNa47dPkdP-6nRixTA9PuKJ7eIdfEfP8dOwhw_bm9mVxQa9J7XZo-hs240BbhjdZ1JDIXx5A';
+} else if ($_SERVER['SERVER_NAME']=='127.0.0.114') { 
+	$key='ABQIAAAAz2EYq_GNa47dPkdP-6nRixRzmU5FMHNUEtJG0CLfXvnOkIUX_xTMIWmzC-0jK-YsLSBE1PmCs2r_6Q';
+} else if($_SERVER['SERVER_NAME']=='127.0.0.2'){
+	$key = 'ABQIAAAA_Fi5BhGomOcXcoJ1cPP8xhRNyzVm-9nZuwxmgYQF4q80Us7tjhS79zqytjbS5VZgzCGDIeQdRsiXyg';
+} else if($_SERVER['SERVER_NAME']=='127.0.0.18'){
+	$key = 'ABQIAAAAIVVdqJamBwGwkK6n8vdRvhSEcXTmAb0KMsr3RDOJb7bk_ZFGDxRhHUaEAIJV85ZcLzp41AUmOouk7Q';
+} else { 
+	$key='ABQIAAAAz2EYq_GNa47dPkdP-6nRixS3MHZs5Ta_LBAGK8i2UwqeHUWysRTNLN4Su0YyzQAZ61s6LZ_G4J_Oaw';
+} ?>
+
+<?php if ($this->needCheckinJs) { ?>
+<script type="text/javascript" charset='utf-8' src="http://ditu.google.cn/maps?file=api&v=2&key=<?php echo $key;?>&hl=zh-CN" ></script>
+<?php } ?>
+
+<script type='text/javascript' src='<?php echo $jsUrl;?>/jquery/mixed.js?ver=<?php echo BETTER_VER_CODE;?>' charset='utf-8' ></script>
+<script type='text/javascript' language='javascript'>
+var gmap_key = '<?php echo $key;?>';
+var BASE_URL = '<?php echo BETTER_BASE_URL;?>';
+var LANGUAGE = '<?php echo Better_Registry::get('language');?>';
+var BETTER_VER_CODE = '<?php echo BETTER_VER_CODE;?>';
+var BASE_DOMAIN = '<?php echo $_SERVER['SERVER_NAME'];?>';
+
+var betterLang = new Object();
+
+var Better_PostMessageMaxLength = '<?php echo $this->config->blog->post_max_size;?>';
+var Better_PostMessageMinLength = '<?php echo $this->config->blog->post_min_size;?>';
+var Better_Shout_Type = '<?php echo $this->shout_type;?>';
+var Better_Need_Post_Js = <?php echo $this->needPostJs ? '1' : '0';?>;
+var Better_Need_Checkin_Js = <?php echo $this->needCheckinJs ? '1' : '0';?>;
+var Better_CheckinJs_Inited = 0;
+var Better_In_Test = '<?php echo BETTER_NEED_INVITECODE ? '1' : '0';?>';
+var Better_InDebug = <?php echo (APPLICATION_ENV=='production' || APPLICATION_ENV=='testing') ? '0' : '1';?>;
+var Better_Lbs_Promotion = <?php echo $this->config->lbs->promotion ? '1' : '0';?>;
+
+
+/**
+ * Better用户的js对象
+ * 
+ * @param uid
+ * @param username
+ * @param realname
+ * @param email
+ * @return
+ */
+function BetterUser(uid, username, nickname, realname, email)
+{
+	this.uid = uid ? uid : 0;
+	this.username = username ? username : '';
+	this.realname = realname ? realname : '';
+	this.nickname = nickname ? nickname : '';
+	this.email = email ? email : '';
+	this.cell_no = '';	
+	this.friends = [];
+	this.geo_followings = [];
+	this.followings = [];
+	this.followers = [];
+	this.blocks = [];
+	this.blockedby = [];
+	this.fav_bids = [];
+	this.lbs_report = 0;
+	this.address = '';
+	this.x = 0;
+	this.y = 0;
+	this.lon = 0;
+	this.lat = 0;
+	this.province = '';
+	this.city = '';
+	this.avatar = '';
+	this.avatar_normal = '';
+	this.avatar_small = '';
+	this.avatar_tiny = '';
+	this.location_tips = '';
+	this.priv_blog = 0;
+	this.live_province = '';
+	this.live_city = '';
+	this.state = 'enabled';
+	this.last_checkin_poi = 0;
+	this.poi_favorites = [];
+	this.priv = 'public';
+	this.gender = '';
+	this.last_checkin_poi_name = '';
+	this.timezone = 8;
+}
+
+<?php
+	if ($this->user['uid']>0) {
+?>
+var betterUser = new BetterUser('<?php echo $this->user['uid'];?>', '<?php echo $this->user['username'];?>', '<?php echo addslashes($this->user['nickname']);?>', '', '<?php echo $this->needEmailJs ? $this->user['email'] : '';?>');
+<?php if ($this->needCellJs) { ?>
+betterUser.cell_no = '<?php echo $this->user['cell_no'];?>';
+<?php } ?>
+betterUser.fav_bids = <?php echo json_encode(Better_User::getInstance($this->user['uid'])->favorites);?>;
+betterUser.address = '<?php echo addslashes($this->user['address']);?>';
+betterUser.lbs_report = <?php echo is_numeric($this->user['lbs_report']) ? $this->user['lbs_report'] : 0;?>;
+betterUser.gender = '<?php echo $this->user['gender']?>';
+betterUser.x = <?php echo floatval($this->user['x']);?>;
+betterUser.y = <?php echo floatval($this->user['y']);?>;
+betterUser.lon = <?php echo floatval($this->user['lon']);?>;
+betterUser.lat = <?php echo floatval($this->user['lat']);?>;
+betterUser.province = '<?php echo addslashes($this->user['province']);?>';
+betterUser.city = '<?php echo addslashes($this->user['city']);?>';
+betterUser.avatar = '<?php echo $this->user['avatar'];?>';
+betterUser.avatar_normal = '<?php echo $this->user['avatar_url'];?>';
+betterUser.avatar_small = '<?php echo $this->user['avatar_small'];?>';
+betterUser.avatar_tiny = '<?php echo $this->user['avatar_tiny'];?>';
+betterUser.priv_blog = <?php echo intval($this->user['priv_blog']);?>;
+betterUser.followings = <?php echo Better_Functions::toJsArray(Better_User::getInstance($this->user['uid'])->followings);?>;
+betterUser.friends = <?php echo Better_Functions::toJsArray(Better_User::getInstance($this->user['uid'])->friends);?>;
+betterUser.blocks = <?php echo Better_Functions::toJsArray(Better_User::getInstance($this->user['uid'])->blocks);?>;
+betterUser.blockedby = <?php echo Better_FUnctions::toJsArray(Better_User::getInstance($this->user['uid'])->blockedby);?>;
+betterUser.live_province = '<?php echo addslashes($this->user['live_province']);?>';
+betterUser.live_city = '<?php echo addslashes($this->user['live_city']);?>';
+betterUser.state = '<?php echo $this->user['state'];?>';
+betterUser.last_checkin_poi = <?php echo intval($this->user['last_checkin_poi']);?>;
+betterUser.last_checkin_poi_name = '<?php echo $this->user['last_checkin_poi'] ? addslashes($this->user['poi']['name']) : '';?>';
+betterUser.priv = '<?php echo $this->user['priv'];?>';
+betterUser.timezone = '<?php echo $this->user['timezone'];?>';
+<?php if ($this->poi_favorites) { ?>
+betterUser.poi_favorites = <?php echo json_encode($this->poi_favorites);?>;
+<?php }?>
+<?php
+	} else {
+?>
+var betterUser = new BetterUser();
+<?php
+	}
+?>
+</script>
+<?php echo $this->headLink();?>
+<?php echo $this->jsLanguage();?>
+<script type='text/javascript' src='<?php echo $jsUrl;?>/better.js?ver=<?php echo BETTER_VER_CODE;?>' charset='utf-8'  defer='defer'></script>
+<script type='text/javascript'>
+var pageLon = betterUser.lon;
+var pageLat = betterUser.lat;
+</script>
+<?php echo $this->headScript();?>
+<?php if (APPLICATION_ENV=='production') { ?>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18338750-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<?php } ?>

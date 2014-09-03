@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:lift="http://liftweb.net" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta content="width=320" name="viewport" />   
+    <title><?php echo $this->lang->global->meta->title;?></title>
+    <?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+    <?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+    <div id="headinfo">
+    	<?php 
+    		if( $this->user['uid'] > 0 ){
+				echo "<a href=\"/mobile/user?uid=".$this->user["uid"]."\" >".$this->user["nickname"]."</a>@";
+				if( (int)($this->lastcheckin['poi']['poi_id']) < 1 ){
+					echo "<a href=\"/mobile/search\">".$this->lang->mobile->global->whereplace."</a>";
+				}else{
+					echo "<a href=\"/mobile/place?pid=".$this->lastcheckin['poi']['poi_id']."\">".$this->lastcheckin['poi']['name']."</a>";
+				}
+				echo "<hr/>";
+			}
+		?>	
+	</div>
+	<div id='category'><?php echo $this->menu;?></div>
+	<div id='content'>
+		<div id="title"><?php echo str_replace('{model}', $this->info['bname'] . ' ' . $this->info['desc'], $this->lang->global->index->auto_model)?></div>
+		<div id="client"><?php echo $this->link?></div>
+		<div id="postdate"><?php echo $this->postdate?></div>
+		<div id="version"><?php echo $this->version?></div>
+	</div>
+	<div id="tip">
+		<?php echo $this->lang->mobile->global->other_desc?>
+	</div>
+	<div id="choose">
+		<a href="/mobile/tools/chooseos"><?php echo $this->lang->global->index->choice_os?></a> | 
+		<a href="/mobile/tools/brand"><?php echo $this->lang->global->index->choice_brand?></a>
+	</div>
+	
+	<?php 
+    	if( $this->user['uid'] > 0 )
+    		include_once(dirname(__FILE__).'/../include/footer.phtml');			
+		else
+			include_once(dirname(__FILE__).'/../include/loginfooter.phtml');
+	?>
+</body>
+</html>  
+  

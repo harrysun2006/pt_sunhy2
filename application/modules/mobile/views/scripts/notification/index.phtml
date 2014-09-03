@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="viewport" content="width=device-width; initial-scale=1.4; minimum-scale=1.0; maximum-scale=2.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?php echo $this->lang->global->meta->title;?></title>
+	<?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+	<?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+	<div id="headinfo">		
+		<a href="/mobile/user?uid=<?php echo($this->user["uid"])?>" ><?php echo($this->user["nickname"])?></a>
+		<?php echo "->".$this->lang->user->notices."&nbsp;<a href=\"/mobile/notification/\">".$this->lang->mobile->global->refresh."</a>" ?> 
+		
+	</div>
+	
+	<div id="list">
+		
+			<?php
+				//Zend_Debug::dump($this->notifications);
+				$i = 0; 
+				foreach($this->notifications as $notification){
+									
+					$send_id = $notification['from_uid'];
+					$send_name = $notification['userInfo']['nickname'];
+					$reciver_id = $this->user["uid"];
+					$type = $notification['type'];
+					$msg_id = $notification['msg_id'];
+					
+					echo ($i+$this->start).".";
+					$msg = ""; 
+					switch($type){
+						case "friend_request":
+							$msg = "<a href=\"/mobile/user?uid=".$send_id."\">".$send_name."</a>".str_replace('{NICKNAME}', '', $this->lang->notification->friend_request);
+							$msg = $msg.'&nbsp;'." (".Better_Functions::compareTime($notification['dateline']).')&nbsp;';
+							$msg = $msg." <a href=\"/mobile/notification/request?cat=rm&subcat=rfr&option=ag&target=".$send_id."\">".$this->lang->javascript->messages->agree."</a>";
+							$msg = $msg." <a href=\"/mobile/notification/request?cat=rm&subcat=rfr&option=rj&target=".$send_id."\">".$this->lang->javascript->messages->reject."</a>";
+							$msg = $msg." <a href=\"/mobile/user/addblock?uid=".$send_id."&add=1\">".$this->lang->user->block."<a>";
+							break;
+						case "follow_request":
+							$msg = "<a href=\"/mobile/user?uid=".$send_id."\">".$send_name."</a>".str_replace('{NICKNAME}', '', $this->lang->notification->follow_request);
+							$msg = $msg.'&nbsp;'." (".Better_Functions::compareTime($notification['dateline']).')&nbsp;';
+							$msg = $msg." <a href=\"/mobile/notification/request?cat=rm&subcat=rfl&option=ag&target=".$send_id."\">".$this->lang->javascript->messages->agree."</a>";
+							$msg = $msg." <a href=\"/mobile/notification/request?cat=rm&subcat=rfl&option=rj&target=".$send_id."\">".$this->lang->javascript->messages->reject."</a>";
+							$msg = $msg." <a href=\"/mobile/user/addblock?uid=".$send_id."&add=1\">".$this->lang->user->block."<a>";
+							break;
+						case "direct_message":
+							$msg = "<a href=\"/mobile/user?uid=".$send_id."\">".$send_name."</a>:";
+							$msg .= " ".$notification['content'];
+							$msg .= '&nbsp;'." (".Better_Functions::compareTime($notification['dateline']).')&nbsp;';
+							$msg .= "<a href=\"/mobile/notification/delete?page=".$this->page."&mid=".$msg_id."\">".$this->lang->javascript->global->blog->delete_it."<a>";
+							break;
+						case "normal":
+							$msg = $notification['content'];
+							$msg .= '&nbsp;'." (".Better_Functions::compareTime($notification['dateline']).')&nbsp;';
+							$msg .= "<a href=\"/mobile/notification/delete?page=".$this->page."&mid=".$msg_id."\">".$this->lang->javascript->global->blog->delete_it."<a>";
+							break;
+						case "game_invite":
+						case "game_accept":
+						case "game_reject":
+						case "game_interactive":
+						case "game_result":
+						case "game_over":
+							$msg = $notification['content'];
+							$msg .= '&nbsp;('.Better_Functions::compareTime($notification['dateline']).')&nbsp;';
+							$msg .= $this->lang->mobile->global->gamehavedownload;
+							$msg = $msg." <a href=\"/mobile/notification/delete?page=".$this->page."&mid=".$msg_id."\">".$this->lang->javascript->global->blog->delete_it."<a>";
+							break;
+						default:
+							$msg = $this->lang->mobile->global->unsupportmess;
+							break;
+					}
+					echo $msg."<br/>";
+					$i++;
+				}
+
+				echo $this->urlNext." ".$this->urlPrev;
+			?>
+			
+		<?php 
+		if( count($this->notifications) < 1 ){		
+			echo $this->lang->mobile->user->nonotification."<br/>";
+		}
+		?>
+	</div>
+	<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildpath>
+	<buildpathentry kind="src" path="application"/>
+	<buildpathentry kind="src" path="library/Better"/>
+	<buildpathentry kind="src" path="library/Sphinx"/>
+	<buildpathentry kind="src" path="library/Zend"/>
+	<buildpathentry kind="src" path="public"/>
+	<buildpathentry kind="src" path="scripts"/>
+	<buildpathentry kind="src" path="tests/application"/>
+	<buildpathentry kind="src" path="tests/library"/>
+	<buildpathentry kind="src" path="wap"/>
+	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
+</buildpath>

@@ -1,0 +1,31 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+	<form>
+	<div id="list">
+		<table class="kai_table">
+			<tr>
+				<th colspan='4' style="text-align:center;">未通过审核</th>
+			</tr>
+			
+			
+			<tr>
+				<td>原因：</td>
+				<td colspan='3'>
+					<textarea id='checkinfo' name='checkinfo' cols='50' rows='4'><?php echo $this->specialDetail['checkinfo'];?></textarea>
+				</td>
+			</tr>
+			
+			<tr>
+				<td colspan='4' style="text-align:center;">
+				
+					<input type='hidden' id='id' name='id' value="<?php echo $this->venueDetail['venue']['id'];?>">
+					
+					<input type='button' id='refuse_venue' name='refuse_spceial' value="提交" />
+				</td>
+			</tr>
+		</table>
+		</div>
+		</form>
+		
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

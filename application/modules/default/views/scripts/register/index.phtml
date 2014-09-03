@@ -1,0 +1,84 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="signup">
+<?php include_once(dirname(__FILE__).'/../include/newheadernonav.phtml');?>	
+<div id="content">
+  <div class="mid border">
+	 <div class='small_mid'>
+	  	<div id="form">
+	  	  <div class='title_large'>
+			<div class="left"><img src="images/add.png" /></div>
+			<div class="left text"><?php echo $this->lang->signup->tips;?></div>
+		  </div>
+		   <hr class="onepxline" color="#dce2ea">
+		   
+		    <form action="/register/do" method="post" id="loginform">
+		    	<table>
+		    		<tr>
+		    			<td><label for="email"><?php echo $this->lang->signup->email;?></label></td>
+		    			<td><input type="text" id="email" name="email" value="<?php echo $this->post['email'];?>"/></td>
+		    			<td><span id='err_email' class='error'><?php echo $this->err['err_email'];?></span>
+		    			<span id='tip_email' class='tip'><?php echo $this->lang->signup->email_example;?></span></td>
+		    		</tr>	
+		    		<tr>
+		    			<td><label for="nickname"><?php echo $this->lang->signup->nickname->title;?></label></td>
+		    			<td><input type="text" id="nickname" name="nickname" value="<?php echo $this->post['nickname'];?>"/></td>
+		    			<td>
+		    				<span id='err_nickname' class='error'><?php echo $this->err['err_nickname'];?></span>
+		    				<span id='tip_nickname' class='tip'><?php echo $this->lang->signup->nickname_remark;?></span>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td width='60'><label for="username"><?php echo $this->lang->signup->username->title;?></label> </td>
+		    			<td><span style='float:left'><?php echo $this->config->base_url;?>/</span><input type="text" id="username" name="username" value="<?php echo $this->post['username'];?>" style='width:120px; float:right;'/></td>
+		    			<td>
+		    				<span id='err_username' class='error'><?php echo $this->err['err_username'];?></span>
+		    				<span id='tip_username' class='tip'><?php echo $this->lang->signup->username_remark;?></span>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td><label for="password"><?php echo $this->lang->signup->password;?></label> </td>
+		    			<td><input type="password" id="password" name="password" value="<?php echo $this->post['password'];?>"/></td>
+		    			<td>
+		    				<span id='err_password' class='error'><?php echo $this->err['err_password'];?></span>
+		    				<span id='tip_password' class='tip'><?php echo $this->lang->signup->password_to_short;?></span>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td><label for="repassword"><?php echo $this->lang->signup->repassword;?></label> </td>
+		    			<td><input type="password" id="repassword" name="repassword" value="<?php echo $this->post['repassword'];?>"/></td>
+		    			<td colspan="2">
+		    				<span id='err_repassword' class='error'><?php echo $this->err['err_repassword'];?></span>
+		    				<span id='tip_repassword' class='tip'><?php echo $this->lang->signup->password_not_match;?></span>
+		    			</td>
+		    		</tr>
+
+		    		<tr>
+		    			<td><label for='code'><?php echo $this->lang->signup->scode->title;?></label></td>
+		    			<td><input type='text' id='code' name='code' value='' class="left"/><img id="img_code" src='/Scode?391824' class="left"/>&nbsp;<a href="javascript: void(0);" id="switch_scode"><?php echo $this->lang->signup->change_scode;?></a></td>
+		    			<td><span id='err_code' class='error'><?php echo $this->err['err_code'];?></span></td>
+		    		</tr>
+		    		
+		    		<tr>
+		    			<td colspan="3">
+		    				<input type="checkbox" id="agree" value="1" name="agree" checked='checked' />  <?php echo $this->lang->signup->have_readed;?><a href="/signup/terms" class='blank'><?php echo $this->lang->signup->agreement;?></a>
+		    				<span class='error' id='err_agree'><?php echo $this->err['err_agree'];?></span>
+		    			</td>
+		    		</tr>
+		    	</table>
+		    
+		    	<div class="action">
+
+		    	   <input style="text-align: center;" type="button" id='signup_btn' class="btn" value="<?php echo $this->lang->signup->button_tips;?>"/>
+	    	 	   <input type='hidden' name='formIsValid' id='formIsValid' value='0' />
+		    	</div>
+		    </form>
+	    </div>
+	</div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

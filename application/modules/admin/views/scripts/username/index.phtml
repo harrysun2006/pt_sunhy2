@@ -1,0 +1,96 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		<div style='width: 100%; text-align:left; background-color:#D3DCE3;'>[<a href='/admin/user' class='left'>所有最新</a>] [<a href='/admin/username' class='left'>用户名</a>] [<a href='/admin/usernickname' class='left'>用户姓名</a>] [<a href='/admin/userselfintro' class='left'>用户自我介绍</a>]</div>
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/username" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>搜索</th></tr>
+			<tr>
+				<td>用户关键字:</td>
+				<td><input type='text' name='keyword' id='keyword' value='<?php echo $this->params['keyword'];?>' /></td>
+				<td>位置关键字:</td>
+				<td><input type='text' name='place_keyword' id='place_keyword' value='<?php echo $this->params['place_keyword'];?>' /></td>
+				<td>每页结果数:</td>
+				<td>
+				<select name='page_size' id='page_size'>
+					<option value='<?php echo BETTER_PAGE_SIZE;?>' <?php echo $this->params['page_size']==BETTER_PAGE_SIZE ? ' selected="selected"' : '';?>>默认(<?php echo BETTER_PAGE_SIZE;?>)</option>
+					<option value='50' <?php echo $this->params['page_size']==50 ? ' selected="selected"' : '';?>>50</option>
+					<option value='100' <?php echo $this->params['page_size']==100 ? ' selected="selected"' : '';?>>100</option>
+					<option value='99999999' <?php echo $this->params['page_size']==99999999 ? ' selected="selected"' : '';?>>全部</option>
+				</select>
+				</td>
+			</tr>	
+			<tr>
+				<td>时间范围:</td>
+				<td colspan='6'>
+				从 <input type='text' name='from' id='from' value='<?php echo $this->params['from'];?>' readonly='readonly' />
+				到 <input type='text' name='to' id='to' value='<?php echo $this->params['to'];?>' readonly='readonly' />
+				</td>
+			</tr>					
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='submit' value='搜索(s)' accesskey='s' />
+					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />
+					<input type='hidden' name='page' id='page' value='<?php echo $this->params['page'];?>' />
+					<input type='hidden' name='reload' id='reload' value='0' />
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div>
+
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+				<tr>
+					<th width='20'></th>
+					<th class='nowrap'>用户ID</th>
+					<th class='nowrap'>用户名</th>
+					<th class='nowrap' style="padding: 3px 20px;">头像</th>
+					<th class='nowrap'>更新时间</th>
+					
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td><input type='checkbox' name='uids[]'  value='<?php echo $row['uid'];?>' /></td>
+					<td class='center'><a href='<?php echo BETTER_BASE_URL;?>/<?php echo $row['username'];?>' target='_blank'><?php echo $this->highlight($row['uid'], $this->params['keyword']);?></a></td>
+					<td class='center'><a href='<?php echo BETTER_BASE_URL;?>/<?php echo $row['username'];?>' target='_blank'><?php echo $this->highlight($row['username'], $this->params['keyword']);?></a></td>	
+					<td class='center'><a href='<?php echo BETTER_BASE_URL;?>/<?php echo $row['username'];?>' target='_blank'><img src='<?php echo $row['avatar_thumb'];?>' width='48'  class='avatar'/></a></td>
+					<td class='center'><?php echo $row['last_update'] ?  date('Y-m-d H:i:s', $row['last_update']+BETTER_8HOURS) : 0;?></td>
+				</tr>
+				<?php } ?>
+				<tr>
+					<td colspan='15' class='center'>
+					<input type='button' id='chooseAll' name='chooseAll'  value='全选(a)' accesskey='a' />
+					<input type='button' id='chooseNone' name='chooseNone' value='全不选(n)' accesskey='n' />
+					<input type='button' id='chooseReverse' name='chooseReverse' value='反选(v)' accesskey='v' />
+				</td></tr>
+				<tr><td colspan='15' class='center'>
+					<input type="hidden" value='username' id='reset_type'/>
+					<input type='button' id='btnTodo' value='重置用户名'  />
+					</td>
+				</tr>					
+				<?php } else {  ?>
+				<tr>
+					<td colspan='15' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

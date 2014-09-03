@@ -1,0 +1,51 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+
+<body id="around">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid">
+     <div id="half_left">
+	  
+	    <div id="data">
+			<div class="tabs">
+	            <ul class="tabNavigation">
+	                <li><a class='first'><?php echo $this->lang->search->result->title;?></a></li>
+	                <?php if (!BETTER_AIBANG_POI) { ?><li><a href='javascript:void(0);'><span id='result_count' class='place'></span></a></li><?php } ?>
+	            </ul>
+	            
+	            <div id="messages">
+	            	<table class="blog_table">
+	            	<form>
+	            	<tbody id="tbl_messages">
+
+					 </tbody>
+					 </form>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_messages'></div>
+						</td>
+						</tr>
+					</table>
+	            </div> 
+	            
+	            
+	            
+	        </div><!--#tabs-->
+        
+	  	</div><!--#data-->	
+	 </div><!--#half_left-->
+	 <?php include_once(dirname(__FILE__).'/../include/rightbar.phtml');?>
+	 </div>
+<span class='hide' id='search_key'><?php echo $this->text;?></span>
+<span class='hide' id='search_page'><?php echo $this->search_page;?></span>
+<span class='hide' id='search_range'><?php echo $this->search_range;?></span>
+</div>
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

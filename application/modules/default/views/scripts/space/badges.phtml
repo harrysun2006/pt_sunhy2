@@ -1,0 +1,76 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="index">
+
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid">
+
+	  <div id="half_left">
+			<div class="tabs">
+	            <ul class="tabNavigation">
+	                <li class="title">勋章 - <?php echo $this->family?></li>
+	            </ul>
+	            <div id="badge_box">
+	              <?php if (count($this->badges) == 0) { ?>
+	              	<div class="notice emptyResult"><?php echo $this->escape($this->dispUserInfo['nickname']);?> 还没有获得过这类勋章。</div>
+	              <?php } ?>
+	              <ul id="badge_album">
+	            	<?php foreach ($this->badges as $badge) { ?>
+	            	<li>
+	            	 <a href='#bigbadge_<?php echo $badge['id']?>' class='badge_icons' uid='<?php echo $this->dispUserInfo['uid'];?>'>
+	            	 <img title="<?php echo $this->escape(trim($badge['got_tips']))?>" src="<?php echo str_replace('big','96',$badge['badge_big_picture']) ?>" alt="<?php echo $this->escape($badge['badge_name']);?>" class="pngfix" /></a>
+	            	 <span><?php echo $this->escape($badge['badge_name']);?></span>
+                    </li>
+<?php 
+$time = $_COOKIE["offset_time"];
+$btime = date('Y-m-d H:i:s', intval($badge['get_time'])+intval($time)).' '.$this->lang->global->got_badge;
+$tmpb .= <<<EOF
+<div style="display:none" id='hidden_b_{$badge['id']}'><div id="bigbadge_{$badge['id']}" ></div></div>
+    								
+EOF;
+?>
+	            	<?php } ?>
+	              </ul>
+	              <div class="clearfix"></div>
+	              <?php if ($this->more) { ?>
+	              <div class="pager">
+					<a id="more_button" href="/space/family/uid/<?php echo $this->dispUserInfo['uid']?>/family/<?php echo $this->family_id?>">查看全部 ...</a>
+				  </div>
+				  <?php } ?>
+	            </div>
+	        </div><!--#tabs-->
+        
+	  </div><!--#half_left-->
+	  <div id="half_right">
+	    <div id="album" class="right_nav">
+	      <h2><?php echo $this->escape(Better_Cutstring::mystrcut($this->dispUserInfo['nickname'], 6))?> 获得的勋章</h2>
+	      <ul>
+	        <?php foreach ($this->album as $id=>$family) { 
+	        	echo ($id == $this->family_id) ? '<li class="on">' : '<li>'; 
+	        ?>
+	          <a href="/space/badges/uid/<?php echo $this->dispUserInfo['uid']?>/family/<?php echo $id?>">
+	           <span class="unlocked"><?php echo $family['unlocked']; ?></span>
+	           <?php echo Better_Badge::$families[$id];?>
+	          </a>
+	        </li>
+	        <?php } ?>
+	      </ul>
+	       <div class="clearfix"></div>
+	    </div>
+	    
+	    <div class="right_nav">
+	      <ul class="button"><li>
+	        <a href="/<?php echo $this->dispUserInfo['username'];?>">返回个人主页</a>
+	        </li>
+	      </ul>
+	    </div>
+	  </div><!--#half_right-->
+	  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+<?php echo $tmpb;?>
+</body>
+</html>
+<?php $this->Gz();?>

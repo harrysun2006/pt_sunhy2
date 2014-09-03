@@ -1,0 +1,52 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+
+<body id="profile">
+
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid">
+	  <div id="half_left">
+	    <div style='margin-bottom: 5px;'>
+	    	<img src='/images/banner.png' />
+	    </div>
+	    <div id="data">
+			<div class="tabs">
+	            <ul class="tabNavigation">
+	                 <li>
+	                	<a id='showfollowings' href="javascript: void(0);" style='margin-left: 4px;' class='selected'>我关注的</a>
+	               	 </li>
+	            </ul>
+	        
+	            <div id="followings">
+	            	<div id='div_count_followings' class='hide' style='padding: 8px; border-bottom:1px solid #EEF1F5;'>您有<span id='count_followings' style='color: #EA5283; font-weight: bold;'></span>个关注的人，建议您将TA们加为好友</div>
+	            	<table class="blog_table">
+	            	<tbody id="tbl_followings">
+
+					 </tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_followings'></div>
+						</td>
+						</tr>
+					</table>
+	            </div> 
+	            
+	            	            	            
+	        </div><!--#tabs-->
+        
+	  	</div><!--#data-->	
+	  </div><!--#half_left-->
+	  <?php include_once(dirname(__FILE__).'/../include/rightbar.phtml');?>
+	  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

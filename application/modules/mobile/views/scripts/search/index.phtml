@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="viewport" content="width=device-width; initial-scale=1.4; minimum-scale=1.0; maximum-scale=2.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?php echo $this->lang->global->meta->title;?></title>
+	<?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+	<?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+	<div id="headinfo">
+    	<?php 
+    		if( $this->user['uid'] > 0 ){
+				echo "<a href=\"/mobile/user?uid=".$this->user["uid"]."\" >".$this->user["nickname"]."</a>@";
+				if( (int)($this->lastcheckin['poi']['poi_id']) < 1 ){
+					echo "<a href=\"/mobile/search\">".$this->lang->mobile->global->whereplace."</a>";
+				}else{
+					echo "<a href=\"/mobile/place?pid=".$this->lastcheckin['poi']['poi_id']."\">".$this->lastcheckin['poi']['name']."</a>";
+				}
+				
+			}
+		?>		
+	</div>
+	
+	<div id="error">
+		<?php 
+			if( $this->err['has_err'] && strlen($this->err['err']) )
+				echo $this->err['err']."<br/>"; 
+		?>
+	</div>
+	
+	<!-- The following are search results -->
+	<div id="results">
+		<?php if($this->results){
+			if( count($this->results['rows']) > 0 )
+				echo "\"".$this->results['params']['q']."\"".$this->lang->search->result->title."<br/>";
+			else
+				echo $this->lang->search->result->part1."\"".$this->results['params']['q']."\"".$this->lang->javascript->search->no_result."<br/>";
+		?>
+		<?php if( $this->results['params']['cat'] == 'place'){?>
+			<table>
+			<?php 
+				$i = 0;
+				foreach($this->results['rows'] as $poi){
+					echo "<tr><td>".($this->results['params']['start']+$i).".</td><td><a href=\"/mobile/place?pid=".$poi['poi_id']."\">".$poi['name']."</a></td></tr>";
+					echo "<tr><td></td><td>".$poi['address']."</td></tr>";
+					echo "<tr><td></td><td>".$poi['city']."</td></tr>";
+				$i++;
+			}?>
+			</table>
+		<?php } else if($this->results['params']['cat'] == 'user'){?>
+		<table>
+			<?php 
+				$i = 0;
+				foreach($this->results['rows'] as $user){
+					echo "<tr><td>".($this->results['params']['start']+$i).".</td><td><a href=\"/mobile/user?uid=".$user['uid']."\">".$user['nickname']."</a></td></tr>";					
+				$i++;
+			}?>
+			</table>
+		<?php }?>
+		<?php 
+			if( $this->results['params']['hasNext'] )
+				echo "<a href=\"".$this->results['params']['urlNext']."\">".$this->lang->mobile->pager->next."</a>";
+			
+			if( $this->results['params']['hasPrev'] )
+				echo " <a href=".$this->results['params']['urlPrev'].">".$this->lang->mobile->pager->pre."</a>";
+			
+		}?>
+		<table>			
+		</table>
+	</div>
+	
+	<!-- Ask for new search -->
+	<div id="search">
+		<form action="/mobile/search" method="get" id="search">
+		<!-- <?php if( (int)($this->lastcheckin['poi']['poi_id']) > 0 ){?>
+			<p><input name="byAround" type="checkbox"  /><label><?php echo $this->lang->javascript->user->at.$this->lastcheckin['poi']['name'].$this->lang->mobile->global->nearby_search;?></label></p>
+		<?php }?>
+		
+		<input type="hidden" name="poi_id" id="poi_id" value="<?php echo $this->lastcheckin['poi']['poi_id'];?>" /> -->
+		<?php echo $this->lang->mobile->search->search_city;?><?php echo $this->search_city; ?><a href='/mobile/search/changeprovince'><?php echo $this->lang->mobile->search->search_change;?></a><br/>
+		<input name="q" type="text" id="query" value="<?php echo $this->results['params']['q'];?>" size=20 /><br/>
+		<select name="cat" id="category" >
+			<option value="place" <?php if($this->cat == 'place') echo "selected"; ?>><?php echo $this->lang->global->include->header_search_poi;?></option>
+			<option value="user" <?php if($this->cat == 'user') echo "selected"; ?>><?php echo $this->lang->global->include->header_search_user;?></option>
+		<!-- <option value="status">找开开达人说什么</option> -->	
+		</select>	
+				
+		<br/>
+		<input type='hidden' name='page' value="1" id="page" />
+		<input value="<?php echo $this->lang->global->nav->search;?>" type="submit" />
+		</form>
+	</div>
+	<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>

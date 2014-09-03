@@ -1,0 +1,163 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/badgealarm" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>搜索</th></tr>
+			<tr>
+				<td>勋章ID:</td>
+				<td><input type='text' name='badge_id' id='badge_id' value='<?php echo $this->params['badge_id'];?>' /></td>
+				<td>勋章名称:</td>
+				<td><input type='text' name='badge_name' id='badge_name' value='<?php echo $this->params['badge_name'];?>' /></td>
+				<td>每页结果数:</td>
+				<td>
+				<select name='page_size' id='page_size'>
+					<option value='<?php echo BETTER_PAGE_SIZE;?>' <?php echo $this->params['page_size']==BETTER_PAGE_SIZE ? ' selected="selected"' : '';?>>默认(<?php echo BETTER_PAGE_SIZE;?>)</option>
+					<option value='50' <?php echo $this->params['page_size']==50 ? ' selected="selected"' : '';?>>50</option>
+					<option value='100' <?php echo $this->params['page_size']==100 ? ' selected="selected"' : '';?>>100</option>
+					<option value='99999999' <?php echo $this->params['page_size']==99999999 ? ' selected="selected"' : '';?>>全部</option>
+				</select>
+				</td>
+			</tr>	
+							
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='submit' value='搜索(s)' accesskey='s' />
+					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />
+					<input type='hidden' name='page' id='page' value='<?php echo $this->params['page'];?>' />
+					<input type='hidden' name='reload' id='reload' value='0' />
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div>
+		
+		
+		<div style="margin: 30px auto;" class="hide" id="add_div">
+			<form action="" id="add_form">
+			<table class='kai_table'>
+			<tr><th colspan='10' class='center'>新增勋章检查</th></tr>
+			<tr height='30'>
+				
+				<td width='15%'>勋章: 
+					<span id='id_add'></span>&nbsp;&nbsp;&nbsp;
+					<span id='name_add'></span>
+				</td>
+				<td>开始时间：<input type='text' name='begintime_add' id='begintime_add' value='' />
+				<br>
+				格式（2011-04-12 04:12:12）
+				</td>
+				<td>结束时间：<input type='text' name='endtime_add' id='endtime_add' value='' />
+				<br>
+				格式（2011-04-12 04:12:12）
+				</td>
+				<td>时间间隔：<input type='text' name='interval_add' id='interval_add' value='' />（分钟）</td>
+			</tr>			
+				
+			<tr>
+				<td colspan='10' class='center'>
+					<input type='button' id="btnAdd" value='增加'/>
+					<input type='button' id="btnaddfangqi" value='放弃'/>
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div> 
+		
+		
+		<div style="margin: 30px auto;" class="hide" id="update_div">
+			<form action="" id="update_form">
+			<input type="hidden" id="xid" />
+			<table class='kai_table'>
+			<tr><th colspan='10' class='center'>更新</th></tr>
+			<tr height='30'>
+				
+				<td width='15%'>勋章: <span id='id_update'></span>&nbsp;&nbsp;<span id='name_update'></span></td>
+				<td>开始时间：<input type='text' name='begintime_update' id='begintime_update' value='' /></td>
+				<td>结束时间：<input type='text' name='endtime_update' id='endtime_update' value='' /></td>
+				<td>时间间隔：<input type='text' name='interval_update' id='interval_update' value='' />（分钟）</td>
+			</tr>			
+				
+			<tr>
+				<td colspan='10' class='center'>
+					<input type='button' id="btnUpdate" value='更新'/>
+					<input type='button' id="btnfangqi" value='放弃'/>
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div> 
+
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+				<tr>
+					<th width='20'></th>
+					<th class='nowrap'>勋章ID</th>
+					<th class='nowrap'>勋章名称</th>
+					<th class='nowrap'>获得人数</th>
+					<th class='nowrap'>最后获得时间</th>
+					<th class='nowrap'>开始时间</th>
+					<th class='nowrap'>结束时间</th>
+					<th class='nowrap'>检查间隔</th>
+					<th class='nowrap'>&nbsp;</th>										
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td><input type='checkbox' name='bids[]'  value='<?php echo $row['id'];?>' /></td>
+					<td class='center'><?php echo $row['id'];?></td>
+					<td class='center'><?php echo $this->highlight($row['name'], $this->params['badge_name']);?></td>
+					<td class='center'><?php echo $row['total'];?></td>
+					<td class='center'><?php echo $row['last_time'] ? (date('Y-m-d H:i:s',$row['last_time']+8*3600)) : 0;?></td>	
+					<td class='center'><?php echo $row['begin_time'] ? (date('Y-m-d H:i:s',$row['begin_time']+8*3600)) : 0;?></td>
+					<td class='center'><?php echo $row['end_time'] ? (date('Y-m-d H:i:s',$row['end_time']+8*3600)) : 0;?></td>
+					<td class='center'><?php echo $row['interval'] ? ($row['interval'].'（分钟）') : '';?> </td>
+					<td class='center'>
+						<?php if($row['badge_id']){?>
+							<a href='javascript: void(0);' id="<?php echo $row['badge_id'];?>" class="xiugai">修改</a><br>
+							<a href='javascript: void(0);' id="<?php echo $row['id'];?>_unwatch" bid="<?php echo $row['id'];?>">取消监视</a>
+							<input type="hidden" id="<?php echo $row['badge_id'];?>_name" value='<?php echo $row['badge_name'];?>'>
+							<input type="hidden" id="<?php echo $row['badge_id'];?>_begintime" value='<?php echo date('Y-m-d H:i:s',$row['begin_time']+8*3600);?>'>
+							<input type="hidden" id="<?php echo $row['badge_id'];?>_endtime" value='<?php echo date('Y-m-d H:i:s',$row['end_time']+8*3600);?>'>
+							<input type="hidden" id="<?php echo $row['badge_id'];?>_interval" value='<?php echo $row['interval'];?>'>
+						<?php }else{?>
+							<a href='javascript: void(0);' id="<?php echo $row['id'];?>_watch" bid="<?php echo $row['id'];?>" bname="<?php echo $row['name'];?>">监视</a>
+						<?php }?>
+					</td>
+				</tr>
+				<?php } ?>
+				<tr>
+					<td colspan='15' class='center'>
+					<input type='button' id='chooseAll' name='chooseAll'  value='全选(a)' accesskey='a' />
+					<input type='button' id='chooseNone' name='chooseNone' value='全不选(n)' accesskey='n' />
+					<input type='button' id='chooseReverse' name='chooseReverse' value='反选(v)' accesskey='v' />
+				</td></tr>
+				<tr><td colspan='15' class='left'>
+					<input type='button' id='btn_del' value='删除' />
+					</td>
+				</tr>					
+				<?php } else {  ?>
+				<tr>
+					<td colspan='15' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

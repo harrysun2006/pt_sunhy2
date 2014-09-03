@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>添加过滤词</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script>
+function savemsg(msg)
+{	var ok = confirm(msg+"\n要继续添加单击确定,要退出单击取消!");
+	if(!ok)window.close();
+}
+</script>
+</head>
+<body>
+<font ><b>POI名称禁止词汇:</b></font><br/>
+<form action="" method="post" id="fwords" name="fwords">
+<?php
+$fPath = Better_Config::getAppConfig()->filter->poi_words;
+//===============保存数据====================//
+$action = @$_POST['action'];
+if($action)
+{	$words = $_POST['words'];
+	Better_Admin_Log::backupWords("poi",$words);
+	$handle = fopen($fPath,"w");
+	$ok = fwrite($handle,$words);
+	if(!$ok)echo "<script>savemsg('保存失败!')</script>";
+	else
+		echo "<script>savemsg('保存成功!')</script>";
+}
+//end===============保存数据====================//
+//>>>===============读数据====================//
+$words = @file_get_contents($fPath);
+echo "<textarea id='words' name='words' rows='16' cols='30' style='width:100%'>$words</textarea>";
+//end===============读数据====================//
+?>
+<input type="hidden" name="action" value="1" />
+</form>
+<input type="button" value="保存" onclick="document.forms['fwords'].submit()" />
+<input type="button" value="退出" onclick="window.close()" />
+</body>
+</html>

@@ -1,0 +1,345 @@
+
+/* basic style */
+.clearfix {clear:both;line-height:0; height:0}
+
+body{font-size:11px; font-family: Lucida Grande, Verdana, Lucida Sans Regular, Lucida Sans Unicode, Arial; line-height:1.8em; color:#333; background-color:#ffffff; margin:0}
+
+a { color:#8fc31f; text-decoration:none;}
+a:hover { color:#30a718; text-decoration:underline; }
+a img {border:none}
+
+h1 {display:none}
+h2 {font-size:14px; color:#930}
+h4 {font-weight:bold; background-color:#e6dbd3; text-indent:1em; padding:2px 0}
+ul{ list-style:none; margin:0; padding:0;}
+p { margin:0; padding:0;}
+strong {color:#fc1414}
+hr {color: #dce2ea; background: #dce2ea; border: 0; height:1px;}
+img.lead_icon {vertical-align:middle}
+
+form {line-height:2.5em; margin:0}
+input,textarea,select {font-family:Verdana,sans-serif; vertical-align:middle}
+input[type=text],input[type=password], textarea {border:1px solid #aec2dc; padding:4px;}
+
+.left{float: left;}
+.right{float: right;}
+
+.loading span {
+    padding: 0 0 0 20px;
+    background: url(../images/loading.gif) no-repeat 0 50%;
+}
+
+form .btn { background: #0f7cc5; border:0; width:83px; height:28px; line-height:28px;font-size:1.1em; color:#ffffff; font-weight:bold}
+
+/* main structure */
+.mid {margin:0 auto; width:952px}
+#header {background: #395795; height:88px;}
+#footer {clear:both; background: #395795; padding:13px 0 13px 8px}
+#footer h2{color:#fff}
+#footer div.col{float:left; width:185px; margin-left:40px}
+#footer a {color:#eee}
+
+
+/* header */
+.logo { margin:10px 5px 0px}
+#home_link {float:left}
+
+/* nav bar */
+
+
+#nav div.userlan {text-align:right;padding:13px 28px 5px 0px;height:17px; font-family:ºÚÌå,Arial;font-weight:500;font-size:14px;background: url(../images/line.png); background-repeat: no-repeat; background-position: 100% 100%;!padding:6px 14px 2px 0px}
+
+#nav div.userlan a { color:#fff; margin-right:10px; }
+
+#nav div.userlan a:hover { color:#eee; text-decoration: none; }
+
+#nav div.userlannonav {text-align:right;padding:55px 28px 5px 0px;height:17px; font-family:Arial;font-weight:500;font-size:14px;}
+#nav div.userlannonav a { color:#fff; margin:0px 0px 3px 10px;}
+#nav div.userlannonav a:hover { color:#eee; text-decoration: none; }
+#nav {font-size:12px;  font-weight:bold; text-align:center; margin-left:232px ; !margin-left:125px;}
+#nav ul {!margin-top:6px;}
+#nav li { float:left;padding-top:4px;}
+#nav li a { line-height:50px; height:50px; margin-top:10px;display:block; width:75px; color:#fff;}
+#nav li.on a {color:#b1d918}
+#nav li a:hover {text-decoration: none; }
+#nav li.search {width:270px; float:right; height:40px;}
+#nav li.search div{ margin-left:15px; border:0;height:90%;!margin-left:7px;}
+#nav li.search #search_text{ border:0; background:url(../images/search-center.png) repeat 0 0; width:163px; float: left; margin-top: 0; height:16px;}
+#nav li.search #search_button{ border:0; background:url(../images/search-right.png) no-repeat; width:22px; height:24px; text-indent:-9999px; float: left;}
+#nav li.search #search_type{background:url(../images/search-left.png) no-repeat left 0; font-size: 12px; width: 62px; text-align: right; color: #8d9db0; height:24px; line-height:25px; float:left; margin-top:0;}
+
+/* box */
+.rect {width:600px; margin:20px auto; background:url(../images/rect_bottom_small.png) no-repeat left bottom; padding-bottom:21px}
+.rect .fill {background:url(../images/rect_top_small.png) no-repeat left top; padding-top:21px}
+.rect .cbox {padding:10px; background-color:#fff; border-left:2px solid #d1d1d1; border-right:2px solid #d1d1d1}
+
+/* form in panel */
+#form span.login{float:right}
+#form .action {text-align:center; padding-top:10px; width:360px;}
+#form .error {color:#f93333;}
+
+#loginform {margin-top:10px}
+#loginform input[type=text],#loginform input[type=password] {height:22px; width:268px; text-align:center}
+#loginform #more {float:right}
+
+/* Buttons */
+#login_btn, #signup_btn {
+	background:#0f7cc5; 
+	border:0; 
+	width:150px; 
+	height:40px;
+	font-size: 15px;
+	font-weight:bold;
+	color:#ffffff;
+}
+
+/* index users list */
+.users li {width:120px; float: left; margin:5px 0; text-align:center}
+.users li img.photo {display:block; float:none; margin:2px auto; width:96px; height:96px; border:1px solid #d3e6ff}
+ul.users:after {content: "."; display: block; height: 0; clear: both; visibility: hidden}
+
+/* index */
+#index #intro {height:417px}
+#index #intro_main {float:left; height:417px; width:574px}
+#index #register {float:left; width:376px; background:url(../images/client_r.png) no-repeat right bottom}
+#index #switch ul{margin:260px 10px 0; font-size:14px; height:63px}
+#index #switch li {float:left; width:180px; height:46px; text-align:center}
+#index #switch #switch1 {background:url(../images/switch1.png) no-repeat left bottom}
+#index #switch #switch2 {background:url(../images/switch2.png) no-repeat left bottom}
+#index #switch #switch3 {background:url(../images/switch3.png) no-repeat left bottom}
+#index #switch li a{color:#fff; margin-top:21px; display:block}
+#index #client{height:94px; background:url(../images/client_l.png) no-repeat left top}
+#index #client_main {height:94px; background:#141414; margin-left:18px; }
+#index #client_main div.os {padding:15px 15px 0}
+#index #register_box {height:400px; margin-top:17px}
+#index #r_l {float:left; background: url(../images/loginl.png) no-repeat left top; width:23px;height:400px}
+#index #r_r {float:left; background: url(../images/loginr.png) no-repeat left top; width:23px;height:400px}
+#index #r_main {float:left; background: url(../images/loginc.png) repeat-x left top; width:316px; height:400px}
+#index #show {background-color:#fff; padding:20px}
+#index #show h2{font-size:24px; padding:0; margin:0 0 20px; color:#808080}
+#index #show #users {float:left; width:640px}
+#index #show #top {margin-left:660px}
+#index #show #top #list {background-color:#eaf2fd; margin-top:10px}
+#index #show #top #list table{width:98%}
+#index #show #top #list td {padding:3px}
+#index #show #top #list td.value{text-align:right}
+#index .download{float:left;margin-left:20px; margin-top: 15px;}
+#index .download ul{float:left; width:100px; margin-left:30px}
+#index .download ul.downloadinfo{float:left; width:125px; margin-left:1px;}
+#index .download ul li img{border:0; width:115px;margin-bottom : 2px;}
+#index #moveinfo img{margin-left:26px;float:left;}
+/* login & signup */
+#login #content .mid, #signup #content .mid{}
+#login #content, #signup #content {width:100%; margin:9px 0 9px;}
+
+#login .panel {height:372px; width:365px; margin: 30px auto 0}
+#login .panel .lb {float:left; width:20px; height:352px;}
+#login .panel .rb {float:left; width:20px; height:352px;}
+#login .panel .cb {float:left; width:325px; height:352px;}
+
+#signup .panel {height:515px; width:765px; margin: 30px auto 0}
+#signup .panel .lb {float:left; width:20px; height:495px;}
+#signup .panel .rb {float:left; width:20px; height:495px;}
+#signup .panel .cb {float:left; width:620px; height:495px;}
+#signup .panel label {float:left; width:70px;}
+#signup #loginform input {text-align:left}
+#signup #code {width:120px; margin: 3px 6px 0 0;}
+#signup #rand{vertical-align: middle}
+#signup .tip{line-height:15px; color: green; display: none;}
+
+/* setting */
+#setting input[type=text],#setting input[type=password], #setting textarea {border:1px solid #aec2dc; padding:0.5em; font-size:12px; border-radius:0; -webkit-border-radius:0; -moz-border-radius:0}
+#set_form {width:610px; float:left; margin-top:16px; margin-left:160px;}
+#set_menu ul {margin:160px 20px 0 }
+#set_menu li { line-height:39px; font-size:16px; font-weight:bold}
+#set_menu li.on a{background:url(../images/set_choose.png) no-repeat}
+#set_menu li a {display:block; width:229px; height:39px; color:#fff; padding-left:10px}
+
+#set_form h2 {margin:20px 0 4px; padding-bottom:8px; color:#6b7592; font-size:16px; font-weight:bold; border-bottom:2px solid #9699a9}
+#set_form h3 {margin:20px 0 4px; color:#6b7592; font-size:14px; font-weight:bold}
+#set_form label {color:#6b7592; font-weight:bold}
+#tips {padding: 20px 2em 10px; background-color:#e6dbd3}
+.userinfo .save{margin:1em 0 0 8em}
+.userinfo .help{color:#666; padding-left:1em}
+.userinfo .btn {background-image:url(../images/btn.gif); width:83px; height:28px; border:none; font-weight:bold; color:#486905}
+.userinfo .avatar {border:4px solid #baa; margin-left:11em}
+
+/* alert */
+#alert #content .mid {background:url(../images/login_bg.gif) no-repeat}
+#alert #content {margin-bottom:0}
+
+
+
+.search ul.dropdown{
+	display: none;
+	position: absolute;
+	text-align: left;
+	width:90px;
+	z-index: 1000;
+	background: #FFFFFF;
+	margin-top:25px;
+	border: 1px solid black;
+	float:left;
+}
+
+.search ul.dropdown li{
+	color:#8D9DB0;
+	font-size:12px;
+	border-bottom: 1px solid #8D9DB0;
+	width: 100%;
+	height:25px;
+	line-height:25px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.search ul.dropdown li.last{
+	border-bottom: 0px;
+}
+
+#feedbackbutton{
+	display: block;
+	position: fixed;
+	right: 0px;
+	top: 200px;
+	width:	25px;
+}
+
+#index .half_left{
+	width:640px; 
+	float:left;
+	height: 100%
+}
+
+#index .half_right{
+	width:300px;
+	float: right;
+	background: #e1e6ed;
+	height: 100%;
+}
+
+.half_right a{
+	color: #0f7cc5;
+}
+
+.half_right .line{
+	padding: 15px 25px;
+	height: 100%;
+	text-align: left;
+}
+
+.half_right .title{
+	font-size: 18px;
+	font-weight: bold;
+	float: left;
+	width: 100px;
+}
+
+.half_right table{
+	float: left; 
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#footer .inmid{
+	border: 1px solid #4b6bad;
+	background: #2d477c;
+}
+
+.header_text{
+	font-size: 14px;
+	color: #fff;
+	padding: 55px 10px 0;
+}
+
+.small_mid{
+	width: 550px;
+	margin: 12px auto;
+}
+
+.small_mid .title_large{
+	font-size: 16px;
+	font-weight: bold;
+	height: 34px;
+	margin-bottom: 6px;
+}
+
+.small_mid .title_large .text{
+	margin: 7px 12px;
+}
+
+.small_mid .result_box{
+	border-top: 1px solid #d9d8d8;
+	padding: 0 0 10px;
+}
+
+div.now_doing {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+/* blog */
+table.blog_table {width:569px; border-collapse:collapse;border-spacing:0px;margin-bottom:0px;padding:0}
+.blog_table td { vertical-align: top; border-bottom:1px solid #eef1f5; padding:1px 4px 1px 7px;}
+.blog_table td.avatar {width:56px}
+.blog_table td.avatar img{padding:2px; background-color:#fff; border:1px solid #e5e5e5}
+.blog_table td.info .status  {margin-top: 4px;font-size:14px; text-overflow:ellipsis; overflow:hidden;}
+.blog_table td.info .ext {color:#666; overflow:hidden}
+.blog_table .action a{height:20px; display:block; float:left; margin-right:15px; text-align:center; color:#0F7CC5}
+.blog_table .action a:hover{text-decoration:none}
+.blog_table .time {color:#b7bdc4;}
+
+.blog_table a.user {color:#0f7cc5; font-weight:bold; font-family: arial;}
+.blog_table a.place {color:#b7bdc4}
+
+.blog_table tr:hover{background-color:#f8f9fb;}
+
+/* user */
+.blog_table .action {float:right}
+
+
+#now_doing{
+	height: 550px;
+	overflow: hidden;
+	position:relative;
+}
+
+#now_doing .blog_row{
+	border-bottom: 1px solid #EEF1F5;
+}
+
+#now_doing .avatar{
+	padding: 11px 4px 8px 7px;
+	width: 56px;
+}
+
+#now_doing .info{
+	padding: 11px 4px 8px 7px;
+	vertical-align: top;
+}
+
+#now_doing .message_row{
+	font-size: 14px;
+	overflow: hidden;
+	line-height: 18px;
+	width: 470px;
+	word-wrap: break-word;
+}
+
+#now_doing a.user{
+	color: #0F7CC5;
+	font-family: arial;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#now_doing .ext{
+	color: #B7BDC4;
+	overflow: hidden;
+}
+
+#now_doing a.place{
+	color: #7589AE;
+}
+
+

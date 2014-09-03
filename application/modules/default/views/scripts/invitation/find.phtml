@@ -1,0 +1,157 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="invitation">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="setting_page">
+ <div class="mid title">
+	  <div id="setting_header_title"><span class='text'><?php echo $this->lang->global->nav->find_people;?></span></div>
+	   <div id="setting_header_img"><h2><?php echo $this->lang->global->setting_header_text;?></h2></div>
+ </div>
+ 
+  <div class="mid">   
+		  <div id="setting_content">
+		  	<div id='find_better' class="setting_main">
+		  	 		<div class="headertitle">
+	    			<?php echo $this->lang->global->people->find_people_tip;?>
+	    			</div>
+	                <div class='pfElements' style='padding-bottom:5px;'>
+	               
+		                <form class="setting_block">
+		                <h2><?php echo $this->lang->global->people->input_kai;?></h2>
+		                <table>
+	                	<tr>
+	                		<td width='134'><?php echo $this->lang->global->people->input_nickname;?></td>	
+	                		<td><input type="text" size="32" value=""  id='better_name' name="better_name" class='button' />
+	                		<input type="button" id='btnFindBetter' value="<?php echo $this->lang->people->search->button_tips;?>" class='btn'/>
+	                		</td>	
+	                	</tr>
+	                	</table>
+	                	<span class='err hide' id='errFindBetter'></span>
+		                </form>
+	                </div>
+	                
+	                
+	                <div id='better_result' class='hide result_box'>
+	                <div class='search_result'><?php echo $this->lang->global->people->find_result;?></div>
+	                 
+	                  <table class="find_table friends_table">
+	                  	<tbody id='tbl_findBetter'>
+
+					    </tbody>
+					 </table>
+	                </div>
+	                
+	           <!-- ---------------寻找社区好友---------------------- -->
+	           
+	     <div id='find_sns' class="setting_block" style='margin-bottom: 60px;'>
+	         	<h2>寻找社区好友</h2>
+	          	<div style='margin: 10px 0;' id='snss'>
+	          		<a id='sina_sns' type='sina' href='javascript: void(0);'  binded=<?php echo $this->bindsina; ?> ><img src='images/find_sina.png' /></a>&nbsp;&nbsp;&nbsp;
+	          		<a id='kaixin_sns' type='kaixin' href='javascript: void(0);' binded=<?php echo $this->bindkaixin; ?> ><img src='images/find_kaixin.png' /></a>&nbsp;&nbsp;&nbsp;
+	          		<a id='fanfou_sns' type='fanfou' href='javascript: void(0);' binded=<?php echo $this->bindfanfou; ?> ><img src='images/find_fanfou.png' /></a>&nbsp;&nbsp;&nbsp;
+	          		<a id='fanfou_sns' type='msn' href='javascript: void(0);' binded=<?php echo $this->bindmsn; ?> ><img src='images/find_msn.png' /></a>
+	          	</div>
+	          	
+	            <form id='sns_form' class='hide'> 
+	            	 <input type='hidden' id='sns_type' value='sina.com' />
+	            	 <table >
+	                	<tr>
+	                		<td width='103' id='sns_title'>新浪微博账号：</td>	
+	                		<td>
+	                			<input type="text" size="28" value=""  id='sns_user' name="sns_user" />
+	                		</td>	
+	                	</tr>
+	                	<tr>
+	                		<td>密码：</td>	
+	                		<td> <input type="password" size="28" value=""  id='sns_pass' name="sns_pass" /></td>	
+	                	</tr>
+	                	<tr>
+	                		<td colspan='5'><input type='checkbox' id='sns_bind'>同时绑定到<span id='sns_text'>新浪微博</span></td>	
+	                	</tr>	
+	                	<tr>
+	                		<td colspan='5'><span class='err hide' id='errFindSns'></span></td>
+	                	</tr>
+	                </table>
+	                 <input type="button" id='btnFindSns' value="<?php echo $this->lang->people->search->button_tips;?>" class='btn' style="margin-top: 16px;"/>
+	          	</form>   
+	          	
+	          	<div id='sns_result' class='hide result_box'>
+	             <div class='search_result'>社区好友搜索结果</div>
+	                 
+	                  <table class="find_table friends_table">
+	                  	<tbody id='tbl_findSns'>
+
+					    </tbody>
+					 </table>
+	            </div>    
+	     </div>
+	     
+	    	 <!-- -----------------寻找email好友------------------------ -->
+	     
+	          <div id='find_email' class=" setting_block">
+	          <h2><?php echo $this->lang->global->people->find_by_email;?></h2>
+	          
+	      		<form>
+	               <div class='pfElements'>
+	                <table>
+	                	<tr>
+	                		<td width='134'><?php echo $this->lang->global->people->input_email;?></td>	
+	                		<td> <input type="text" size="28" value=""  id='email_user' name="email_user" />@
+	                		<select name='email_domain' id='email_domain'>
+	                  		<option value=''><?php echo $this->lang->global->people->choice_email;?></option>
+	                  		<?php foreach($this->email_domains as $domain) {?>
+	                 		 <option value='<?php echo $domain;?>'><?php echo $domain;?></option>
+	                 		<?php } ?>
+	                  		</select>
+	                		</td>	
+	                	</tr>
+	                	<tr>
+	                		<td><?php echo $this->lang->global->people->password;?></td>	
+	                		<td> <input type="password" size="28" value=""  id='email_pass' name="email_pass" /></td>	
+	                	</tr>	
+	                	<tr>
+	                		<td colspan='5'><span class='err hide' id='errFindEmail'></span></td>
+	                	</tr>
+	                </table>
+	                <input type="button" id='btnFindEmail' value="<?php echo $this->lang->people->search->button_tips;?>" class='btn' style="margin-top: 16px;"/>
+	                
+	                
+	                </div>
+	               
+	                <div id='email_result' class='hide result_box'>
+	                 <div class='search_result'><?php echo $this->lang->global->people->emailfriend_in_id;?></div>
+	                 
+	                  <table class="find_table friends_table">
+	                  	<tbody id='tbl_findEmail'>
+
+					    </tbody>
+					 </table>
+					 
+					 <div class='search_result'><?php echo $this->lang->global->people->emailfriend_notin_id;?></div>
+					 <table class="find_table">
+	                  	<tbody id='tbl_revertEmail'>
+							
+					    </tbody>
+					 </table>
+					 
+	                </div>
+	          </form>       
+	     </div>
+	                
+	     <div class='clear_fix'></div>
+	     </div>
+		  
+		  </div>
+		  <div id="setting_menu">
+		  	 <ul id="right_menu"> 
+		        <li> <a href="/invitation/find" class="on"><?php echo $this->lang->global->people->find;?></a> </li> 
+		         <li> <a href="/invitation" class="off"><?php echo $this->lang->global->people->invite;?></a> </li> 
+		  	 </ul>
+		  </div>
+		  <div class='clearfix'>&nbsp;</div>		
+  </div>  
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>
+<?php $this->Gz();?>

@@ -1,0 +1,98 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="image">
+<?php include_once(dirname(__FILE__).'/../include/header.phtml');?>
+<div id="nav">
+  <div class="mid">
+  <form method="get" action="search.html">
+  	<ul>
+  		<li><a href="/home">首页</a></li>
+  		<li class='on'><a href="/user">空间</a></li>
+  		<li><a href="/around">雷达</a></li>
+  		<li><a href="people">找朋友</a></li>
+  		<li><a href="toolsl">工具</a></li>
+  		<li><a href="setting">设置</a></li>
+  		<?php include_once(dirname(__FILE__).'/../include/headersearch.phtml');?>
+  	</ul>
+  	</form>
+  </div>
+</div> <!--#nav-->
+
+<div id="content">
+  <div class="mid">
+	  <div id="half_left">
+	   <div class="place">
+	       <table class="blog_table">
+	    	<tr>
+			    <td class="avatar">
+			    <img src='<?php echo $this->bloger['avatar_small'];?>' width='48' alt='<?php echo $this->bloger['realname'];?>' title='<?php echo $this->bloer['realname'];?>' /></td>
+			    <td class="info">
+			       <div class="text"> 
+			        <div class="status"><a href="/<?php echo $this->bloger['username'];?>" class="user"><?php echo $this->bloger['realname'];?></a> <?php echo $this->blog['message'];?></div>
+					<div class="ext">在 <a href="place.html" class="place">suzhou jiangsu China</a> - 3 分钟前</div>
+				   </div>
+				</td>
+		    </tr>
+		   </table>
+	    </div>
+	    <div class="big_img">
+	    	<img src='<?php echo $this->blog['attach_url'];?>' class='needResize' />
+	  	</div>
+	  	<div class="more_img">
+	  	  <h2><a href="/<?php echo $this->bloger['username']?>" class="user"><?php echo $this->bloger['realname'];?></a> 的更多照片</h2>
+	  	  <div class="gallary">
+	  	    <a class="prev" href='javascript:void(0);'></a>
+	  	     <div id='photos' class="photos">
+	  	     <ul>
+	  	     <li><img src="images/sample/1.jpg" alt="" width="72"/></li>
+	  	     <li><img src="images/sample/2.jpg" alt="" width="72"/></li>
+	  	     <li><img src="images/sample/3.jpg" alt="" width="72"/></li>
+	  	     <li><img src="images/sample/4.jpg" alt="" width="72"/></li>
+	  	     <li><img src="images/sample/5.jpg" alt="" width="72"/></li>
+	  	     <li><img src="images/sample/6.jpg" alt="" width="72"/></li>
+	  	     <li><img src="images/sample/7.jpg" alt="" width="72"/></li>
+	  	     <li><img src="images/sample/1.jpg" alt="" width="72"/></li>
+	  	     <li><img src="images/sample/2.jpg" alt="" width="72"/></li>
+	  	     <li><img src="images/sample/3.jpg" alt="" width="72"/></li>
+	  	     <li><img src="images/sample/4.jpg" alt="" width="72"/></li>
+	  	     <li><img src="images/sample/5.jpg" alt="" width="72"/></li>
+	  	     <li><img src="images/sample/6.jpg" alt="" width="72"/></li>
+	  	     <li><img src="images/sample/7.jpg" alt="" width="72"/></li>	  	     
+			</ul>
+	  	     </div>
+	  	    <a class="next" href='javascript:void(0);'></a>
+	  	    <div class="clearfix"></div>
+	  	  </div>
+	  	</div>	
+	  </div><!--#half_left-->
+	  <div id="half_right">
+	  	<div class="box">
+	  	  <h3>附近的照片</h3>
+	  	  <div class="cbox">
+	  	  	<ul class="photos">
+  	  	  		<li><img src="images/sample/3.jpg" alt="" width="72"/></li>
+  	  	  		<li><img src="images/sample/4.jpg" alt="" width="72"/></li>
+  	  	  		<li><img src="images/sample/5.jpg" alt="" width="72"/></li>
+  	  	  		<li><a href="">上一张</a></li>
+  	  	  		<li><a href="">所有</a></li>
+  	  	  		<li><a href="">下一张</a></li>
+			</ul>
+	  	  </div>
+	  	</div>
+	    
+	    <div class="box">
+	  	  <h3>地图</h3>
+	  	  <div class="cbox center">
+	  	  	<img src="images/sample/smallmap.jpg" alt="map"/>
+	  	  </div>
+	  	</div>
+	  	
+
+	  	
+	  </div><!--#half_right-->
+	  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>

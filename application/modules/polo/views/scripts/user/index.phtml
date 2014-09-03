@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="viewport" content="width=device-width; initial-scale=1.4; minimum-scale=1.0; maximum-scale=2.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?php echo $this->lang->global->meta->title;?></title>
+	<?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+	<?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+	<div id="headinfo">
+	<?php if(strlen($this->errorinfo)>0){?>
+	<div id="error"><?php echo $this->errorinfo;?></div>
+	<?php }?>
+		<a href="/polo/user?uid=<?php echo($this->userInfo["uid"])?>" ><?php echo($this->userInfo["nickname"])?></a>@
+		<?php 
+			if( (int)($this->lastcheckin['poi']['poi_id']) < 1 ){
+				echo "<a href=\"/polo/search\">".$this->lang->mobile->global->whereplace."</a>";
+			}else{
+				echo "<a href=\"/polo/place?pid=".$this->lastcheckin['poi']['poi_id']."\">".$this->lastcheckin['poi']['name']."</a>";
+			}
+			echo "<hr/>";
+		?>
+		<table>
+			<tr valign="top" >
+				<td><img alt="avatar" src="<?php echo $this->userInfo["avatar_normal"]?>" /></td>				
+				<td align="left">
+				<?php 
+				if($this->uid!=BETTER_SYS_UID){
+				?>
+					<a href="/polo/user/crown?uid=<?php echo $this->uid?>"><?php echo $this->lang->mobile->user->mayorship->noun."</a>(".$this->userInfo['majors'].")"?><a href="/polo/user/badge?uid=<?php echo $this->uid;?>"><?php 					
+					echo $this->lang->user->badge."</a>(".Better_User_Badge::getInstance($this->userInfo['uid'])->getBadgesnum().")"?><br/>
+					<a href="/polo/user/friend?uid=<?php echo $this->uid?>"><?php echo $this->lang->user->friends."</a>(".count(Better_User::getInstance($this->userInfo['uid'])->friends).")"?><a href="/polo/user/visitor?uid=<?php echo $this->uid?>"><?php echo $this->lang->mobile->user->visitor->noun."</a>(".count(Better_User::getInstance($this->userInfo['uid'])->visitors).")"?><br/>
+					<a href="/polo/user/following?uid=<?php echo $this->uid?>"><?php echo $this->lang->user->followings."</a>(".$this->userInfo["followings"].")"?><a href="/polo/user/follower?uid=<?php echo $this->uid?>"><?php echo $this->lang->user->followers."</a>(".$this->userInfo["followers"].")"?><br/>
+					<a href="/polo/user/checkin?uid=<?php echo $this->uid?>"><?php echo $this->lang->user->checkins."</a>(".$this->userInfo["checkins"].")"?><?php if($this->isTa){?><a href="/polo/user/favorite?cat=poi"><?php echo $this->lang->mobile->user->favorites."</a>(".$this->favoritesnum.")";}?><br/>	
+					<a href="/polo/user/tips?uid=<?php echo $this->uid;?>"><?php echo $this->lang->user->tips; ?></a>(<?php echo $this->tipsnum?>)
+					<?php 
+				}
+					?>
+				</td>
+			</tr>	
+		</table>		
+		<?php 			
+			echo "Karma:".intval($this->userInfo["rp"])."<br/>";			
+		?>
+		<?php echo $this->lang->setting->basic->intro->title.substr( $this->userInfo['self_intro'], 0, 50 )."<br/>"; ?>
+		<?php 
+			if($this->isTa != false){
+				echo "<a href=\"/polo/user/docheckin\">".$this->lang->javascript->global->checkin->title."</a>|<a href=\"/polo/user/shout?cat=normal\">".$this->lang->javascript->global->shout->text."</a>";
+			}else{ 
+				if( !$this->isBlocked )
+					if($this->uid!=BETTER_SYS_UID){
+						echo "<a href=\"/polo/user/addfriend?uid=".$this->uid."&add=".$this->isAddFriend."\">".$this->isFriendLabel."</a>";
+					}
+					echo "|<a href=\"/polo/user/addfollowing?uid=".$this->uid."&add=".$this->isAddFollow."\">".$this->isFollowerLabel."</a>|<a href=\"/polo/notification/send?uid=".$this->uid."\">".$this->lang->user->message."</a>|<a href=\"/polo/user/addblock?uid=".$this->uid."&add=".$this->isAddBlock."\">".$this->isBlockedLabel."</a>";
+			}?> 
+	</div>
+	
+	<hr/>
+	<div id="content">
+		<?php 
+			if( !$this->isTa )
+				echo $this->lang->mobile->global->footprint;
+			else
+				echo $this->lang->mobile->global->footprint."|<a href=\"/polo/notification\">".$this->lang->user->notices."</a>(".$this->notificationsnum.")<br/>";
+		?>
+		
+		<table>
+	    	<?php 
+	    	
+	    	
+	    		for($i=0; $i < count($this->timeline); $i++) {
+	    			echo "<tr valign=\"top\">";
+	    			echo "<td>".($i+1).".</td>";
+	    			echo "<td>";
+	           		$checktype = ("checkin" == $this->timeline[$i]['type'])? 0:1;	 
+	           		if( $this->timeline[$i]['message'] ) 
+	           			echo $this->timeline[$i]['message'];
+	    				if($this->timeline[$i]['attach_tiny']){
+	               			echo "<br/><img src=\"".$this->timeline[$i]['attach_tiny']."\"/><br/>";
+	               		}
+	           		else{       		
+	           			switch( $this->timeline[$i]['type'] ){
+	           				case Polo_UserController::$STATUS_NORMAL:
+	           					//echo "[吼吼]";
+	           					break;
+	           				case Polo_UserController::$STATUS_TIPS:
+	           					//echo "[贴士]";
+	           					break;
+	           				case Polo_UserController::$STATUS_CHECKIN:
+	           					echo $this->lang->javascript->global->checkin->title;
+	           				break;
+	           			} 
+	           		}
+					$upbid = $this->timeline[$i]['upbid'];
+	           		$upblog = $this->retwitter[$upbid];
+	           		if($this->timeline[$i]['showrt'] && $this->timeline[$i]['upbid'] && $upblog){						
+	           			$senderinfo = "//<a href=\"/polo/user?uid=".$upblog['uid']."\">".$upblog['nickname']."</a>";
+	           			if( $upblog['poi']['poi_id'] ){
+	           				$senderinfo .= "@<a href=\"/polo/place?pid=".$upblog['poi']['poi_id']."\">".$upblog['poi']['name']."</a>:";
+	           			} else {
+	           				$senderinfo = $senderinfo.":";
+	           			}
+	           			if( strlen($upblog['message']) >0 ){
+	           				$senderinfo .="<br/>".$upblog['message'];
+	           			}
+	           			if($upblog['attach_tiny']){	           			
+	               			$senderinfo .= "<br/><img src=\"".$upblog['attach_tiny']."\"/><br/>";
+	               		} 
+	           			if( strcmp($upblog['type'], "checkin")==0 ){
+	           				$senderinfo .= "[".$this->lang->javascript->global->checkin->title."]";
+	           			}
+	           			echo $senderinfo;
+	           		}  	           
+	           		// original end
+
+	    		
+
+	        		
+	           		echo "</td></tr>";
+	           		
+	           	
+	           		
+	           		echo "<tr><td></td><td><a href=\"/polo/place?pid=".$this->timeline[$i]['poi']['poi_id']."\">".$this->timeline[$i]['poi']['name']."</a> ".Better_Functions::compareTime($this->timeline[$i]['dateline']);
+	           		echo "&nbsp;";
+	    			if($this->timeline[$i]['uid']!=$this->user['uid'])
+	        		{
+	           			if($checktype && $this->timeline[$i]['priv_blog']==0){
+	           				echo "<a href=\"/polo/user/shout?cat=".$this->timeline[$i]['type']."&upbid=".$this->timeline[$i]['bid']."\">".$this->lang->javascript->global->blog->rt."</a> ";
+	           			}
+	        		}
+	       	 		else
+	        		{
+	           			echo "<a href=\"/polo/user/delblog?id=".$this->timeline[$i]['bid']."\">".$this->lang->javascript->global->blog->delete_it."</a> ";
+	        		}
+	        		if($checktype) {
+	           			echo "<a href=\"/polo/user/addfavorite?cat=".$this->timeline[$i]['type']."&id=".$this->timeline[$i]['bid']."&fid=".$this->timeline[$i]['uid']."\">".$this->lang->javascript->global->favorite->title."</a> ";	       
+	        		}
+	           		echo "</td></tr>";
+	    		}?>	           
+		</table>
+		<?php 
+		if(strlen($this->error_info)>0){
+		?>
+	<div id="error"><?php echo $this->error_info;?></div>
+	<?php 
+		} else  if( count($this->timeline) < 1 ) {
+			echo("<p>".$this->lang->mobile->global->record_none."</p>"); 
+		}
+		if ($this->hasMore){
+	        	echo "<p><a href=\"/polo/user/post?uid=".$this->uid."\">".$this->lang->global->foot->sync->more."</a></p>";
+		}?>		
+	</div>
+		
+	</div>
+		
+	<div id="visitors">
+	</div>
+	<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>

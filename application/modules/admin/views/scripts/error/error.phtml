@@ -1,0 +1,43 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/log" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='4' class='center'>出错啦</th></tr>
+		
+			<tr>
+				<td>错误代码: </td>
+				<td colspan='3' class='error'>
+				<?php echo $this->error_code;?>
+				</td>
+			</tr>			
+			
+			<tr>
+				<td>错误信息: </td>
+				<td colspan='3' class='error'>
+				<h3>Exception information:</h3>
+  <p>
+      <b>Message:</b> <?php //echo $this->exception->getMessage() ?>
+  </p>
+
+  <h3>Stack trace:</h3>
+  <pre><?php //echo $this->exception->getTraceAsString() ?>
+  </pre>
+
+  <h3>Request Parameters:</h3>
+  <pre><?php //var_dump($this->request->getParams()) ?>
+  </pre>
+				</td>
+			</tr>		
+			
+			</table>		
+			</form>
+		</div>
+
+			
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

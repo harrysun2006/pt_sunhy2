@@ -1,0 +1,120 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="signup">
+<?php include_once(dirname(__FILE__).'/../include/newheadernonav.phtml');?>	
+
+<div id="setting_page">
+  <div class="mid">
+	  <div id="setting_menu">   		
+		<div class="setting_right">			
+			<?php echo $this->langTpl('signup_step1');?>
+		</div>
+  		
+  	  </div>
+  	  <div id="setting_content">
+  	  <div class="login_form">
+  	  <div class='login_head'>
+  				<span class='left'><?php echo $this->lang->signup->tips;?></span>
+  				<span class='right'><?php echo $this->lang->signup->login_by_third;?></span>
+  				<div class='clearfix'></div>
+  	  </div>
+  	  
+  	  <div class='login_left'>
+  	  
+  	  <form action="/signup/do" method="post" id="signup_form">  	   
+		<div class="row">
+		  <label for="email"><?php echo $this->lang->signup->email;?></label>(<?php echo $this->lang->signup->email_example;?>)
+		  <div class="field">
+		  	 <input type="text" id="email" name="email" value="" <?php echo $this->inputemail;?>  /><span id='ok_email'></span>		  	 		  	 
+		     <span id='err_email' class='err'><?php echo $this->err['err_email'];?></span>
+		  </div>
+		</div>
+		<div class="row">
+		  <label for="nickname"><?php echo $this->lang->signup->nickname->title;?></label>(<?php echo $this->lang->signup->nickname_remark;?>)
+		  <div class="field">
+		  	 <input type="text" id="nickname" name="nickname" value="" /><span id='ok_nickname'></span>	
+		     <span id='err_nickname' class='err'><?php echo $this->err['err_nickname'];?></span>	    
+		    
+		  </div>
+		</div>  
+		<div class="row">
+		  <label for="password"><?php echo $this->lang->signup->password;?></label>(<?php echo $this->lang->signup->password_to_short;?>)
+		  <div class="field">
+		  	 <input type="password" id="password" name="password" value="<?php echo $this->post['password'];?>" />
+		  
+		  	<span id='ok_password'></span>
+    		<span id='err_password' class='err'><?php echo $this->err['err_password'];?></span>
+		  </div>
+		</div> 
+		
+		<div class="row">
+		  <label for="repassword"><?php echo $this->lang->signup->repassword;?></label>(<?php echo $this->lang->signup->password_to_short;?>)
+		  <div class="field">
+		  	<input type="password" id="repassword" name="repassword" value="<?php echo $this->post['repassword'];?>"/>
+		  
+		  	<span id='ok_repassword'></span>
+    		<span id='err_repassword' class='err'><?php echo $this->err['err_password'];?></span>
+    	  </div>
+		</div> 		
+		<div class="row">
+		  <label for='code'><?php echo $this->lang->signup->scode->title;?></label>
+		  <div class="field">
+		  	<input type='text' id='code' name='code' value='' class="left" style="width:60px;"/>		  	
+		  	<img id="img_code" src='/Scode?<?php echo rand(100000,999999);?>' class="left" style='margin-left:10px;width:65px;'/>
+		    <div id="switch_scode" class="left"><?php echo $this->lang->signup->change_scode;?></div>
+		   <span id='err_code' class='err'><?php echo $this->err['err_code'];?></span>
+		  </div>
+		</div> 
+		<div class="clearfix"></div>		
+		<div class="row">	
+		  <label for='agree'></label>	 
+		  <div class="field">
+		  	<input type="checkbox" id="agree" value="1" name="agree" checked='checked'/>  <?php echo $this->lang->signup->have_readed;?><a href="/signup/terms" class='blank'><?php echo $this->lang->signup->agreement;?></a>
+		    				<span class='err' id='err_agree'><?php echo $this->err['err_agree'];?></span>
+		    	</div>
+		</div>	
+		<div class="row">	
+		  <label for='agree'></label>	 
+		  <div class="field">		
+		    				<input style="text-align: center;" type="button" id='signup_btn' class="btn" value="<?php echo $this->lang->signup->signup_now;?>"/>
+	    	 	   <input type='hidden' name='formIsValid' id='formIsValid' value='0' />
+	    	 	   <input type='hidden' name='language' value='<?php echo Better_Registry::get('language');?>' />
+	    	 	   <input type='hidden' name='login_type' value='local' />
+	    	 	   <input type='hidden' name='ref_uid' value='<?php echo Better_Registry::get('sess')->get('ref_uid');?>' />
+		  </div>
+		</div> 
+		    	
+		    </form>
+  	  </div>
+  	  <div class='login_right'>
+  	 		<div id='login_third_guide_list'>	
+			 	<a href='/login/thirdsina' id='loginfromsina'><img src='images/t-sina.png'></a>
+			 	<br><br>
+			 	<a href='/login/thirdqq' id='loginfromqq'><img src='images/t-qq.png'></a>
+			 	<br><br>
+			 	<a href='/login/thirdqqsns' id='loginfromqqsns'><img src='images/t-qqsns.png'></a>
+			 	<br><br>
+			 	<a href='/login/thirddouban' id='loginfromdouban'><img src='images/t-douban.png'></a>
+			 	<br><br>
+			 	<a href='login?login_from=sohu' id='loginfromsohu'><img src='images/t-sohu.png'></a>
+			 	<br><br>
+			 	<a href='login?login_from=kaixin001' id='loginfromkaixin001'><img src='images/t-kaixin001.png'></a>
+			 	<br><br>
+			 	<a href='login/third163' id='loginfrom163'><img src='images/t-163.png'></a>
+			 	<br><br>
+			 	<a href='login/thirdrenren' id='loginfromrenren'><img src='images/t-renren.png'></a>
+			 </div>
+  		</div>
+  		<div class='clearfix'></div>
+  	
+  	  </div>
+	  </div>
+	  <div class="clearfix"></div>
+	</div>
+</div>
+			
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

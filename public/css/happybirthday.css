@@ -1,0 +1,52 @@
+@CHARSET "UTF-8";
+body, ul, p {margin: 0;padding: 0;}
+body{background: url("../images/happybirthday/bg.png") repeat-x fixed center 0;}
+img {border:0px}
+a {text-decoration: none;}
+#betterMessageBox, #betterConfirmBox, #betterFormBox {display:none;overflow: visible;	}
+#container {width:960px;overflow:hidden;margin:0px auto;}
+#myPart {width:682px;overflow:hidden;}
+#myPart div, #invitePart div {clear:left;}
+#invitePart {width:261px;}
+.left {float:left}
+.right {float:right}
+#invitePart .left {width:12px;height:34px;}
+.title span {height:34px;display:block;float:left;color:#FFFFFF;line-height:35px;font-weight:bold;font-size: 16px;}
+#myPart .title span {width:660px;background: url("../images/happybirthday/tabBg.png") no-repeat center 0;}
+#invitePart .title span {width:237px;background: url("../images/happybirthday/tinyTabBg.png") no-repeat 0 0;}
+#record {background: url("../images/happybirthday/record.png") no-repeat left 0;width:682px;height:114px;}
+#record li {float:left;list-style: none outside none;width:80px; margin: 80px 90px 0 0;text-align:right;color:#F3497F;font-weight:bold;font-size: 20px;}
+#record li .noMarginRight {margin-right:0px;}
+/*#badges .bg, #shoutBox .bg, #blog .bg, #shareButtons*/
+	 .bg{
+				/*background:rgba(162, 220, 234, 0.5) none repeat scroll 0 0 !important;/*实现FF背景透明，文字不透明*/
+				/*filter:Alpha(opacity=50); background:#a2dcea;/*实现IE背景透明*/
+				position: absolute;
+				margin-top:34px;
+    			z-index: -1;
+    			margin-top:0px\9
+				}
+#badges {height:540px;overflow:hidden;width:682px;}
+#shoutBox {height:135px;width:682px;}
+#blog {height:205px;color:#0F7CC5;overflow:hidden;width:261px;}
+#blog span{margin:10px;display:block;font-family: '微软雅黑';cursor: pointer;font-size: 14px;line-height: 1.5em;}
+#inviteField {background: url("../images/happybirthday/inviteBg.png") no-repeat scroll 0 0px transparent;height:705px;}
+#inviteContent {bottom:10px;width:240px;height:70px;margin-left: 8px;margin-top: 545px;font-size:13px;border: 1px solid #0F7CC5;border-radius: 3px 3px 3px 3px;}
+#content {width:660px;height:80px;margin:8px;clear:both;font-size: 13px;border: 1px solid #0F7CC5;border-radius: 3px 3px 3px 3px;}
+#sync {width:18px;height:18px;border:1px solid #178AB7;margin-left:8px;}
+#shoutBtn {margin-right:8px;vertical-align:middle;height:25px;margin-top: -3px;}
+.red {color:#FF0000;font-weight: bold;}
+.green {color:#00FF00;font-weight: bold;}
+#badges li {float:left;list-style:none;margin:30px 0 0 35px;}
+.icp {font-size: 14px;line-height: 20px;}
+.mid {width:960px;margin: 0 auto;}
+#gift {width:215px;height:55px;margin-left: 22px; margin-top: 489px;position: absolute;cursor: pointer;margin-top: 443px\9}
+#copyInvite {position: absolute;cursor: pointer;height: 35px; margin-left: 165px; margin-top: 680px; position: absolute; width: 85px;margin-top: 629px\9}
+#shareButtons {width:682px;text-align: center;height: 60px;margin:0px;}
+#shareButtons a {margin-left:5px;}
+#giftDetail{width:261px;position:absolute;height:110px;background-color:#FFFFFF;margin-top: 350px;display:none;}
+#giftAddress{width:261px;position:absolute;height:180px;background-color:#FFFFFF;margin-top: 365px;display:none;}
+#giftAddress span {font-size:13px;display: block;}
+#giftAddress input .text {width:190px}
+#giftAddress textarea {width:190px}
+#shoutBox div {margin-top:-20px\9}

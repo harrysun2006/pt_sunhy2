@@ -1,0 +1,53 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+				<tr>
+					<th width='20'></th>
+					<th class='nowrap'>用户ID</th>
+					<th class='nowrap'>RP值</th>
+					<th class='nowrap'>之后Rp</th>
+					<th class='nowrap'>操作原因</th>				
+					<th class='nowrap'>更新时间</th>
+				
+					
+				</tr>			
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td></td>
+					<td class='center'><?php echo $this->highlight($row['uid'], $this->params['keyword']);?></td>
+					<td class='center'><?php echo $this->highlight($row['karma'], $this->params['keyword']);?></td>
+					<td class='center'><?php echo $this->highlight($row['karma_before'], $this->params['keyword']);?></td>
+					<td class='center'><?php echo $this->highlight($row['categoryname'], $this->params['keyword']);?><?php
+					if($row['note']){
+					echo ":".$row['note'];
+				}?></td>
+					<td class='center'><?php  echo $row['dateline'] ?  date('Y-m-d H:i:s', $row['dateline']+BETTER_8HOURS) : 0;?></td>
+				</tr>
+				<?php } ?>
+				
+							
+				<?php } else {  ?>
+				<tr>
+					<td colspan='15' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

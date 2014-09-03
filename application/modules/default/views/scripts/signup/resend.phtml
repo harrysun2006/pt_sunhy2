@@ -1,0 +1,44 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="signup">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid" style='background: #fff;'>
+   <div class='new_titile'>
+	  		<span class='left'>重新验证</span>
+	  		<img class='right' src='/images/slogan.png' />
+  	</div>
+  	<div class='small_mid'>
+	  	<div id="form">
+	  	<h3><?php echo $this->lang->signup->resend->title;?></h3>
+
+	    	<div class="snotice hide" id='div_resenderr'>
+	    	    <p id='err_email' ><?php echo $this->err['err_email'];?></p>
+	    	</div>
+	    		  	
+	  		<div class="snotice hide" id='div_resendok'>
+	    	    <p id='resendok'></p>
+	    	</div>
+	    <form id="resendform">
+	    <label for="email"><?php echo $this->lang->signup->resend->email;?></label>
+	      <table height='100'>
+	        <tr>
+	    	 <td class="input"><input type="text" id="email" name="email" value="<?php echo $this->post['email'];?>"/>
+	    	 <!-- <span id='resend_loading'></span>  -->
+	    	 </td>
+	    	</tr>
+    		<tr>
+    			<td class='input'><input type="button" id='btnResend' class="btn" value="<?php echo $this->lang->signup->button_tips;?>"/></td>
+    		</tr>
+	    	</table>
+	    </form>
+		</div>
+	</div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

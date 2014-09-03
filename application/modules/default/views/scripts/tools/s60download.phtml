@@ -1,0 +1,66 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="tools">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid" style="height:46px;">
+	<div id="setting_header_title"><?php echo $this->lang->tools->client->title->normal;?></div>
+	<div id="setting_header_img"><h2><?php echo $this->lang->global->setting_header_text;?></h2></div>
+  </div>
+  <div id="setting_page">
+    <div class="mid">
+    <div id="setting_content">
+	    <div class="setting_main"> 
+	    <h2><span class='left'><?php echo $this->lang->tools->client->title->s60;?></span><span class='right' style='font-size: 12px; font-weight: normal;'><a href='/tools'><?php echo $this->lang->tools->download_by_phone;?></a></span></h2>
+			<table width='100%'>
+				<tbody>
+					<tr>
+						<td id="platform_img">
+							<img src="images/down_s60.png" alt=""/><br>
+							<?php echo '最新版本'.': '.$this->postver;?><br />
+							<?php echo $this->lang->tools->client->version->publishdate.': '.$this->postdate;?>
+						</td>
+						<td id="platform_note">
+						<span>1. <?php echo $this->lang->tools->client->download_to_local;?></span><br><br>
+							<a href='<?php echo $this->s60v5download;?>' style="color: red;"><?php echo $this->lang->tools->s60->s60s3->title;?></a><br>						
+							<?php echo str_replace('{V5URL}',$this->s60v5download,$this->lang->tools->s60->s60s3->productlist);?>
+	    					<br><br>
+							<a href='<?php echo $this->s60v5download;?>' style="color: red;"><?php echo $this->lang->tools->s60->s60v5->title;?></a><br>						
+							<?php echo str_replace('{V5URL}',$this->s60v5download,$this->lang->tools->s60->s60v5->productlist);?>
+	    					<br><br>
+	    					<a href='<?php echo $this->s60v3download;?>'><?php echo $this->lang->tools->s60->s60v3->title;?></a><br>
+	    					<?php echo str_replace('{V3URL}',$this->s60v3download,$this->lang->tools->s60->s60v3->productlist);?>
+	    					<br><br>
+	    					<a href='<?php echo $this->s60v23download;?>'><?php echo $this->lang->tools->s60->s60v2version3->title;?></a><br>
+	    					<?php echo str_replace('{V23URL}',$this->s60v23download,$this->lang->tools->s60->s60v2version3->productlist);?>
+	    					<br><br>
+	    					<a href='<?php echo $this->s60v22download;?>'><?php echo $this->lang->tools->s60->s60v2version2->title;?></a><br>
+	    					<?php echo str_replace('{V22URL}',$this->s60v22download,$this->lang->tools->s60->s60v2version2->productlist);?>
+	    					<br><br>
+	    					<a href='<?php echo $this->s60v21download;?>'><?php echo $this->lang->tools->s60->s60v2version1->title;?></a><br>
+	    					<?php echo str_replace('{V21URL}',$this->s60v21download,$this->lang->tools->s60->s60v2version1->productlist);?>
+	    					<br><br>
+	    					<a href='<?php echo $this->s60v20download;?>'><?php echo $this->lang->tools->s60->s60v2version0->title;?></a><br>
+	    					<?php echo str_replace('{V20URL}',$this->s60v20download,$this->lang->tools->s60->s60v2version0->productlist);?>
+	    					<br><br>
+	    					<span>2. <?php echo $this->lang->tools->client->download_to_cell;?></span><br>
+						</td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+	<div class="clearfix"></div>
+	</div><!--#seeting_content-->
+	<?php 
+		$platform = 's60';
+		include_once(dirname(__FILE__).'/down_menu.phtml');
+	?>
+	<div class="clearfix"></div>
+	</div>
+  </div><!--#setting_page-->
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>
+<?php $this->Gz();?>

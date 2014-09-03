@@ -1,0 +1,198 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="people">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid border" style="background-color: #fff;">
+	
+	<div class='small_mid' style='min-height:440px;'>
+		<div class='title_large'>
+			<div class="left"><img src="images/add.png" class="pngfix" /></div>
+			<div class="left text"><?php echo $this->lang->global->people->find_people;?></div>
+		</div>
+		
+		<div class="tabs">
+	            <ul class="tabNavigation">
+	                <li><a href="#find_better" class='first'><?php echo $this->lang->global->people->kai;?></a></li>          
+	                <li><a href="#find_email"><?php echo $this->lang->global->people->emailfriend;?></a></li>
+	            </ul>
+	    
+	    <div id='find_better' class="no_border">
+	                <div class='pfElements'>
+	                <form>
+	                	<?php echo $this->lang->global->people->input_kai;?><br>
+	                <input type="text" size="32" value=""  id='better_name' name="better_name" class='button' />
+	                <span class='err hide' id='errFindBetter'></span>
+	                <br>
+	                <input type="button" id='btnFindBetter' value="<?php echo $this->lang->people->search->button_tips;?>" class='btn2' style="margin-top: 16px;"/>
+	                </form>
+	                </div>
+	                
+	                <div id='better_result' class='hide result_box'>
+	                 <h2><?php echo $this->lang->global->people->find_result;?></h2>
+	                 
+	                  <table class="find_table friends_table">
+	                  	<tbody id='tbl_findBetter'>
+
+					    </tbody>
+					 </table>
+	                </div>
+	                
+	                <div id='people_may_know' class='hide result_box'>
+	                 <h2><?php echo $this->lang->global->people->maybe_know;?></h2>
+	                 
+	                  <table class="find_table">
+	                  	<tbody id=''>
+
+					    </tbody>
+					 </table>
+	                </div>
+	                
+	                <div id='people_around' class='result_box'>
+	                 <h2><?php echo $this->lang->global->people->nearby_people;?></h2>
+	                 
+	                  <table class="find_table friends_table">
+	                  <tr>
+						 <?php
+						 $i=1; 
+						 foreach($this->aroundUsers as $user){ ?>
+						 		<td width="33%">
+						 			<div class="left" style="width: 64px;"><img src="<?php echo $user['avatar_small'];?>" alt="" class="left avatar" width="50" height="50" /></div>
+						 			<div class="left" style="margin-left: 10px; width: 94px;">
+						 				<a href="/<?php echo $user['username'];?>"><?php echo $user['nickname'];?></a><br>
+						 				
+						 				<?php
+						 					if($this->thisUser->isFollowing($user['uid'])) { ?>
+						 						<a href="javascript: void(0);" id="betterUserBtn_<?php echo $user['uid'];?>_<?php echo $user['gender'];?>_<?php echo $user['nickname'];?>" class="remove_follow"><?php echo $this->lang->javascript->global->follow->cancel;?></a><br>
+						 				<?php }else{ ?>
+						 						<a href="javascript: void(0);" id="betterUserBtn_<?php echo $user['uid'];?>_<?php echo $user['gender'];?>_<?php echo $user['nickname'];?>" class="add_follow"><?php echo $this->lang->javascript->global->follow->title;?></a><br>
+						 				<?php }
+						 				?>
+						 				
+						 				<?php
+						 					if($this->thisUser->isFriend($user['uid'])) {?>
+						 						<a href="javascript: void(0);" id="btnUserFriendBtn_<?php echo $user['uid'];?>_<?php echo $user['gender'];?>_<?php echo $user['nickname'];?>" class="remove_friend"><?php echo $this->lang->javascript->global->friend->request->remove;?></a>
+						 				<?php } elseif ($this->thisUser->friends()->hasRequest($user['uid'])) {?>
+						 						<a href='javascript: void(0);'><?php echo $this->lang->javascript->global->friend->request->btn->pending;?></a>
+						 				<?php }else{ ?>
+						 						<a href="javascript: void(0);" id="btnUserFriendBtn_<?php echo $user['uid'];?>_<?php echo $user['gender'];?>_<?php echo $user['nickname'];?>" class="add_friend"><?php echo $this->lang->javascript->global->friend->request->title;?></a>
+						 				<?php }
+						 				?>
+						 			</div>
+						 		</td>
+						 		
+						 	<?php if($i%3==0){?>
+						 		</tr><tr>
+						 	<?php } ?>
+
+						 <?php 
+						 	$i++;
+						 }?>
+						 </tr>
+					 </table>
+					 <div class='clear_fix'></div>
+	                </div>
+	                <div class='clear_fix'></div>
+	     </div>
+	     
+	     
+	    <div id='find_msn' class="no_border hide">
+	    	<form>
+	                <div class='pfElements'>
+	                <table>
+	                	<tr>
+	                		<td><?php echo $this->lang->global->people->input_msn;?></td>	
+	                		<td> <input type="text" size="32" value=""  id='msn_user' name="msn_user" /></td>	
+	                	</tr>
+	                	<tr>
+	                		<td><?php echo $this->lang->global->people->password;?></td>	
+	                		<td> <input type="password" size="32" value=""  id='msn_pass' name="msn_pass" /></td>	
+	                	</tr>	
+	                	<tr>
+	                		<td colspan='5'><span class='err hide' id='errFindMsn'></span></td>
+	                	</tr>
+	                </table>
+	                	
+	                <input type="button" id='btnFindMsn' value="<?php echo $this->lang->people->search->button_tips;?>" class='btn2' style="margin-top: 16px;"/>
+	                <?php echo $this->lang->people->msn->login_tips;?>
+	                
+	                </div>
+	                
+	                <div id='msn_result' class='hide result_box'>
+	                 <h2><?php echo $this->lang->global->people->msnfriend_in_id;?></h2>
+	                 
+	                  <table class="find_table friends_table">
+	                  	<tbody id='tbl_findMsn'>
+							
+					    </tbody>
+					 </table>
+					 
+					 <h2><?php echo $this->lang->global->people->msnfriend_notin_id;?></h2>
+					 <table class="find_table">
+	                  	<tbody id='tbl_revertMsn'>
+							
+					    </tbody>
+					 </table>
+	                </div>
+	        </form>        
+	     </div>
+	     
+	      <div id='find_email' class="no_border hide">
+	      		<form>
+	                <div class='pfElements'>
+	                <table>
+	                	<tr>
+	                		<td><?php echo $this->lang->global->people->input_email;?></td>	
+	                		<td> <input type="text" size="28" value=""  id='email_user' name="email_user" />@
+	                		<select name='email_domain' id='email_domain'>
+	                  		<option value=''><?php echo $this->lang->global->people->choice_email;?></option>
+	                  		<?php foreach($this->email_domains as $domain) {?>
+	                 		 <option value='<?php echo $domain;?>'><?php echo $domain;?></option>
+	                 		<?php } ?>
+	                  		</select>
+	                		</td>	
+	                	</tr>
+	                	<tr>
+	                		<td><?php echo $this->lang->global->people->password;?></td>	
+	                		<td> <input type="password" size="28" value=""  id='email_pass' name="email_pass" /></td>	
+	                	</tr>	
+	                	<tr>
+	                		<td colspan='5'><span class='err hide' id='errFindEmail'></span></td>
+	                	</tr>
+	                </table>
+	                <input type="button" id='btnFindEmail' value="<?php echo $this->lang->people->search->button_tips;?>" class='btn2' style="margin-top: 16px;"/>
+	                
+	                
+	                </div>
+	                
+	                <div id='email_result' class='hide result_box'>
+	                 <h2><?php echo $this->lang->global->people->emailfriend_in_id;?></h2>
+	                 
+	                  <table class="find_table friends_table">
+	                  	<tbody id='tbl_findEmail'>
+
+					    </tbody>
+					 </table>
+					 
+					 <h2><?php echo $this->lang->global->people->emailfriend_notin_id;?></h2>
+					 <table class="find_table">
+	                  	<tbody id='tbl_revertEmail'>
+							
+					    </tbody>
+					 </table>
+					 
+	                </div>
+	          </form>       
+	     </div>
+	     
+	 	</div>   
+	</div>
+	
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

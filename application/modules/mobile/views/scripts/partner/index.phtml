@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:lift="http://liftweb.net" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta content="width=320" name="viewport" />   
+    <title><?php echo $this->lang->global->meta->title;?></title>
+    <?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+    <?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+	 <div id="headinfo">
+    	<?php 
+    		if( $this->user['uid'] > 0 ){
+				echo "<a href=\"/mobile/user?uid=".$this->user["uid"]."\" >".$this->user["nickname"]."</a>@";
+				if( (int)($this->lastcheckin['poi']['poi_id']) < 1 ){
+					echo "<a href=\"/mobile/search\">".$this->lang->mobile->global->whereplace."</a>";
+				}else{
+					echo "<a href=\"/mobile/place?pid=".$this->lastcheckin['poi']['poi_id']."\">".$this->lastcheckin['poi']['name']."</a>";
+				}
+				echo "<hr/>";
+			}
+		?>		
+	</div>	
+	<div id="content">
+		360手机卫士永久免费<br/>
+
+下载：<a href='http://m.k.ai/360MobileSafe_kkw.apk'>android</a>  
+<a href='http://m.k.ai/360MobileSafe_kkw.sisx'>Symbian V5</a> <br/> 
+<a href='http://m.k.ai/360safe_1.0.9_2nd_beta_kkw.sis'>Symbian V3</a>   
+<a href='http://m.360.cn/partner/kkw.wml'>wap</a>
+	</div>
+	
+	<?php 
+    	if( $this->user['uid'] > 0 )
+    		include_once(dirname(__FILE__).'/../include/footer.phtml');			
+		else
+			include_once(dirname(__FILE__).'/../include/loginfooter.phtml');
+	?>
+</body>
+</html>  
+  

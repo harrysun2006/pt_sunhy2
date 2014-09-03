@@ -1,0 +1,30 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/log" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='4' class='center'>后台汇总信息</th></tr>
+		
+			<tr>
+				<td width='15%'>当前时间:</td>
+				<td width='35%'>
+				<?php echo date('Y-m-d H:i:s', BETTER_NOW);?>
+				</td>
+
+				<td width='15%'>当前管理员:</td>
+				<td>
+				<?php echo $this->userInfo['username'];?>
+				</td>
+			</tr>			
+
+			</table>		
+			</form>
+		</div>
+
+			
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

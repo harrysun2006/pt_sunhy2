@@ -1,0 +1,33 @@
+<?php 
+if ($_SERVER['HTTP_HOST']==$this->config->api->host) {
+	die('Forbidden');
+}
+
+$cssUrl = $this->cssUrl ? $this->cssUrl : BETTER_BASE_URL.(Better_Config::getAppConfig()->css->path);
+$jsUrl = $this->jsUrl ? $this->jsUrl : BETTER_BASE_URL.(Better_Config::getAppConfig()->javascript->path);
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?php echo $this->lang->global->meta->title;?></title>
+<meta name="keywords" content="开开, 位置, 社交网络, 游戏, 签到, 掌门, 寻宝, Kai, location, SNS, check-in, Mayor, Geocaching"  />
+<meta name="description" content="开开K.ai是新一代的位置网络，也是真实的白领社交网络。在开开签到，你能够找到朋友、分享贴士，并用全新的方法探索身边的城市。同时还可以争掌门、赢勋章、玩寻宝" /> 
+<meta http-equiv='X-UA-Compatible' content='IE=EmulateIE7' />
+<base href="http://<?php echo $_SERVER['HTTP_HOST'];?>/" />
+<?php echo $this->headMeta();?>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssUrl;?>/maf.css?ver=<?php echo BETTER_VER_CODE;?>" />
+
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="<?php echo $cssUrl;?>/better.css?ver=<?php echo BETTER_VER_CODE;?>" />
+<!--[if lt IE 7]>
+<script src="<?php echo $jsUrl;?>/DD_belatedPNG.js?ver=<?php echo BETTER_VER_CODE;?>" type='text/javascript'></script>
+<script type='text/javascript'>
+DD_belatedPNG.fix('.avatar,  .logo, .stat, .pngfix, tr td img ');
+</script>
+<script src="<?php echo $jsUrl;?>/iepngfix_tilebg.js" type='text/javascript'></script>
+<style type="text/css">
+ .zoompng{ behavior: url("<?php echo $jsUrl;?>/iepngfix.htc") }
+</style>
+<![endif]-->
+</head>

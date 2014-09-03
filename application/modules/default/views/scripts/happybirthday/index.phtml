@@ -1,0 +1,121 @@
+<?php include_once(dirname(__FILE__).'/header.phtml');?>
+<body>
+	<div id="container">
+		<div id="header"><img src='/images/happybirthday/top.png' usemap="#kai" /></div>
+		<map name="kai" id="kai">
+		  <area shape="rect" coords="40,15,153,75" href ="<?php echo $_SERVER['host'] . '/home'?>" title="返回网站首页" />
+		</map>
+		<div id="wapper">
+			<div id="myPart" class="left">
+				<div class="title"><img src="/images/happybirthday/tabLeft.png" class="left" /><span>我与开开这一年</span><img src="/images/happybirthday/tabRight.png" class="right" /></div>
+				<div id="record">
+					<ul>
+						<li><?php echo intval($this->userInfo['checkins'])?></li>
+						<li><?php echo intval($this->userInfo['now_posts'])?></li>
+						<li><?php echo intval($this->userInfo['now_tips'])?></li>
+						<li class="noMarginRight"><?php echo intval($this->userInfo['majors'])?></li>
+					</ul>
+				</div>
+				<div class="title"><img src="/images/happybirthday/tabLeft.png" class="left" /><span>我在开开还搜集了这些勋章</span><img src="/images/happybirthday/tabRight.png" class="right" /></div>
+				<div id="badges" class="bg"></div>
+				<div id="badges">
+					<?php 
+						if ($this->badges) {
+						$badgePath = 'http://' . $_SERVER['HTTP_HOST'] . '/images/badges/96/';
+					?>
+					<ul>
+						<?php foreach ($this->badges as $badge) {?>
+							<li><img src="<?php echo $badgePath . $badge['id'] . '.png';?>" title ="<?php echo $badge['badge_name'];?>" /></li>
+						<?php }?>
+					</ul>
+					<?php }?>
+				</div>
+				<div id="shareButtons" class="bg"></div>
+				<div id="shareButtons">
+				<script type="text/javascript" charset="utf-8">
+				(function(){
+				  var _w = 142 , _h = 32;
+				  var param = {
+				    url:'',
+				    type:'4',
+				    count:'', /**是否显示分享数，1显示(可选)*/
+				    appkey:'2812072649', /**您申请的应用appkey,显示分享来源(可选)*/
+				    title:'<?php echo $this->syncContent;?>' + 'http://k.ai/signup?ref=<?php echo $this->uid;?>', /**分享的文字内容(可选，默认为所在页面的title)*/
+				    pic:'<?php echo $this->attrImg;?>', /**分享图片的路径(可选)*/
+				    ralateUid:'', /**关联用户的UID，分享微博会@该用户(可选)*/
+				    rnd:new Date().valueOf()
+				  }
+				  var temp = [];
+				  for( var p in param ){
+				    temp.push(p + '=' + encodeURIComponent( param[p] || '' ) )
+				  }
+				  document.write('<iframe allowTransparency="true" frameborder="0" scrolling="no" src="http://hits.sinajs.cn/A1/weiboshare.html?' + temp.join('&') + '" width="'+ _w+'" height="'+_h+'"></iframe>')
+				})()
+				</script>
+				<a href="javascript:void(0)" onclick="postToWb();return false;" class="tmblog"><img src="http://v.t.qq.com/share/images/s/b32.png" alt="转播到腾讯微博" border="0" /></a>	<script type="text/javascript">
+					function postToWb(){
+						var _t = encodeURI('<?php echo $this->syncContent;?>'.replace('#', '').replace('#', ''));
+						var _url = encodeURIComponent('http://k.ai/signup?ref=<?php echo $this->uid;?>');
+						var _assname = encodeURI('name');//你注册的帐号，不是昵称
+						var _appkey = encodeURI('0e2d1cc664844d0b86a95e9a4b776195');//你从腾讯获得的appkey
+						var _pic = encodeURI('<?php echo $this->attrImg;?>');//（例如：var _pic='图片url1|图片url2|图片url3....）
+						var _site = 'http://k.ai';//你的网站地址
+						var _u = 'http://v.t.qq.com/share/share.php?url='+_url+'&appkey='+_appkey+'&site='+_site+'&pic='+_pic+'&title='+_t+'&assname='+_assname;
+						window.open( _u,'', 'width=700, height=680, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, location=yes, resizable=no, status=no' );
+					}
+					</script><a href="<?php echo $this->attrImg;?>" target="_blank"><img src='/images/happybirthday/save.png' /></a>
+					</div>
+				<div class="title"><img src="/images/happybirthday/tabLeft.png" class="left" /><span>祝福开开一周年</span><img src="/images/happybirthday/tabRight.png" class="right" /></div>
+				<div id="shoutBox" class="bg"></div>
+				<div id="shoutBox">
+					<textarea id="content"><?php echo $this->shoutContent;?></textarea>
+					<input type="checkbox" checked="checked" id="sync" /> <span>分享到我已绑定的社交网络</span>
+					<div class="right">
+						<span id="contentTip">还可以写<font class="green"><?php echo $this->leftNum;?></font>个字</span>
+						<img src="/images/happybirthday/shout.png" title='吼吼' id='shoutBtn' />
+					</div>
+				</div>
+			</div>
+			<div id="invitePart" class="right">
+				<div class="title"><img src="/images/happybirthday/tinyTabLeft.png" class="left" /><span>邀请好友来玩开开</span><img src="/images/happybirthday/tinyTabRight.png" class="right" /></div>
+				<div id="gift" onclick="$('#giftDetail').show()"></div>
+				<div id="copyInvite" onclick="copyToClipboard()"></div>
+				<div id="inviteField">
+					<div id="giftAddress">
+						<span>姓名：</span><input type="text" value="" id="aName" class="text" />
+						<span>联系电话：</span><input type="text" value="" id="aPhone" class="text" />
+						<span>收件地址：</span>
+						<textarea id="aAddress"></textarea><br/>
+						<input type="button" value="确定" id="aBtn" />
+					</div>
+					<div id="giftDetail">选择想要申请的礼品<br/>
+						<input type="radio" name="gift" value="cloth" />T恤衫<br/>
+						<input type="radio" name="gift" value="badge" />实物勋章<br/>
+						<input type="button" value="确定" id="giftBtn" /> <a href="#" onclick="$('#giftDetail').hide();return false;">取消</a></div>
+					<textarea id="inviteContent">嗨，我是<?php echo $this->userInfo['nickname']?>，我正在玩开开，时下最潮的位置网络，现在就加入开开和我一起签到、争掌门！
+http://k.ai/signup?ref=<?php echo $this->uid;?></textarea>
+				</div>
+				<div class="title"><img src="/images/happybirthday/tinyTabLeft.png" class="left" /><span>开开周岁趴体等你参加</span><img src="/images/happybirthday/tinyTabRight.png" class="right" /></div>
+				<div id="blog" class="bg"></div>
+				<div id="blog">
+					<span onclick="location='http://k.ai/comments?bid=10000.787'">#开开一周岁趴体召集令# 开开马上要满一周岁啦，生日趴体好想有你来参加！开开在这里邀请北京开饭来参加生日会哦，只要你在开开够活跃且愿意在线下与我们相见，就请跟帖留言“我想去！”吧~我们会将会与部分开饭私信联系趴体事宜~</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="mid">
+
+    <div class="icp">
+		<a title="官方博客" href="http://blog.k.ai/">官方博客</a>		&nbsp;&nbsp;&nbsp;&nbsp;	
+		<a title="关于我们" class="blank" href="/signup/aboutus" target="_blank">关于我们</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a title="服务条款" class="blank" href="/signup/terms" target="_blank">服务条款</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a title="玩转开开" href="/help/learnmore">玩转开开</a>&nbsp;&nbsp;&nbsp;&nbsp; 
+		<a title="开放平台" href="http://wiki.k.ai">开放平台</a>
+		<br>
+		</div>
+  </div>
+	<div id='betterMessageBox' class='hide' title='' style="overflow: visible; "></div>
+<div id='betterConfirmBox' class='hide' title='' style="overflow: visible; "></div>
+<div id='betterFormBox' class='hide' title='' style="overflow: visible; "></div>
+</body>
+</html>

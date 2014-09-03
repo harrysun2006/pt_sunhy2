@@ -1,0 +1,38 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="signup">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid border">
+  	<div class='small_mid' style="width: 350px; height:250px;padding-top:80px;">
+  		
+	  	<div id="form">
+	  	  <div class='title_large'>
+			<div class="left"><img src="images/attention.png" /></div>
+			<div class="left text"><?php echo $this->lang->global->congratulate;?></div>
+		  </div>
+		  <hr class="onepxline" color="#dce2ea">
+
+	    <form id="resendform">
+	      <table>
+	      <tr>
+	      	<td class="input">
+	      		<h2><?php echo $this->lang->signup->reg_success;?></h2>
+	      	</td>
+	      </tr>
+	    	<tr>
+	    	<td class='input center'>
+	  	 [ 		<a href='/home'><?php echo $this->lang->signup->back;?></a> ]</td>
+	    	</tr>
+    	
+	    	</table>
+	    </form>
+		</div><hr class="onepxline" color="#dce2ea">
+	</div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>

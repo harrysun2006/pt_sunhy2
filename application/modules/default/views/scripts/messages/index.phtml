@@ -1,0 +1,79 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="people">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid">
+	  <div id="half_left">
+	    <div id="data">
+	        <div class="tabs">
+	            <ul class="tabNavigation">
+	                <li><a href="#received" class='first' onclick="event.returnValue=false; return false;"><?php echo $this->lang->dmessage->received;?> (<span id='received_count'><?php echo $this->user['received_msgs'];?></span>)</a></li>
+	                <li><a href="#sent" onclick="event.returnValue=false; return false;"><?php echo $this->lang->dmessage->sent;?> (<span id='sent_count'><?php echo $this->user['sent_msgs'];?></span>)</a></li>
+	                <li><a href='#friend_request' onclick="event.returnValue=false; return false;"><?php echo $this->lang->dmessage->friend_request;?> (<span id='friend_request_count'><?php echo $this->friendRequestCount;?></span>)</a></li>
+	                <li><a href='#follow_request' onclick="event.returnValue=false; return false;"><?php echo $this->lang->dmessage->follow_request;?> (<span id='follow_request_count'><?php echo $this->followRequestCount;?></span>)</a></li>
+	            </ul>
+	            <div id='received'>
+	            	<table class="blog_table">
+	            		<tbody id='tbl_received'></tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_received'></div>
+						</td>
+						</tr>
+					</table>	
+	            </div>
+	            <div id='sent'>
+	            	<table class="blog_table">
+	            		<tbody id='tbl_sent'></tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_sent' class='hide'></div>
+						</td>
+						</tr>
+					</table>		            
+	            </div>
+	            
+	            <div id='friend_request'>
+	            	<table class="blog_table">
+	            		<tbody id='tbl_friend_request'></tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_friend_request' class='hide'></div>
+						</td>
+						</tr>
+					</table>		            
+	            </div>	            
+	            
+	            <div id='follow_request'>
+	            	<table class="blog_table">
+	            		<tbody id='tbl_follow_request'></tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_follow_request' class='hide'></div>
+						</td>
+						</tr>
+					</table>		            
+	            </div>	     	            
+
+	        </div>
+	    </div>
+	  </div><!--#half_left-->
+	  <?php include_once(dirname(__FILE__).'/../include/rightbar.phtml');?>
+	  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

@@ -1,0 +1,69 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper' >
+		<form action="<?php echo $this->admin_url;?>/email/send" id='emailform' method='post'>
+		<table width='100%'>
+			<tr>
+				<td colspan='4' align='center'><h3>群发Email</h3></td>
+			</tr>
+			<tr>
+				<td width='20%'>类别：</td>
+				<td align='left'>
+					<select name='type' id='type'>
+						<option value='1'>新功能预告</option>
+						<option value='2'>新功能上线</option>
+						<option value='3'>新活动通知</option>
+						<option value='4'>系统维护影响</option>
+						<option value='5'>兑奖预告</option>
+						<option value='6'>兑奖公告</option>
+						<option value='7'>客户端新版本发布</option>
+						<option value='8'>POI优惠信息</option>
+					</select>
+					<span id='activity' style='display: none'>
+					<span>活动名：</span>
+					<input type='text' name='act_name' id='act_name' />
+					</span>
+					<span id='phone_os' style='display: none'>
+					<span>客户端：</span>
+						<select name='source' id='source'>
+							<option value="IFN">IPhone</option>
+							<option value="AND">Android</option>
+							<option value="S60">Symbian</option>
+							<option value="ppc">Windows Mobile</option>
+						</select>
+					</span>
+					<span id='poi_id' style='display: none'>
+						<span>POI ID：</span>
+						<input type='text' name='poiid' id='poiid' />
+						<input type='button' id='checkpoi' value='检查POI名称'/>
+						<input type='text' id='poiname' readonly='readonly' style='display: none' />
+					</span>
+				</td>
+				
+			</tr>
+			<tr>
+				<td>正文：</td>
+				<td align='left' colspan='4'><textarea cols='100' rows='30' id='content' name='content' onKeydown="savePos(this)" onKeyup="savePos(this)" onmousedown="savePos(this)" onmouseup="savePos(this)" onfocus="savePos(this)" >
+激动人心的〖开开K.ai〗新功能预告：
+XXXXXXXXXXXXX
+听起来很不错吧？让我们一起期待！<a href="http://k.ai/kai">http://k.ai/kai</a>		
+				</textarea>
+				<iframe id="preview_ifa" name="preview_ifa" style="display: none; border: 1px solid black;" src="<?php echo $this->admin_url;?>/email/preview" height="440" width="640" frameborder="0"></iframe>
+				</td>
+				<td valign="top">
+					<input type="button" id="btn_preview" value="预览"/><br>
+					<input type="button" id="btn_edit" value="编辑"/><br>
+					<input type="button" id="btn_photo" value="插入图片"/><br>
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td colspan='4' align='left'>
+					<input type='submit' value='发送' />
+				</td>
+			</tr>
+		</table>
+		</form>	
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

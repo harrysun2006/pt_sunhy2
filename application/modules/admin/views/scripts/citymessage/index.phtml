@@ -1,0 +1,70 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper' >
+		<form id='msg_form' action='<?php echo $this->admin_url;?>/citymessage/send' method='post'>
+			<table width="737" style='margin: 0 auto;'>
+				<tr>
+					<td colspan='2'>
+						<h3>发送短消息</h3>					</td>
+				</tr>
+				<tr>
+				<td width="80">
+					
+					城市</td>
+				<td width="645">
+					 <div align="left">
+					   <select  name="live_province" id="live_province" class="pro">							
+				       </select>
+					   <select name="live_city" id="live_city" class="city">							
+				           </select>
+                     </div></td>
+				</tr>
+					
+				<tr><td >类别
+				<td><div align="left">
+				  <select name='type' id='type'>
+				    <option value='email'>Email</option>
+				    <option value='message'>私信</option>
+			      </select>
+				  </div></td>
+				</tr>	
+				<tr><td>					
+					<span>标题</span></td>
+				<td >	<div align="left">
+				  <input type="text" id='title' name='title'>					
+				  </div></td>
+				</tr>			
+				<tr>
+					
+					<td colspan='2'>
+					<table><tr><td width="79">正文：</td>
+
+				<td align='left' colspan='4'><textarea cols='70' rows='30' id='content' name='content' onKeydown="savePos(this)" onKeyup="savePos(this)" onmousedown="savePos(this)" onmouseup="savePos(this)" onfocus="savePos(this)" >
+
+ 				
+
+				</textarea>
+
+				<iframe id="preview_ifa" name="preview_ifa" style="display: none; border: 1px solid black;" src="<?php echo $this->admin_url;?>/citymessage/preview" height="440" width="640" frameborder="0"></iframe>				</td>
+
+				<td width="68" valign="top">
+
+					<input type="button" id="btn_preview" value="预览"/><br>
+
+					<input type="button" id="btn_edit" value="编辑"/><br>
+
+					<input type="button" id="btn_photo" value="插入图片"/><br>				</td>
+</tr>
+					</table>					</td>
+				</tr>
+				<tr>
+					<td colspan='2'>
+						<div align="center">
+						  <input type='submit' id='send_msg' name='submit' value='确定' />					
+					  </div></td>
+				</tr>
+			</table>
+		  </form>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

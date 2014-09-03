@@ -1,0 +1,18 @@
+<div class="footer">	
+	<div id="portal">
+		<a href="/mobile?force_redirect=1" ><?php echo $this->lang->global->nav->homepage;?></a>
+		<a href="/mobile/signup" ><?php echo $this->lang->index->signup?></a>
+		<a href="/mobile/tools" ><?php echo $this->lang->mobile->foot->tools->title;?></a>		
+		<a href="/mobile/about"><?php echo $this->lang->global->foot->aboutus->aboutus; ?></a>	
+<?php include_once(dirname(__FILE__).'/../include/link.phtml');?>	
+	</div> 
+	<div id="copyright">
+		<span class='time'><?php echo(gmdate("Y-m-d H:i", time()+8*3600));?> <br/></span> 
+		<?php echo "©".$this->lang->global->nav->title." ".$this->lang->global->foot->icp_no; ?><br/>
+		乙测资字32005055<br/>
+	</div>
+	<div id="pctips">
+	
+		<?php echo $this->lang->mobile->global->pc_user_tipcs; ?> 
+	</div>
+</div>

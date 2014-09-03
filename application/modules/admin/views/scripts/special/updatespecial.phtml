@@ -1,0 +1,77 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+	<form id="update_special">
+	<div id="list">
+		<table class="kai_table">
+			<tr>
+				<th colspan='4' style="text-align:center;">修改优惠信息</th>
+			</tr>
+			
+			
+			<tr>
+				<td>优惠信息：</td>
+				<td colspan='3'>
+					<textarea id='content' name='content' cols='50' rows='4'><?php echo $this->specialDetail['content'];?></textarea>
+				</td>
+			</tr>
+				<tr>
+				<td>图片：</td>
+				<td colspan='3'>
+		
+					<a href="javascript: void(0);"><img id='btnUpload' src="<?php
+					 if($this->specialDetail['attach_tiny']){  echo $this->specialDetail['attach_tiny'];} else {?>					
+					images/photo.png<?php }?>"  width='80' /></a></div>
+		<div class='clearfix'>&nbsp;</div>
+		<input type='hidden' id='attach' name='attach' value='<?php echo $this->specialDetail['image_url'];?>' />
+		<div class='upload hide right' id='divFileDesc'>
+		   <span id='fileDesc' ></span>
+		</div>
+		</div><?php if($this->specialDetail['attach_tiny']){ ?><a href="javascript:void(0)" id="clear_image">清除图片</a><?php }?>
+				</td>
+			</tr>
+		<tr>
+				<td>开始时间：</td>
+				<td colspan='3'>
+				<input id="begintm" type="text" name="begintm" value="<?php echo  date('Y-m-d H:i:s', $this->specialDetail['begintm']+BETTER_8HOURS);?>">
+					
+				</td>
+			</tr>
+			<tr>
+				<td>结束时间：</td>
+				<td colspan='3'>
+					<input id="endtm" type="text" name="endtm" value="<?php echo  date('Y-m-d H:i:s', $this->specialDetail['endtm']+BETTER_8HOURS);?>">
+				</td>
+			</tr>
+			<tr>
+				<td>勋章Id：（多个请用半角的逗号隔开不要有空格）</td>
+				<td colspan='3'>
+					<input id="bids" type="text" name="bids" value="<?php echo  $this->specialDetail['bids'];?>">
+				</td>
+			</tr>			
+			<tr>
+				<td>动作：（暂时未启用）</td>
+				<td colspan='3'>
+					<input id="action" type="text" name="action" value="<?php echo  $this->specialDetail['action'];?>">
+				</td>
+			</tr>
+			<tr>
+				<td>是否修改全部此组信息</td>
+				<td colspan='3'>
+				<input type="checkbox" value="1" name="updategroup" id="updategroup" checked="checked" />	
+				<input type='hidden' id='groupid' name='groupid' value="<?php echo $this->specialDetail['groupid'];?>" />				
+				</td>
+			</tr>
+			<tr>
+				<td colspan='4' style="text-align:center;">
+				
+				<input type='hidden' id='nid' name='nid' value="<?php echo $this->specialDetail['nid'];?>" />
+				<input type='hidden' id='poi_id' name='poi_id' value="<?php echo $this->specialDetail['poi_id'];?>" />
+					<input type='button' id='special_update' name='special_update' value="更新" />
+				</td>
+			</tr>
+		</table>
+		</div>
+		</form>
+		
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

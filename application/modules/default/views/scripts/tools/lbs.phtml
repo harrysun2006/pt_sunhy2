@@ -1,0 +1,32 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="setting">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid large_box white_bg" >
+
+	<div class="tabs">
+	    <ul class="tabNavigation">
+	        <li><a href="/setting" style="width: 110px;"><?php echo $this->lang->setting->menu->basic;?></a></li>
+	        <li><a href="/setting/avatar"><?php echo $this->lang->setting->menu->avatar;?></a></li>
+	        <li><a href="/setting/password"><?php echo $this->lang->setting->menu->password;?></a></li>
+	        <li><a href="/setting/privacy"><?php echo $this->lang->setting->menu->privacy;?></a></li>
+	        <li><a href="/setting/cell"><?php echo $this->lang->setting->menu->cell;?></a></li>
+	        <li><a href="/setting/sync"><?php echo $this->lang->setting->menu->sync;?></a></li>
+	        <li><a href="/setting/email"><?php echo $this->lang->setting->menu->email;?></a></li>
+	         <li><a href="/tools/lbs" class="selected"><?php echo $this->lang->tools->lbs->title;?></a></li>
+	        <li><a href="/tools/share"><?php echo $this->lang->tools->share->title;?></a></li>
+	    </ul>
+	    	    <div id="tab_content" style='min-height:300px; !padding:0 5px 0 20px'>
+	    	    	<div id='set_form'>
+	    	    		<?php echo $this->LangTpl($this->lang->tools->lbs->content);?>
+	    	    	</div>
+	    		</div>
+	   
+	</div><!--.tabs-->
+  </div><!--#mid-->
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>
+<?php $this->Gz();?>

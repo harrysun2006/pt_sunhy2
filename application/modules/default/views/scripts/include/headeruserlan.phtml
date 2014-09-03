@@ -1,0 +1,43 @@
+<div id="userlan">
+	<?php if (Better_Registry::get('sess')->uid<=0){?>
+		<a href="/signup" class="user"><?php echo $this->lang->index->signup;?></a> 		
+		<a href="/login" class="user"><?php echo $this->lang->index->login->title;?></a>
+	<?php } else {?> 
+		<a class='user fenge' style="width:120px; color: #0F7CC5; font-weight: bold;" href="/<?php echo $this->user['username'];?>"><?php echo $this->user['nickname'];?></a>
+		
+	<?php if($this->total > 0){?>
+		<?php if($this->frCount && !$this->msCount){
+			$type = '#friends_request';	
+		}else{
+			$type = '';
+		}
+		?>
+		<a class='user' href="/notice<?php echo $type;?>" id="head_message_a"><?php echo $this->lang->global->nav->msg->title ;?>(<span style='color: red;'><?php echo $this->total; ?></span>)</a>
+	<?php }else{ ?>
+		<a class='user' href="/notice"><?php echo $this->lang->global->nav->msg->title ;?></a>
+	<?php }?>
+		<a class="user" href="/setting"><?php echo $this->lang->global->nav->setting;?></a>		
+		<a href='/login/logout' class="user"><?php echo $this->lang->global->foot->site->logout;?></a> 
+	<?php }?>
+	
+	<?php if(Better_Registry::get('sess')->uid > 0){?>
+		<!-- <div class="head_msg" id="head_msg">
+			<?php if($this->frCount){?>
+			<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/<?php echo $this->user['username'];?>#xfriend_request" style="color: #0F7CC5; margin: 0 0 0 10px;"><?php echo $this->lang->global->nav->msg->friend_request.'('.$this->frCount.')' ;?></a><br>
+			<div class="xu_line"></div>
+			<?php }?>
+			<?php if($this->foCount){?>
+			<a count="<?php echo $this->foCount; ?>" href="http://<?php echo $_SERVER['HTTP_HOST'];?>/<?php echo $this->user['username'];?>#xfollowers" style="color: #0F7CC5; margin: 0 0 0 10px;"><?php echo $this->lang->global->nav->msg->new_follower.'('.$this->foCount.')' ;?></a><br>
+			<div class="xu_line"></div>
+			<?php }?>
+			<?php if($this->rtCount){?>
+			<a count="<?php echo $this->rtCount; ?>" href="http://<?php echo $_SERVER['HTTP_HOST'];?>/home#rtmine" style="color: #0F7CC5; margin: 0 0 0 10px;"><?php echo $this->lang->global->nav->msg->rt_me.'('.$this->rtCount.')' ;?></a><br>
+			<div class="xu_line"></div>
+			<?php }?>
+			<?php if($this->msCount){?>
+			<a href="http://<?php echo $_SERVER['HTTP_HOST'];?>/<?php echo $this->user['username'];?>#xreceived" style="color: #0F7CC5; margin: 0 0 0 10px;"><?php echo $this->lang->global->nav->msg->new_msg.'('.$this->msCount.')' ;?></a>
+			<?php }?>
+		</div>  -->
+		
+	<?php }?>
+</div>

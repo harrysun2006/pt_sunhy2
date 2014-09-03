@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><?php echo $this->title;?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<base href="<?php echo BETTER_BASE_URL;?>/" />
+<?php echo $this->headMeta();?>
+<link rel="stylesheet" type="text/css" href="css/admin.css" />
+<script type='text/javascript' src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type='text/javascript' language='javascript'>
+var BASE_URL = '<?php echo BETTER_BASE_URL;?>';
+var BETTER_ADMIN_URL = '<?php echo BETTER_BASE_URL.'/admin';?>';
+var betterLang = new Object();
+</script>
+<?php echo $this->headLink();?>
+</head>
+
+
+<body style='background: #d0dce0;'>
+<div style="float: left;" id='menu'>
+	<ul>
+		<li><a href='/home' target='_blank'>[开开前台]</a></li>
+		<li><a href='/admin/main' target='content'>[后台首页]</a></li>		
+		<li>
+			<a href="javascript: void(0);" class='parent'>日常管理 </a>
+			<ul class='hide'>			
+				<li><a href="/admin/filter?act_type=blog&need_check=1&menu_show=1" target='content'>微博审核</a></li>
+				<li><a href="/admin/picture" target='content'>图片管理</a></li>			
+				<li><a href="/admin/article?type=tips" target="content">文本管理</a></li>
+				<li><a href="/admin/poi?poi_from=user_new&manageType=normal" target="content">POI日常管理</a></li>
+				
+				<li><a href="/admin/filter?act_type=blog" target="content">可疑词文章管理</a></li>
+				<li><a href="/admin/feedback" target="content">用户反馈</a></li>
+				<li><a href="/admin/denounce" target="content">用户举报</a></li>
+<!--				<li><a href="/admin/user" target="content">用户信息</a></li>-->
+				<li><a href="/admin/user" target="content">用户账号管理</a></li>
+				<li><a href="/admin/special" target="content">商家优惠</a></li>
+	<li><a href="/admin/wlanblog" target="content">Wlan 审核</a></li>
+	<li><a href="/admin/badgealarm" target="content">勋章检查报警</a></li>
+<li><a href="/admin/venue" target="content">商户审核</a></li>
+<li><a href="/admin/activity" target="content">商户活动</a></li>
+<li><a href="/admin/webbanner" target="content">网站Banner</a></li>
+<li><a href="/admin/badge" target="content">勋章列表</a></li>
+			</ul>
+		</li>
+		
+		<li>
+			<a href="javascript: void(0);" class="parent">高级管理</a>
+			<ul class='hide'>	
+				<li><a href="/admin/poi" target="content">POI管理</a></li>		
+				<li><a href="/admin/administrator" target="content">管理员账号管理</a></li>
+				<li>
+					<a href="javascript: void(0);" class="parent">管理员操作查询</a>
+					<ul class="hide">
+						<li><a href="/admin/userlog" target="content">操作用户查询</a></li>
+						<li><a href="/admin/banlog" target="content">封号禁言查询</a></li>
+						<li><a href="/admin/poilog" target="content">操作POI查询</a></li>
+						<li><a href="/admin/log" target="content">一般操作查询</a></li>
+					</ul>
+				</li>
+				<!-- <li><a href="/admin/act/search/index/1" target="content">用户操作查询</a></li> -->
+				<li>
+					<a href="javascript: void(0);" class="parent">可疑词管理</a>
+					<ul class="hide">
+						<li><a href="/admin/filterwords/ban" target="content">禁止发表关键词</a></li>
+						<li><a href="/admin/filterwords/replace" target="content">替换发表关键词</a></li>
+						<li><a href="/admin/filterwords/check" target="content">审核发表关键词</a></li>
+						<li><a href="/admin/filterwords/pass" target="content">发表审核关键词</a></li>
+						<li><a href="/admin/filterwords/poi" target="content">禁止POI名称关键词</a></li>
+					</ul>
+				</li>
+				<li><a href="/admin/privmessage" target="content">内部私信</a></li>
+				<li><a href="/admin/email" target="content">群发Email</a></li>
+				<li><a href="/admin/citymessage" target="content">城市属性发信息</a></li>
+				<li><a href="/admin/publish" target="content">发布新版本</a></li>
+				<li><a href="/admin/thirdpool" target="content">第三方Token池</a></li>
+			</ul>
+		</li>
+		
+		<!-- <li><a href="javascript: void(0);">敏感词维护</a></li>  -->
+		<!-- <li><a href="/admin/poitippoll" target="content">POI点评投票浏览</a></li>  -->
+		
+		<li><a href="<?php echo $this->admin_url;?>/login/logout" target="_top" onclick="return confirm('确定要退出后台吗？');">[退出]</a></li>
+	
+		<li><hr /></li>
+		<li>[开发调试]</li>
+		<li><a href='/admin/dev/phpinfo' target='content'>PHPInfo</a></li>
+		<li><a href='/admin/dev/apc' target='content'>APC</a></li>	
+		<li><a href='/admin/dev/memcache' target='content'>Memcache</a></li>
+	</ul>
+</div>
+<script type='text/javascript'>
+$(function(){
+	$('#menu').find('a').click(function(){
+		url = $(this).attr('href');
+		target = $(this).attr('target');
+
+		if (target=='content') {
+			top.content.location = url;
+			return false;
+		} else {
+			return true;	
+		}
+	});
+
+	$('#menu a.parent').click(function(){
+
+		$(this).next('ul').toggle();
+
+	});
+
+	
+});
+</script>
+</body>
+</html>

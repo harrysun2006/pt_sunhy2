@@ -1,0 +1,312 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+		<script type='text/javascript' src='<?php echo $jsUrl;?>/highcharts.js?ver=<?php echo BETTER_VER_CODE;?>' charset='utf-8'  defer='defer'></script>
+		<!--[if IE]>
+			<script type="text/javascript" src="/js/excanvas.compiled.js"></script>
+		<![endif]-->
+		
+		
+		<!-- 2. Add the JavaScript to initialize the chart on document ready -->
+	
+<body id="poi">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+<?php if(!$this->poi_closed){?>
+<div id="poicontent">
+  <div class="mid">
+     <div id="setting_main"> 
+     
+     <div class="owner_container">
+
+           <div class="container11"></div>
+
+           <div class="container12"></div>
+
+           <div class="container13"></div>
+
+           <div class="container21"></div>
+
+           <div class="container22">
+				<div id="owner_poiinfo">
+				                 <span id='owner_poiname'><?php echo $this->poiInfo['name'];?></span><br/>		    	
+						    	<span><span style="white-space: nowrap;"><?php echo $this->lang->global->poi->poi_address;?></span><?php echo Better_Cutstring::mystrcut($this->poiInfo['address'], 30);?></span><br>
+						    	<span><span style="white-space: nowrap;"><?php echo $this->lang->global->poi->poi_phone;?></span><?php echo $this->poiInfo['phone'] ? $this->poiInfo['phone'] : ' - '?></span><br>
+						    	<span><span><?php echo $this->lang->global->poi->poi_category_name;?></span><?php echo $this->poiInfo['category_name'];?></span><br>
+				</div>       
+				<div id="owner_poidata">
+				<div class="owner_poidata_data" id="owner_poidata_data_checkin"><?php echo $this->poiInfo['checkins'];?><br/><?php echo $this->lang->sidebar->checkins;?></div>
+				<div class="owner_poidata_data" id="owner_poidata_data_visit"><?php echo $this->poiInfo['visitors'];?><br/><?php echo $this->lang->sidebar->visitors;?></div>
+				</div>
+                
+
+           </div>
+
+           <div class="container23"></div>
+
+           <div class="container31"></div>
+
+           <div class="container32"></div>
+
+           <div class="container33"></div>     
+
+      </div>
+      
+      <div class='owner_block_title'><?php echo $this->lang->global->business->my_special; ?></div>
+	<div class='owner_special'>
+		<div id="owner_special_list"> 		
+		     		<div class='split_special'></div> 
+		     		<div id='special_jsonlist'>
+		     		<?php 
+			     		if( 1 && $this->special['total']>0)
+			     		{
+			     			$i = 1;
+			     		
+		     				foreach($this->special['rows'] as $row)
+		     				{		     					
+								echo "<div class='owner_special_info'>";
+		     					echo "<div id='special_".$row['nid']."'>";
+		     					echo "<div class='special_image'>";
+		     					if($row['attach_url']){
+		     						echo "<img src='".$row['attach_url']."' class='show_special_image' style='width:160px;'>";  						
+		     					} 
+		     					echo "</div>";
+		     					echo "<div class='special_content'>";
+				     			echo "结束时间:".date('Y-m-d H:i', $row['endtm']+BETTER_8HOURS)."<br/>";
+				     			echo "<div id='special_text_".$row['nid']."' />".$row['content']."</div>";
+				     			echo "<div style='display:none;' id='special_img_id_".$row['nid']."' />".$row['image_url']."</div>";
+				     			echo "<div style='display:none;' id='special_img_url_".$row['nid']."' />".$row['attach_url']."</div>";
+				     			echo "<div style='display:none;' id='special_begintm_".$row['nid']."' />".date('Y-m-d H:i', $row['begintm']+BETTER_8HOURS)."</div>";
+				     			echo "<div style='display:none;' id='special_endtm_".$row['nid']."' />".date('Y-m-d H:i', $row['endtm']+BETTER_8HOURS)."</div>"; 
+				     			echo "<div style='display:inline-block;margin:2px 0 5px 0;'>";		     			     
+		     			      	echo "<div class='special_type'><img style='vertical-align:text-bottom;align:absmiddle;' src='/images/owner_manage.png' class='special_type_".$row['checked']."'/></div>";	     			      
+		     			      	?>
+		     			      	<a href="javascript:void(0)" class='editspecial' xxnid='<?php echo $row['nid'];?>'  ref='<?php echo $row['poi_id'];?>' ><img src='/images/special_edit.gif' align="absmiddle"/>编辑</a>
+		     			      	
+		     			      	<?php 
+		     			        if($row['checked']==1)	
+		     			        {
+		     	    ?> 	
+		     		<a href="javascript:void(0)" class='cancelspecial' xxnid='<?php echo $row['nid'];?>'  ref='<?php echo $row['poi_id'];?>' ><img src='/images/special_cancel.gif' align="absmiddle" />取消优惠</a>
+		     		
+		     					<?php     		     			        
+		     			        }	
+		     			        ?><a href='#freview_form' class='freview_link' xxtxt='<?php echo $row['content'];?>' xximg='<?php echo $row['attach_url'];?>'><img src='/images/owner_specail_freview.gif' align="absmiddle" />预览</a>
+		     			        <?php 
+		     			        echo "</div></div>"; 	
+		     			        echo "<div class='clearfix'></div>";     					
+		     					echo "<div class='tline'></div>";
+		     					
+		     					echo "</div>";
+		     					echo "</div>";
+		     				}
+		     				
+			     		}
+		     		?>
+		     		</div>
+		     		<div class='special_new_block'>
+		     		
+		     		<div id='require_form' class='hide'>
+				<form action="" method="post" id="venue_reg_form">  	  
+					<div class="row">					 
+					  <div class="field">
+					  <textarea id='notification_content' name='notification_content' cols='90' rows='4'><?php echo $this->specialDetail['content'];?><?php echo $this->lang->javascript->venue->specialtext->mark; ?></textarea>
+					  </div>
+					</div>
+					<div class="row">
+					 
+					<input type='text' name='avatar_path' id='avatar_path' size='35' readonly='readonly' value='<?php echo $this->lang->global->venue->attach->mark; ?>' />
+					<input type='button' name='tempbtnUpload' id='tempbtnUpload' value='<?php echo $this->lang->setting->avatar->file_tips;?>'  class='btn' />
+					
+					
+					<img src='' id='tempuploadimg' style='width:300px;' class='hide'/>
+					 			 
+					</div>
+					<div class="row">
+					<span class='input_title'><?php echo $this->lang->javascript->golbal->special->begintm;?></span><input type="text" id="begintm" class="calendarFocus"  />
+		<span class='input_title'><?php echo $this->lang->javascript->golbal->special->endtm;?></span><input type="text" id="endtm" class="calendarFocus" />					
+					</div>					
+					<input type='hidden' id='tempattach' name='attach' value='' />
+					<input type='hidden' id='tempuploadurl' value='' />					
+					<input type='hidden' id='tempnid' value='0' />
+					<input type="hidden" id="poi_id"  value="<?php echo $this->poiInfo['poi_id'];?>" />
+					<input type="hidden" id="temppoi_id" value="<?php echo $this->poiInfo['poi_id'];?>" />	
+				</form>
+				
+				<div class='special_new' ><a href='javascript:void(0)'><img src='images/owner_manage.png' style='vertical-align:text-bottom;margin-top:-160px;'' id='venue_notification_submit'/></a></div>
+				<div style='padding-left:130px;'><a href='#freview_special' id='_freview_special'>预览</a></div>
+				
+				<br/>
+	</div>	
+		     		
+		     		<a href="javascript:void(0)" id='newspecial' ref='<?php echo $this->poiInfo['poi_id'];?>' >	     		
+		     		<div class='special_new'><img src='/images/owner_manage.png'  style='vertical-align: text-bottom;	margin-top:-100px;' /></div></a>	<a href="#viewspecial" id='_viewspecial' ref='<?php echo $this->poiInfo['poi_id'];?>' class="left hide">aa</a></div>
+		     		<div class='clearfix'></div>
+		</div>
+	</div>
+     
+	 <div class='owner_block_title'> 访问统计</div>
+	 
+	  <div class='owner_special'>
+		<div id="owner_special_list">
+	    <div id="poi_owner">
+	    	<div id='owner_update_tm'>			       
+			       <table>
+		            	<tr>
+		            		<td>
+<div class='owner_tm'><img src='/images/owner_manage.png'  style='vertical-align: text-bottom;	margin-top:-130px;' class='zoompng' /></div>
+
+		            		</td>
+		            		<td class='inputtxt'><?php echo $this->lang->global->business->view_report->begtm;?><input type="text" id="checkbegtm" value="<?php echo $this->begtm;?>" /></td>
+		            		<td class='inputtxt'>
+		            			<?php echo $this->lang->global->business->view_report->endtm;?><input type="text" id="checkendtm"  value="<?php echo $this->endtm;?>" class="calendarFocus" />
+		            		</td>
+		            		<td align="right"><a id="changetime" href="javascript: void(0);" ><?php echo $this->lang->global->business->view_report->button;?></a></td>
+		            	</tr>
+		            </table>
+				<div id='updatetm'><input type='hidden' id='poi_id' value='<?php echo $this->poiInfo['poi_id'];?>' /></div> 
+			</div>
+			<div class='tline'></div>
+			<div id="owner_report_title" class='owner_block_title'></div>
+			<div id="checkin_hour">
+			<div class="owner_date_title"><?php echo $this->lang->global->poi->checkin_hour;?></div>
+		    <dd>
+			    <div id='owern_checkin_hour'></div>
+			    </dd>    
+		    </div>
+		    <div id="checkin_top3"><div class="owner_date_title"><?php echo $this->lang->global->poi->checkin_top3;?></div>		  
+		  <ul style="background-color:#fff;margin:2px 0 0 10px;!margin:10px 0 0 28px;">
+			  	  	<?php foreach($this->topcheckin['rows'] as $row) {?>
+			  	  <div style='float:left;margin-left:5px;'>
+			  	  	 	<table width="200" border="0" cellspacing="0" cellpadding="0" style="margin-top:8px;">
+					  	  	  <tr>
+				    <td width="55"><a href="/<?php echo $row['username'];?>"><img class='avatar' src="<?php echo $row['avatar_normal'];?>" title='<?php echo htmlspecialchars(addslashes($row['nickname']));?>' style="width:48px; height: 48px;" alt='<?php echo htmlspecialchars(addslashes($row['nickname']));?>' /></a></td>
+				    <td width="145" valign="top"><div><a href="/<?php echo $row['username'];?>"><?php echo $row['nickname'];?></a></div><div><?php echo str_replace('{TIMES}',$row['checkinheretimes'],$this->lang->global->poi->checkin_here_times);?></div></td>
+				  </tr>
+				  
+		  				</table>
+			  	  </div>
+		  	  	  	<?php } ?>
+		  </ul>		 
+		    </div>
+	  
+	 <div id="checkin_thirty">
+	 	<div class="owner_date_title">
+	 	<?php echo $this->lang->global->poi->checkin_thirdy;?></div>
+	 	<dd>
+     		<div id="checkinthird" style="width: 580px; height: 400px;"></div>
+     	</dd>
+     </div>
+     <div id="owner_sex">
+		<div class="owner_date_title"><?php echo $this->lang->global->poi->checkin_gender;?></div>
+		<dd>
+     	<div id="checkin_gender" style="width: 580px; height: 400px;"></div>
+     	</dd>
+     </div>
+     <div id="owner_sync">
+<div class="owner_date_title"><?php echo $this->lang->global->poi->sync_num;?></div>
+    	<dd>
+     	<div id="poi_sync" style="width: 580px; height: 400px;"></div>
+     	</dd>
+     </div>  
+     <div class="clearfix"></div>   
+	</div>
+	</div>     
+	</div>
+	 </div><!--#half_left-->
+	 
+	 <div id="setting_menu" class="small_box">
+	 	
+	 	<div id="later_user" class="box">
+	  	  <h3><?php echo $this->lang->global->poi->new_guest;?></h3>
+	  	  <div class="cbox" style="background:#fff;font-size:12px;line-height:18px;">
+	  	  	<?php 
+	  	  	//Zend_Debug::dump($this->lastcheckin['rows']);
+	  	  	foreach($this->lastcheckin['rows'] as $row) {?>
+	  	  	<li><table width="250" border="0" cellspacing="0" cellpadding="0">
+	  	  <tr>
+    <td width="60" rowspan="3"><a href="/<?php echo $row['username'];?>"><img class='avatar' src="<?php echo $row['avatar_normal'];?>" title='<?php echo htmlspecialchars(addslashes($row['nickname']));?>' style="width:48px; height: 48px;" alt='<?php echo htmlspecialchars(addslashes($row['nickname']));?>' /></a></td>
+    <td class="checkin_username"><a href="/<?php echo $row['username'];?>"><?php echo $row['nickname'];?></a></td>
+  </tr>
+  <tr>
+    <td><?php echo str_replace('{TIMES}',$row['checkinheretimes'],$this->lang->global->poi->checkin_here_times);?></td>
+  </tr>
+  <tr>
+    <td><div class="checkin_source"><?php
+   echo  Better_Functions::compareTime($row['checkinhere_time']);    
+   echo  str_replace('{SOURCE}',Better_Functions::source(strlen($row['source'])>0?$row['source']:kai),$this->lang->javascript->noping->global->blog->howtovia);
+    
+    ?></div></td>
+  </tr></table>
+  	  	  </li>
+  	  	  	<?php } ?>  	  	  
+	  	  	<div class="clearfix"></div>
+	  	  </div>
+	  	  <div class="clearfix"></div>
+	   </div>
+	    
+	
+	 </div>
+	 <div class="clearfix"></div> 
+	   
+  </div><!--#mid-->
+</div> <!--#content-->
+<?php }else{?>
+	<div id="content">
+  		<div style="width: 400px; margin: 50px auto; !margin: 25px auto;">
+  			<img src='images/close_place.png' alt='' class='left' />
+  			<h3><?php echo $this->lang->global->poi_closed; ?></h3>
+  			<span><?php echo $this->lang->global->back_link;?></span>
+  			<br><br>
+  			<p><?php echo $this->lang->global->poi_closed_tip; ?></p>
+  		</div>
+	</div>
+<?php }?>
+
+
+<div style="display: none;">
+
+<div id="freview_special" shoutbox='shoutbox'>		
+		<h2><span class="left">手机客户端效果</span><span style="font-size: 12px; font-weight: normal;color:#B7BDC4;line-height:36px;" class="right">*以iPhone版为例，其他版本类似。</span></h2><br/>
+		
+		<div id='view_special_content'>
+		<div id='view_special_txt'> </div>
+		
+		</div>
+		
+		<div class='clear_fix'></div>
+</div>
+</div>
+
+
+<div style="display: none;">
+
+<div id="freview_form" shoutbox='shoutbox'>		
+		<h2><span class="left">手机客户端效果</span><span style="font-size: 12px; font-weight: normal;color:#B7BDC4;line-height:36px;" class="right">*以iPhone版为例，其他版本类似。</span></h2><br/>
+		<div id='freview_form_content'>
+		<div id='freview_form_txt'> </div>
+		
+		</div>
+		
+		<div class='clear_fix'></div>
+</div>
+</div>
+
+<!-- 优惠结束 -->
+
+
+
+
+<script type='text/javascript' language='javascript'>
+var Better_PostSpecialMaxLength = '<?php echo $this->config->special->post_max_size;?>';
+var Better_PostSpecialMinLength = '<?php echo $this->config->special->post_min_size;?>';
+</script>
+
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+<div style="display:none" id='checkindate'><?php echo $this->checkin_date;?></div>
+<div style="display:none" id='checkinnum'><?php echo $this->checkin_num;?></div>
+<div style="display:none" id='synclist_nums'><?php echo $this->sync_checkin;?></div>
+<div style="display:none" id='synclist_site'><?php echo $this->synclist;?></div>
+<div style="display:none" id='checkin_genderdate'><?php echo $this->checkin_genderdate;?></div>
+</body>
+</html>

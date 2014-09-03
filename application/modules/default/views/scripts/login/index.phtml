@@ -1,0 +1,74 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="login">
+<?php include_once(dirname(__FILE__).'/../include/newheadernonav.phtml');?>	
+
+<div id="setting_page">
+  <div class="mid">
+  	<div id='setting_content'>
+  	 <form action="/login" method="post">
+  		<div class='login_form'>
+  			<div class='login_head'>
+  				<span class='left' id='thirdpartylogo' style='display:none;'>登录</span>
+  				<span class='right' id='thirdpartyaccount' style='display:none;'>合作方账号登录开开</span>
+  				<div class='clearfix'></div>
+  			</div>
+  			
+  			<div class='login_left' style='display:none;'>
+  				<label for="email" id='email_title' style='font-size: 14px; font-weight:bold;'><?php echo $this->lang->index->login->newusername;?></label><br>
+  				<input size="24" type="text" id="email" name="email" value=""/><br>
+  				<br>
+  				<label for="password" style='font-size: 14px; font-weight:bold;'><?php echo $this->lang->index->login->password;?></label><br>
+  				<input type="password" size="24" id="password" name="password" value=""/><br>
+  				<br>
+  				<div>
+					<span class="left hide"><input type="checkbox" id="rememberme" name='rememberme'  checked='checked' value='1' /><?php echo $this->lang->index->login->autologin;?></span>
+			    	<input type='hidden' name='pwd_plain' id='pwd_plain' value='0' />
+			    	<input type='hidden' name='login_type' id='login_type' value='local'>
+			    	<input type="submit" id="login_btn" title="<?php echo $this->lang->index->login->button_tips;?>" value="<?php echo $this->lang->index->login->title;?>" class='btn' />
+				</div>
+				<br>
+				<span id="loginmore"><a href="/resetpwd"><?php echo $this->lang->index->login->resetpwd;?></a> &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/signup/resend"><?php echo $this->lang->index->login->resend;?></a></span>
+  				<br><br>
+				<span style='font-size: 14px;'>还没开开账号？<a href='/signup'>立即注册</a></span>
+  			</div>
+  			
+  			<div class='login_right'>
+  				<div id='login_third_guide_list' style='display:none;'>		
+				 	<a href='/login/thirdsina' id='loginfromsina'><img src='images/t-sina.png'></a>
+				 	<br><br>
+				 	<a href='/login/thirdqq' id='loginfromqq'><img src='images/t-qq.png'></a>
+				 	<br><br>
+				 	<a href='login/thirdqqsns' id='loginfromqqsns'><img src='images/t-qqsns.png'></a>				 	
+				 	<br><br>
+				 	<a href='/login/thirddouban' id='loginfromdouban'><img src='images/t-douban.png'></a>
+				 	<br><br>
+				 	<a href='javascript:void(0);' id='loginfromsohu'><img src='images/t-sohu.png'></a>
+				 	<br><br>
+				 	<a href='javascript:void(0);' id='loginfromkaixin001'><img src='images/t-kaixin001.png'></a>
+				 	<br><br>
+				 	<a href='login/third163' id='loginfrom163'><img src='images/t-163.png'></a>
+				 	<br><br>
+				 	<a href='login/thirdrenren' id='loginfromrenren'><img src='images/t-renren.png'></a>
+			 	</div>  	
+  			</div>
+  			<div class='clearfix'></div>
+  		</div>
+  	  </form>
+	 </div>
+	 <div id='setting_menu'>
+	 	<div class="setting_right">
+			<h2>登录小贴士</h2>
+			<ul> 
+				<li>开开是一个基于位置的真实社交网络</li>
+			</ul>
+		</div>
+	 </div>
+	 <div class='clearfix'></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

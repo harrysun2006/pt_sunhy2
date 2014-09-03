@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="viewport" content="width=device-width; initial-scale=1.4; minimum-scale=1.0; maximum-scale=2.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?php echo $this->lang->global->meta->title;?></title>
+	<?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+	<?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+	<div id="headinfo">
+		<?php 
+    		if( $this->user['uid'] > 0 ){
+				echo "<a href=\"/polo/user?uid=".$this->user["uid"]."\" >".$this->user["nickname"]."</a>@";
+				if( (int)($this->lastcheckin['poi']['poi_id']) < 1 ){
+					echo "<a href=\"/polo/search\">".$this->lang->mobile->global->whereplace."</a>";
+				}else{
+					echo "<a href=\"/polo/place?pid=".$this->lastcheckin['poi']['poi_id']."\">".$this->lastcheckin['poi']['name']."</a>";
+				}
+				echo "<hr/>";
+			}
+		?>	
+	</div>
+	<div id="error">
+		<?php 
+			if( strlen($this->err['err']) > 0 )
+				//echo "<font color=\"red\">".$this->err['err']."</font><br/>";
+				echo  $this->err['err']."</font><br/>";
+		?>
+	</div>
+	<table>
+		<tr align="left"><td><a href="/polo/setting/basic"><?php echo $this->lang->setting->menu->basic;?></a></td></tr><?php         	
+        	if($this->user['status']['source']!='IFN' and $this->user['status']['source']!='IPN'){?>
+		<tr align="left"><td><a href="/polo/setting/avatar"><?php echo $this->lang->setting->menu->avatar;?></a></td></tr><?php }?>
+		<tr align="left"><td><a href="/polo/setting/password"><?php echo $this->lang->setting->menu->password;?></a></td></tr>		
+		<tr align="left"><td><a href="/polo/setting/privacy"><?php echo $this->lang->setting->menu->privacy;?></a></td></tr>
+		<tr align="left"><td><a href="/polo/setting/province"><?php echo $this->lang->setting->menu->city;?></a></td></tr>
+	</table>	
+	<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>

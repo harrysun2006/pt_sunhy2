@@ -1,0 +1,100 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/userbadge" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>搜索</th></tr>
+			<tr>
+				<td>用户关键字:</td>
+				<td><input type='text' name='userkeyword' id='userkeyword' value='<?php echo $this->params['userkeyword'];?>' /></td>
+				<td>每页结果数:</td>
+				<td>
+				<select name='page_size' id='page_size'>
+					<option value='<?php echo BETTER_PAGE_SIZE;?>' <?php echo $this->params['page_size']==BETTER_PAGE_SIZE ? ' selected="selected"' : '';?>>默认(<?php echo BETTER_PAGE_SIZE;?>)</option>
+					<option value='50' <?php echo $this->params['page_size']==50 ? ' selected="selected"' : '';?>>50</option>
+					<option value='100' <?php echo $this->params['page_size']==100 ? ' selected="selected"' : '';?>>100</option>
+					<option value='99999999' <?php echo $this->params['page_size']==99999999 ? ' selected="selected"' : '';?>>全部</option>
+				</select>
+				</td>
+			</tr>	
+			<tr>
+				<td>时间范围:</td>
+				<td colspan='6'>
+				从 <input type='text' name='from' id='from' value='<?php echo $this->params['from'];?>' readonly='readonly' />
+				到 <input type='text' name='to' id='to' value='<?php echo $this->params['to'];?>' readonly='readonly' />
+				</td>
+			</tr>	
+							
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='submit' value='搜索(s)' accesskey='s' />
+					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />
+					<input type='hidden' name='page' id='page' value='<?php echo $this->params['page'];?>' />
+					<input type='hidden' name='reload' id='reload' value='0' />
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div>
+		
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+				<tr>
+					<th width='20'></th>
+					<th class='nowrap'>用户ID</th>
+					<th class='nowrap'>用户名</th>
+					<th class='nowrap'>用户昵称</th>
+					<th class='nowrap'>真实姓名</th>
+					<th class='nowrap'>勋章</th>
+					<th class='nowrap'>勋章获得时间</th>
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td><input type='checkbox' name='poids[]'  value='<?php echo $row['uid'];?>' /></td>
+					<td class='center'><a href='#' target='_blank'><?php echo $this->highlight($row['uid'], $this->params['userkeyword'])?></a></td>
+					<td class='center'><a href='#' target='_blank'><?php echo $this->highlight($row['username'], $this->params['userkeyword']);?></a></td>	
+					<td class='center'><a href='#' target='_blank'><?php echo $this->highlight($row['nickname'], $this->params['userkeyword']);?></a></td>
+					<td class='center'><a href='#' target='_blank'><?php echo $this->highlight($row['realname'], $this->params['userkeyword']);?></a></td>				
+					<td class='center'><a href='#' target='_blank'><?php echo $row['badge_name'];?></a></td>	
+					<td class='center'><?php echo $row['get_time'] ?  date('Y-m-d H:i:s', $row['get_time']+BETTER_8HOURS) : 0;?></td>
+				</tr>
+				<?php } ?>
+				<tr>
+					<td colspan='15' class='center'>
+					<input type='button' id='chooseAll' name='chooseAll'  value='全选(a)' accesskey='a' />
+					<input type='button' id='chooseNone' name='chooseNone' value='全不选(n)' accesskey='n' />
+					<input type='button' id='chooseReverse' name='chooseReverse' value='反选(v)' accesskey='v' />
+				</td></tr>
+				<tr><td colspan='15' class='center'>
+					<select name='todo' id='todo'>
+						<option value=''>请选择操作</option>
+					</select>
+					<input type='button' id='btnTodo' value='确定(d)' accesskey='d' />
+					</td>
+				</tr>					
+				<?php } else {  ?>
+				<tr>
+					<td colspan='15' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

@@ -1,0 +1,20 @@
+
+<div id="setting_menu">
+	<ul id="right_menu">
+		<li><a href="/tools/iphonedownload" <?php $platform=='iphone' && print 'class="on"'?>>iPhone 版</a></li>
+		<li><a href="/tools/androiddownload" <?php $platform=='android' && print 'class="on"'?>>Android 版</a></li>
+		<li><a href="/tools/s60download" <?php $platform=='s60' && print 'class="on"'?>>Symbian S60 版</a></li>
+		<li><a href="/tools/wmdownload" <?php $platform=='windows' && print 'class="on"'?>>Windows Mobile 版</a></li>
+		<li><a href="/tools/blackberrydownload" <?php $platform=='blackberry' && print 'class="on"'?>>BlackBerry 版</a></li>
+	</ul>
+	
+	<div class="setting_right">
+		<h2>小贴士</h2>
+		<?php echo $this->lang->tools->client->kaikai->tips;?>
+		<br/>
+		<?php echo $this->lang->tools->visit_wap;?>
+	</div>
+
+</div>
+
+

@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="viewport" content="width=device-width; initial-scale=1.4; minimum-scale=1.0; maximum-scale=2.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?php echo $this->lang->global->meta->title;?></title>
+	<?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+	<?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+	<div id="headinfo">		
+		<a href="/mobile/user?uid=<?php echo($this->userInfo["uid"])?>" ><?php echo($this->userInfo["nickname"])?></a>
+		<?php echo "->".$this->lang->user->friends;?>
+		<hr/>
+	</div>
+	<div id="content">
+		<table>
+			<?php for($i=0; $i < count($this->friends); $i++){?>
+			<tr>
+				<td><?php echo ($i+$this->start)."."?></td><td><a href="/mobile/user?uid=<?php echo $this->friends[$i]['uid'];?>"><?php echo $this->friends[$i]['nickname']; ?></a></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><img src="<?php echo $this->friends[$i]['avatar_small']?>" /></td>
+			</tr>
+			<?php }?>
+		</table>
+		<?php
+			echo $this->urlNext." ".$this->urlPrev;
+		?>
+		
+		<?php 
+		if(strlen($this->errorinfo)>0){
+		?>
+	<div id="error"><?php echo $this->errorinfo;?></div>
+	<?php 
+		} else  if( count($this->friends) < 1 ) {
+			echo("<p>".$this->lang->mobile->global->record_none."</p>"); 
+		}?>
+	</div>
+	<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>

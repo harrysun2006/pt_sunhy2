@@ -1,0 +1,23 @@
+#!/bin/bash
+#
+# 使用yui compressor压缩所有js文件
+#
+# @author leip <leip@peptalk.cn>
+#
+
+JS_SOURCE=/p/www/kai/public/js
+JS_DIST=/p/www/kai/public/js_combined
+JAVA_BIN=/usr/bin/java
+YUI_JAR=/p/downloads/yuicompressor-2.4.2/build/yuicompressor-2.4.2.jar
+
+rm -rf ${JS_DIST}/*
+cp -R ${JS_SOURCE}/* ${JS_DIST}/
+
+for file in `find ${JS_DIST} -name "*.js"`
+do
+	source=${file}.orig
+	mv ${file} ${source}
+	${JAVA_BIN} -jar ${YUI_JAR} --charset utf-8 --type js -o ${file} ${source}
+	rm -rf ${source}
+	echo "File ${file} done."
+done

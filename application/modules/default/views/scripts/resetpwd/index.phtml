@@ -1,0 +1,35 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="login">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+
+<div id="content">
+  <div class="mid">
+	  <div class="panel">
+	    <div class="lb"></div>
+	  	<div class="cb" id="form">
+
+		    <img src="images/login.png" alt="<?php echo $this->lang->index->login->title;?>"/><br/>
+		    <form action="/login" method="post" id="loginform">
+		    	 <label for="email"><?php echo $this->lang->index->login->username_tips;?></label><br/>
+		    	 <input type="text" id="email" name="email" value=""/><br/>
+		    	 <label for="password"><?php echo $this->lang->index->login->password;?></label><br/>
+		    	 <input type="password" id="password" name="password" value=""/><br/>
+		    	 <input type="checkbox" id="rememberme" name="rememberme"  value='1' /> <?php echo $this->lang->index->login->autologin;?><br/>
+		    	 <div class="action">
+		    	   <input type="submit" value="<?php echo $this->lang->index->login->title;?>" id="login_btn" title="<?php echo $this->lang->index->login->title;?>"/><br/>
+		    	   <input type='hidden' name='ref_url' id='ref_url' value='<?php echo $this->ref_url;?>' />
+	    	 <input type='hidden' name='pwd_plain' id='pwd_plain' value='0' />
+		    	 </div>
+		    </form>
+	    </div>
+	    <div class="rb"></div>
+    </div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

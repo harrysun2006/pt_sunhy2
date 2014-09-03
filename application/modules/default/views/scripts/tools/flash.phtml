@@ -1,0 +1,62 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="tools">
+<?php include_once(dirname(__FILE__).'/../include/header.phtml');?>
+<div id="nav">
+  <div class="mid">
+  <form method="get" action="/search" id='top_search'>
+  	<ul>
+  		<li><a href="home">首页</a></li>
+  		<li><a href="user">空间</a></li>
+  		<li><a href="around">雷达</a></li>
+  		<li><a href="people">找朋友</a></li>
+  		<li class="on"><a href="tools">工具</a></li>
+  		<li><a href="setting">设置</a></li>
+  		<?php include_once(dirname(__FILE__).'/../include/headersearch.phtml');?>
+  	</ul>
+  </form>
+  </div>
+</div> <!--#nav-->
+
+<div id="center_page">
+  <div class="mid">
+
+	<div class="tabs">
+	    <ul class="tabNavigation">
+	        <li><a href="/tools" >Better客户端</a></li>
+	        <li><a href="/tools/lbs">驴博士插件</a></li>
+	        <li><a href="/tools/flash" class="selected">Flash插件</a></li>
+	        <li><a href="/tools/share">分享到Better</a></li>
+	        <li><a href="/tools/api">Better API</a></li>
+	    </ul>
+	    <div id="tab_content">
+	    使用Better免费的手机客户端软件，可以让您在手机上随时随地发布、查看更新，并提供更方便的定位功能。
+	    	<h4>手机下载</h4>
+	    	请在手机浏览器中打开 m.better.com，然后根据页面指令下载。
+	    	<h4>本地下载</h4>
+	    	您可以将软件下载到本地，通过使用数据线、蓝牙或红外装置将 Better 传输到您的手机中进行安装。
+	    	<br/>最新版本 1.0（<a href="">其他版本</a>）, 请选择手机对应的版本:
+	    	<br/>
+	    	<ul class="menu">
+	    		<li><a href="#wm">Symbian</a></li>
+	    		<li><a href="#wm">Windows Mobile</a></li>
+	    		<li><a href="#wm">Android</a></li>
+	    		<li><a href="#wm">Brew</a></li>
+	    	</ul>
+	    	<div id="wm">
+		    	<form action="" method="get">
+		    		<input type="radio" name="s60"/>Symbian 2nd版<br/>
+		    		<div class="help">机型：Nokia6110 N70</div>
+		    		<input type="radio" name="s60"/>Symbian 3rd版<br/>
+		    		<div class="help">机型：Nokia E71 E66 <a href="">更多</a></div>
+		    		<input type="button" class="btn" value="下载"/>
+		    	</form>
+	    	</div>
+	    </div>
+	   
+	</div><!--.tabs-->
+  </div><!--#mid-->
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>
+<?php $this->Gz();?>

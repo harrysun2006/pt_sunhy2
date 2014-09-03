@@ -1,0 +1,112 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="profile">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid">
+	  <div id="half_left">
+	    <div style='margin-left: -7px;'>
+	    	<img src='/images/bedo/top-pic.png' />
+	    </div>
+		<div id="data" style="font-size:14px;line-height:30px;overflow:hidden">
+			<?php 
+			if ($this->tipInfo) {
+				?>
+				<div id="title" style="background-color:#EAEAEA;height:50px;color:#1D89D2;font-size:14px;font-weight:bold;padding-left:20px;line-height:50px;"><?php echo $this->tipInfo;?></div>
+				<?php 
+			} else {
+			?>
+			<div id="title" style="background-color:#EAEAEA;height:30px;color:#1D89D2;font-size:14px;font-weight:bold;padding-left:20px"><?php echo $this->subject?></div>
+			<div id="detail" style="padding:0 20px;border-left:1px solid #E4E4E4">
+				<div id="data" style="float:left;color:#A7A7A7"><?php echo $this->data;?></div><div id="source" style="float:left;margin-left:50px;color:#A7A7A7"><?php echo $this->pfrom?></div>
+				<br />
+				<?php 
+				if (count($this->photos) > 0) {
+					$imgRoot = Better_Config::getAppConfig()->bedo->attachment_url;
+					foreach($this->photos as $val) {
+						echo "<img src='{$imgRoot}{$val['attachurl']}' alt='' /><br />";
+					}
+				}
+				$content = Better_Service_BedoBinding::formatContent($this->content);
+				?>
+				<div id="content" style="line-height:25px;"><?php echo $content;?></div>
+				<div id="extraInfo" style="line-height:20px;color:#A7A7A7;padding:20px 0;">
+				<div id="type" style="float:left;"><span><?php echo $this->lang->bedoblog->type;?></span><span style="margin-left:10px;"><?php echo $this->typeName?></span></div>
+				<?php
+				$source = ''; 
+				$scoreaverage = $this->scoreaverage;
+				$scoreaverage_int = intval($scoreaverage);
+				for($i = 1;$i <= $scoreaverage_int;$i ++) {
+					$source .= '<img src="/images/bedo/sth.gif" alt="☆"/>';
+				}
+				for($j = $scoreaverage_int+1;$j <= 5;$j ++)	{
+					$source .= '<img src="/images/bedo/nst.gif"/>';
+				}
+				$scoreaverage = substr($scoreaverage,0,strpos($scoreaverage,".")+2);
+				if(strpos(scoreaverage,".0") >= 0) $scoreaverage = str_replace(".0","",$scoreaverage);
+				$source .= '(' . $scoreaverage . $this->lang->bedoblog->source . ',' . $this->scores . $this->lang->bedoblog->people . ')';
+				?>
+				<div id="start" style="float:left;margin-left:20px;"><?php echo $this->lang->bedoblog->start . $source;?></div>
+				<div id="replies" style="float:left;">|<?php echo $this->lang->bedoblog->replies . "({$this->replies})|" . $this->lang->bedoblog->hits."({$this->hits})"?></div>
+				</div>
+			</div>
+			<?php if ($this->comments) { ?>
+			<div id="commentTitle" style="background-color:#EBEBEB;line-height:30px;widht:600px;clear:left;padding-left:30px;color:#A7A7A7;height:30px;overflow:hidden;margin-top:20px;clear:both;">
+				<div style="float:left"><font style="color:#3C3C3C;font-weight:bold;"><?php echo $this->lang->bedoblog->replies;?></font> <font>(<?php echo str_replace('num', $this->replies, $this->lang->bedoblog->comment_num);?>)</font></div>
+				<div style="float:right;cursor:pointer;margin-right:20px;" id="commentShowbtn"><?php echo $this->lang->bedoblog->comment_hidden;?></div>
+				<div style="float:right;cursor:pointer;margin-right:20px;" id="commentHiddenbtn" class="hide"><?php echo $this->lang->bedoblog->comment_show;?></div>
+			</div>
+			<?php
+			}
+			if ($this->pageCnt > 1) {
+				$priv = $this->page - 1;
+				$privLink = Better_Config::getAppConfig()->base_url.'/bedoblog/?itemid=' . $this->itemid . '&page=' . $priv;
+				$next = $this->page + 1;
+				$nextLink = Better_Config::getAppConfig()->base_url.'/bedoblog/?itemid=' . $this->itemid . '&page=' . $next;
+				$pageDesc = str_replace('m', $this->pageCnt, $this->lang->bedoblog->page_num);
+				$pageDesc = str_replace('n', $this->page, $pageDesc);
+				?>
+				<div id="commentpage" style="width:650px;float:left;border-bottom:1px solid #E4E4E4;text-align:right">
+					<?php echo ($this->page > 1) ? "<a href='{$privLink}'>".$this->lang->bedoblog->page_priv."</a>" : ''?>
+					<?php echo ($this->page < $this->pageCnt) ? "<a href='{$nextLink}'>".$this->lang->bedoblog->page_next ."</a>" : ''?>
+					(<?php echo $pageDesc;?>)
+				</div>
+				<?php 
+			}
+			?>
+			<div id="blogComment">
+			<?php 
+			if ($this->comments) {
+				foreach($this->comments as $val) {
+					$uHead = $val['icon'] ? Better_Config::getAppConfig()->bedo->avatar_url . 'small/' .$val['icon'] : Better_Config::getAppConfig()->bedo->avatar_url . 'imicon/small/0.png';
+					?>
+					<div class="blogcomment" style="width:650px;float:left;padding:10px 4px;border-bottom:1px solid #E4E4E4;">
+						<div class="left" style="float:left;border:1px solid #E4E4E4;padding:2px;"><img src="<?php echo $uHead;?>" /></div>
+						<div class="right" style="float:left;margin-left:10px;line-height:25px;width:550px;">
+							<b><?php echo $val['author']?></b><font style="margin-left:20px;color:#A7A7A7"><?php echo date('Y-m-d H:i', $val['postdate'])?></font>
+							<br />
+							<?php echo Better_Service_BedoBinding::formatContent($val['content'])?>
+						</div>
+					</div>
+					<?php 
+				}
+			}
+			?>
+			</div>
+			<?php }?>
+	  	</div><!--#data-->
+	  </div><!--#half_left-->
+	  <?php include_once(dirname(__FILE__).'/../include/rightbar.phtml');?>
+	  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<!-- 举报对话框  -->
+<div id='deno' class='hide'>
+	<input type='text' />
+</div>
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

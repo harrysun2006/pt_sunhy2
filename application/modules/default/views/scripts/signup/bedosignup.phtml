@@ -1,0 +1,82 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="signup">
+<?php include_once(dirname(__FILE__).'/../include/newheadernonav.phtml');?>	
+<div id="setting_page">
+  <div class="mid">
+	  <div id="setting_menu">   		
+		<div class="setting_right">			
+			<?php echo $this->langTpl('signup_step1');?>
+		</div>
+  		
+  	  </div>
+  	  <div id="setting_content">
+  	  <div class="login_form">
+  	  <div class='login_head'>
+  				<span class='left'>
+  				<?php 
+  				echo "<img class='avatar user_avatar' style='width:48px;height:48px;' src='".$this->bedoHead."'/>";
+  				echo str_replace("{NICKNAME}",$this->nickname,$this->lang->global->partner_login->signup->title);  				
+  				?></span>
+  				<span class='right'></span>
+  				<div class='clearfix'></div>
+  	  </div> 
+  	  
+  	  <div class='login_left'>
+  	  <form action="/signup/do" method="post" id="signup_form">
+  	  <input type="hidden" name="partner" value="bedo" />
+  	  <input type="hidden" name="jid" value="<?php echo $this->jid;?>" />
+  	  <input type="hidden" name="bedopass" value="<?php echo $this->bedopass;?>" />
+  	  <input type="hidden" name="password" value="<?php echo $this->bedopass;?>" />
+  	  <input type="hidden" name="repassword" value="<?php echo $this->bedopass;?>" />
+  	  <input type="hidden" name="nickname" value="<?php echo $this->nickname;?>" />
+		
+		 <div id='partner_signup_firstlogin'>
+  	  	<?php echo $this->lang->global->partner_login->signup->firstlogin;?>
+  	  </div>
+  	  <div id='partner_signup_updateprofile'>
+  	  <?php echo $this->lang->global->partner_login->signup->updateprofile;?>
+  	  </div>
+  	  <div id='partner_signup_lansanjiao'><img src='images/blacksanjiao.gif'></div>
+  	  <div style='text-align:center;width:256px;height:250px;margin-top:10px;'>
+  	  <input type="image" src='images/autologin.png' border='0' id='onkeysignup_btn' />
+  	  </div>
+		    </form>
+  	  </div>
+  	  <div class='login_right'>  		
+  	   <div id='partner_login_sync_title'>
+  	  	<?php echo $this->lang->global->partner_login->sync->title;?>
+  	  </div>
+  	  <div id='partner_login_sync_dosync'>
+  	  <?php echo $this->lang->global->bedo_login->sync->dosync;?>
+  	  </div>	
+  	  <div id='partner_login_hongsanjiao'><img src='images/blacksanjiao.gif'></div>
+  			<form action="/login" method="post">
+  			
+  				<label for="email" id='email_title' style='font-size: 14px; font-weight:bold;'><?php echo $this->lang->index->login->oldusername;?></label><br>
+  				<input size="24" type="text"  name="email" value=""/><br>
+  				<br>
+  				<label for="password" style='font-size: 14px; font-weight:bold;'><?php echo $this->lang->index->login->password;?></label><br>
+  				<input type="password" size="24"  name="password" value=""/><br>
+  				<br>
+  				<div>
+					<span class="left hide"><input type="checkbox" id="rememberme" name='rememberme'  checked='checked' value='1' /><?php echo $this->lang->index->login->autologin;?></span>
+			    	<input type='hidden' name='login_type' id='login_type' value='bedobind'>
+			    	<input type="submit" id="login_btn" title="<?php echo $this->lang->index->login->button_tips;?>" value="<?php echo $this->lang->setting->im->button_tips;?>" class='btn' />
+				</div>
+				<br>
+				<span id="loginmore"><a href="/resetpwd"><?php echo $this->lang->index->login->resetpwd;?></a> &nbsp;&nbsp;|&nbsp;&nbsp;<a href="/signup/resend"><?php echo $this->lang->index->login->resend;?></a></span>  					
+  			</form>
+	  </div>
+	 
+	</div>
+</div>
+		 <div class="clearfix"></div>
+		 </div>
+		 </div>
+		 	
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

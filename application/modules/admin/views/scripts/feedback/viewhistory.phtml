@@ -1,0 +1,35 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body>
+	<div class="center"><h3>和用户&nbsp;&nbsp;<i><?php echo $this->params['nickname']?></i>&nbsp;&nbsp;私信记录</h3></div>
+	<div id="list">				
+		<table class="kai_table">					
+			<tr>
+				<th style="width:30px">序号</th>
+				<th style="width:70px">发件人</th>
+				<th style="width:70px">收件人</th>
+				<th style="width:100px">时间</th>
+				<th>内容</th>				
+			</tr>
+			<?php
+			if($this->counts>0){
+			$i=0;
+			foreach ($this->rows as $row){?>
+			<tr  class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+				<td class="center"><?php echo $i;?></td>
+				<td class="center"><?php echo BETTER_SYS_UID ==$row['uid']?'管理员':$this->params['nickname'];?></td>
+				<td class="center"><?php echo BETTER_SYS_UID ==$row['to_uid']?'管理员':$this->params['nickname'];?></td>
+				<td><?php echo date('Y-m-d H:i:s',$row['dateline']);?></td>
+				<td><?php echo $row['content']?></td>
+			</tr>
+			<?php }
+			}else{?>
+			<tr>
+					<td colspan='5' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>		
+			<?php }?>
+		</table>
+	</div>
+</body>
+<?php include dirname(__FILE__).'/../include/footer.phtml';?>

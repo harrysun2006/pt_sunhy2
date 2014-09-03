@@ -1,0 +1,42 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="tools" onload="downloadInit();">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid large_box" >
+
+	<div class="toolstabs">
+	    <ul class="toolstabNavigation">
+	    	<li><img src='images/download2.png' border='0'></li>
+	        <li><a href="/tools" class="selected first"><?php echo $this->lang->tools->client->title;?></a></li>
+	        <br/>
+	    </ul>
+		<hr class="onepxline">
+	    <div id="tab_content" style='min-height:480px;margin-left:auto;margin-right:auto;width:600px;'>
+	    	<?php echo $this->lang->tools->client->tips;?>
+			<form>
+	    	<?php echo $this->lang->tools->client->download->info;?>
+	    		    	
+	    </div>
+		<hr class="onepxline">
+		<br/>	
+		<div class="toolsSystem">	 
+	    <ul class="toolsSystem">	
+	    	<?php echo $this->lang->tools->client->systemchoice;?>
+	    	<br/>    	
+		    <li><a href=""><img src="images/down_android.png"></a></li>
+		    <li><a href=""><img src="images/down_android.png"></a></li>
+		    <li><a href=""><img src="images/down_android.png"></a></li>
+		    <li><a href=""><img src="images/down_android.png"></a></li>
+		    <li><a href=""><img src="images/down_android.png"></a></li>
+		    <li><a href=""><img src="images/down_android.png"></a></li>
+		    <li style="width:600px;line-height:24px;"><?php echo $this->lang->tools->client->nosystem;?><br/><form><input name="systemname"> <input type="submit" name="submit" value="Email"  class="btn"></form></li>
+		</ul>			
+		</div>	
+	</div><!--.tabs-->
+  </div><!--#mid-->
+</div> <!--#content-->
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>
+<?php $this->Gz();?>

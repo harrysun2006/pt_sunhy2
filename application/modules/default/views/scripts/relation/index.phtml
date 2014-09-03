@@ -1,0 +1,100 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+
+<body id="profile">
+
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid">
+	  <div id="half_left">
+	    <div style='margin-bottom: 5px;'>
+	    	<img src='/images/banner.png' />
+	    </div>
+	    <div id="data">
+			<div class="tabs">
+	            <ul class="tabNavigation">
+	                 <li>
+	                	<a id='showfriends' href="javascript: void(0);" style='margin-left: 4px;' class='selected'><?php echo $this->lang->user->friends;?></a>
+	                	
+	                	<!--<a href="#" class="dropbt" ></a>
+	                	<ul class="dropdown">
+	                		<li><a href="#doing"><?php echo $this->lang->user->doing;?></a></li>
+	                		<li style='display:none;'><a href="#checkins"><?php echo $this->lang->user->checkins;?></a></li>
+	                		<li style='display:none;'><a href="#messages"><?php echo $this->lang->user->messages;?></a></li>
+	                		<li style='display:none;'><a href='#tips'><?php echo $this->lang->user->tips;?></a></li>
+	                		<li class="last"><a href="#majors" ><?php echo $this->lang->user->majors;?></a></li>
+	               	 	</ul>-->
+	               	 </li>
+	               	 
+					<!--<li>
+						<a href="/<?php echo $this->dispUserInfo['username'];?>#friends" onclick='event.returnValue=false;return false;'><?php echo $this->lang->user->friends;?></a>
+						<a href="#" class="dropbt"></a>
+						<ul class="dropdown">
+							<li><a href="#friends"><?php echo $this->lang->user->friends;?></a></li>
+	                		<li><a href="#followings"><?php echo $this->lang->user->followings;?></a></li>
+	                		<?php if ($this->user['uid']==$this->dispUserInfo['uid']) {?>
+	                		<li><a href="#followers"><?php echo $this->lang->user->followers;?></a></li>
+	                		<li class='last'><a href='#blocks'><?php echo $this->lang->user->blocks;?></a></li>
+	                		<?php } else {?>
+	                		<li class='last'><a href="#followers"><?php echo $this->lang->user->followers;?></a></li>
+	                		<?php } ?>	                		
+	               	 	</ul>
+					</li>-->
+					<?php if ($this->user['uid']==$this->dispUserInfo['uid']) {?>
+					<!--<li>
+					<a href="/<?php echo $this->dispUserInfo['username'];?>#blog_favorites" onclick='event.returnValue=false;return false;'><?php echo $this->lang->user->blog_favorites;?></a>
+					<a href="#" class="dropbt"></a>
+					<ul class='dropdown'>
+						<li><a href='#blog_favorites'><?php echo $this->lang->user->blog_favorites;?></a></li>
+						<li><a href='#poi_favorites'><?php echo $this->lang->user->poi_favorites;?></a></li>
+						<li class='last'><a href='#tips_favorites'><?php echo $this->lang->user->tips_favorites;?></a></li>
+					</ul>
+					</li>
+					<li>
+					
+					<a href="/<?php echo $this->dispUserInfo['username'];?>#received" onclick="event.returnValue=false; return false;"><?php echo $this->lang->dmessage->received;?></a>
+					<a href="#" class="dropbt"></a>
+					<ul class='dropdown'>
+						<li><a href="#received" class='first' onclick="event.returnValue=false; return false;"><?php echo $this->lang->dmessage->received;?></a></li>
+						<li><a href='#friend_request'><?php echo $this->lang->user->friend_request;?></a></li>
+						<li class='last'><a href='#follow_request'><?php echo $this->lang->user->follow_request;?></a></li>
+					</ul>
+					</li>-->
+					<?php } ?>
+					
+	            </ul>
+	        
+	            <div id="friends">
+	            	<table class="blog_table">
+	            	<tbody id="tbl_friends">
+
+					 </tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_friends'></div>
+						</td>
+						</tr>
+					</table>
+	            </div> 
+	            
+	            	            	            
+	        </div><!--#tabs-->
+        
+	  	</div><!--#data-->	
+	  </div><!--#half_left-->
+	  <?php include_once(dirname(__FILE__).'/../include/rightbar.phtml');?>
+	  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<!-- 举报对话框  -->
+<div id='deno' class='hide'>
+	<input type='text' />
+</div>
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

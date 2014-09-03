@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="viewport" content="width=device-width; initial-scale=1.4; minimum-scale=1.0; maximum-scale=2.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?php echo $this->lang->global->meta->title;?></title>
+	<meta name="description" content="开开K.ai是新一代的位置网络，也是真实的白领社交网络。在开开签到，你能够找到朋友、分享贴士，并用全新的方法探索身边的城市。同时还可以争掌门、赢勋章、玩寻宝" /> 
+	<?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+<?php include_once(dirname(__FILE__).'/../include/header.php')?>
+
+<div class="content">
+	<div id="category">
+		<?php echo $this->lang->mobile->global->new_action; ?>|<a href="/mobile"><?php echo $this->lang->mobile->global->refresh; ?></a>
+	</div>
+		
+	<div id="activities">
+		<div id="list">	
+			
+			<table>
+				<?php for($i=0; $i < count($this->timeline); $i++) { ?>
+					<!-- author and place -->
+					<tr valign="top"><td>
+					<?php echo ($i+1).".";?>
+					</td><td>
+					
+					<?php
+						$author = ""; 
+						if( $this->timeline[$i]['poi']['poi_id'] ){
+							$author = "<a href=\"/polo/user?uid=".$this->timeline[$i]['uid']."\">".$this->timeline[$i]['nickname']."</a>";
+							$author = $author."@<a href=\"/polo/place?pid=".$this->timeline[$i]['poi']['poi_id']."\">".$this->timeline[$i]['poi']['name']."</a>:";
+						}else{
+							$author = "<a href=\"/polo/user?uid=".$this->timeline[$i]['uid']."\">".$this->timeline[$i]['nickname']."</a>:";
+						}
+						echo $author;
+					?>
+					
+	               	<?php echo $this->timeline[$i]['message'];?>
+	               	<?php
+	           			switch( $this->timeline[$i]['type'] ){
+	           				case "normal":
+	           					//echo "[".$this->lang->sidebar->shouts."]";
+	           					break;
+	           				case "tips":
+	           					//echo "[贴士]";
+	           					break;
+	           				case "checkin":
+	           					//echo "[".$this->lang->sidebar->checkins."]";
+	           					echo $this->lang->sidebar->checkins;
+	           					break;
+	           			} 
+	           			?>
+	           		</td></tr>
+	           		
+	           		<!-- original messge if there is -->
+	           		<?php if($this->timeline[$i]['upbid']){
+	           			$upbid = $this->timeline[$i]['upbid'];
+	           			$upblog = $this->retwitter[$upbid];
+	           			$senderinfo = "<a href=\"/polo/user?uid=".$upblog['uid']."\">".$upblog['nickname']."</a>";
+	           			if( $upblog['poi']['poi_id'] )
+	           				$senderinfo = $senderinfo."@<a href=\"/polo/place?pid=".$upblog['poi']['poi_id']."\">".$upblog['poi']['name']."</a>:";
+	           			else
+	           				$senderinfo = $senderinfo.":";
+	      
+	           			if( strlen($upblog['message']) >0 )
+	           				echo $senderinfo.$upblog['message'];
+	           				if($upblog['attach_tiny']){	           			
+	               				echo "<br/><img src=\"".$upblog['attach_tiny']."\"/>";
+	               			}
+	           			else if( strcmp($upblog['type'], "checkin")==0 )
+	           				echo "<br/>".$senderinfo.$this->lang->javascript->global->checkin->title;
+	           				
+	           			if( $upblog['attach_tiney'] )
+	           				echo "<tr><td></td><td><img src=\"".$upblog['attach_tiny']."\"/></td>";
+	           		}?>
+	           		</td></tr>
+	           		
+	           		<!-- attached image if there is -->	           		
+	           		<?php if($this->timeline[$i]['attach_tiny']){?>
+	           			<tr><td></td><td>
+	               		<img src="<?php echo $this->timeline[$i]['attach_tiny'];?>" />
+	               		</td></tr>
+	           		<?php }?>
+	           			           			           		
+	           		<!-- publication time -->
+	           		<tr><td></td><td>
+	               	<?php echo Better_Functions::compareTime($this->timeline[$i]['dateline']); ?>
+	               	<?php
+	               		$source = $this->timeline[$i]['source'];
+	               		echo $this->lang->user->from.Better_Functions::source($source)."<br/><br/>";
+	               	?>
+	               	</td></tr>
+	           <?php }?>
+	        	</table>
+	     </div>
+	     <a href="/polo/home"><?php echo $this->lang->global->foot->sync->more; ?></a>
+	</div>
+</div>
+<?php include_once(dirname(__FILE__).'/../include/loginfooter.phtml');?>
+</body>
+</html>

@@ -1,0 +1,15 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper' >
+			<?php 
+				if($this->result==1){
+					echo '成功发送给'.$this->count.'个用户！';
+				}else{
+					echo '失败了！';					
+				}
+			
+			
+			?>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

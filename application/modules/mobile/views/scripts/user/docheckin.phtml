@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="viewport" content="width=device-width; initial-scale=1.4; minimum-scale=1.0; maximum-scale=2.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?php echo $this->lang->global->meta->title;?></title>
+	<?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+	<?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+	<div id="headinfo">		
+		<?php 
+    		if( $this->user['uid'] > 0 ){
+				echo "<a href=\"/mobile/user?uid=".$this->user["uid"]."\" >".$this->user["nickname"]."</a>@";
+				if( (int)($this->lastcheckin['poi']['poi_id']) < 1 ){
+					echo "<a href=\"/mobile/search\">".$this->lang->mobile->global->whereplace."</a>";
+				}else{
+					echo "<a href=\"/mobile/place?pid=".$this->lastcheckin['poi']['poi_id']."\">".$this->lastcheckin['poi']['name']."</a>";
+				}
+				echo "<hr/>";
+			}
+		?>	
+	</div>
+	<div id="checkin">
+		<?php if( $this->lastcheckin['poi']['poi_id'] ){
+			$dosomething = $this->lang->mobile->noping->whichplace_checkin;
+			$whichpoi = "<a href=\"/mobile/place?pid=".$this->lastcheckin['poi']['poi_id']."\">".$this->lastcheckin['poi']['name']."</a>";
+			echo str_replace('{POI}', $whichpoi,$dosomething);			
+			echo " ".($this->user['status']['message'] ? ' : '.$this->user['status']['message'] : '');
+			echo "<p><a href=\"/mobile/search\">".$this->lang->mobile->noping->changeplace_checkin."</a></p>";
+		}?>
+	</div>
+	<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>

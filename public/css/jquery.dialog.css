@@ -1,0 +1,60 @@
+@CHARSET "UTF-8";
+
+
+/*
+	jQuery Dialog	
+*/
+
+#jqDialog_box {
+	background:#fffbd6; 
+	text-align:center; 
+	vertical-align:absolute-middle;
+	margin:8px;
+
+	position: absolute;
+	width: 450px;
+	height: 40px;
+	font-family: Tahoma, Arial;
+	
+	border-width: 1px;
+	border-style: solid;
+	border-color: #beb780;
+
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+}
+#jqDialog_content {
+	margin: 10px;
+	font-weight: bold;
+	font-size: 12px;
+	height: 90px;
+	overflow: hidden;
+}
+
+#jqDialog_options {
+	margin: 10px;
+	text-align: center;
+}
+#jqDialog_options button {
+	font-family: Arial;
+	margin-right: 5px;
+	background: #666;
+	border: 0px;
+
+	font-size: 1.5em;
+	color: #fff;
+	width: auto;
+}
+
+#jqDialog_input {
+	padding: 4px;
+	width: 250px;
+}
+#jqDialog_close {
+	background: none;
+	border: none;
+	float: right;
+	font-weight: bold;
+	font-size: 10px;
+	color: #cc0000;
+}

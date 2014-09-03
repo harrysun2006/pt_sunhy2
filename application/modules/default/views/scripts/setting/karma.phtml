@@ -1,0 +1,33 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="signup">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="content">
+  <div class="mid border" style='background-color: #fff;'>
+  	<div class='small_mid' style="width: 350px; height:250px;padding-top:80px;">
+  		
+	  	<div id="form">
+	  	  <div class='title_large'>
+			<div class="left"><img src="images/attention.png" /></div>
+			<div class="left text"><?php echo  $this->lang->setting->karma->too_low->title ;?></div>
+		  </div>
+		  <hr class="onepxline" color="#dce2ea">
+	  	<h3><?php echo $this->lang->setting->karma->too_low->title;?></h3>
+
+	    <form id="resendform">
+		<div class="cbox">
+	  	<?php echo $this->lang->setting->karma_too_low;?>
+	  	<br />
+	    [ <a href='/home'><?php echo $this->lang->setting->needenable->back;?></a> ]
+	    </div>
+	    </form>
+		</div><hr class="onepxline" color="#dce2ea">
+	</div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

@@ -1,0 +1,117 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		<div style='width: 100%; text-align:left; background-color:#D3DCE3;'><a class="xiugai" href='<?php echo $this->admin_url;?>/special/newspecial' id='newspecial'>新增优惠</a></div>
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/special" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>搜索</th></tr>
+			<tr>
+				<td>关键字(poi_id,店名，优惠信息)</td>
+				<td><input type='text' name='keywords' id='keywords' value='<?php echo $this->params['keywords'];?>' /></td>
+				
+			</tr>	
+			
+						
+			<tr>
+				<td colspan='6' class='center'>
+				<input type='hidden' name='page_size' id='page_size' value='<?php echo BETTER_PAGE_SIZE;?>' />
+					<input type='submit' value='搜索(s)' accesskey='s' />
+					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />
+					<input type='hidden' name='page' id='page' value='<?php echo $this->params['page'];?>' />
+					<input type='hidden' name='reload' id='reload' value='0' />
+					
+					<input type='hidden' name='doubt' id='doubt' value='<?php echo $this->params['doubt'];?>'/>
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div>
+		
+		
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+				<tr>
+					<th width='20'></th>
+					<th class='nowrap'>POI ID</th>
+					<th class='nowrap' width='50'>状态</th>
+					<th class='nowrap'>名称</th>
+					<th class='nowrap'>城市</th>
+					<th class='nowrap' style="padding: 3px 30px;">地址</th>
+					<th class='nowrap'>优惠内容</th>
+					<th class='nowrap'>图片</th>
+					<th class='nowrap'>创建时间</th>	
+					<th class='nowrap'>审核</th>
+					<!-- <th class='nowrap'>入驻次数</th>		
+					<th class='nowrap'>收藏次数</th>	
+					<th class='nowrap'>入驻用户数</th> -->
+					<th class='nowrap' width='60'>操作</th>										
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {
+				
+					?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td><input type='checkbox' name='nid[]'  value='<?php echo $row['nid'];?>' /></td>
+					<td class='center'><a href='/poi?id=<?php echo $row['poi_id'];?>' target='_blank'><?php echo $this->highlight($row['poi_id'], $this->params['namekeyword']);?></a></td>
+					<td class='center' id='check_type_<?php echo $row['nid']; ?>'><?php echo $row['check_type']?></td>
+					<td class='center'><?php echo $this->highlight($row['name'], $this->params['namekeyword']);?></td>	
+					<td class='center'><?php echo $row['city']?></td>
+					<td class='center'><?php echo $row['address'];?></td>
+					<td class='center' id='content_<?php echo $row['nid']; ?>'><?php echo $row['content'];?><br/>开始时间:<?php echo $row['begintm'] ?  date('Y-m-d H:i:s', $row['begintm']+BETTER_8HOURS) : 0;?><br/>结束时间:<?php echo $row['endtm'] ?  date('Y-m-d H:i:s', $row['endtm']+BETTER_8HOURS) : 0;?></td>
+					<td class='center' id='image_<?php echo $row['nid']; ?>'><?php if($row['image_url']){ ?><img src='<?php echo $row['attach_tiny'];?>'><?php }?></td>
+					<td class='center'><?php echo $row['dateline'] ?  date('Y-m-d H:i:s', $row['dateline']+BETTER_8HOURS) : 0;?></td>
+					
+					<td class='center'><?php if($row['checked']==0){?><div id='doing_<?php echo $row['nid']; ?>'><input type='button' id='access_<?php echo $row['nid']; ?>' name='access_<?php echo $row['nid']; ?>'  value='通过' temppoiid='<?php echo $row['poi_id']; ?>' />
+					<input type='button' id='accessall_<?php echo $row['groupid']; ?>' name='accessall_<?php echo $row['groupid']; ?>'  value='本组通过' temppoiid='<?php echo $row['poi_id']; ?>' />
+					
+					<a class="xiugai" href='<?php echo $this->admin_url;?>/special/refusespecial?id=<?php echo $row['nid'];?>&poi_id=<?php echo $row['poi_id'];?>' id="<?php echo $row['uid']?>">不通过</a></div><?php } ?>					
+					<?php if($row['checked']==1){?><a class="xiugai" href='<?php echo $this->admin_url;?>/special/cancelspecial?id=<?php echo $row['nid'];?>&poi_id=<?php echo $row['poi_id'];?>' id="<?php echo $row['uid']?>">取消</a></div><?php } ?>	
+					</td>
+					<!-- <td class='center'><a href='#' target='_blank'><?php echo $row['checkins'];?></a></td>
+					<td class='center'><a href='#' target='_blank'><?php echo $row['favorites'];?></a></td>
+					<td class='center'><a href='#' target='_blank'><?php echo $row['users'];?></a></td>  -->
+					<td class='center'>
+						<a class="xiugai" href='<?php echo $this->admin_url;?>/special/updatespecial?id=<?php echo $row['nid'];?>&poi_id=<?php echo $row['poi_id'];?>' id="<?php echo $row['uid']?>">修改</a><br>
+						<input type="hidden" id="<?php echo $row['poi_id'];?>_category" value='<?php echo $row['category_id']?>'>
+						<input type="hidden" id="<?php echo $row['poi_id'];?>_name" value='<?php echo $row['name']?>'>
+						<input type="hidden" id="<?php echo $row['poi_id'];?>_city" value='<?php echo $row['city']?>'>
+						<input type="hidden" id="<?php echo $row['poi_id'];?>_address" value='<?php echo $row['address']?>'>
+						
+						<br>
+					</td>
+				</tr>
+				<?php } ?>
+				<tr>
+					<td colspan='15' class='center'>
+					<input type='button' id='chooseAll' name='chooseAll'  value='全选(a)' accesskey='a' />
+					<input type='button' id='chooseNone' name='chooseNone' value='全不选(n)' accesskey='n' />
+					<input type='button' id='chooseReverse' name='chooseReverse' value='反选(v)' accesskey='v' />
+				</td></tr>
+				<tr><td colspan='15'>
+				
+					</td>
+				</tr>					
+				<?php } else {  ?>
+				<tr>
+					<td colspan='15' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

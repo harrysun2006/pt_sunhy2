@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="viewport" content="width=device-width; initial-scale=1.4; minimum-scale=1.0; maximum-scale=2.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?php echo $this->lang->global->meta->title;?></title>
+	<?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+	
+</head>
+<body>
+
+	<?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+
+	<div id="headinfo">
+		
+		<a href="/mobile/user?uid=<?php echo($this->user["uid"])?>" ><?php echo($this->user["nickname"])?></a>@
+		<?php if( (int)($this->lastcheckin['poi']['poi_id']) < 1 ){?><a href="/mobile/search"><?php echo $this->lang->mobile->global->whereplace; ?></a><?php }else{?>
+			<a href="/mobile/place?pid=<?php echo $this->lastcheckin['poi']['poi_id'];?>"><?php echo $this->lastcheckin['poi']['name']; ?></a>
+		<?php }?><hr/>
+		
+	</div>
+	<div id="basic">
+		<?php 
+			echo $this->place['name'];
+			if ( strlen( trim($this->place['intro'])) > 0 )
+				echo " <a href=\"/mobile/place/introduction?pid=".$this->place['poi_id']."\">"."介绍"."</a>";
+			echo "<br/>";
+			if( 0 && strlen($this->place['city']) > 0 || strlen($this->place['address']) > 0 )
+				echo $this->place['city'].$this->place['address']."<br/>";
+			$phones = preg_split("/[\s,]+/", $this->place['phone']);
+			echo $this->lang->javascript->home->add_poi->phone.":";
+			foreach( $phones as $phone){
+				echo "<a href=\"wtai://wp/mc;".$phone."\">".$phone."</a> ";
+			}
+			echo "<br/>";
+			echo $this->lang->global->poi->major.":<a href=\"/mobile/user?uid=".$this->place['major_detail']['uid']."\">".$this->place['major_detail']['nickname']."</a><br/>";
+			echo $this->lang->mobile->global->poi_notice.$this->place['notification']['content']."<br/>";
+					 
+		?>
+		<a href="/mobile/user/shout?cat=checkin&pid=<?php echo $this->place['poi_id'];?>"><?php echo $this->lang->mobile->poi_checkin_title;?></a>|<a href="/mobile/user/shout?cat=tips&pid=<?php echo $this->place['poi_id'];?>"><?php echo $this->lang->mobile->poi_tips_title?></a>|<a href="/mobile/user/addfavorite?cat=place&id=<?php echo $this->place['poi_id'];?>"><?php echo $this->lang->mobile->poi_favorites_title;;?></a>
+		<hr/>
+	</div>
+	<?php 
+		if(strlen($this->errorinfo)>0){
+		?>
+	<div id="error"><?php echo $this->errorinfo;?></div>
+	<?php }?>
+	<div id="timeline">
+		<?php echo $this->lang->global->tips->text."|<a href=\"/mobile/place/visitor?pid=".$this->place['poi_id']."\">".$this->lang->mobile->global->visitor_list."</a>";
+		//echo "|<a href=\"/mobile/place/nearbyusers?pid=".$this->place['poi_id']."\">".$this->lang->sidebar->around_people."</a><br/>";?>
+		
+		<table>
+	    	<?php for($i=0; $i < count($this->tips); $i++) {?>
+	    		<tr valign="top" >
+	    			<?php	    				
+	    				echo "<td>".($i+1).".</td>";
+	    				echo "<td><a href=\"/mobile/user?uid=".$this->tips[$i]['uid']."\">".$this->tips[$i]['nickname']."</a>:".$this->tips[$i]['message'];
+	    				
+	           				
+	    		$checktype = ("checkin" == $this->tips[$i]['type'])? 0:1;
+	        	if($this->tips[$i]['uid']!=$this->user['uid'])
+	        	{
+	           		if($checktype){
+	           			//echo "<a href=\"/mobile/user/shout?cat=".$this->tips[$i]['type']."&upbid=".$this->tips[$i]['bid']."\">".$this->lang->javascript->global->blog->rt."</a> ";
+	           			if("tips" == $this->tips[$i]['type'] && $this->tips[$i]['polled']==0){
+	           				echo "<a href=\"/mobile/user/poll?todo=create&option=up&status_id=".$this->tips[$i]['bid']."&poiid=".$this->place['poi_id']."\">".$this->lang->javascript->poi->tips->up."</a> ";
+	           				echo "<a href=\"/mobile/user/poll?todo=create&option=down&status_id=".$this->tips[$i]['bid']."&poiid=".$this->place['poi_id']."\">".$this->lang->javascript->poi->tips->down."</a> ";
+	           			}
+	           		}
+	        	}
+	       	 	else
+	        	{
+	           		echo "<a href=\"/mobile/user/delblog?id=".$this->tips[$i]['bid']."\">".$this->lang->javascript->global->blog->delete_it."</a> ";
+	        	}
+	        	if($checktype) {
+	           		echo "<a href=\"/mobile/user/addfavorite?cat=".$this->tips[$i]['type']."&id=".$this->tips[$i]['bid']."&fid=".$this->tips[$i]['uid']."\">".$this->lang->javascript->global->favorite->title."</a> ";	       
+	        	}
+	           				
+	    				echo "</td>";
+	    			?>
+	      		</tr>
+	      		<?php if($this->tips[$i]['attach_tiny']){?>
+	               	<tr>
+	               		<td></td><td><img src="<?php echo $this->tips[$i]['attach_tiny'];?>" /></td>
+	               	</tr>
+	           <?php }?>
+	            <tr>
+	            	<td></td>
+	            	<td>
+	            		<?php echo Better_Functions::compareTime($this->tips[$i]['dateline']); ?>
+	               		<?php
+	               			$source = $this->tips[$i]['source'];
+	               			echo $this->lang->user->from.Better_Functions::source($source);
+	               		?>
+	               	</td>
+	            </tr>
+	     	<?php }?>      
+	    </table>
+	</div>
+	 <?php 
+	 	if( count($this->tips) < 1 )
+	 		echo "<p>".$this->lang->javascript->poi->tips->no_tips."</p>";
+	 	else if( $this->hasMore )
+	 		echo "<p><a href=\"/mobile/place/tips?pid=".$this->place['poi_id']."&page=1\">".$this->lang->javascript->poi->tips->more_tips."</a></p>";
+	 ?>
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>

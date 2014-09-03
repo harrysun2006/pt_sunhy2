@@ -1,0 +1,145 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		<div style='width: 100%; text-align:left; background-color:#D3DCE3;'><a class="xiugai" href='<?php echo $this->admin_url;?>/badge/newbadge' id='newbadge'>新增勋章</a></div>
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/badge" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>搜索</th></tr>
+			<tr>
+				<td>勋章名称关键字:</td>
+				<td><input type='text' name='namekeyword' id='namekeyword' value='<?php echo $this->params['namekeyword'];?>' /></td>
+				<td>每页结果数:</td>
+				<td>
+				<select name='page_size' id='page_size'>
+					<option value='<?php echo BETTER_PAGE_SIZE;?>' <?php echo $this->params['page_size']==BETTER_PAGE_SIZE ? ' selected="selected"' : '';?>>默认(<?php echo BETTER_PAGE_SIZE;?>)</option>
+					<option value='50' <?php echo $this->params['page_size']==50 ? ' selected="selected"' : '';?>>50</option>
+					<option value='100' <?php echo $this->params['page_size']==100 ? ' selected="selected"' : '';?>>100</option>
+					<option value='99999999' <?php echo $this->params['page_size']==99999999 ? ' selected="selected"' : '';?>>全部</option>
+				</select>
+				</td>
+			</tr>	
+							
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='submit' value='搜索(s)' accesskey='s' />
+					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />
+					<input type='hidden' name='page' id='page' value='<?php echo $this->params['page'];?>' />
+					<input type='hidden' name='reload' id='reload' value='0' />
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div>
+		
+		<div style="margin: 30px auto;" class="hide" id="update_div">
+			<form action="" id="update_form">
+			<input type="hidden" id="xid" />
+			<table class='kai_table'>
+			<tr><th colspan='10' class='center'>更新</th></tr>
+			<tr>
+				
+				<td width='15%'>勋章名称:</td>
+				<td><input type='text' name='name_update' id='name_update' value='' /></td>
+				<td width='15%'>勋章图片:</td>
+				<td>
+					<input type='text' name='pic_update' id='pic_update' value='' />
+				</td>
+			</tr>			
+				
+			<tr>
+				<td colspan='10' class='center'>
+					<input type='button' id="btnUpdate" value='更新'/>
+					<input type='button' id="btnfangqi" value='放弃'/>
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div> 
+
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+				<tr>
+					<th width='20'></th>
+					<th class='nowrap'>勋章ID</th>
+					<th class='nowrap'>勋章名称</th>
+					<th class='nowrap'>勋章图片</th>
+					<th class='nowrap'>时间限制</th>
+					<th class='nowrap'>开关</th>
+					<th class='nowrap'>&nbsp;</th>										
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {
+				
+					?>
+				
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td><input type='checkbox' name='poids[]'  value='<?php echo $row['id'];?>' /></td>
+					<td class='center'><a href='#' target='_blank'><?php echo $row['id'];?></a></td>
+					<td class='center'><a href='#' target='_blank'><?php echo $this->highlight($row['badge_name'], $this->params['namekeyword']);?></a></td>	
+					<td class='center'><a href='#' target='_blank'><?php echo $row['badge_picture']?></a></td>
+					<td class='center'><a href='#' target='_blank'>
+					<?php 
+						echo $row['btm']>0 ? (date('Y-m-d H:i:s',$row['btm']+8*3600)) : "开始时间不限";
+						echo "\n";
+						echo $row['etm']>0 ? (date('Y-m-d H:i:s',$row['etm']+8*3600)) : "结束时间不限";					
+					?>
+					</a></td>
+					<td class='center'><a href='#' target='_blank'>
+					<?php 
+						$now = time();
+						$btm = $row['btm']>0? $row['btm'] : $now;
+						$etm = $row['etm']>0? $row['etm'] : $now;
+						if($now>=$btm && $now<=$etm){
+							echo "可获得中";
+						} else {
+							echo "此时不能获得";	
+						}
+					
+					?>
+					
+					
+					</a></td>
+					<td class='center'><a href='<?php echo $this->admin_url;?>/badge/updatebadge?id=<?php echo $row['id'];?>' id="<?php echo $row['id']?>" class="xiugai">修改</a>
+						<input type="hidden" id="<?php echo $row['id'];?>_name" value='<?php echo $row['badge_name']?>'>
+						<input type="hidden" id="<?php echo $row['id'];?>_pic" value='<?php echo $row['badge_picture']?>'>
+					</td>
+				</tr>
+				<?php } ?>
+				<tr>
+					<td colspan='15' class='center'>
+					<input type='button' id='chooseAll' name='chooseAll'  value='全选(a)' accesskey='a' />
+					<input type='button' id='chooseNone' name='chooseNone' value='全不选(n)' accesskey='n' />
+					<input type='button' id='chooseReverse' name='chooseReverse' value='反选(v)' accesskey='v' />
+				</td></tr>
+				<tr><td colspan='15' class='center'>
+					<select name='todo' id='todo'>
+						<option value=''>请选择操作</option>
+						<option value='del_poi'>删除</option>
+					</select>
+					<input type='button' id='btnTodo' value='确定(d)' accesskey='d' />
+					</td>
+				</tr>					
+				<?php } else {  ?>
+				<tr>
+					<td colspan='15' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='15' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

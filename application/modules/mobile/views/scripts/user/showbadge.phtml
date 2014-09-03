@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="viewport" content="width=device-width; initial-scale=1.4; minimum-scale=1.0; maximum-scale=2.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?php echo $this->lang->global->meta->title;?></title>
+	<?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+	<?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+	<div id="headinfo">		
+		<a href="/mobile/user?uid=<?php echo($this->userInfo["uid"])?>" ><?php echo($this->userInfo["nickname"])?></a>
+		<?php echo "-><a href=\"badge?uid=".$this->userInfo["uid"]."\">".$this->lang->user->badge."</a>";?>
+		<hr/>
+	</div>
+	<div id="content">
+			<?php 						
+				echo $this->badge_info['badge_name']."<br/>";
+				echo "<img src=\"".$this->badge_info['badge_picture']."\" /><br/>";
+				echo $this->badge_info['got_tips']."<br/>";
+				echo $this->userInfo["nickname"]."@<a href=\"/mobile/place?pid=".$this->badge_info['poi']['poi_id']."\">".$this->badge_info['poi']['name']."</a><br/>";
+				echo Better_Functions::compareTime($this->badge_info['get_time']);
+				if($this->canexchanged){
+					echo "<br/>";
+					
+					echo "<a href=\"exchangebadge?uid=".$this->userInfo["uid"]."&badge_id=".$this->badge_info['id']."\">".$this->lang->mobile->wap->badge_exchange."</a>";
+				}
+				if($this->hadexchanged){
+					echo "<br/>".$this->lang->mobile->wap->badge_hadexchange;
+				}
+		?>
+			
+		
+		<?php		
+		if(strlen($this->errorinfo)>0){
+		?>
+	<div class="error"><?php echo $this->errorinfo;?></div>
+	<?php 
+		}?>
+	</div>
+	<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+	
+</body>
+</html>

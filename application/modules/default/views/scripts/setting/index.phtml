@@ -1,0 +1,134 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="setting">
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<div id="setting_page">
+ <div class="mid title">
+	  <div id="setting_header_title"><span class='text'><?php echo $this->lang->global->nav->setting;?></span></div>
+	   <div id="setting_header_img"><h2><?php echo $this->lang->global->setting_header_text;?></h2></div>
+ </div>
+ 
+  <div class="mid">
+	<div id="setting_menu">
+	    <ul id="right_menu">	   
+	        <li><a href="/setting" class="on"><?php echo $this->lang->setting->menu->basic;?></a></li>
+	        <li><a href="/setting/avatar" class="off"><?php echo $this->lang->setting->menu->avatar;?></a></li>
+	        <li><a href="/setting/password" class="off"><?php echo $this->lang->setting->menu->password;?></a></li>
+	        <li><a href="/setting/privacy" class="off"><?php echo $this->lang->setting->menu->privacy;?></a></li> 
+	        <li><a href="/setting/cell" class="off"><?php echo $this->lang->setting->menu->cell;?></a></li>
+	        <?php if ($this->config->msn_robot->enabled) { ?>
+	        <li><a href='/setting/im' class="off"><?php echo $this->lang->setting->menu->im;?></a></li>
+	        <?php } ?>	        
+	        <li><a href="/setting/sync" class="off"><?php echo $this->lang->setting->menu->sync;?></a></li>
+	        <li><a href="/setting/email" class="off"><?php echo $this->lang->setting->menu->email;?></a></li>
+	        <?php if (!$this->config->lbs->promotion) { ?><li><a href="/tools/lbs" class="off"><?php echo $this->lang->tools->lbs->title;?></a></li><?php } ?>
+	        <li><a href="/tools/share" class="off"><?php echo $this->lang->tools->share->title;?></a></li>
+	        <?php if ($this->bedoUid) {?>
+	        <li><a href="/setting/bedoimport" class="off"><?php echo $this->lang->setting->menu->bedoimport;?></a></li>
+	        <?php } else {?>
+	        <li><a href="/setting/bedobind" class="off"><?php echo $this->lang->setting->menu->bedoimport;?></a></li>
+	        <?php }?>
+	    </ul>
+	 </div>
+	 <div id="setting_content">
+			<div class="setting_main">
+			
+  	 		<h2><?php echo $this->lang->setting->basic->title;?></h2>
+	     
+	    	<div class="userinfo">
+			<form>
+	    	<div class="serror hide" id='set_basic_error'>
+	    	    <?php echo $this->lang->setting->basic->error;?>
+	    	</div>
+	
+	    	<div class="snotice hide" id='set_basic_success'>
+	    	    <?php echo $this->lang->setting->basic->success;?>
+	    	</div>			
+				<div class="row">
+				  <label for="email"><?php echo $this->lang->setting->basic->email->title;?></label>
+				  <div class="field">
+				  	 <input type="text" style="width: 267px;" id="email" name="email" value="<?php echo $this->user['email'];?>" <?php if ($this->isValidating) { ?>disabled="disabled"<?php }?>/>
+				  	 <span id='err_email' class='err'><?php echo $this->err['err_email'];?></span>
+				  	 <span class="help">(<?php echo $this->isValidating ? str_replace('{EMAIL}', $this->lastRequestEmail, $this->lang->global->require_validated) : $this->lang->setting->basic->email->tips;?>)</span>
+				  </div>
+				</div>
+				<div class="row">
+				  <label for="url"><?php echo $this->lang->setting->basic->domain->title;?></label>
+				  <div class="field">
+					  <div style="border: 1px solid #AEC2DC;  height: 25px;" class="left">
+					  	<table style="margin-top: -4px; width:280px;">
+					  		<tr>
+					  			<td><span><?php echo $this->config->base_url;?>/</span></td>
+					  			<td><input style="border: 0; padding: 0 0 3px 0; !padding: 0; width: 195px;" type="text" id="username" name="username" value="<?php echo $this->user['username'];?>"/></td>
+					  		</tr>
+					  	</table>
+				  		
+				  		
+				 	  </div>
+				 	  <div class="help">(<?php echo $this->lang->setting->basic->domain->tips;?>)</div>
+				  	  <div id='err_username' class='err'><?php echo $this->err['err_username'];?></div>
+				  	  
+				  </div>
+				  <div class="clearfix"></div>
+				</div>
+				<div class="row">
+				     <label for="nickname"><?php echo $this->lang->setting->basic->nickname->title;?></label>
+				  	 <div class="field">
+				  	     <input type="text" style="width: 267px;" id="nickname" name="nickname" value="<?php echo $this->user['nickname'];?>"/>
+				  	     <span id='err_nickname' class='err'><?php echo $this->err['err_nickname'];?></span>
+				  	     <span class="help">(<?php echo $this->lang->setting->basic->nickname->tips;?>)</span>
+				  	 </div>
+				  </div>
+
+				<div class="row">
+				     <label for="city"><?php echo $this->lang->setting->basic->city->title;?></label>
+				  	 <div class="field">
+				  	     <select  name="live_province" id="live_province" class="pro">							
+						</select>
+							<select name="live_city" id="live_city" class="city">							
+						</select>
+						 <span id='err_city' class='err'><?php echo $this->err['err_nickname'];?></span>
+				  	 </div>
+				  </div>
+
+
+				  <div class="row">
+				  	 <label for="person_sex"><?php echo $this->lang->setting->basic->gender->title;?></label>
+				  	 <div class="field">
+				  	 <input id="gender_male" name="gender" type="radio" value="male" <?php if ($this->user['gender']=='male') { echo "checked='checed'"; }?>/> <?php echo $this->lang->setting->basic->gender->male;?>
+					    <input id="gender_female" name="gender" type="radio" value="female" <?php if ($this->user['gender']=='female') { echo "checked='checed'"; }?>/> <?php echo $this->lang->setting->basic->gender->female;?>
+					    <input id="gender_secret" name="gender" type="radio" value="secret" <?php if ($this->user['gender']=='secret') { echo "checked='checed'"; }?> /> <?php echo $this->lang->setting->basic->gender->secret;?>
+					    <span class='err'><?php echo $this->lang->setting->basic->gender->tips;?></span>
+					 </div>
+				  </div>
+
+				  <div class="row">
+				     <label for="birth"><?php echo $this->lang->setting->basic->birthday->title;?></label>
+				  	 <div class="field">
+				  	     <input type="text" style="width: 267px;" id="birthday" name="birthday" value="<?php echo $this->user['birthday'];?>" readonly='readonly' />
+				  	 </div>
+				  </div>
+				  <div class="row">
+				     <label for="desc"><?php echo $this->lang->setting->basic->intro->title;?></label>
+				  	 <div class="field">
+				  	    <textarea cols="40" rows="2" id="self_intro" name="self_intro" style="width: 267px; height: 45px;"><?php echo $this->user['self_intro'];?></textarea>
+				  	    <span id='err_intro' class='err'><?php echo $this->err['err_intro'];?></span>
+				  	 </div>
+				  </div>
+				   <br />
+				  <input type="button" value="<?php echo $this->lang->setting->basic->button_tips;?>" class="save btn" id='btnSaveBasic' />
+				  <br/>
+				  <br/>
+			</form>
+			</div>	  
+	    </div>	  
+	 </div>	    
+  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

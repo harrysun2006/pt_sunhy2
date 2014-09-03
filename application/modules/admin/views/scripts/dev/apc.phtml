@@ -1,0 +1,40 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/log" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='4' class='center'>APC汇总信息</th></tr>
+					
+			<?php foreach ($this->info as $key=>$value) {?>
+			<?php if (is_array($value)) {?>
+			<tr>
+				<td width='15%' bgcolor='#eeeeee'><?php echo $key;?></td>
+				<td >
+				<?php Zend_Debug::dump($value);?>
+				</td>
+			</tr>					
+			<?php } else {?>
+			<tr>
+				<td width='15%' bgcolor='#eeeeee'><?php echo $key;?></td>
+				<td >
+				<?php echo preg_match('/^([0-9]{10})$/', $value) ? date('Y-m-d H:i:s', $value) : $value;?>
+				</td>
+			</tr>			
+			<?php } ?>
+			<?php } ?>
+			<tr>
+				<td colspan='2' align='center' bgcolor='#eeeeee' style='text-align:center;'>
+				<a href='/admin/dev/apc?clear=1' onclick="return confirm('确定？');">清理APC缓存</a>
+				</td>
+			</tr>	
+			</table>		
+			</form>
+		</div>
+
+			
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

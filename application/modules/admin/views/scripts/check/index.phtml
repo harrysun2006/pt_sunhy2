@@ -1,0 +1,112 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/check" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>搜索</th></tr>
+			<tr>
+				<td width='10%'>微博关键字:</td>
+				<td width='25%'><input type='text' name='keyword' id='keyword' value='<?php echo $this->params['keyword'];?>' /></td>
+				<td width='10%'>用户关键字:</td>
+				<td width='25%'><input type='text' name='user_keyword' id='user_keyword' value='<?php echo $this->params['user_keyword'];?>' /></td>
+				<td width='10%'>位置关键字:</td>
+				<td ><input type='text' name='place_keyword' id='place_keyword' value='<?php echo $this->params['place_keyword'];?>' /></td>
+			</tr>			
+			<tr>
+				<td>时间范围:</td>
+				<td colspan='3'>
+				从 <input type='text' name='from' id='from' value='<?php echo $this->params['from'];?>' readonly='readonly' />
+				到 <input type='text' name='to' id='to' value='<?php echo $this->params['to'];?>' readonly='readonly' />
+				</td>
+
+				<td>每页结果数:</td>
+				<td>
+				<select name='page_size' id='page_size'>
+					<option value='<?php echo BETTER_PAGE_SIZE;?>' <?php echo $this->params['page_size']==BETTER_PAGE_SIZE ? ' selected="selected"' : '';?>>默认(<?php echo BETTER_PAGE_SIZE;?>)</option>
+					<option value='50' <?php echo $this->params['page_size']==50 ? ' selected="selected"' : '';?>>50</option>
+					<option value='100' <?php echo $this->params['page_size']==100 ? ' selected="selected"' : '';?>>100</option>
+					<option value='99999999' <?php echo $this->params['page_size']==99999999 ? ' selected="selected"' : '';?>>全部</option>
+				</select>
+				</td>
+			</tr>			
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='submit' value='搜索(s)' accesskey='s' />
+					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />
+					<input type='hidden' name='page' id='page' value='<?php echo $this->params['page'];?>' />
+					<input type='hidden' name='reload' id='reload' value='0' />
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div>
+
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+				<tr>
+					<th></th>
+					<th>微博内容</th>
+					<th>位置描述</th>
+					<th>姓名</th>
+					<th>昵称</th>
+					<th>用户Email</th>
+					<th>自我介绍</th>
+					<th>发布时间</th>
+
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td width='20'><input type='checkbox' name='bids[]'  value='<?php echo $row['bid'];?>' />
+					<td class='messages'><?php echo $this->highlight($row['message'], $this->params['keyword']);?></td>
+					<td width='120' class='center'><a href='<?php echo BETTER_BASE_URL;?>/place?lon=<?php echo $row['lon'];?>&lat=<?php echo $row['lat'];?>' target='_blank'><?php echo $this->highlight($row['address'], $this->params['place_keyword']);?></a></td>
+					<td width='80' class='center'><a href='<?php echo BETTER_BASE_URL;?>/<?php echo $row['username'];?>' target='_blank'><?php echo $this->highlight($row['realname'], $this->params['user_keyword']);?></a></td>	
+					<td width='80' class='center'><a href='<?php echo BETTER_BASE_URL;?>/<?php echo $row['username'];?>' target='_blank'><?php echo $this->highlight($row['nickname'], $this->params['user_keyword']);?></a></td>
+					<td width='80' class='center'><a><?php echo $row['email'];?></a></td>
+					<td width='120' class='center'><a href='<?php echo BETTER_BASE_URL;?>/<?php echo $row['username'];?>' target='_blank'><?php echo $this->highlight($row['self_intro'], $this->params['user_keyword']);?></a></td>
+					<td width='80' class='center'><a><?php echo date('Y-m-d H:i:s', $row['dateline']+BETTER_8HOURS);?></a></td>
+				</tr>
+				<?php } ?>
+				<tr>
+					<td colspan='10' class='center'>
+					<input type='button' id='chooseAll' name='chooseAll'  value='全选(a)' accesskey='a' />
+					<input type='button' id='chooseNone' name='chooseNone' value='全不选(n)' accesskey='n' />
+					<input type='button' id='chooseReverse' name='chooseReverse' value='反选(v)' accesskey='v' />
+				</td></tr>
+				<tr><td colspan='10' class='center'>
+					<select name='todo' id='todo'>
+						<option value=''>请选择操作</option>
+						<option value='pass'>通过审核</option>
+						<option value='del'>删除所选微博</option>
+						<option value='reset_place'>重置微博位置</option>
+						<option value='del_attach'>删除附件</option>
+						<option value='reset_place2'>重置微博与用户位置</option>
+					</select>
+					<input type='button' id='btnTodo' value='确定(d)' accesskey='d' />
+					</td>
+				</tr>						
+				<?php } else {  ?>
+				<tr>
+					<td colspan='10' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

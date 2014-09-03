@@ -1,0 +1,78 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="index" style='background: url("../images/back-sh.png") no-repeat center top #FFFFFF;'>
+<?php include_once(dirname(__FILE__).'/../include/newheadernonav.phtml');?>
+
+
+<div id="content">
+<div class='mid' style='background: none;'>
+   <div style='height: 360px;'>
+   			<img id='font_bj' class='hide pngfix' src='/images/font-bj.png' alt='' class='pngfix'/>
+   			<img id='font_sh' class='pngfix' src='/images/font-sh.png' alt='' />
+   			<img id='font_gz' class='hide pngfix' src='/images/font-gz.png' alt='' />
+   </div>
+   <div style='height: 140px; font-size: 14px; margin-top: -30px;'>
+   		<div class='left'>
+<a href='/signup'><img src='/images/index-signup.png' class='pngfix'/></a>
+
+   		</div>
+	   <div class='left' style='margin-left: 30px;'>
+		   	<div>
+		   		<img src='/images/index-label.png' />
+		   	</div>
+		   	<div style='padding: 4px 0 0 2px;'>
+		   	开开给你全新体验，用手机分享好地方、发现好去处<br>
+		   	赢勋章、夺掌门！
+		   	</div>
+		   	<a href='/help/learnmore' target='_blank'>了解更多&gt;&gt;</a>
+	   </div>	   
+	   <div class='right' style='margin-right: 50px;width:280px;!margin-right: 25px;'>
+	   	<h3 style='padding: 4px 0; margin: 8px 0 0 0;'>下载手机客户端</h3>
+	   	<div style='margin-bottom: 10px;' id='devices'>
+	   		<a href='/tools/iphonedownload' class='iphonedown'></a>
+	   		<a href='/tools/androiddownload' class='androiddown'></a>
+	   		<a href='/tools/s60download' class='s60down'></a>
+	   		<a href='/tools/blackberrydownload' class='blackberrydown'></a>
+	   		<a href='/tools/wmdownload' class='wmdown'></a>
+	   	</div>	
+	   	<span style='font-size: 12px;'>找不到适用平台？<a href='/tools'>按机型下载</a> 或手机访问 <a href='http://m.k.ai'>m.k.ai</a></span>
+	   </div>
+   </div>
+   <div style='height: 100px;'>
+   		<div class='left' style='background-color: #eee; width: 600px; height: 83px; padding: 5px 0; '>
+   			<div class='left' style='margin: 0 20px;!margin: 0 10px; text-align: center;'>
+   				<img src='/images/crown.png' class='pngfix'/><br>
+   				<span style='font-size: 14px; font-weight: bold;'>附近掌门</span>
+   			</div>
+   			<?php foreach($this->majors as $row){?>
+   				<div class='left' style='line-height: 18px; width:82px; height:85px; text-align: center; overflow: hidden;'>
+   					<a href='/<?php echo $row['username'];?>'><img src='<?php echo $row['avatar_small'];?>' width='48' height='48'/></a><br>
+   					<a href='/<?php echo $row['username'];?>'><?php echo $row['nickname'];?></a><br>
+   					<a href='/poi/<?php echo $row['poi']['poi_id'];?>'><?php echo $row['poi']['name'];?></a>
+   				</div>
+   			<?php }?>
+   		</div>
+   		<div class='right' style='margin-right: 50px;!margin-right: 25px;'>
+   			<?php $market = $this->market;
+   		
+   			if($market && count($market)>0){
+   				if(Better_Config::getAppConfig()->webbanner->switch){
+					$imgsrc = $market[0]['imageurl'];
+					$marketurl = $market[0]['link'];
+				} else {
+					$imgsrc = "/images/market/".$market[0]['img'];
+					$marketurl = $market[0]['href'];
+				} 				
+   			
+   				?>
+   				<a href='<?php echo $marketurl;?>' target='_blank'><img src='<?php echo $imgsrc;?>' width='280px;'/></a>
+   			<?php }?>
+   		</div>
+   </div>
+</div>
+</div> <!--#content-->
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

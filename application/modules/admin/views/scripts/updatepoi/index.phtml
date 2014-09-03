@@ -1,0 +1,107 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+	<form>
+	<div id="list">
+		<table class="kai_table">
+			<tr>
+				<th colspan='4' style="text-align:center;">修改POI信息</th>
+			</tr>
+			<tr>
+				<td>POI ID：</td>
+				<td>
+					<?php echo $this->poiDetail['poi_id'];?>
+					<input type='hidden' id="poi_id" name="poi_id" value="<?php echo $this->poiDetail['poi_id'];?>" />
+				</td>
+				<td>分类：</td>
+				<td>
+					<select id="poi_cate" name="poi_cate">
+						<?php
+							foreach ($this->categories as $k=>$val) { ?>
+							<option value="<?php echo $k;?>" <?php echo $this->poiDetail['category_id']==$k ? 'selected=\'selected\'' : '';?>><?php echo $val;?></option>
+						<?php 		
+							}
+						?>
+						
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>名称：</td>
+				<td><input type='text' id="poi_name" name='poi_name' value="<?php echo $this->poiDetail['name'];?>" /></td>
+				<td>城市：</td>
+				<td><input type='text' id="poi_city" name='poi_city' value="<?php echo $this->poiDetail['city'];?>" /></td>
+			</tr>
+			<tr>
+				<td>电话：</td>
+				<td colspan='3'><input type='text' id='poi_tell' name='poi_tell' value="<?php echo $this->poiDetail['phone'];?>" /></td>
+				<!--  <td>掌门：</td>
+				<td><input type='text' id='poi_major' name='poi_major' value="<?php echo $this->poiDetail['major'];?>" /></td>-->
+			</tr>
+			<tr>
+				<td>地址：</td>
+				<td colspan='3'><input type='text' size='40' id='poi_address' name='poi_address' value="<?php echo $this->poiDetail['address'];?>" /></td>
+			</tr>
+			<tr>
+				<td>标签：</td>
+				<td colspan='3'><input type='text' size='40' id='poi_label' name='poi_label' value="<?php echo $this->poiDetail['label'];?>" /></td>
+			</tr>
+			<tr>
+				<td>介绍：</td>
+				<td colspan='3'>
+					<textarea id='poi_intro' name='poi_intro' cols='50' rows='4'><?php echo $this->poiDetail['intro'];?></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>店主：</td>
+				<td colspan='3'>
+					<input type='text' size='40' id='ownerid' name='ownerid' value="<?php echo $this->poiDetail['ownerid'];?>" />
+				</td>
+			</tr>
+			<tr>
+				<td>认证：</td>
+				<td colspan='3'>
+					<input type="radio" name="cerit" value="1" <?php echo $this->poiDetail['certified']? "checked": ""; ?>/>是
+					<input type="radio" name="cerit"  value="0" <?php echo !$this->poiDetail['certified']? "checked": ""; ?>/>否
+				</td>
+			</tr>
+			<tr>
+				<td>关闭：</td>
+				<td colspan='3'>
+					<input type="radio" name="close" value="1" <?php echo $this->poiDetail['closed']? "checked": ""; ?>/>是
+					<input type="radio" name="close"  value="0" <?php echo !$this->poiDetail['closed']? "checked": ""; ?>/>否
+				</td>
+			</tr>
+			<tr>
+				<td>不允许掌门：</td>
+				<td colspan='3'>
+					<input type="radio" name="forbid_major" value="1" <?php echo $this->poiDetail['forbid_major']? "checked": ""; ?>/>是
+					<input type="radio" name="forbid_major" value="0" <?php echo !$this->poiDetail['forbid_major']? "checked": ""; ?>/>否
+				</td>
+			</tr>
+			<tr>
+				<td>Level adjust：</td>
+				<td colspan='3'>
+					<input type="text" name="level" id='level' value='<?php echo $this->poiDetail['level_adjust'];?>'/>
+				</td>
+			</tr>
+			<tr>
+				<td>地点(经纬度)：</td>
+				<td colspan='3'>
+					<div class="map">
+						<div id="admin_map" style="width: 450px; height: 260px; margin: 0;border:1px solid #ddd;" class='map'></div>
+						<input type="hidden" value="<?php echo $this->poiDetail['lat'] ?>" id="poi_lat" />
+						<input type="hidden" value="<?php echo $this->poiDetail['lon'] ?>" id="poi_lon" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan='4' style="text-align:center;">
+					<input type='button' id='btnUpdate' name='poi_update' value="更新" />
+				</td>
+			</tr>
+		</table>
+		</div>
+		</form>
+		
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

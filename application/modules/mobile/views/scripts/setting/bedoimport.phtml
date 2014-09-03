@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="viewport" content="width=device-width; initial-scale=1.4; minimum-scale=1.0; maximum-scale=2.0"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title><?php echo $this->lang->global->meta->title;?></title>
+	<?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+	<?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+	<div id="headinfo">
+		<?php 
+    		if( $this->user['uid'] > 0 ){
+				echo "<a href=\"/mobile/user?uid=".$this->user["uid"]."\" >".$this->user["nickname"]."</a>@";
+				if( (int)($this->lastcheckin['poi']['poi_id']) < 1 ){
+					echo "<a href=\"/mobile/search\">".$this->lang->mobile->global->whereplace."</a>";
+				}else{
+					echo "<a href=\"/mobile/place?pid=".$this->lastcheckin['poi']['poi_id']."\">".$this->lastcheckin['poi']['name']."</a>";
+				}
+			
+			}
+		?>	
+	</div>
+	<div id='content'>
+	<?php echo "<a href=\"/mobile/setting\">".$this->lang->global->nav->setting."</a>->".$this->lang->setting->menu->bedoimport;?>
+	<div id="error">
+		<?php
+			if($this->showTip) {
+				echo $this->lang->setting->import->loading."<br/>".$this->lang->setting->import->loadtip.'<br/>';
+			} 
+		?>
+	</div> 
+	<?php if ($this->importChooseStyle != 'hide') {?>
+	<div id="importChoose" class="<?php echo $this->importChooseStyle;?>">
+   		<?php echo str_replace('XXXX', $this->totalNum, $this->lang->setting->import->mobileinfo);?>
+    	<div class="syncSet" style="padding: 20px">
+		<form method='post' action='/mobile/setting/update'>	   	
+	  	<table>
+	    	<tbody>
+	    		<tr>
+	    			<td width="30"><input type="checkbox" value="1" name="blog" id="blog" <?php echo !$this->blogCnt ? 'disabled="disabled" ' : '';?>/></td><td width="80"><?php echo $this->lang->setting->import->blog;?></td><td width="100"><?php echo $this->blogCnt?> <?php echo $this->lang->setting->import->blogDesc?></td>
+	    		</tr>
+	    		<tr>
+	    			<td><input type="checkbox" value="1" name="photo" id="photo" <?php echo !$this->photoCnt ? 'disabled="disabled" ' : '';?>/></td><td><?php echo $this->lang->setting->import->photo;?></td><td><?php echo $this->photoCnt?> <?php echo $this->lang->setting->import->photoDesc?></td>
+	    		</tr>
+	    		<tr>
+	    			<td><input type="checkbox" value="1" name="miniBlog" id="miniBlog" <?php echo !$this->miniBlogCnt ? 'disabled="disabled" ' : '';?>/></td><td><?php echo $this->lang->setting->import->miniBlog;?></td><td><?php echo $this->miniBlogCnt?> <?php echo $this->lang->setting->import->miniBlogDesc?></td>
+	    		</tr>
+	    	</tbody>
+	    </table>
+	   	<input type="submit" id='btnPrivacy' value="<?php echo $this->lang->setting->privacy->button_tips;?>" class="save btn"/>
+	   	<input type='hidden' name='todo' id='todo' value='bedoimport' />
+		</form>
+		</div>
+	</div>
+	<?php }?>
+	<?php if ($this->importingStyle != 'hide') {?>
+	<div id="importing" class="snotice <?php echo $this->importingStyle;?>" style="line-height:26px">
+	<?php echo $this->lang->setting->import->doing?>
+	</div>
+	<?php }?>
+	<?php if ($this->noneImportStyle != 'hide') {?>
+	<div id="noneImport" class="<?php echo $this->noneImportStyle;?>" style="line-height:26px">
+		<div class="snotice"><?php echo $this->lang->setting->import->none?></div>
+		<?php
+    		if ($this->firstImport) { 
+    	?>
+    	<br />
+    	<?php
+    		}
+    	?>
+	</div>
+	<?php }?>
+	</div>
+	<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</body>
+</html>

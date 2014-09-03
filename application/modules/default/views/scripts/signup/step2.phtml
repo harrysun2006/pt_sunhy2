@@ -1,0 +1,146 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<body id="signup">
+<?php include_once(dirname(__FILE__).'/../include/newheadernonav.phtml');?>	
+
+<div id="setting_page">
+  <div class="mid">
+	  <div id="setting_menu">   		
+		<div class="setting_right">	  	
+  		<?php 
+  		if(Better_Registry::get('sess')->get('step2nickname')){
+  			echo $this->langTpl('signup_step2_3rd');
+  		} else {
+  			echo $this->langTpl('signup_step2');
+  		}
+  				?>
+  		</div>
+  		
+  	  </div>
+  	  <div id="setting_content">
+  	   <div class="setting_main">
+	  	<div id="form">
+	  	<div class="headertitle"></div>
+	  	 <h2><?php echo $this->lang->signup->step2->title;?></h2>
+		 
+
+
+		    <form action="/signup/step2" method="post" id="signupform">
+		    	<table>
+
+		    		<tr>
+		    			<td><label for="email"><?php echo $this->lang->signup->email;?></label></td>
+		    			<td><?php echo $this->user['email'];?>
+		    			<?php if ($this->user['state']==Better_User_State::SIGNUP_VALIDATING) {?>
+		    			<span class='err'>&lt;<?php echo $this->lang->signup->not_validate;?>&gt;</span>
+		    			<?php } ?>
+		    			</td>
+		    			<td></td>
+		    		</tr>	
+		    		<tr>
+		    			<td><label for="nickname"><?php echo $this->lang->signup->nickname->title;?></label></td>
+		    			<td><?php 
+		    			if(Better_Registry::get('sess')->get('step2nickname')){
+		    			?>
+		    			<input type='text' name='nickname' id='nickname'  value='<?php echo $this->user['nickname']?>' style='width:180px;' />
+		    			<?php } else {
+		    			echo $this->user['nickname'];
+		    			?><input type='hidden' name='nickname' id='nickname'  value='<?php echo $this->user['nickname']?>' style='width:180px;' /><?php }?></td>
+		    			<td><span id='err_nickname' class='err'><?php echo $this->err['nickname'];?></span></td>
+		    		</tr>	    		
+		    		
+		    		<tr>
+		    			<td><label for="city"><?php echo $this->lang->setting->basic->city->title;?></label></td>
+		    			<td>
+		    			 <select name="live_province" id="live_province" class="pro">							
+						</select>
+							<select name="live_city" id="live_city" class="city">							
+						</select>
+						</td>
+		    			<td> <span id='err_city' class='err'></span></td>
+		    		</tr>
+		    		<?php 
+		    		
+		    		if(Better_Config::getAppConfig()->autoregthird->switch){
+		    			
+		    			$gendercheck = '';
+		    		if($this->user['gender']=='male' || $this->user['gender']=='female'){
+		    			$gendercheck = "disabled";
+		    		}		    		
+		    			?>
+		    		<tr><td><label for="gender"><?php echo  $this->lang->setting->basic->gender->title;?></label></td><td> <input id="gender_male" name="gender" type="radio" value="male" <?php if ($this->user['gender']=='male') { echo "checked='checed'"; } echo $gendercheck;?>/> <?php echo $this->lang->setting->basic->gender->male;?>
+					    <input id="gender_female" name="gender" type="radio" value="female" <?php if ($this->user['gender']=='female') { echo "checked='checed'"; }  echo $gendercheck;?>/>  <?php echo $this->lang->setting->basic->gender->female;?>
+					     <input id="gender_secret" name="gender" type="radio" value="secret" <?php if ($this->user['gender']=='secret') { echo "checked='checed'"; }  echo $gendercheck;?>/>  <?php echo $this->lang->setting->basic->gender->secret;?>
+					   </td></tr>
+					    <?php } else {?>
+					    <input name='gender' value='<?php echo $this->user['gender'];?>' type='hidden'>
+					    <?php }?>
+		    		<tr>
+		    			<td><label for="btnFile"><?php echo $this->lang->setting->menu->avatar;?>：</label> </td>
+		    			<td>
+					<input type='text' name='avatar_path' id='avatar_path' readonly='readonly' value='' style='width:180px;' />
+					<input type='button' name='btnFile' id='btnFile' value='<?php echo $this->lang->setting->avatar->file_tips;?>'  class='btn' />
+					<input type='hidden' name='avatar' id='avatar' value='<?php echo $this->user['avatar'];?>' />		    			
+		    			</td>
+		    			<td>
+		    				<span id='err_avatar' class='err'></span>
+		    				<span id='tip_avatar' class='tip'></span>
+		    			</td>
+		    		</tr><!-- 
+		    		<tr>
+		    			<td><label for="username"><?php echo $this->lang->signup->username->title;?></label> </td>
+		    			<td>http://k.ai/<input type="text" id="username" name="username" value="<?php echo $this->user['username'];?>" style='width:200px;'/></td>
+		    			<td>
+		    				<span id='ok_username'></span>
+		    				<span id='err_username' class='error'><?php echo $this->err['err_username'];?></span>
+		    				<span id='tip_username' class='tip'><?php echo $this->lang->signup->username_remark;?></span>
+		    			</td>
+		    		</tr> -->
+
+		    		<tr>
+		    			<td><label for='code'><?php echo $this->lang->setting->basic->birthday->title;?></label></td>
+		    			<td><input type="text" size="24" id="birthday" name="birthday" value="<?php echo $this->user['birthday'];?>" readonly='readonly' /></td>
+		    			<td><span id='err_birthday' class='err'><?php echo $this->err['err_birthday'];?></span></td>
+		    		</tr>
+		    		
+		    		<tr>
+		    			<td valign="top"><label for='code'><?php echo $this->lang->setting->basic->intro->title;?></label></td>
+		    			<td>
+		    			<textarea name='self_intro' id='self_intro' style="width: 267px; height: 45px;"></textarea>
+		    			<br />
+		    			<span id='err_self_intro' class='err'><?php echo $this->err['self_intro'];?></span>
+		    			</td>
+		    			<td></td>
+		    		</tr>		    		
+
+		    	</table>
+		    
+		    	<div class="action">
+
+		    	   <input style="text-align: center;" type="button" id='step2_btn' class="btn" value="<?php echo $this->lang->signup->next;?>"/>
+		    	   <br /><br />
+	    	 	   <input type='hidden' name='formIsValid' id='formIsValid' value='0' />
+	    	 	  <?php 	    	 	
+		    			if(strlen(Better_Registry::get('sess')->get('step2nickname'))==0 && Better_Config::getAppConfig()->autoregthird->switch && strlen(Better_User::getInstance($this->user['uid'])->cache()->get('thirdpass'))>0){
+		    				
+		    			?> 
+		    			<input type="checkbox" id="autosina" value="1" name="autosina"
+		    			<?php if (strlen($this->err['signtosina'])==0) {?>
+		    			 checked='checked' <?php }?>style='width:20px;' />
+		    			<?php echo $this->lang->signup->step2->autocreatesina;
+		    			}?>
+		    			<span id='err_autosina' class='err'><?php if (strlen($this->err['signtosina'])>0){ echo "新浪注册失败：".$this->err['signtosina'];}?></span>
+		    	</div>
+		    </form>
+	    </div>
+	</div>
+	  
+	  </div>
+	  <div class="clearfix"></div>
+  </div><!--#mid-->
+</div> <!--#content-->
+<div id='sssss'></div>
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:lift="http://liftweb.net" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta content="width=320" name="viewport" />   
+    <title><?php echo $this->lang->global->meta->title;?></title>
+    <?php include_once(dirname(__FILE__).'/../include/textcss.phtml');?>
+</head>
+<body>
+    <?php include_once(dirname(__FILE__)."/../include/logo.phtml")?>
+    <div id="headinfo">
+    	<?php 
+    		if( $this->user['uid'] > 0 ){
+				echo "<a href=\"/polo/user?uid=".$this->user["uid"]."\" >".$this->user["nickname"]."</a>@";
+				if( (int)($this->lastcheckin['poi']['poi_id']) < 1 ){
+					echo "<a href=\"/polo/search\">".$this->lang->mobile->global->whereplace."</a>";
+				}else{
+					echo "<a href=\"/polo/place?pid=".$this->lastcheckin['poi']['poi_id']."\">".$this->lastcheckin['poi']['name']."</a>";
+				}
+				echo "<hr/>";
+			}
+		?>	
+	</div>
+	<?php 
+	echo $this->brandurl;
+	?>
+	
+	
+			<?php 
+			echo "<br/>";
+			for($i=0;$i<count($this->phone);$i++)
+			{
+				$thisphoneurl .= "<a href='/polo/tools/getproduct?pid=".$this->phone[$i]['pid']."'>".$this->phone[$i]['name']."</a>";
+				$thislinktext .= $this->phone[$i]['name'];
+				if(strlen($thislinktext)>13 || (strlen($this->phone[$i+1]['name'])+strlen($thislinktext))>13 || strlen($this->phone[$i+1]['name'])==0)
+				{				
+					echo $thisphoneurl."<br/>";
+					$thisphoneurl ="";
+					$thislinktext ="";										
+				}
+				else
+				{				
+					$thisphoneurl .="|&nbsp;";
+				}
+					
+			}
+			
+				
+			?>
+			
+	
+			<?php
+					echo $this->urlNext." ".$this->urlPrev;
+				?>
+	
+	<?php 
+    	if( $this->user['uid'] > 0 )
+    		include_once(dirname(__FILE__).'/../include/footer.phtml');			
+		else
+			include_once(dirname(__FILE__).'/../include/loginfooter.phtml');
+	?>
+</body>
+</html>  
+  

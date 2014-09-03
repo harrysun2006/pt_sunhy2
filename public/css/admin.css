@@ -1,0 +1,88 @@
+body{
+	font-family:Verdana,sans-serif; 
+	font-size:12px; 
+	ine-height:1.8em; 
+	color:#333; 
+	background-color:#fff; 
+	margin:0	;
+	text-align: center;	
+}
+
+img { border:0px; }
+
+.login_table{
+	border: 1px solid #333;
+	width:300px;
+	margin:150px auto;
+	padding: 20px;
+	background:#fff;
+}
+
+#list table{
+	border-collapse:collapse;
+}
+
+#list td, th{
+	border: 1px solid black;
+}
+
+#list th{
+	background-color: #d3dce3;
+	color:#000;
+}
+
+.error { color: #f00; }
+
+.content_wraper { padding:10px; } 
+
+.kai_table { border:0px; width:100%; line-height:160%;}
+.kai_table th {background:#aad;}
+.kai_table td { text-align:left; padding:1px 6px 1px 6px; }
+.kai_table tr.light { background:#fff; }
+.kai_table tr.dark { background:#eee;}
+/*.kai_table tr.light:hover, .kai_table tr.dark:hover { background:#ddd; }*/
+.kai_table td.pager { padding: 4px 10px 4px 10px; line-height:160%; text-align:left; }
+.kai_table td.messages { word-break:break-word; max-width:400px; overflow:hidden;}
+.kai_table td.center, .center{ text-align:center; }
+.kai_table tr.selected { background:#FFCC99; }
+.kai_table td.selected { background:#FFCC99; }
+
+h2 { font-size:14px; vertical-align:middle; line-height:24px;}
+input[type=text],input[type=password] { border:1px solid #000; background:#fff; }
+input.quick { border:0px; background:#fff; color:blue;}
+
+div.attach_desc { font-size:11px; font-style: italic; color:#aaa;}
+
+.highlight { color:red; font-weight:bold; }
+
+a:link,a:active,a:visited, span.empty_pager { color:blue;text-decoration:none; }
+a:hover { color:red; text-decoration:underline; }
+
+.show {
+	display: auto;
+}
+
+.hide {
+	display: none;
+}
+
+.nowrap{
+	white-space: nowrap;
+}
+
+
+#menu ul{
+	list-style-type:none; 
+	line-height: 2em; 
+	text-align: left;
+	padding-left: 20px;
+}
+
+#menu ul a{
+	color: #000;
+}
+
+
+#menu ul a:hover{
+	background-color: #9999cc;
+}

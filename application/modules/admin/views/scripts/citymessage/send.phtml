@@ -1,0 +1,13 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper' >
+			<?php               
+				if($this->result){
+					echo '成功写入队列！';
+				}else{
+					echo '失败了！';					
+				}
+			?>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

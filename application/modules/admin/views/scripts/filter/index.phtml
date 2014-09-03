@@ -1,0 +1,137 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		<?php if($this->params['menu_show']!=1){?>
+			<div style='width: 100%; text-align:left; background-color:#D3DCE3;'>
+			[<a href='/admin/filter' class='left' <?php if($this->params['act_type'] == '') echo '  style="color:#FF0000;font-weight:bold;"';?>>所有最新</a>] 
+			[<a href='/admin/filter?act_type=blog' class='left' <?php if($this->params['act_type'] == 'blog') echo '  style="color:#FF0000;font-weight:bold;"';?>>可疑微博</a>] 
+			[<a href='/admin/filter?act_type=userinfo' class='left' <?php if($this->params['act_type'] == 'userinfo') echo '  style="color:#FF0000;font-weight:bold;"';?>>可疑用户信息</a>] 
+			[<a href='/admin/filter?act_type=direct_message' class='left' <?php if($this->params['act_type'] == 'direct_message') echo '  style="color:#FF0000;font-weight:bold;"';?>>可疑用户私信</a>] 
+			[<a href='/admin/filter?act_type=reply' class='left' <?php if($this->params['act_type'] == 'reply') echo '  style="color:#FF0000;font-weight:bold;"';?>>可疑评论</a>]</div>
+		<?php }?>
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/filter" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>搜索</th></tr>
+			<tr>
+				<td width='10%'>关键字:</td>
+				<td width='25%'><input type='text' name='keyword' id='keyword' value='<?php echo $this->params['keyword'];?>' /></td>
+				<td width='10%'>用户名:</td>
+				<td width='25%'><input type='text' name='user_keyword' id='user_keyword' value='<?php echo $this->params['user_keyword'];?>' /></td>
+				<td width='10%'>Bedo号精确搜索:</td>
+				<td >
+				<input type='text' name='bedo_no' id='bedo_no' value='<?php echo $this->params['bedo_no'];?>'/>
+				<!-- <select name='act_type' id='act_type'>
+						<option value=''>全部</option>
+						<option value='userinfo' <?php echo $this->params['act_type']=='userinfo' ? ' selected="selected"' : '';?>>用户资料</option>
+						<option value='blog' <?php echo $this->params['act_type']=='blog' ? ' selected="selected"' : '';?>>微博</option>
+						<option value='blogreply' <?php echo $this->params['act_type']=='blogreply' ? ' selected="selected"' : '';?>>微博回复</option>
+					</select>  -->
+				</td>  
+			</tr>			
+			<tr>
+				<td>时间范围:</td>
+				<td colspan='3'>
+				从 <input type='text' name='from' id='from' value='<?php echo $this->params['from'];?>' readonly='readonly' />
+				到 <input type='text' name='to' id='to' value='<?php echo $this->params['to'];?>' readonly='readonly' />
+				</td>
+
+				<td>每页结果数:</td>
+				<td>
+				<select name='page_size' id='page_size'>
+					<option value='<?php echo BETTER_PAGE_SIZE;?>' <?php echo $this->params['page_size']==BETTER_PAGE_SIZE ? ' selected="selected"' : '';?>>默认(<?php echo BETTER_PAGE_SIZE;?>)</option>
+					<option value='50' <?php echo $this->params['page_size']==50 ? ' selected="selected"' : '';?>>50</option>
+					<option value='100' <?php echo $this->params['page_size']==100 ? ' selected="selected"' : '';?>>100</option>
+					<option value='99999999' <?php echo $this->params['page_size']==99999999 ? ' selected="selected"' : '';?>>全部</option>
+				</select>
+				</td>
+			</tr>			
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='submit' value='搜索(s)' accesskey='s' />
+					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />
+					<input type='hidden' name='page' id='page' value='<?php echo $this->params['page'];?>' />
+					<input type='hidden' name='reload' id='reload' value='0' />
+					<input type='hidden' name='act_type' id='act_type' value='<?php echo $this->params['act_type'];?>'>
+					<input type='hidden' name='need_check' id='need_check' value='<?php echo $this->params['need_check'];?>'>
+					<input type='hidden' name='menu_show' id='menu_show' value='<?php echo $this->params['menu_show'];?>'>
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div>
+
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+				<tr>
+					<th width='20'></th>
+					<th class='nowrap'>可疑词</th>
+					<th>内容</th>
+					<th>类型</th>
+					<th>用户名</th>
+					<th>可疑词类型</th>
+					<th>时间</th>
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td><input type='checkbox' name='ids[]'  value='<?php echo $row['bid'];?>' text_type='<?php echo $row['type']; ?>' filter_id='<?php echo $row['id'];?>' /></td>
+					<td class='center'><?php echo $row['check_words']; ?></td>
+					<td class='messages'>
+						<?php if($this->params['act_type']=='userinfo'){?>
+							<a href="<?php echo $this->admin_url;?>/user?uid=<?php echo $row['bid'];?>"><?php echo $this->highlight($row['reftext'], $this->params['keyword']);?></a>
+						<?php }else if($this->params['act_type']=='direct_message'){?>
+							<a href="<?php echo $this->admin_url;?>/dmessage?msgid=<?php echo $row['bid'];?>"><?php echo $this->highlight($row['reftext'], $this->params['keyword']);?></a>
+						<?php }else{
+						 	echo $this->highlight($row['reftext'], $this->params['keyword']);}?>
+					</td>
+					<td width='120' class='center'><?php echo $row['type'];?></td>
+					<td width='80' class='center'><a href='/<?php echo $row['username'];?>' target='_blank'><?php echo $row['username'];?></a></td>	
+					<td width='80' class='center'><?php echo $row['word_type'];?></td>	
+					<td width='80' class='center'><?php echo date('Y-m-d H:i:s', $row['createtime']+BETTER_8HOURS);?></td>
+				</tr>
+				<?php } ?>
+				<tr>
+					<td colspan='15' class='center'>
+					<input type='button' id='chooseAll' name='chooseAll'  value='全选(a)' accesskey='a' />
+					<input type='button' id='chooseNone' name='chooseNone' value='全不选(n)' accesskey='n' />
+					<input type='button' id='chooseReverse' name='chooseReverse' value='反选(v)' accesskey='v' />
+				</td></tr>
+				<tr><td colspan='15'>
+				<?php if($this->params['act_type']=='blog' ){?>
+					<input type='button' id='btnPass' value='通过审核' />
+					<input type='button' id='btnDel' value='删除' />
+				<?php }?>
+				<?php if($this->params['act_type']=='reply' ){?>
+					<input type='button' id='re_btnPass' value='通过审核' />		
+					<input type='button' id='re_btnDel' value='删除评论' />			
+				<?php }?>
+					<?php if($this->params['act_type']=='direct_message' ){?>
+					<input type='button' id='msg_btnPass' value='通过审核' />		
+					<input type='button' id='msg_btnDel' value='删除私信' />			
+				<?php }?>
+					</td>
+				</tr>		
+				<?php } else {  ?>
+				<tr>
+					<td colspan='10' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

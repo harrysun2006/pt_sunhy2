@@ -1,0 +1,38 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/log" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='4' class='center'>Memcache服务器汇总信息</th></tr>
+				<tr>
+				<td width='15%' bgcolor='#eeeeee'>host</td>
+				<td >
+				<?php echo $this->memcached_host;?>
+				</td>
+			</tr>			
+				<tr>
+				<td width='15%' bgcolor='#eeeeee'>port</td>
+				<td >
+				<?php echo $this->memcached_port;?>
+				</td>
+			</tr>						
+			<?php foreach ($this->stats as $key=>$value) {?>
+			<tr>
+				<td width='15%' bgcolor='#eeeeee'><?php echo $key;?></td>
+				<td >
+				<?php echo $value;?>
+				</td>
+			</tr>			
+			<?php } ?>
+
+			</table>		
+			</form>
+		</div>
+
+			
+		</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

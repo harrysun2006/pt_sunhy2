@@ -1,0 +1,34 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+<div id='sss'>
+<div class="mid"> 	
+	<div id="top">
+		<div>
+			<a href='/' > <img class='pngfix' src='images/maf/logo.png'></a>
+		</div>
+	</div>
+ 	<div id='orange_header'>您的明信片已填好，看起来不错吧</div>
+ 	<div class='messagecard'>
+ 		<div id='view_message'>			
+			<div id='cardmess'><?php echo $this->message['message'];?></div>
+			<div id='cardhead'>
+						
+					<li><?php echo $this->message['receive_address'];
+					 echo "&nbsp;&nbsp;".$this->message['receive_name']."(收)";
+					?></li>
+					
+					<li><?php echo $this->message['post_address'];
+							  echo "&nbsp;&nbsp;".$this->message['post_name'];
+							  echo "(".$this->message['post_zipcode'].")";
+					?></li>
+				
+				
+			</div>
+			<div id='cardcontrol'><a href='/maf/index/step3'><img src='images/maf/re.png'></a><a href='javascript: void(0);' id='sendcard'><img src='images/maf/finish.png'></a></div>
+		</div>
+ 	</div>
+</div> <!--#content-->
+<div id='cardinfo' style='display:none;'><?php echo $this->card;?></div>
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+</div>
+</body>
+</html>

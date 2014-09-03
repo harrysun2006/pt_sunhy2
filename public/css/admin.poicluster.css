@@ -1,0 +1,154 @@
+* {margin: 0; padding: 0}
+html {width: 100%; height: 100%;}
+body {
+  width: 100%; height: 100%;
+  font-size: 12px;
+}
+td {
+}
+
+table#main_tbl {width:100%; height: 600px;}
+
+#keywords_head
+{
+  border-left: 2px solid lightblue; height:100%;
+  background-color: lightblue;
+}
+#poi_head
+{
+  border-left: 2px solid lightpink;
+  background-color: lightpink;
+}
+#map_head
+{
+  border-left: 2px solid lightgreen;
+  background-color: lightgreen;
+}
+
+/* layout: column size */
+td#keywords_container
+{
+  width: 160px;
+  vertical-align: top;
+  border: 2px solid lightblue; height:100%;
+}
+td#poi_container
+{
+  width: 400px;
+  height: 100%;
+  vertical-align: top;
+  border: 2px solid lightpink;
+}
+td#map_container
+{
+  vertical-align: top;
+  border: 2px solid lightgreen;
+}
+
+div#map_convas
+{
+  height: 400px; /* 如果采用 100%, 当其它栏太高时，地图会太大而影响速度 */
+}
+
+#keywords_container ol {
+  padding: 5px 5px 5px 25px; /* space for list number */
+  height: 100%;
+}
+
+#poi_container ol
+{
+  padding: 5px 5px 5px 25px; /* space for list number */
+  overflow-y: scroll;
+  height: 100%;
+  list-style-type: decimal;
+}
+
+/***************** end layout *******************/
+
+.keyword_processed
+{
+  font-weight: normal;
+}
+.keyword_processing
+{
+  background-color: lightblue;
+  color: red;
+}
+.keyword_unprocessed
+{
+  font-weight: bold;
+}
+.poi_item
+{
+  border-left: 2px solid white;
+}
+.poi_item:hover, .poi_item_highlight
+{
+  border-left: 2px solid lightgreen;
+  background-color: #DDFFDD;
+}
+.poi_default_state_on
+{
+  color: red;
+  font-weight: bold;
+}
+.poi_default_state_off
+{
+}
+.merged_poi
+{
+  text-decoration: line-through;
+}
+.disable_merge
+{
+  color: #DDD;
+}
+.poi_detail_off
+{
+  display: none;
+}
+.poi_detail_on
+{
+  display: inline;
+  color: #999;
+}
+
+#summary
+{
+  background-color: #EEE;
+  border:2px solid #6495ED;
+}
+
+#poi_container .poi_name
+{
+  height: 20px;
+}
+#poi_container .poi_opts
+{
+  margin-top: -20px;
+  text-align: right;
+}
+.poi_name span, .poi_opts span {
+  cursor: pointer; /* (IE6 only) Same as hand. */
+  cursor: cursor;
+}
+
+input#page_idx {width: 30px;}
+
+span#site_title {font-weight: bold; font-size: 18px;}
+
+div#tip_container {
+  padding: 10px;
+}
+
+div#tip_container ul {
+  margin-left: 20px;
+}
+
+.del_keyword {
+  color: #DDD;
+  cursor: pointer;
+}
+.del_keyword:hover {
+  color: black;
+}

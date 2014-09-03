@@ -1,0 +1,170 @@
+<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+
+<body>
+<?php include_once(dirname(__FILE__).'/../include/newheader.phtml');?>	
+
+<?php 
+	$blog = $this->blog;
+	$upblog = $this->upblog;
+?>
+<input type='hidden' value='<?php echo $blog['bid'];?>' id='bid' />
+<input type='hidden' value='<?php echo $blog['type'];?>' id='btype' />
+
+<div id="content">
+  <div class="mid">
+     <div id="half_left">
+     		<div style='background: #eee; padding: 15px 0 15px 15px; font-size: 14px; border: 1px solid #DCE2EA; border-right: 0; _zoom: 1;'>
+     			<div class='left' style='width: 55px;'>
+     				<img src='<?php echo $blog['avatar_thumb'];?>' style='padding: 2px; width: 48px; border: 1px solid #e9e9e9;' />
+     			</div>
+     			<div class='left'>
+	     			<div style='background: url(images/comment_ot.png) no-repeat 1px top; width: 584px; height: 5px;'>
+	     			</div>
+	     			<div>
+		     			<div class='left'  style='background: url(images/comment_ot.png) no-repeat left -10px; width: 11px; height: 30px;'>
+		     			</div>
+		     			<div style='padding: 2px 10px 10px; background: url(images/comment_oc.gif) repeat-y -10px 0; width: 554px;' class='left'>
+		     				<p style='margin: 5px 0 2px 0;'>
+		     					<span style='font-weight: bold;'><a href='/<?php echo $blog['username'];?>'><?php echo $blog['nickname'];?></a></span>	
+								<?php echo Better_Blog::parseBlogAt(Better_Blog::parseWebEmptyMsg($blog)) ;?>
+								<br>
+								<?php if($blog['badge_id']>0){?>
+									<img src='<?php echo $blog['badge_detail']['picture'];?>' class='pngfix'/>
+								<?php }?>
+								<?php if($blog['attach_thumb']){?>
+									<a href='<?php echo $blog['attach_url'];?>'><img class='pngfix' src='<?php echo $blog['attach_thumb'];?>' /></a>
+								<?php }?>
+								
+							</p>
+							
+							<div style='font-size: 12px;'>
+								<span style='color: #b7bdc4;'  class='left'><?php echo date('Y-m-d', $blog['dateline']+8*3600);?></span>
+								<?php if($blog['poi'] && $blog['type']!='checkin'){?>
+									<span class='left'><a style='color: #b7bdc4;' href='/poi/<?php echo $blog['poi']['poi_id'];?>'>@<?php echo $blog['poi']['city'].' '.$blog['poi']['name'];?></a></span>
+								<?php }?>
+								<?php 
+									if(in_array($blog['bid'], $this->favorites)){
+										$t = 'unfav';
+										$txt = '取消收藏';
+									}else{
+										$t = 'fav';
+										$txt = '收藏';
+									}
+								?>
+								<a class='right' id='comment_fav' href="javascript: void(0);" style='margin-right: 10px;' t=<?php echo $t;?>><?php echo $txt;?></a>
+								<a class='right' id='comment_rt' href="javascript: void(0);" style='margin-right: 10px;'>转发</a>
+								<div class='clearfix'></div>
+							</div>
+							
+								<!-- 转发的 -->
+								<?php if($upblog['bid']){?>
+									<div style='margin-top: 10px;'>
+										<div class='left'>
+											<img src='<?php echo $upblog['avatar_thumb'];?>' style='padding: 1px; width: 48px; border: 1px solid #e9e9e9;' />
+										</div>
+										<div class='left' style='width: 500px;'>
+											<div style='background: url(images/comment_it.png) no-repeat left top; width: 495px; height: 10px;'>
+	     									</div>
+	     									<div>
+	     										<div class='left'  style='background: url(images/comment_it.png) no-repeat left -8px; width: 7px; height: 20px;'>
+	     										</div>
+	     										<div style='padding: 2px 10px 10px; background: url(images/comment_ic.gif) repeat-y -7px 0; width: 468px;' class='left'>
+	     											<p>
+	     												<span style='font-weight: bold;'><a href='/<?php echo $upblog['username'];?>'><?php echo $upblog['nickname'];?></a></span>	
+														<?php echo Better_Blog::parseBlogAt(Better_Blog::parseWebEmptyMsg($upblog)) ;?>
+														<?php if($upblog['attach_thumb']){?>
+															<a href='<?php echo $upblog['attach_url'];?>'><img src='<?php echo $upblog['attach_thumb'];?>' /></a>
+														<?php }?>
+													</p>
+													
+													<div style='font-size: 12px;'>
+														<span style='color: #b7bdc4;'  class='left'><?php echo date('Y-m-d', $upblog['dateline']+8*3600);?></span>
+														<?php if($upblog['poi'] && $upblog['type']!='checkin'){?>
+															<span class='left' style='color: #b7bdc4;'><a style='color: #b7bdc4;' href='/poi/<?php echo $upblog['poi']['poi_id'];?>'>@<?php echo $upblog['poi']['city'].' '.$upblog['poi']['name'];?></a></span>
+														<?php }?>
+														<a href='/comments?bid=<?php echo $upblog['bid'];?>' class='right'>原文评论(<?php echo $upblog['comments'];?>)</a>
+														<div class='clearfix'></div>
+													</div>
+												</div>
+												<div class='clearfix'></div>
+	     									</div>
+	     									<div style='background: url(images/comment_ib.png) no-repeat left top; width: 495px; height: 10px;'>
+	     									</div>
+	     									<div class='clearfix'></div>
+										</div>
+									</div>
+							<?php }?>
+							
+						
+							</div> 
+							<div class='clearfix'></div>
+						</div>
+						<div style='background: url(images/comment_ob.png) no-repeat 1px top; width: 584px; height: 8px;'>
+	     				</div>
+					</div>
+     			
+     			<div class='clearfix'></div>
+     		</div>
+     		<div class="tabs">
+				<div style='border-left: 1px solid #DCE2EA; border-bottom: 0; padding-top: 10px;'>
+					<div style='border-bottom: 1px solid #DCE2EA; padding-bottom: 15px;'>
+					<div>
+						<div style='font-size: 14px;'>
+							<div style='font-weight: bold; background: url(images/post_c.png) no-repeat; background-position: left -2px; !background-position: left -4px; width:70px; text-align: right;' class='left'>写评论</div>
+							<span class='right'>还可以输入<span class='remain_count'>140</span>个字</span>
+							<div class='clearfix'></div>
+						</div>
+						<textarea id='comment_content' style='width: 640px; height: 50px; margin: 10px 0; overflow: hidden;'></textarea>
+						<div>
+							<span class='left'>
+								<?php if($blog['allow_rt']){?>
+									<input type='checkbox' id='to_shout' class='to_shout'>同时发布到吼吼<br>
+								<?php 
+									$syncSites = (array)Better_User_Syncsites::getInstance($this->uid)->getSites();
+									if(count($syncSites)>0){?>
+										<span class='hide'><input type='checkbox' id='sync' class='sync'>分享到我已绑定的社交网络</span>
+									<?php }
+								}else{
+									echo $blog['nickname']." 的动态不允许被转发";									
+								}?>
+								
+							</span>
+							<a id='post_commment' class='comment_btn button right' href='javascript: void(0);'>发表评论</a>
+							<div class='clearfix'></div>
+						</div>
+					</div>
+					</div>
+					<div style='font-size: 14px; margin-top: 15px;'>
+							<div style='font-weight: bold; background: url(images/comment_c.png) no-repeat; background-position: left -2px; !background-position: left -4px; width:130px; text-align: right;' class='left'>看大伙在说什么</div>
+							<span class='right' style='font-size: 12px;'>共<span id='comments_count'>0</span>条评论</span>
+							<div class='clearfix'></div>
+					</div>
+				</div>
+				
+	            <div id="comments">
+					<div id='div_comments' class='comments_list blog_table'>
+						
+					</div>
+					<table class="blog_table">
+	            	 	<tbody id="tbl_comments"></tbody>
+					</table>
+					<table class='pager'>
+						<tr>
+						<td>
+							<div class="page pager" id='pager_comments'></div>
+						</td>
+						</tr>
+					</table>
+	            </div> 
+	        </div><!--#tabs-->
+        
+	 </div><!--#half_left-->
+	 <?php include_once(dirname(__FILE__).'/../include/rightbar.phtml');?>
+	 </div>
+</div>
+
+<?php include_once(dirname(__FILE__).'/../include/footer.phtml');?>
+
+</body>
+</html>
+<?php $this->Gz();?>

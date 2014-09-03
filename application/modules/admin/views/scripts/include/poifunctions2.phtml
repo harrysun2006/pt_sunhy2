@@ -1,0 +1,12 @@
+<div style='width: 100%; text-align:left; background-color:#D3DCE3;'>
+	<?php if($this->params['action']=='index'){?>
+			[<a href='/admin/poi?poi_from=user_new' class='left' style="color:#FF0000;font-weight:bold;">新增POI</a>] 
+	<?php }else{?>
+			[<a href='/admin/poi?poi_from=user_new' class='left'>新增POI</a>] 
+	<?php }?>
+	<?php  if($this->params['action']=='getpois'){?>
+			[<a href='/admin/poi/getpois' class='left' style="color:#FF0000;font-weight:bold;">审核用户修改的POI</a>]
+	<?php }else{?>
+			[<a href='/admin/poi/getpois' class='left'>审核用户修改的POI</a>]
+	<?php }?>
+</div>

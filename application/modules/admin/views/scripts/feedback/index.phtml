@@ -1,0 +1,186 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper'><div id="list">
+		<div style='width: 100%; text-align:left; background-color:#D3DCE3;'>[<a href='/admin/feedback' class='left' style="color:#FF0000;font-weight:bold;">用户反馈</a>] [<a href='/admin/kaimessage' class='left'>KAI的私信</a>]</div>
+		<div style="margin: 10px auto;">
+			<form action="<?php echo $this->admin_url;?>/feedback" id="search_form">
+			<table class='kai_table'>
+			<tr><th colspan='6' class='center'>搜索</th></tr>
+			<tr>
+				<td width='10%'>内容关键字:</td>
+				<td width='25%'><input type='text' name='keyword' id='keyword' value='<?php echo $this->params['keyword'];?>' /></td>
+				<td width='10%'>类型:</td>
+				<td width='25%'>
+					<select name='type_keyword' id='type_keyword'>
+						<option value=''>所有</option>
+						<option value='注册问题' <?php echo $this->params['type_keyword']=='注册问题'? "selected":""; ?> >注册问题</option>
+						<option value='密码问题' <?php echo $this->params['type_keyword']=='密码问题'? "selected":""; ?> >密码问题</option>
+						<option value='登陆问题' <?php echo $this->params['type_keyword']=='登陆问题'? "selected":""; ?> >登陆问题</option>
+						<option value='错误报告' <?php echo $this->params['type_keyword']=='错误报告'? "selected":""; ?> >错误报告</option>
+						<option value='建议' <?php echo $this->params['type_keyword']=='建议'? "selected":""; ?> >建议</option>
+						<option value='其他' <?php echo $this->params['type_keyword']=='其他'? "selected":""; ?> >其他</option>
+					</select>
+				</td>
+				<td width='10%'>状态</td>
+				<td >
+					<select name='status' id='status'>
+						<option value=''>所有</option>
+						<option value='1' <?php echo $this->params['status']=='1' ? ' selected="selected"' : '';?>>已回复</option>
+						<option value='0' <?php echo $this->params['status']=='0' ? ' selected="selected"' : '';?>>未回复</option>
+					</select>
+				</td>
+			</tr>			
+			<tr>
+				<td>时间范围:</td>
+				<td colspan='3'>
+				从 <input type='text' name='from' id='from' value='<?php echo $this->params['from'];?>' readonly='readonly' />
+				到 <input type='text' name='to' id='to' value='<?php echo $this->params['to'];?>' readonly='readonly' />
+				</td>
+
+				<td>每页结果数:</td>
+				<td>
+				<select name='page_size' id='page_size'>
+					<option value='<?php echo BETTER_PAGE_SIZE;?>' <?php echo $this->params['page_size']==BETTER_PAGE_SIZE ? ' selected="selected"' : '';?>>默认(<?php echo BETTER_PAGE_SIZE;?>)</option>
+					<option value='50' <?php echo $this->params['page_size']==50 ? ' selected="selected"' : '';?>>50</option>
+					<option value='100' <?php echo $this->params['page_size']==100 ? ' selected="selected"' : '';?>>100</option>
+					<option value='99999999' <?php echo $this->params['page_size']==99999999 ? ' selected="selected"' : '';?>>全部</option>
+				</select>
+				</td>
+			</tr>			
+			<tr>
+				<td colspan='6' class='center'>
+					<input type='submit' value='搜索(s)' accesskey='s' />
+					<input type='button' value='清空搜索结果(r)' accesskey='r'  id='btnReset' />
+					<input type='hidden' name='page' id='page' value='<?php echo $this->params['page'];?>' />
+					<input type='hidden' name='reload' id='reload' value='0' />
+				</td>
+			</tr>
+			</table>		
+			</form>
+		</div>
+
+			<table cellspacing="0" class='kai_table'>	
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>					
+				<tr>
+					<th></th>
+					<th>反馈类型</th>
+					<th>反馈内容</th>
+					<th>联系方式</th>
+					<th>反馈时间</th>
+					<th style='width:50px'>状态</th>
+					<th>回复内容</th>
+					<th style="width:60px;">操作</th>
+				</tr>
+		
+				<?php if ($this->count>0) { ?>
+				<?php $i = 0; ?>
+				<?php foreach ($this->rows as $row) {?>
+				<tr class='<?php echo fmod($i++,2)==0 ? 'light' : 'dark';?> message_row'>
+					<td width='40'>
+					<input type='checkbox' name='ids[]'  value='<?php echo $row['id'];?>' />						
+					</td>
+					<td class='center'><?php echo $this->highlight($row['type'], $this->params['type_keyword']);?></td>
+					<td class='messages'><?php echo $this->highlight($row['content'], $this->params['keyword']);?></td>
+					<td class='center'><a href='#replyFeedback' fid='<?php echo $row['id'];?>' email='<?php echo $row['contact'];?>'><?php echo $row['contact'];?></a></td>
+					<td class='center'><?php echo date('Y-m-d H:i:s', $row['dateline']+BETTER_8HOURS);?></td>
+					<td class='center'><?php echo $row['status']=='1' ? '已回复':'未回复';?></td>
+					<td class='messages'><?php echo $row['reply'];?></td>
+					<td class='center'><a href='#replyFeedback' fid='<?php echo $row['id'];?>' email='<?php echo $row['contact'];?>'>回复</a><br />
+												<?php if($row['uid']){?><a href='#sendSecretMsg'  fid='<?php echo $row['uid'];?>' nickname='<?php echo $row['nickname']?>'>发送私信</a><br />												
+												<a href="<?php echo $this->admin_url;?>/feedback/viewhistory?uid=<?php echo $row['uid']?>&nickname=<?php echo $row['nickname'];?>"  class="viewHistory">历史记录</a><br />
+												<a href="<?php echo $this->admin_url;?>/user/viewuser?uid=<?php echo $row['uid']?>"  class="viewUser">用户信息</a><br />
+												
+												<?php }?>
+												<a href="javascript:void(0)"  fid="<?php echo $row['id']?>" class="deleteFeedback" >删除</a><br />
+					</td>
+				</tr>
+				<?php } ?>
+					<tr>
+					<td colspan='10' class='center'>
+					<input type='button' id='chooseAll' name='chooseAll'  value='全选(a)' accesskey='a' />
+					<input type='button' id='chooseNone' name='chooseNone' value='全不选(n)' accesskey='n' />
+					<input type='button' id='chooseReverse' name='chooseReverse' value='反选(v)' accesskey='v' />
+				</td></tr>
+				<tr><td colspan='10' class='center'>
+					<select name='todo' id='todo'>
+						<option value=''>请选择操作</option>
+						<option value='del'>删除反馈</option>
+					</select>
+					<input type='button' id='btnTodo' value='确定(d)' accesskey='d' />
+					</td>
+				</tr>							
+				<?php } else {  ?>
+				<tr>
+					<td colspan='10' class='error center'>
+					没有找到任何数据
+					</td>
+				</tr>				
+				<?php } ?>
+				<tr>
+					<td colspan='10' class='pager'>
+					<?php echo $this->paginator();?>
+					</td>
+				</tr>
+			</table>	
+		</div>
+		</div>
+		
+		<div style='display: none;'>
+			<div id='replyFeedback'>
+				<h3>回复反馈</h3>
+				<input type='hidden' id='feedback_id' name='feedback_id' value=''/>
+				<table>
+					<tr>
+						<td>收件人Email:</td>
+						<td align='left'><input type='text' id='replyEmail' name='replyEmail' value='' size='45' /></td>
+					</tr>
+					<tr>
+						<td>语言:</td>
+						<td align='left'>
+							<select name='lang' id='lang'>
+								<option value='zh-cn'>中文</option>
+								<option value='en'>英文</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>内容:</td>
+						<td>
+							<textarea id='feedback_content' cols='60' rows='20'>
+用户，您好！
+感谢您的反馈意见或建议。您提到的[question]问题，我们已经获悉。
+我们会认真考虑您的建议，并在今后的产品开发中有所体现。
+我们会认真考虑您反馈的问题，会尽快安排解决您遇到的问题。
+您的问题已解决，具体如下：xxxxxxxx
+再次感谢您的来信。我们将竭诚为您服务，希望您对我们的服务满意。
+如有任何问题，欢迎再次来信。
+							</textarea>
+						</td>
+					</tr>
+					<tr>
+						<td colspan='2'><input type='button' name='reply_btn' id='reply_btn' value='确定' /></td>
+					</tr>
+				</table>				
+			</div>
+			<div id="sendSecretMsg">
+					<input type="hidden" value="" id="send_id"/>
+					<table>
+						<tr>
+							<td colspan='2' id='comment'></td>
+						</tr>
+						<tr>
+							<td>私信内容:</td>
+							<td><textarea cols='40' rows='5'  id='send_content'  name='send_content'></textarea></td>
+						</tr>
+							<tr>
+						<td colspan='2'><input type='button' name='send_btn' id='send_btn' value='确定' /></td>
+					</tr>
+					</table>
+			</div>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

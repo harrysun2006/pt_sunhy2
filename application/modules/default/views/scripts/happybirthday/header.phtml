@@ -1,0 +1,47 @@
+<?php 
+if ($_SERVER['HTTP_HOST']==$this->config->api->host) {
+	die('Forbidden');
+}
+$cssUrl = $this->cssUrl ? $this->cssUrl : BETTER_BASE_URL.($this->config->css->path);
+$jsUrl = $this->jsUrl ? $this->jsUrl : BETTER_BASE_URL.($this->config->javascript->path);
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?php echo $this->lang->global->meta->title;?></title>
+<meta name="keywords" content="开开, 位置, 社交网络, 游戏, 签到, 掌门, 寻宝, Kai, location, SNS, check-in, Mayor, Geocaching"  />
+<meta name="description" content="开开K.ai是新一代的位置网络，也是真实的白领社交网络。在开开签到，你能够找到朋友、分享贴士，并用全新的方法探索身边的城市。同时还可以争掌门、赢勋章" /> 
+<meta http-equiv='X-UA-Compatible' content='IE=EmulateIE7' />
+<meta name="google-site-verification" content="-_a2sVng3hRM6xXjmBXBW7GngGbYMpgeNmiwy0JEo7k" />
+<link rel="apple-touch-icon" href="http://<?php echo $_SERVER['HTTP_HOST'];?>/images/icon/57x57.png" />
+<link rel="apple-touch-icon" sizes="256x160" href="http://<?php echo $_SERVER['HTTP_HOST'];?>/images/icon/256x160.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="http://<?php echo $_SERVER['HTTP_HOST'];?>/images/icon/114x114.png" />
+<link rel="shortcut icon" href="http://<?php echo $_SERVER['HTTP_HOST'];?>/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="<?php echo $cssUrl;?>/happybirthday.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $cssUrl;?>/better.css" />
+<script type="text/javascript" src="<?php echo $jsUrl?>/jquery/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery/mixed.js"></script>
+<script type="text/javascript" src="<?php echo $jsUrl?>/controllers/happybirthday/index.js"></script>
+<?php 
+switch (Better_Registry::get('language')) {
+	case 'en':
+?>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssUrl;?>/en.<?php echo $this->css;?>.css?ver=<?php echo BETTER_VER_CODE;?>" />
+<!--[if IE 6]>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssUrl;?>/en.ie6fix.css?ver=<?php echo BETTER_VER_CODE;?>" />
+<![endif]-->
+<?php 
+		break;
+	default:
+		?>
+<!--[if IE 6]>
+<link rel="stylesheet" type="text/css" href="<?php echo $cssUrl;?>/ie6fix.css?ver=<?php echo BETTER_VER_CODE;?>" />
+<![endif]-->
+<?php 
+		break;
+}
+?>
+<?php echo $this->headMeta();?>
+<?php header('P3P: CP=CAO PSA OUR');?>
+</head>

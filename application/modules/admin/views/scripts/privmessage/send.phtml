@@ -1,0 +1,12 @@
+	<?php include_once(dirname(__FILE__).'/../include/meta.phtml');?>
+	
+	<body>
+		<div class='content_wraper' >
+			<?php if($this->result['code']==1){
+				echo '发送成功！<br><br><a href="'.$this->admin_url.'/privmessage">返回</a>';				
+			}else{
+				echo '发送失败！<br><br><a href="'.$this->admin_url.'/privmessage">返回</a>';
+			}
+			?>
+		</div>
+	<?php include dirname(__FILE__).'/../include/footer.phtml';?>

@@ -1,0 +1,10 @@
+<div style='width: 100%; text-align:left; background-color:#D3DCE3;'>
+			[<a href='/admin/dynamicpoi' class='left' <?php if($this->params['controller']=='dynamicpoi') echo ' style="color:#FF0000;font-weight:bold;"'?>>活跃POI</a>] 
+			[<a href='/admin/poi?doubt=1&poi_from=user_new' class='left' <?php if($this->params['controller']=='poi' && $this->params['poi_from']=='user_new' &&  $this->params['doubt']==1) echo ' style="color:#FF0000;font-weight:bold;"'?>>可疑POI</a>] 
+			[<a href='/admin/poi' class='left' <?php if($this->params['controller']=='poi' && $this->params['action']=='index') echo 'style="color:#FF0000;font-weight:bold;"'?>>所有POI</a>] 
+			[<a href='/admin/simipoi' class='left' <?php if($this->params['controller']=='simipoi' && $this->params['type']!='simiday') echo 'style="color:#FF0000;font-weight:bold;"'?>>相似POI</a>]
+			[<a href='/admin/simipoi?type=simiday' class='left' <?php if($this->params['controller']=='simipoi' && $this->params['type']=='simiday') echo 'style="color:#FF0000;font-weight:bold;"'?>>每天相似POI</a>]
+			[<a href='/admin/searchpoi' class='left' <?php if($this->params['controller']=='searchpoi') echo 'style="color:#FF0000;font-weight:bold;"'?>>搜索合并POI</a>]
+			[<a href='/admin/poi/add' class='left' <?php if($this->params['controller']=='poi'&&$this->params['action']=='add') echo 'style="color:#FF0000;font-weight:bold;"'?>>创建POI</a>]
+			[<a href='/admin/poisupdate' class='left' <?php if($this->params['controller']=='poisupdate') echo 'style="color:#FF0000;font-weight:bold;"'?>>修改POI位置</a>] 
+</div>

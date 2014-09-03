@@ -1,0 +1,11 @@
+#!/bin/bash
+
+logpath=/usr/local/apache2/htdocs/logs
+savepath=/var/log/kai
+suffix=`date +%Y%m%d`
+fullpath=${savepath}/${suffix}"/"
+
+mkdir -pv ${fullpath}
+mv ${logpath}/*.log ${fullpath}
+
+echo ${suffix}" done."
